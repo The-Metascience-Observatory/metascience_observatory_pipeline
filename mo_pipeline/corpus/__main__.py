@@ -35,6 +35,11 @@ def main(argv=None):
     sub.add_parser("scan", help="rebuild corpus.sqlite from papers/")
     sub.add_parser("stats", help="print catalog stats")
 
+    mi = sub.add_parser("mark-ingested",
+                        help="stamp catalog+paper.json ingested from a collated CSV (post stage 9)")
+    mi.add_argument("csv", help="collated CSV whose replication_url DOIs were ingested")
+    mi.add_argument("--db-version", required=True, help="replications_database_*.csv filename")
+
     il = sub.add_parser("include-list",
                         help="emit paper folders matching a query (for extract --include-list)")
     il.add_argument("--status", help="filter by status (e.g. converted, screened)")
@@ -73,6 +78,19 @@ def main(argv=None):
         conn = catalog.connect()
         _print(catalog.stats(conn))
         conn.close()
+
+    elif args.cmd == "mark-ingested":
+        import csv as _csv
+        _csv.field_size_limit(2**31 - 1)
+        with open(args.csv, newline="") as f:
+            dois = [r.get("replication_url", "") for r in _csv.DictReader(f)]
+        dois = [d for d in dois if d]
+        conn = catalog.connect()
+        result = catalog.mark_ingested(conn, dois, db_version=args.db_version)
+        conn.close()
+        print(f"marked {result['matched']} ingested; {len(result['unmatched'])} unmatched")
+        if result["unmatched"][:5]:
+            print("  e.g. unmatched:", result["unmatched"][:5], file=sys.stderr)
 
     elif args.cmd == "include-list":
         conn = catalog.connect()

@@ -35,14 +35,15 @@ from fetch_pdf_from_doi import batch_fetch_pdfs
 from mo_pipeline.config import (
     CONFIRMED_REPLICATIONS_CSV as CONFIRMED_CSV,
     INGESTED_ROOT as INGESTED_DIR,
-    CURRENT_BATCH_DIR as OUTPUT_DIR,
+    INBOX_DIR as OUTPUT_DIR,
     PDF_SEARCH_DIRS as _BASE_PDF_SEARCH_DIRS,
 )
+from mo_pipeline.corpus.models import doi_to_folder
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-# Include our own output dir so --resume-style restarts skip already-downloaded
-# files. (INGESTED_DIR is scanned separately below.)
+# New PDFs land in inbox/ awaiting conversion (stage 7 moves them into papers/).
+# Include the inbox in the search dirs so restarts skip already-downloaded files.
 PDF_SEARCH_DIRS = list(_BASE_PDF_SEARCH_DIRS) + [OUTPUT_DIR]
 
 TYPE_PRIORITY = ["direct", "close", "conceptual", "systematic", "multi-site"]
@@ -93,16 +94,42 @@ def _scan_pdfs_into(root, stems):
             last_heartbeat = now
 
 
+def _seed_stems_from_catalog(stems):
+    """Add every DOI already in the corpus catalog as a stem (fast, no drive walk).
+
+    Replaces the old recursive scan of ingested/ (now reorganized into papers/):
+    one indexed query instead of walking thousands of folders on a slow drive.
+    """
+    from mo_pipeline.config import CATALOG_PATH
+    if not CATALOG_PATH.exists():
+        return 0
+    from mo_pipeline.corpus import catalog
+    conn = catalog.connect()
+    try:
+        n = 0
+        for (doi,) in conn.execute("SELECT doi FROM papers"):
+            stems.add(doi_to_folder(doi).lower())
+            n += 1
+        return n
+    finally:
+        conn.close()
+
+
 def build_existing_stems():
-    """Build set of all DOI stems that exist somewhere (ingested or downloaded)."""
+    """Build set of all DOI stems that exist somewhere (corpus + downloaded)."""
     import time as _time
     stems = set()
 
     t0 = _time.time()
-    print(f"  scanning {INGESTED_DIR}...", flush=True)
-    if INGESTED_DIR.exists():
+    print("  seeding from corpus catalog...", flush=True)
+    n = _seed_stems_from_catalog(stems)
+    if n:
+        print(f"    ✓ {n} DOIs from catalog ({_time.time()-t0:.1f}s)", flush=True)
+    elif INGESTED_DIR.exists():
+        # Pre-reorg fallback: walk the legacy ingested/ tree.
+        print(f"  no catalog; scanning {INGESTED_DIR}...", flush=True)
         _scan_pdfs_into(INGESTED_DIR, stems)
-    print(f"    ✓ {len(stems)} total after ingested ({_time.time()-t0:.1f}s)", flush=True)
+    print(f"    ✓ {len(stems)} total after corpus ({_time.time()-t0:.1f}s)", flush=True)
 
     for d in PDF_SEARCH_DIRS:
         if not d.exists():

@@ -156,3 +156,43 @@ def query(conn: sqlite3.Connection, *, status: str | None = None,
 def ingested_dois(conn: sqlite3.Connection) -> set[str]:
     """DOIs known to the corpus (any status) — used by download/classify dedup."""
     return {r[0] for r in conn.execute("SELECT doi FROM papers")}
+
+
+def _normalize_doi(url_or_doi: str) -> str:
+    """'https://doi.org/10.x/y' or '10.x/y' -> '10.x/y' (lowercased)."""
+    s = (url_or_doi or "").strip().lower()
+    for prefix in ("https://doi.org/", "http://doi.org/", "https://dx.doi.org/", "doi:"):
+        if s.startswith(prefix):
+            s = s[len(prefix):]
+    return s
+
+
+def mark_ingested(conn: sqlite3.Connection, dois, db_version: str,
+                  write_passport: bool = True) -> dict:
+    """Stamp `status='ingested'` + db_version on matching catalog rows, and
+    (optionally) write the ingested record into each paper's paper.json.
+
+    Returns {'matched': n, 'unmatched': [dois...]}. Called after stage 9 with the
+    replication_url DOIs from the collated CSV that was ingested."""
+    from mo_pipeline.corpus.models import write_passport as _wp
+    matched, unmatched = 0, []
+    for raw in dois:
+        doi = _normalize_doi(raw)
+        row = conn.execute(
+            "SELECT doi, folder FROM papers WHERE lower(doi)=?", (doi,)).fetchone()
+        if row is None:
+            unmatched.append(raw)
+            continue
+        conn.execute(
+            "UPDATE papers SET status='ingested', ingested_db_version=?, "
+            "updated_at=datetime('now') WHERE doi=?", (db_version, row["doi"]))
+        if write_passport:
+            try:
+                _wp(Path(row["folder"]), ingested={"db_version": db_version})
+            except Exception:
+                pass
+        matched += 1
+    conn.commit()
+    export_snapshot(conn)
+    return {"matched": matched, "unmatched": unmatched}
+
