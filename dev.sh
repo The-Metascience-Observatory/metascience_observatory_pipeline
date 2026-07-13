@@ -20,16 +20,20 @@ DASH_PORT="${MO_DASH_PORT:-3010}"
 export NEXT_DIST_DIR="${NEXT_DIST_DIR:-$HOME/.cache/mo_pipeline/next}"
 
 _pid_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
+_port_serving() { curl -sf -m 2 "http://127.0.0.1:$1/" >/dev/null 2>&1; }
 
 start_api() {
-  if _pid_alive "$(cat "$RUN/api.pid" 2>/dev/null)"; then echo "api already up"; return; fi
+  if _pid_alive "$(cat "$RUN/api.pid" 2>/dev/null)"; then echo "api already up (managed)"; return; fi
+  if _port_serving "$API_PORT"; then echo "api already up on :$API_PORT (external) — leaving it"; return; fi
   echo "starting api on :$API_PORT"
   ( cd "$ROOT" && nohup python -m uvicorn server.app.main:app \
       --host 127.0.0.1 --port "$API_PORT" > "$RUN/api.log" 2>&1 & echo $! > "$RUN/api.pid" )
 }
 
 start_dashboard() {
-  if _pid_alive "$(cat "$RUN/dashboard.pid" 2>/dev/null)"; then echo "dashboard already up"; return; fi
+  if _pid_alive "$(cat "$RUN/dashboard.pid" 2>/dev/null)"; then echo "dashboard already up (managed)"; return; fi
+  # Tolerate a dashboard you started by hand (npm run dev) — don't collide on the port.
+  if _port_serving "$DASH_PORT"; then echo "dashboard already up on :$DASH_PORT (external) — leaving it"; return; fi
   if [ ! -d "$ROOT/dashboard/node_modules" ]; then
     echo "installing dashboard deps (Dropbox paused)..."
     ( cd "$ROOT/dashboard" && "$ROOT/scripts/with-dropbox-paused.sh" npm install )

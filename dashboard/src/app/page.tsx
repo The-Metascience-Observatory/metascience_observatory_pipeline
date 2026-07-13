@@ -51,8 +51,7 @@ function StageCard({ s, onAction }: { s: StageStatus; onAction: () => void }) {
   );
 }
 
-function SystemStrip({ sys }: { sys: System | null }) {
-  if (!sys) return null;
+function SystemStrip({ sys, backendUp }: { sys: System | null; backendUp: boolean }) {
   const chip = (label: string, val: string, ok = true) => (
     <span className="text-xs px-2 py-1 rounded bg-slate-100 dark:bg-slate-800">
       {label}: <span className={ok ? "" : "text-rose-500 font-medium"}>{val}</span>
@@ -60,10 +59,11 @@ function SystemStrip({ sys }: { sys: System | null }) {
   );
   return (
     <div className="flex flex-wrap gap-2 items-center">
-      {chip("RAM avail", `${sys.mem_available_gb} GB`, sys.mem_available_gb > 20)}
-      {sys.media_disk && chip("drive free", `${sys.media_disk.free_gb} GB (${sys.media_disk.pct_used}% used)`, sys.media_disk.free_gb > 15)}
-      {chip("GROBID", sys.grobid_up ? "up" : "down", sys.grobid_up)}
-      {chip("/media", sys.media_mounted ? "mounted" : "MISSING", sys.media_mounted)}
+      {chip("backend", backendUp ? "up" : "down", backendUp)}
+      {sys && chip("RAM avail", `${sys.mem_available_gb} GB`, sys.mem_available_gb > 20)}
+      {sys?.media_disk && chip("drive free", `${sys.media_disk.free_gb} GB (${sys.media_disk.pct_used}% used)`, sys.media_disk.free_gb > 15)}
+      {sys && chip("GROBID", sys.grobid_up ? "up" : "down", sys.grobid_up)}
+      {sys && chip("/media", sys.media_mounted ? "mounted" : "MISSING", sys.media_mounted)}
     </div>
   );
 }
@@ -74,13 +74,16 @@ export default function Home() {
   const [pstate, setPstate] = useState<PipelineState>({ batch: null, tag: null });
   const [batches, setBatches] = useState<string[]>([]);
   const [err, setErr] = useState<string | null>(null);
+  const [backendUp, setBackendUp] = useState(true);
 
   const refresh = useCallback(async () => {
     try {
       const [st, sy, ba] = await Promise.all([api.stages(), api.system(), api.batch()]);
       setStages(st.stages); setPstate(st.state); setSys(sy);
-      setBatches(ba.available_batches); setErr(null);
-    } catch (e) { setErr((e as Error).message); }
+      setBatches(ba.available_batches); setErr(null); setBackendUp(true);
+    } catch (e) {
+      setErr((e as Error).message); setBackendUp(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -95,7 +98,7 @@ export default function Home() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-lg font-semibold">Pipeline</h1>
-        <SystemStrip sys={sys} />
+        <SystemStrip sys={sys} backendUp={backendUp} />
       </div>
       <div className="flex flex-wrap gap-3 items-center text-sm">
         <label className="flex items-center gap-2">Batch
@@ -110,7 +113,19 @@ export default function Home() {
             placeholder="extraction tag" className="rounded border border-slate-300 dark:border-slate-700 bg-transparent px-2 py-1 w-44" />
         </label>
       </div>
-      {err && <div className="text-sm text-rose-500">API error: {err} — is the server up? (./dev.sh up)</div>}
+      {err && (
+        <div className="rounded-lg border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 px-4 py-3 text-sm">
+          <p className="font-medium text-rose-700 dark:text-rose-300">Can&apos;t reach the pipeline backend (FastAPI on :8090).</p>
+          <p className="text-rose-600 dark:text-rose-400 mt-1">
+            The dashboard is only a frontend — start the backend too. In the{" "}
+            <code className="font-mono">mo_pipeline</code> directory run{" "}
+            <code className="font-mono px-1 rounded bg-rose-100 dark:bg-rose-900">./dev.sh up</code>
+            {" "}(starts both), or in a separate terminal{" "}
+            <code className="font-mono px-1 rounded bg-rose-100 dark:bg-rose-900">python -m uvicorn server.app.main:app --port 8090</code>.
+          </p>
+          <p className="text-xs text-rose-500 mt-1">detail: {err}</p>
+        </div>
+      )}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {stages.map((s) => <StageCard key={s.id} s={s} onAction={refresh} />)}
       </div>

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "echo '\\n→ Dashboard is only the frontend. Start the API too:  (cd .. && ./dev.sh up)  or  (cd .. && python -m uvicorn server.app.main:app --port 8090)\\n'",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -40,6 +40,7 @@ async function j<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  health: () => j<{ ok: boolean }>("/api/health"),
   stages: () => j<{ stages: StageStatus[]; state: PipelineState }>("/api/stages"),
   stage: (id: string) => j<StageStatus>(`/api/stages/${id}`),
   logs: (id: string, lines = 300) => j<{ log: string }>(`/api/stages/${id}/logs?lines=${lines}`),

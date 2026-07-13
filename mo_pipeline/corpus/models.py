@@ -46,15 +46,14 @@ def doi_to_folder(doi: str) -> str:
 def folder_to_doi(folder_name: str) -> str:
     """'10.1001--archneurol.2010.292' -> '10.1001/archneurol.2010.292'.
 
-    Only the FIRST '--' is the DOI slash; DOIs can legitimately contain '--'
-    after that, so we split on the registrant prefix (10.NNNN)."""
-    name = folder_name
+    The folder encoding (doi_to_folder) turns EVERY '/' into '--', so the inverse
+    is to turn every '--' back into '/'. This matters for multi-slash DOIs (OSF,
+    many 10.1093/10.1002/10.1023/10.1027 journals) e.g. '10.1093--jpepsy--jsy104'
+    -> '10.1093/jpepsy/jsy104'. Single literal hyphens ('1015-5759') are never
+    doubled by the encoder, so they are left untouched. (A DOI containing a literal
+    '--' is not round-trippable, but such DOIs are vanishingly rare in practice.)"""
     # Strip a trailing " (1)"-style dedup suffix if present.
-    name = re.sub(r"\s*\(\d+\)$", "", name)
-    m = re.match(r"^(10\.\d+)--(.+)$", name)
-    if m:
-        return f"{m.group(1)}/{m.group(2)}"
-    # Fallback: replace all '--'.
+    name = re.sub(r"\s*\(\d+\)$", "", folder_name)
     return name.replace("--", "/")
 
 
