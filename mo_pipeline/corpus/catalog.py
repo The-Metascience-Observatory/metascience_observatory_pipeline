@@ -51,8 +51,11 @@ SNAPSHOT_CSV = config.DATA_DIR / "corpus_snapshot.csv"
 def connect(path: Path | None = None) -> sqlite3.Connection:
     path = path or config.CATALOG_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(path)
+    conn = sqlite3.connect(path, timeout=30)
     conn.row_factory = sqlite3.Row
+    # A long scan-write contends with the dashboard's /corpus reads on the slow
+    # USB drive; wait for the lock instead of failing with "database is locked".
+    conn.execute("PRAGMA busy_timeout=30000")
     conn.executescript(_SCHEMA)
     return conn
 
@@ -87,13 +90,29 @@ def scan(conn: sqlite3.Connection | None = None, papers_dir: Path | None = None,
         return {"scanned": 0}
 
     n = 0
+    seen: set[str] = set()
     folders = [d for d in papers_dir.iterdir() if d.is_dir() and is_doi_folder(d.name)]
     for d in folders:
-        upsert(conn, scan_folder(d))
+        p = scan_folder(d)
+        upsert(conn, p)
+        seen.add(p.doi)
         n += 1
-        if verbose and n % 500 == 0:
-            print(f"  scanned {n}/{len(folders)}...", flush=True)
+        # Commit in chunks so the write lock is released between batches — lets
+        # the dashboard's /corpus reads interleave instead of blocking for minutes.
+        if n % 500 == 0:
+            conn.commit()
+            if verbose:
+                print(f"  scanned {n}/{len(folders)}...", flush=True)
+    # Drop rows for folders that no longer exist OR whose DOI key changed (e.g.
+    # after a decode fix) so no stale/orphan rows linger. Deleting by NOT-IN a
+    # temp table avoids a giant parameter list.
+    conn.execute("CREATE TEMP TABLE IF NOT EXISTS _seen (doi TEXT PRIMARY KEY)")
+    conn.execute("DELETE FROM _seen")
+    conn.executemany("INSERT OR IGNORE INTO _seen VALUES (?)", [(d,) for d in seen])
+    removed = conn.execute("DELETE FROM papers WHERE doi NOT IN (SELECT doi FROM _seen)").rowcount
     conn.commit()
+    if verbose and removed:
+        print(f"  removed {removed} stale rows", flush=True)
     export_snapshot(conn)
     summary = stats(conn)
     summary["scanned"] = n
