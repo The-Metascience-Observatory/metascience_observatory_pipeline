@@ -29,7 +29,7 @@ import re
 import sys
 import time
 
-from config import DATA_DIR, CANDIDATES_DEDUP_CSV, CANDIDATES_FILTERED_CSV
+from mo_pipeline.config import DATA_DIR, CANDIDATES_DEDUP_CSV, CANDIDATES_FILTERED_CSV
 
 csv.field_size_limit(sys.maxsize)
 

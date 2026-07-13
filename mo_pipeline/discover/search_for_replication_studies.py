@@ -31,7 +31,7 @@ from Bio import Entrez, Medline
 sys.stdout.reconfigure(line_buffering=True)
 sys.stderr.reconfigure(line_buffering=True)
 
-from config import (
+from mo_pipeline.config import (
     BASE_DIR, DATA_DIR, PROGRESS_DIR,
     ENTREZ_EMAIL, NCBI_DELAY, OPENALEX_DELAY, EUROPEPMC_DELAY,
     CROSSREF_DELAY, OSF_DELAY, S2_DELAY, S2_API_KEY,

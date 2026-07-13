@@ -6,7 +6,7 @@ Run:  python3 test_author_helpers.py
 """
 
 import unittest
-from fetch_metadata_from_doi import (
+from mo_pipeline.shared.fetch_metadata_from_doi import (
     _is_initial_token,
     _count_full_first_names,
     _authors_have_abbreviations,

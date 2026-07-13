@@ -11,9 +11,10 @@ import glob
 from pathlib import Path
 from datetime import datetime
 
-from fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title
 
-DATA_DIR = Path(__file__).parent.parent / "data"
+from mo_pipeline import config as _cfg
+DATA_DIR = _cfg.WEBSITE_DATA_DIR
 VERSION_HISTORY = DATA_DIR / "version_history.txt"
 
 

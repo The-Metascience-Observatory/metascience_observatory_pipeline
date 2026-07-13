@@ -12,9 +12,11 @@ import matplotlib.dates as mdates
 import pandas as pd
 
 # ── Paths ────────────────────────────────────────────────────────────
-REPO_ROOT = Path(__file__).resolve().parent.parent
-BACKUP_DIR = REPO_ROOT / "data" / "backup"
-DATA_DIR = REPO_ROOT / "data"
+# Read the database + backups from, and write PNGs to, the WEBSITE data dir
+# (the site serves these images).
+from mo_pipeline import config as _cfg
+DATA_DIR = _cfg.WEBSITE_DATA_DIR
+BACKUP_DIR = _cfg.WEBSITE_BACKUP_DIR
 PATTERN = re.compile(r"replications_database_(\d{4}_\d{2}_\d{2}_\d{6})\.csv$")
 
 

@@ -22,9 +22,10 @@ from PyQt5.QtWidgets import (
     QPushButton, QGroupBox, QScrollArea, QSizePolicy, QFrame, QMessageBox,
 )
 
+from mo_pipeline import config as _cfg
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
-ONTOLOGY_PATH = os.path.join(PROJECT_ROOT, "data", "metascience_observatory_topic_ontology.json")
+ONTOLOGY_PATH = str(_cfg.ONTOLOGY_PATH)
 
 
 def _load_ontology():

@@ -28,7 +28,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-from config import (
+from mo_pipeline.config import (
     DATA_DIR, PROGRESS_DIR,
     CANDIDATES_FILTERED_CSV, CLASSIFIED_CSV, CONFIRMED_REPLICATIONS_CSV,
     PROCESSED_MANIFEST_CSV,

@@ -8,7 +8,7 @@ import html
 import unicodedata
 from pathlib import Path
 from difflib import SequenceMatcher
-from fetch_metadata_from_doi import _authors_have_abbreviations, _new_authors_are_better
+from mo_pipeline.shared.fetch_metadata_from_doi import _authors_have_abbreviations, _new_authors_are_better
 
 logger = logging.getLogger(__name__)
 

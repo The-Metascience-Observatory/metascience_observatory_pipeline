@@ -20,7 +20,7 @@ csv.field_size_limit(sys.maxsize)
 # ── Configuration ────────────────────────────────────────────────────────────
 
 CONFIRMED_CSV = Path("data/confirmed_replications.csv")
-INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/have_been_ingested")
+INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/ingested")
 OUTPUT_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/7th_batch")
 
 PDF_SEARCH_DIRS = [

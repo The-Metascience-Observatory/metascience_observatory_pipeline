@@ -22,23 +22,13 @@ csv.field_size_limit(sys.maxsize)
 
 # Uses the specialized package at /home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/fetch_pdf_from_doi
 from fetch_pdf_from_doi import fetch_pdf_from_doi
-from config import DATA_DIR, PDF_DIR, CONFIRMED_REPLICATIONS_CSV, DOWNLOAD_STATUS_CSV
-
-OUTPUT_DIR = Path("/home/dan/downloaded_pdfs/very_likely_direct_replications")
-DIRECT_CSV = DATA_DIR / "direct_replications.csv"
-
-# Existing replications database — exclude papers already ingested
-REPLICATIONS_DB = Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/agent_for_replications/replications_database_2026_01_28_151337.csv")
-
-# All directories that may contain previously downloaded PDFs
-PDF_SEARCH_DIRS = [
-    Path("/home/dan/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/manually_classified_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/agent_for_replications/ground_truth_dataset_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_long_covid_papers/pdfs"),
-]
+from mo_pipeline.config import (
+    DATA_DIR, PDF_DIR, CONFIRMED_REPLICATIONS_CSV, DOWNLOAD_STATUS_CSV,
+    DIRECT_REPLICATIONS_CSV as DIRECT_CSV,
+    DIRECT_REPLICATIONS_PDF_DIR as OUTPUT_DIR,
+    LEGACY_REPLICATIONS_DB as REPLICATIONS_DB,
+    PDF_SEARCH_DIRS,
+)
 
 # ---------------------------------------------------------------------------
 # Patterns that suggest a CLOSE replication (different population / context)

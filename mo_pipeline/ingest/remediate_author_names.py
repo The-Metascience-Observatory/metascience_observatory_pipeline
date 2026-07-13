@@ -32,7 +32,7 @@ import requests
 
 # ── reuse helpers from the main fetch module ──────────────────────────────────
 sys.path.insert(0, os.path.dirname(__file__))
-from fetch_metadata_from_doi import (
+from mo_pipeline.shared.fetch_metadata_from_doi import (
     _is_initial_token,
     _count_full_first_names,
     _authors_have_abbreviations,
@@ -53,10 +53,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+from mo_pipeline import config as _cfg
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR    = os.path.join(SCRIPT_DIR, '..', 'data')
-BACKUP_DIR  = os.path.join(DATA_DIR, 'backup')
-VERSION_HISTORY_PATH = os.path.join(DATA_DIR, 'version_history.txt')
+DATA_DIR    = str(_cfg.WEBSITE_DATA_DIR)
+BACKUP_DIR  = str(_cfg.WEBSITE_BACKUP_DIR)
+VERSION_HISTORY_PATH = str(_cfg.VERSION_HISTORY_PATH)
 CACHE_PATH  = os.path.join(SCRIPT_DIR, 'author_remediation_cache.json')
 
 HEADERS = {

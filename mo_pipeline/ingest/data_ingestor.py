@@ -26,8 +26,9 @@ import threading
 import random
 from datetime import datetime
 from difflib import SequenceMatcher
-from fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better, _authors_have_abbreviations
-from fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better, _authors_have_abbreviations
+from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline import config as _cfg
 
 
 # Configure logging for the ingestion pipeline
@@ -38,15 +39,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Get the directory where this script lives
+# Output paths come from the unified config. DATA_DIR resolves to the WEBSITE
+# data dir (metascience_observatory_website/data) — the ingestor MUST keep
+# writing the production database + version_history.txt there, or the website
+# serves stale data. Checkpoints/cache stay local to this ingest package.
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(SCRIPT_DIR, '..', 'data')
-BACKUP_DIR = os.path.join(DATA_DIR, 'backup')
-VERSION_HISTORY_PATH = os.path.join(DATA_DIR, 'version_history.txt')
-API_CACHE_PATH = os.path.join(SCRIPT_DIR, 'api_cache.json')
-ONTOLOGY_PATH = os.path.join(DATA_DIR, 'metascience_observatory_topic_ontology.json')
-CHECKPOINT_PATH = os.path.join(SCRIPT_DIR, 'ingestion_checkpoint.csv')
-CHECKPOINT_META_PATH = os.path.join(SCRIPT_DIR, 'ingestion_checkpoint_meta.json')
+DATA_DIR = str(_cfg.WEBSITE_DATA_DIR)
+BACKUP_DIR = str(_cfg.WEBSITE_BACKUP_DIR)
+VERSION_HISTORY_PATH = str(_cfg.VERSION_HISTORY_PATH)
+API_CACHE_PATH = str(_cfg.API_CACHE_PATH)
+ONTOLOGY_PATH = str(_cfg.ONTOLOGY_PATH)
+CHECKPOINT_PATH = str(_cfg.INGESTION_CHECKPOINT_PATH)
+CHECKPOINT_META_PATH = str(_cfg.INGESTION_CHECKPOINT_META_PATH)
 
 
 def save_checkpoint_metadata(input_file, row_count):

@@ -32,24 +32,18 @@ csv.field_size_limit(sys.maxsize)
 
 from fetch_pdf_from_doi import batch_fetch_pdfs
 
+from mo_pipeline.config import (
+    CONFIRMED_REPLICATIONS_CSV as CONFIRMED_CSV,
+    INGESTED_ROOT as INGESTED_DIR,
+    CURRENT_BATCH_DIR as OUTPUT_DIR,
+    PDF_SEARCH_DIRS as _BASE_PDF_SEARCH_DIRS,
+)
+
 # ── Configuration ────────────────────────────────────────────────────────────
 
-CONFIRMED_CSV = Path("data/confirmed_replications.csv")
-INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/have_been_ingested")
-OUTPUT_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/8th_batch")
-
-PDF_SEARCH_DIRS = [
-    Path("/home/dan/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/manually_classified_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/agent_for_replications/ground_truth_dataset_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_long_covid_papers/pdfs"),
-    Path("/media/dan/500Gb/metascience_observatory_pdfs/7th_batch"),
-    Path("/media/dan/500Gb/metascience_observatory_pdfs/pdfgrep_batch"),
-    # Include our own output dir so --resume-style restarts skip already-downloaded files
-    Path("/media/dan/500Gb/metascience_observatory_pdfs/8th_batch"),
-]
+# Include our own output dir so --resume-style restarts skip already-downloaded
+# files. (INGESTED_DIR is scanned separately below.)
+PDF_SEARCH_DIRS = list(_BASE_PDF_SEARCH_DIRS) + [OUTPUT_DIR]
 
 TYPE_PRIORITY = ["direct", "close", "conceptual", "systematic", "multi-site"]
 

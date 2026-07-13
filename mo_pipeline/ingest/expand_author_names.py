@@ -21,10 +21,11 @@ import json
 from pathlib import Path
 from datetime import datetime
 
-from fetch_metadata_from_doi import fetch_metadata_from_doi
-from fetch_metadata_from_title import fetch_metadata_from_title, normalize_doi
+from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi
+from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title, normalize_doi
 
-DATA_DIR = Path(__file__).parent.parent / "data"
+from mo_pipeline import config as _cfg
+DATA_DIR = _cfg.WEBSITE_DATA_DIR
 VERSION_HISTORY = DATA_DIR / "version_history.txt"
 CACHE_FILE = Path(__file__).parent / ".author_cache.json"
 

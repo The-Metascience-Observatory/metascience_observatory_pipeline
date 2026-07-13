@@ -15,7 +15,7 @@ import csv
 import re
 import sys
 
-from config import DATA_DIR, INGESTED_ROOT, PROCESSED_MANIFEST_CSV
+from mo_pipeline.config import DATA_DIR, INGESTED_ROOT, PROCESSED_MANIFEST_CSV
 
 
 # Matches a DOI-named folder: "10.1016--j.biopsycho.2018.08.007"

@@ -13,7 +13,7 @@ from collections import defaultdict
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/have_been_ingested")
+INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/ingested")
 OUTPUT_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/pdfgrep_batch")
 
 # Directories to search (excluding have_been_ingested itself)

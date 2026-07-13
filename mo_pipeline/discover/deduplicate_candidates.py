@@ -18,7 +18,7 @@ import re
 import sys
 from collections import defaultdict
 
-from config import CANDIDATES_RAW_CSV, CANDIDATES_DEDUP_CSV, DATA_DIR
+from mo_pipeline.config import CANDIDATES_RAW_CSV, CANDIDATES_DEDUP_CSV, DATA_DIR
 
 # Raise CSV field size limit for large abstracts
 csv.field_size_limit(sys.maxsize)

@@ -37,8 +37,9 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better
-from fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better
+from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline import config as _cfg
 
 logger = logging.getLogger(__name__)
 
@@ -71,25 +72,20 @@ class SkipPaper(Exception):
     """Raised when a paper should be skipped (e.g., already in dataset)."""
 
 
-PROMPT_DIR = Path(__file__).parent
-PROMPT_FILES = {
-    "base": PROMPT_DIR / "prompt.md",
-    "mid": PROMPT_DIR / "prompt_mid.md",
-    "full": PROMPT_DIR / "prompt_full.md",
-    "pdf_only": PROMPT_DIR / "prompt_full_pdf_only.md",
-    "html": PROMPT_DIR / "prompt_full_html.md",  # HTML-specific prompt with image reading
-    "xml": PROMPT_DIR / "prompt_full_xml.md",  # XML/JATS-specific prompt
-}
+# Prompt and website paths now come from the unified config. PROMPT_FILES drops
+# the dead "base"/"mid" entries (they pointed at nonexistent files).
+PROMPT_DIR = _cfg.PROMPTS_DIR
+PROMPT_FILES = _cfg.PROMPT_FILES
 # Shared content (schema, field reference, replication type definitions,
 # result classification, discipline list, confidence, edge cases) lives in
 # a single file and is appended to every mode-specific prompt at load time.
 # This prevents drift — updates to shared rules happen in one place and
 # propagate to all modes automatically.
-PROMPT_SHARED_CORE = PROMPT_DIR / "prompt_shared_core.md"
-DATA_DIR = Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/metascience_observatory_website/data")
-ONTOLOGY_PATH = DATA_DIR / "metascience_observatory_topic_ontology.json"
-VERSION_FILE = DATA_DIR / "version_history.txt"
-VERSION_NUMBER_FILE = PROMPT_DIR / "version.txt"
+PROMPT_SHARED_CORE = _cfg.PROMPT_SHARED_CORE
+DATA_DIR = _cfg.WEBSITE_DATA_DIR
+ONTOLOGY_PATH = _cfg.ONTOLOGY_PATH
+VERSION_FILE = _cfg.VERSION_HISTORY_PATH
+VERSION_NUMBER_FILE = _cfg.EXTRACTOR_VERSION_FILE
 
 # --- Validation constants ---
 VALID_RESULTS = {"success", "failure", "inconclusive", "reversal"}

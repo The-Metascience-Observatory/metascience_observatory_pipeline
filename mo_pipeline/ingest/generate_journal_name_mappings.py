@@ -24,9 +24,10 @@ import json
 import os
 import re
 
+from mo_pipeline import config as _cfg
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(SCRIPT_DIR, '..', 'data')
-MAPPINGS_PATH = os.path.join(DATA_DIR, 'journal_name_mappings.json')
+DATA_DIR = str(_cfg.WEBSITE_DATA_DIR)
+MAPPINGS_PATH = str(_cfg.JOURNAL_MAPPINGS_PATH)
 CACHE_PATH = os.path.join(SCRIPT_DIR, 'J_Medline.txt')
 
 NLM_URL = "https://ftp.ncbi.nlm.nih.gov/pubmed/J_Medline.txt"
