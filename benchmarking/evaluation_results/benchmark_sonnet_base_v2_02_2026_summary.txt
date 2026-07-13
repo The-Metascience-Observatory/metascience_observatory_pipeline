@@ -1,0 +1,67 @@
+======================================================================
+Benchmark Evaluation: sonnet_base_v2_02_2026
+======================================================================
+
+Run Information:
+  Timestamp: 2026-02-10T01:32:48.314078Z
+  Ground Truth Entries: 168
+  Successful Extractions: 204
+  Extraction Rate: 121.4%
+
+──────────────────────────────────────────────────────────────────────
+Original URL Retrieval
+──────────────────────────────────────────────────────────────────────
+  Accuracy:   71.4%
+  Precision:  89.6%
+  Recall:     77.9%
+  F1 Score:   0.833
+
+  True Positives:   120
+  False Positives:   14
+  False Negatives:   34
+
+──────────────────────────────────────────────────────────────────────
+Result Classification
+──────────────────────────────────────────────────────────────────────
+  Overall Accuracy:  79.1%
+  Macro F1:          0.580
+  Weighted F1:       0.803
+  Cohen's Kappa:     0.683
+
+  Per-Class Performance:
+    success        : P=0.867, R=0.796, F1=0.830, n=49
+    failure        : P=0.891, R=0.891, F1=0.891, n=55
+    inconclusive   : P=0.600, R=0.600, F1=0.600, n=30
+    reversal       : P=0.000, R=0.000, F1=0.000, n=0
+
+  Confusion Matrix:
+                Predicted
+                  succ    fail    inco    reve
+    Actual succes     39       2       8       0
+    Actual failur      1      49       4       1
+    Actual inconc      5       4      18       3
+    Actual revers      0       0       0       0
+
+──────────────────────────────────────────────────────────────────────
+Effect Size Type Classification
+──────────────────────────────────────────────────────────────────────
+  Accuracy:    0.0% (0/22 correct)
+  Precision:   0.0%
+  Recall:      0.0%
+  Note: Limited to cases where ground truth has ES type (n=22)
+
+──────────────────────────────────────────────────────────────────────
+Effect Size Numerical Error
+──────────────────────────────────────────────────────────────────────
+  Insufficient data - no matching ES values
+
+──────────────────────────────────────────────────────────────────────
+Error Analysis
+──────────────────────────────────────────────────────────────────────
+  Total Errors: 62
+
+  By Type:
+    missing_extraction  : 34
+    result_mismatch     : 28
+
+======================================================================

@@ -1,0 +1,117 @@
+==========================================================================================
+V6 EXTRACTION PERFORMANCE REPORT
+Using Enhanced Ground Truth Dataset
+==========================================================================================
+
+OVERVIEW
+------------------------------------------------------------------------------------------
+Ground Truth Entries: 189
+V6 Extracted Entries: 260
+Unique Replication Papers (GT): 143
+Unique Replication Papers (V6): 139
+
+ENTRY-LEVEL MATCHING
+------------------------------------------------------------------------------------------
+GT Entries Matched in V6: 163/189 (86.2%)
+GT Entries Not Found: 26/189 (13.8%)
+
+FIELD-BY-FIELD ACCURACY (for matched entries)
+------------------------------------------------------------------------------------------
+Title:     153/163 (93.9%)
+Authors:   146/163 (89.6%)
+Journal:   155/163 (95.1%)
+Year:      157/163 (96.3%)
+
+ALL 4 BIBLIOGRAPHIC FIELDS CORRECT: 125/163 (76.7%)
+
+URL EXTRACTION
+------------------------------------------------------------------------------------------
+GT entries with URL: 143/163 (87.7%)
+V6 extracted URL:    104/163 (63.8%)
+Both have URL:       104/163 (63.8%)
+
+V6 URL Recall (of GT URLs):        104/143 (72.7%)
+URL Match Rate (when both present): 94.2%
+
+RESULT CLASSIFICATION ACCURACY
+------------------------------------------------------------------------------------------
+Overall: 139/163 (85.3%)
+
+By result type:
+  success        : 57/59 (96.6%)
+  failure        : 73/78 (93.6%)
+  inconclusive   : 9/26 (34.6%)
+
+Result Classification Confusion (GT -> V6):
+------------------------------------------------------------------------------------------
+ext_result    failure  inconclusive  reversal  success  All
+gt_result                                                  
+failure            73             2         0        3   78
+inconclusive        7             9         1        9   26
+success             1             1         0       57   59
+All                81            12         1       69  163
+
+STATISTICAL DATA EXTRACTION
+------------------------------------------------------------------------------------------
+Field                GT Has     V6 Has     Coverage     Exact Match    
+------------------------------------------------------------------------------------------
+original_n           112        103          92.0%      90/112 (80.4%)
+original_es          96         93           96.9%      86/96 (89.6%)
+original_p_value     44         45          102.3%      43/44 (97.7%)
+replication_n        159        159         100.0%      140/159 (88.1%)
+replication_es       109        102          93.6%      95/109 (87.2%)
+replication_p_value  124        124         100.0%      120/124 (96.8%)
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+Entry Matching:           86.2% of GT entries found in V6
+Bibliographic Accuracy:   76.7% perfect bibliographic matches
+URL Extraction:           72.7% of GT URLs recovered
+Result Classification:    85.3% agreement with GT
+Replication N Coverage:   97.5%
+Replication ES Coverage:  62.6%
+
+MISSING ENTRIES (first 10)
+------------------------------------------------------------------------------------------
+Replication: http://doi.org/10.1016/j.cognition.2014.09.006
+  Original: The drunk utilitarian: Blood alcohol concentration predicts utilitarian responses in moral dilemmas
+  Reason: Paper not in V6 dataset
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1080/02732173.1991.9981978
+  Original: Racial stereotypes of one hundred college students.
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1016/j.jesp.2021.104154
+  Original: On the psychology of experimental surprises.
+  Reason: Paper not in V6 dataset
+
+Replication: http://doi.org/10.1038/s41598-020-66915-9
+  Original: The ratio of 2nd to 4th digit length: a predictor of sperm numbers and concentrations of testosterone, luteinizing hormone and oestrogen
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1177/19485506211056761
+  Original: The affect heuristic in judgments of risks and benefits
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1111/spc3.12557
+  Original: To do or not to do: Desirability and consistency mediate judgments of regret.
+  Reason: Paper not in V6 dataset
+
+Replication: http://doi.org/10.1177/0956797617719730
+  Original: Affective Flexibility
+  Reason: No matching entry found (best score: 1/3)
+
+==========================================================================================

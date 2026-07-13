@@ -1,0 +1,117 @@
+==========================================================================================
+V8 EXTRACTION PERFORMANCE REPORT
+Using Enhanced Ground Truth Dataset
+==========================================================================================
+
+OVERVIEW
+------------------------------------------------------------------------------------------
+Ground Truth Entries: 189
+V8 Extracted Entries: 268
+Unique Replication Papers (GT): 143
+Unique Replication Papers (V8): 142
+
+ENTRY-LEVEL MATCHING
+------------------------------------------------------------------------------------------
+GT Entries Matched in V8: 164/189 (86.8%)
+GT Entries Not Found: 25/189 (13.2%)
+
+FIELD-BY-FIELD ACCURACY (for matched entries)
+------------------------------------------------------------------------------------------
+Title:     153/164 (93.3%)
+Authors:   155/164 (94.5%)
+Journal:   159/164 (97.0%)
+Year:      158/164 (96.3%)
+
+ALL 4 BIBLIOGRAPHIC FIELDS CORRECT: 135/164 (82.3%)
+
+URL EXTRACTION
+------------------------------------------------------------------------------------------
+GT entries with URL: 144/164 (87.8%)
+V8 extracted URL:    158/164 (96.3%)
+Both have URL:       142/164 (86.6%)
+
+V8 URL Recall (of GT URLs):        142/144 (98.6%)
+URL Match Rate (when both present): 91.5%
+
+RESULT CLASSIFICATION ACCURACY
+------------------------------------------------------------------------------------------
+Overall: 130/164 (79.3%)
+
+By result type:
+  success        : 54/61 (88.5%)
+  failure        : 70/77 (90.9%)
+  inconclusive   : 6/26 (23.1%)
+
+Result Classification Confusion (GT -> V8):
+------------------------------------------------------------------------------------------
+ext_result    failure  inconclusive  reversal  success  All
+gt_result                                                  
+failure            70             5         1        1   77
+inconclusive        7             6         1       12   26
+success             3             4         0       54   61
+All                80            15         2       67  164
+
+STATISTICAL DATA EXTRACTION
+------------------------------------------------------------------------------------------
+Field                GT Has     V8 Has     Coverage     Exact Match    
+------------------------------------------------------------------------------------------
+original_n           110        98           89.1%      72/110 (65.5%)
+original_es          96         83           86.5%      68/96 (70.8%)
+original_p_value     43         45          104.7%      36/43 (83.7%)
+replication_n        155        160         103.2%      116/155 (74.8%)
+replication_es       108        96           88.9%      72/108 (66.7%)
+replication_p_value  121        125         103.3%      94/121 (77.7%)
+
+==========================================================================================
+SUMMARY
+==========================================================================================
+Entry Matching:           86.8% of GT entries found in V8
+Bibliographic Accuracy:   82.3% perfect bibliographic matches
+URL Extraction:           98.6% of GT URLs recovered
+Result Classification:    79.3% agreement with GT
+Replication N Coverage:   97.6%
+Replication ES Coverage:  58.5%
+
+MISSING ENTRIES (first 10)
+------------------------------------------------------------------------------------------
+Replication: http://doi.org/10.1002/ejsp.2748
+  Original: Criticizing groups from the inside and the outside: an identity perspective on the intergroup sensitivity effect
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1016/j.cognition.2014.09.006
+  Original: The drunk utilitarian: Blood alcohol concentration predicts utilitarian responses in moral dilemmas
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1525/collabra.185
+  Original: Foundational Tests of the Need-Support Model
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1080/02732173.1991.9981978
+  Original: Racial stereotypes of one hundred college students.
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1007/bf02298289
+  Original: Predispositions about Learning from, Print and Television
+  Reason: No matching entry found (best score: 1/3)
+
+Replication: http://doi.org/10.1038/s41598-020-66915-9
+  Original: The ratio of 2nd to 4th digit length: a predictor of sperm numbers and concentrations of testosterone, luteinizing hormone and oestrogen
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1177/19485506211056761
+  Original: The affect heuristic in judgments of risks and benefits
+  Reason: No matching entry found (best score: 0/3)
+
+Replication: http://doi.org/10.1111/spc3.12557
+  Original: To do or not to do: Desirability and consistency mediate judgments of regret.
+  Reason: Paper not in V8 dataset
+
+==========================================================================================

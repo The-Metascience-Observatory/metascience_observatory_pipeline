@@ -1,0 +1,183 @@
+================================================================================
+GROUND TRUTH ENHANCEMENT REPORT
+================================================================================
+
+Original GT entries: 168
+Enhanced entries: 226
+New entries added: 58
+
+Changes made:
+  URLs filled: 0
+  Statistical fields filled: 135
+  New replication entries added: 58
+  Potential corrections flagged: 22
+
+================================================================================
+NEW ENTRIES ADDED (Multi-study papers)
+================================================================================
+
+Replication: http://doi.org/10.1002/ejsp.2748
+  Added: Criticizing groups from the inside and the outside: an identity perspective on the intergroup sensitivity effect
+  Result: success
+
+Replication: http://doi.org/10.1002/ejsp.2748
+  Added: Reactions to internal and external criticism of outgroups: social convention in the intergroup sensitivity effect
+  Result: success
+
+Replication: http://doi.org/10.1002/ejsp.2748
+  Added: Reactions to internal and external criticism of outgroups: social convention in the intergroup sensitivity effect
+  Result: success
+
+Replication: http://doi.org/10.1177/0956797617747090
+  Added: Eye movements reveal sustained implicit processing of others' mental states
+  Result: failure
+
+Replication: http://doi.org/10.1177/0956797617747090
+  Added: Where will the triangle look for it? Attributing false beliefs to a geometric shape at 17 months
+  Result: failure
+
+Replication: http://doi.org/10.1177/0956797617747090
+  Added: Attributing false beliefs about object identity reveals a signature blind spot in humans' efficient mind-reading system
+  Result: inconclusive
+
+Replication: http://doi.org/10.3389/fpsyg.2014.00786
+  Added: Measuring the crowd within: probabilistic representations within individuals
+  Result: success
+
+Replication: http://doi.org/10.1027/1864-9335/a000186
+  Added: With a clean conscience cleanliness reduces the severity of moral judgments
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Metaphoric structuring: understanding time through spatial metaphors
+  Result: success
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Availability: a heuristic for judging frequency and probability
+  Result: success
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Cloninger's psychobiological model of temperament and character and the five-factor model of personality
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Power and perspectives not taken
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Weight as an embodiment of importance
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Warmer hearts
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Effects of need for cognition on message evaluation, recall, and persuasion
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: It feels like yesterday: self-esteem, valence of personal past experiences, and judgments of subjective distance
+  Result: failure
+
+Replication: http://doi.org/10.1016/j.jesp.2015.10.012
+  Added: Moral credentials and the expression of prejudice
+  Result: failure
+
+Replication: http://doi.org/10.1007/bf02298289
+  Added: The differential investment of mental effort in learning as a function of perceptions and attributions
+  Result: failure
+
+Replication: http://doi.org/10.1007/bf02298289
+  Added: The differential investment of mental effort in learning as a function of perceptions and attributions
+  Result: failure
+
+Replication: http://doi.org/10.1080/02699931.2018.1504747
+  Added: Counterfactual thinking and victim compensation: A test of norm theory
+  Result: failure
+
+================================================================================
+POTENTIAL CORRECTIONS NEEDED (Review manually)
+================================================================================
+
+Replication: http://doi.org/10.1525/collabra.185
+  GT original: Foundational Tests of the Need-Support Model
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1525/collabra.185
+  GT original: Foundational Tests of the Need-Support Model
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1525/collabra.185
+  GT original: Foundational Tests of the Need-Support Model
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1080/02732173.1991.9981978
+  GT original: Racial stereotypes of one hundred college students.
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1038/s41598-020-66915-9
+  GT original: The ratio of 2nd to 4th digit length: a predictor of sperm numbers and concentrations of testosterone, luteinizing hormone and oestrogen
+  Reason: No matching V6 entry found among 2 V6 entries
+
+Replication: http://doi.org/10.1177/19485506211056761
+  GT original: The affect heuristic in judgments of risks and benefits
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1177/0956797617719730
+  GT original: Affective Flexibility
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.2466/20.22.pms.114.1.185-188
+  GT original: Replicating a Simple Study of Asymmetry in Human Cognition
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.32714/ricl.10.01.08
+  GT original: Psycholinguistic and corpus-linguistic evidence for L2 constructions
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1080/10926771.2022.2038753
+  GT original: Maltreatment Profiles Among Incarcerated Boys With Callous-Unemotional Traits
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1002/cpp.70057
+  GT original: Alliance in action: A new measure of clients' perceptions of therapists' alliance activity
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.12688/openreseurope.17749.1
+  GT original: The neural signature of escalating frustration in humans
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1371/journal.pone.0313619
+  GT original: Visual biases in judging body weight
+  Reason: No matching V6 entry found among 2 V6 entries
+
+Replication: http://doi.org/10.70252/nkky8370
+  GT original: Maximizing Performance
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1525/collabra.90195
+  GT original: The Dark Side of a Smiley
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1007/s40732-024-00597-x
+  GT original: Impulsive choice and pre‐exposure to delays: iv. effects of delay‐ and immediacy‐exposure training relative to maturational changes in impulsivity
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.37237/150205
+  GT original: Affective Factors in Self-Access Learning
+  Reason: No matching V6 entry found among 1 V6 entries
+
+Replication: http://doi.org/10.1016/j.xjmad.2024.100075
+  GT original: Converging Multi-modal Evidence for Implicit Threat-Related Bias in Pediatric Anxiety Disorders
+  Reason: No matching V6 entry found among 2 V6 entries
+
+Replication: http://doi.org/10.1027/1864-9335/a000186
+  GT original: Cleanliness Reduces the Severity of
+Moral Judgment
+  Reason: No matching V6 entry found among 2 V6 entries
+
+Replication: http://doi.org/10.1257/mac.6.3.1
+  GT original: Reversal of Fortune: Geography and Institutions in the Making of the Modern World Income Distribution
+  Reason: No matching V6 entry found among 1 V6 entries
+

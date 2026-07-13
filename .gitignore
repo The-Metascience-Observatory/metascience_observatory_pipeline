@@ -1,0 +1,32 @@
+# Large pipeline data & checkpoints (source of truth lives on disk, not in git)
+data/*
+!data/dictionaries/
+!data/dictionaries/**
+progress/
+
+# Secrets
+.env.local
+
+# Benchmarking ground-truth corpora (PDFs, large)
+benchmarking/ground_truth_data_filtered_PDFs/
+
+# Extraction test fixture outputs
+mo_pipeline/extract/test_pdf/*/
+
+# Runtime state for api/dashboard services
+.run/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+server/.venv/
+
+# Node / Next.js
+dashboard/node_modules/
+dashboard/.next/
+*.tsbuildinfo
+
+# Editor/OS noise
+.DS_Store

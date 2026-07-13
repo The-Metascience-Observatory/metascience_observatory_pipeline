@@ -1,0 +1,599 @@
+{
+  "tag": "sonnet_base_v2_02_2026",
+  "timestamp": "2026-02-10T01:32:48.314078Z",
+  "ground_truth_total": 168,
+  "extractions_total": 204,
+  "matched_pairs": 168,
+  "extraction_rate": 1.2142857142857142,
+  "metrics": {
+    "original_url": {
+      "accuracy": 0.7142857142857143,
+      "precision": 0.8955223880597015,
+      "recall": 0.7792207792207793,
+      "f1": 0.8333333333333334,
+      "extraction_rate": 0.7976190476190477,
+      "tp": 120,
+      "fp": 14,
+      "fn": 34,
+      "total": 168
+    },
+    "result": {
+      "accuracy": 0.7910447761194029,
+      "macro_f1": 0.580174081237911,
+      "weighted_f1": 0.8034296602095904,
+      "cohen_kappa": 0.6827329612717741,
+      "per_class": {
+        "success": {
+          "precision": 0.8666666666666667,
+          "recall": 0.7959183673469388,
+          "f1": 0.8297872340425532,
+          "support": 49
+        },
+        "failure": {
+          "precision": 0.8909090909090909,
+          "recall": 0.8909090909090909,
+          "f1": 0.8909090909090909,
+          "support": 55
+        },
+        "inconclusive": {
+          "precision": 0.6,
+          "recall": 0.6,
+          "f1": 0.6,
+          "support": 30
+        },
+        "reversal": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        }
+      },
+      "confusion_matrix": [
+        [
+          39,
+          2,
+          8,
+          0
+        ],
+        [
+          1,
+          49,
+          4,
+          1
+        ],
+        [
+          5,
+          4,
+          18,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "classes": [
+        "success",
+        "failure",
+        "inconclusive",
+        "reversal"
+      ],
+      "n_evaluated": 134
+    },
+    "replication_es_type": {
+      "accuracy": 0.0,
+      "precision": 0,
+      "recall": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 22,
+      "total_with_ground_truth": 22,
+      "type_distribution": {},
+      "note": "Limited to cases where ground truth has ES type (n=22)"
+    },
+    "replication_es": {
+      "note": "Insufficient data - no matching ES values",
+      "n": 0
+    }
+  },
+  "errors": [
+    {
+      "paper": "10.1007--s00426-019-01203-4",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Freezing is an adaptive defensive response to a stressful event. It is characterized by reduced body motion, reduced heart rate (bradycardia), and increased muscle tonus. Social threats in the context of these studies are stimuli of angry faces. ",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1016--j.actpsy.2020.103138",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "The magnitude of the age of acquisition effect I(i.e. early-acquired words are named more quickly than later-acquired words) in lexical retrieval is larger in picture naming than visual word naming.",
+      "ext_description": "Age of acquisition (AoA) effects are larger in picture naming than word naming, and AoA effects occur independent of word frequency"
+    },
+    {
+      "paper": "10.1016--j.cognition.2014.09.006",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "drunk utilitarian",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1098--rsos.210641",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "behavioral age group differences in empathy in adulthood",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1098--rsos.210641",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "behavioral age group differences in Theory of Mind (ToM) in adulthood",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1177--0956797617747090",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "failure",
+      "gt_description": "Implicit Theory of Mind can be measured through anticipatory looking patterns measured through eye-tracking.",
+      "ext_description": "Participants show anticipatory looking to locations consistent with an agent's false belief when an object is removed from the scene"
+    },
+    {
+      "paper": "10.1525--collabra.185",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Participants reported higher need satisfaction in experiences of pursuing hopes than in experiences of pursuing duties (need for autonomy)",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1525--collabra.185",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Participants reported higher need satisfaction in experiences of pursuing hopes than in experiences of pursuing duties (need for competence)",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1525--collabra.185",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Participants reported higher need satisfaction in experiences of pursuing hopes than in experiences of pursuing duties (need for relatedness)",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1027--1864-9335--a000186",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "With a clean conscience: Cleanliness reduces the severity of moral judgments.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1080--02732173.1991.9981978",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "Southern college students stereotype white southerners as traditional, religious, family-oriented, and courteous compared with white northerners, who are seen as industrious, progressive, and materialistic",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1016--j.jesp.2021.104154",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1007--bf02298289",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "Children invest less mental effort in television viewing than in book reading because they perceive television as easier (lower perceived demand characteristics and higher perceived self-efficacy)",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.20982--tqmp.20.1.r001",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "failure",
+      "gt_description": "Articulatory suppression eliminates the word length effect but not the phonological similarity effect in working memory tasks, demonstrating independent subsystems within the phonological loop",
+      "ext_description": "Articulatory suppression eliminates the word length effect but not the phonological similarity effect in working memory tasks, demonstrating independent subsystems within the phonological loop"
+    },
+    {
+      "paper": "10.1037--0022-3514.90.6.893",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "Priming participants with words related to the elderly stereotype causes them to walk more slowly when leaving the experiment",
+      "ext_description": "Priming participants with words related to the elderly stereotype causes them to walk more slowly when leaving the experiment"
+    },
+    {
+      "paper": "10.1016--j.jesp.2021.104222",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "reversal",
+      "gt_description": "People prefer to save lives when they represent a higher proportion of the total population at risk (psychophysical numbing), preferring to save 4500 out of 11,000 refugees over 4500 out of 250,000 refugees",
+      "ext_description": "People prefer to save lives when they represent a higher proportion of the total population at risk (psychophysical numbing), preferring to save 4500 out of 11,000 refugees over 4500 out of 250,000 refugees"
+    },
+    {
+      "paper": "10.1038--s41598-020-66915-9",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1525--collabra.77859",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "When evaluating options separately, people rely on contextual cues and judge options with objectively less value as being better (e.g., rating a $45 scarf as more generous than a $55 coat, valuing smaller overfilled ice cream over larger underfilled ice cream)",
+      "ext_description": "When evaluating options separately, people rely on contextual cues and judge options with objectively less value as being better (e.g., rating a $45 scarf as more generous than a $55 coat, valuing smaller overfilled ice cream over larger underfilled ice cream)"
+    },
+    {
+      "paper": "10.1177--19485506211056761",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.31234--osf.io--kavx4",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "Neutral stimuli paired with positive or negative stimuli acquire corresponding valence even when participants are unaware of the pairings (evaluative conditioning without awareness)",
+      "ext_description": "Neutral stimuli paired with positive or negative stimuli acquire corresponding valence even when participants are unaware of the pairings (evaluative conditioning without awareness)"
+    },
+    {
+      "paper": "10.1111--spc3.12557",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.15626--mp.2020.2474",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "success",
+      "gt_description": "Judging the conjunction of two events (bank teller AND feminist) as more likely than a single event (bank teller) when a personality sketch matches the stereotype of the conjunction (Linda profile)",
+      "ext_description": "Judging the conjunction of two events (bank teller AND feminist) as more likely than a single event (bank teller) when a personality sketch matches the stereotype of the conjunction (Linda profile)"
+    },
+    {
+      "paper": "10.1002--pros.21320",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "failure",
+      "gt_description": "There is an ssociation of chromosome 8q24 variants with increased prostate cancer risk in Tobago men.",
+      "ext_description": "The A allele of SNP rs1447295 at chromosome 8q24 increases prostate cancer risk in European and African populations"
+    },
+    {
+      "paper": "10.1016--j.actpsy.2020.103138",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Age of acquisition (AoA) effects are larger in picture naming than word naming, and AoA effects occur independent of word frequency",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1080--15248372.2018.1544140",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "inconclusive",
+      "gt_description": "Two-year-old children show anticipatory looking to belief-congruent locations in false belief tasks, indicating early implicit Theory of Mind",
+      "ext_description": "Two-year-old children show anticipatory looking to belief-congruent locations in false belief tasks, indicating early implicit Theory of Mind"
+    },
+    {
+      "paper": "10.1027--1864-9335--a000186",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "Physical cleanliness reduces the severity of moral judgments.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1177--2515245920958687",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "reversal",
+      "gt_description": "Implicit and explicit race attitudes are less strongly correlated when participants are told to respond without bias than when told to express their true feelings",
+      "ext_description": "Implicit and explicit race attitudes are less strongly correlated when participants are told to respond without bias than when told to express their true feelings"
+    },
+    {
+      "paper": "10.1177--2515245920958687",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "reversal",
+      "gt_description": "People are reluctant to tempt fate because they believe doing so increases the likelihood of negative outcomes",
+      "ext_description": "People are reluctant to tempt fate because they believe doing so increases the likelihood of negative outcomes"
+    },
+    {
+      "paper": "10.1177--2515245920958687",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1177--2515245920958687",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "failure",
+      "gt_description": "",
+      "ext_description": "Young children and adults detect snakes more quickly than non-threatening stimuli in visual search tasks"
+    },
+    {
+      "paper": "10.31234--osf.io--dca65",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "success",
+      "gt_description": "The use of personal force (direct use of muscles) is associated with decreased ratings of moral acceptability and permissibility.",
+      "ext_description": "Personal force (using one's own muscles to impact a victim) increases deontological responses and decreases moral acceptability ratings in hypothetical moral dilemmas"
+    },
+    {
+      "paper": "10.2466--20.22.pms.114.1.185-188",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "When evaluating ambiguous stimuli with dichotomous choices, individuals identify 61.8% of items as 'good' and 38.2% as 'bad', reflecting an asymmetry in human cognition",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.32714--ricl.10.01.08",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "L1 English verb frequency and distinctiveness in corpora predict L2 English learners' tense-aspect production",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1177--19485506241298340",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1080--23743603.2021.1878340",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "An inferior job option (decoy) increases the choice share of the target job, and regret salience reduces the magnitude of this decoy effect",
+      "ext_description": "An inferior job option (decoy) increases the choice share of the target job, and regret salience reduces the magnitude of this decoy effect"
+    },
+    {
+      "paper": "10.1080--10926771.2022.2038753",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Individuals in the secondary CU group demonstrate higher PTSS.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1002--cpp.70057",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "\"we set out to replicate and extend Owen et al.'s findings regarding the interaction between psychodynamic\u2010interpersonal (PI) technique, cognitive\u2010behavioural (CB) technique and the alliance with patient rated change [...] We also found interactions between both PI and CB technique use with alliance, in predicting patient rated change.\"",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.12688--openreseurope.17749.1",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "Goal proximity and exerted effort increased participants\u2019 self-reported motivation in the task and\nfrustration after being blocked.",
+      "ext_description": "Goal proximity and expended effort independently increase response force and self-reported frustration when participants are blocked from obtaining a monetary reward"
+    },
+    {
+      "paper": "10.1007--s11251-024-09670-y",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1007--s00213-019-05314-z",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "failure",
+      "gt_description": "Blood alcohol concentration increases utilitarian moral judgments in personal moral dilemmas such as the footbridge dilemma",
+      "ext_description": "Blood alcohol concentration increases utilitarian moral judgments in personal moral dilemmas such as the footbridge dilemma"
+    },
+    {
+      "paper": "10.1017--s1930297500007774",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "success",
+      "gt_description": "Statements of the form 'A is more than B' elicit greater agreement and are more likely to be judged true than statements of the form 'B is less than A', despite describing identical ordinal relationships",
+      "ext_description": "Statements of the form 'A is more than B' elicit greater agreement and are more likely to be judged true than statements of the form 'B is less than A', despite describing identical ordinal relationships"
+    },
+    {
+      "paper": "10.1371--journal.pone.0313619",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Low-BMI control participants overestimated their size, while high-BMI controls underestimated their size, exhibiting the expected normal perceptual contraction bias. However, the women with a history of eating disorders showed no evidence of contraction bias.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1017--s0272263124000378",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "success",
+      "gt_description": "Bilingual young adults demonstrate reduced global switch cost compared to monolinguals in nonlinguistic task-switching paradigms, indicating enhanced cognitive flexibility and executive control",
+      "ext_description": "Bilingual young adults demonstrate reduced global switch cost compared to monolinguals in nonlinguistic task-switching paradigms, indicating enhanced cognitive flexibility and executive control"
+    },
+    {
+      "paper": "10.1109--iccq60895.2024.10576941",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.70252--nkky8370",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "When pathogen threat is salient, people categorize elderly targets (especially elderly racial outgroup members) as outgroup members, with the effect particularly strong for participants low in chronic germ aversion",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.31234--osf.io--68jft",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "Taller organizational structures are associated with greater perceived potential for cor-\nruption, and that these perceptions may compromise subsequent trust-related outcomes.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1038--s41467-024-46936-y",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "Spontaneous post-extinction vmPFC reactivations predict\nextinction memory retrieval. ",
+      "ext_description": "Post-extinction L-DOPA administration improves extinction memory retrieval by enhancing spontaneous vmPFC reactivations that predict extinction memory consolidation"
+    },
+    {
+      "paper": "10.1038--s41467-024-46936-y",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "L-DOPA administration significantly enhances memory retrieval.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.37237--150205",
+      "type": "missing_extraction",
+      "gt_result": "inconclusive",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.17645--mac.7807",
+      "type": "result_mismatch",
+      "gt_result": "success",
+      "ext_result": "inconclusive",
+      "gt_description": "Negativity causes an increase in skin conductance levels.",
+      "ext_description": "Negative news causes greater physiological arousal (measured by skin conductance levels) compared to positive news"
+    },
+    {
+      "paper": "10.1038--s41598-022-04997-3",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "success",
+      "gt_description": "Age impairs mnemonic discrimination ability, with a domain-specific effect showing stronger decline for object stimuli compared to scene stimuli",
+      "ext_description": "Age impairs mnemonic discrimination ability, with a domain-specific effect showing stronger decline for object stimuli compared to scene stimuli"
+    },
+    {
+      "paper": "10.1080--15614263.2022.2102494",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "success",
+      "gt_description": "A small number of incidents consume a disproportionately large amount of police officer time. Emergency demand is concentrated in time and space.",
+      "ext_description": "Police spend a considerable proportion of time on social service functions rather than crime-fighting, with only 40% of calls and 55% of officer time devoted to crime incidents"
+    },
+    {
+      "paper": "10.31234--osf.io--fmdqe",
+      "type": "missing_extraction",
+      "gt_result": "success",
+      "ext_result": null,
+      "gt_description": "",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1002--acp.4202",
+      "type": "result_mismatch",
+      "gt_result": "inconclusive",
+      "ext_result": "failure",
+      "gt_description": "Misinformation availability negatively correlates with misinformation effect change, that is, at high levels of MA resultin a reduction of the misinformation effect\n(compared to single misinformation) ",
+      "ext_description": "Presenting eyewitnesses with double misinformation (two contradictory misleading details) reduces the misinformation effect under high misinformation availability conditions due to discrepancy detection, but increases it under low misinformation availability conditions due to multiple chances to be misled"
+    },
+    {
+      "paper": "10.1093--applin--amae042",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "whether L1 Brazilian Portuguese speakers are ranked as more competent and comprehensible than L1 Spanish speakers, recieving prefered treatment. ",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1007--s10834-024-09975-7",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "parental involvement and the quality of parent\u2013child interaction improves children\u2019s language",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1371--journal.pone.0029081",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "inconclusive",
+      "gt_description": "Hearing about old age makes people walk slower",
+      "ext_description": "Exposure to words related to the elderly stereotype causes participants to walk more slowly when exiting the laboratory through unconscious behavioral priming"
+    },
+    {
+      "paper": "10.1177--2515245918777487",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "inconclusive",
+      "gt_description": "The paper demonstrated that the ease with which a social category (like a personality trait) comes to mind influences how information is interpreted and stored.",
+      "ext_description": "Exposing participants to more hostility-related stimuli causes them to subsequently interpret ambiguous behaviors as more hostile"
+    },
+    {
+      "paper": "10.1027--1864-9335--a000186",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "Participants who cleansed their hands before judging moral scenarios rated the behaviors as less immoral\u2014that is, cleanliness made moral judgments less severe.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.1371--journal.pone.0042510",
+      "type": "missing_extraction",
+      "gt_result": "failure",
+      "ext_result": null,
+      "gt_description": "Priming people with cues of physical spatial distance (versus closeness) leads to reduced emotional engagement and altered evaluations\u2014in this case, greater enjoyment of embarrassing media and less distress from violent media.",
+      "ext_description": ""
+    },
+    {
+      "paper": "10.23846--rps0002",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "inconclusive",
+      "gt_description": "Introduction of cable television in rural Indian villages reduces women's tolerance of spousal beatings, increases female autonomy, reduces son preference and fertility rates, and increases school enrollment",
+      "ext_description": "Introduction of cable television in rural Indian villages reduces women's tolerance of spousal beatings, increases female autonomy, reduces son preference and fertility rates, and increases school enrollment"
+    },
+    {
+      "paper": "10.1007--s00181-005-0242-z",
+      "type": "result_mismatch",
+      "gt_result": "failure",
+      "ext_result": "reversal",
+      "gt_description": "The Hotelling Valuation Principle (that the present discounted value of mineral reserves equals current market price minus extraction costs) accurately predicts gold mine values",
+      "ext_description": "The Hotelling Valuation Principle (that the present discounted value of mineral reserves equals current market price minus extraction costs) accurately predicts gold mine values"
+    }
+  ]
+}

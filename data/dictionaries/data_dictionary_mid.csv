@@ -1,0 +1,21 @@
+column_name,type,required?,description
+original_url,string,yes or title & journal,URL for the paper that contained the original experiment - always use http://doi.org/{DOI}  if available 
+description,string,yes,One sentence description of the effect that was found in the original paper which the replication paper attempted to replicate
+result,""success" OR "failure" OR "inconclusive" OR "reversal""",yes,"Result of the replication – success, failure, inconclusive, or reversal. Human or AI judgement here. If stats are available, additional judgements will be calculated and put in new rows."
+replication_type,""direct" OR "very close" OR "conceptual""",no,"Type of replication: direct = procedure repeated as closely as possible; very close = same paradigm with intentional methodological changes; conceptual = same claim tested with a substantially different procedure."
+original_authors,semicolon separated list,no,Full names of authors on original paper
+original_title,string,no,title of the original paper in sentence case (only first word capitalized)
+original_journal,string,no,full name of journal or venue for original paper
+original_volume,integer,no,"volume number for original paper, if applicable"
+original_issue,integer,no,"issue number for original paper, if applicable"
+original_pages,string,no,"page numbers for original paper, if applicable"
+original_year,integer,no,year the original paper was published in the journal
+original_n,positive integer,no,"Total number of human subjects in the original experiment, if applicable"
+original_es,float,no,Effect size in the original experiment
+original_es_type,string,no,"type of effect size (d = cohen’s d, etasq, r = pearsons r, etc)"
+replication_n,positive integer,no,"Total number of human subjects in the replication experiment, if applicable"
+replication_es,float,no,effect size in the replication study
+replication_es_type,string,no,"type of effect size (d = cohen's d, etasq, r = pearsons r, etc)"
+discipline,string,no,discipline category labels - mostly manually curated
+subdiscipline,string,no,subdiscipline category labels - mostly manually curated
+tags,semicolon separated list,no,set of manually curated tags to enable search

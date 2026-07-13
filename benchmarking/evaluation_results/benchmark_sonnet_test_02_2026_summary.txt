@@ -1,0 +1,73 @@
+======================================================================
+Benchmark Evaluation: sonnet_test_02_2026
+======================================================================
+
+Run Information:
+  Timestamp: 2026-02-06T18:01:55.225959Z
+  Ground Truth Entries: 168
+  Successful Extractions: 280
+  Extraction Rate: 166.7%
+
+──────────────────────────────────────────────────────────────────────
+Original URL Retrieval
+──────────────────────────────────────────────────────────────────────
+  Accuracy:   51.2%
+  Precision: 100.0%
+  Recall:     51.2%
+  F1 Score:   0.677
+
+  True Positives:    86
+  False Positives:    0
+  False Negatives:   82
+
+──────────────────────────────────────────────────────────────────────
+Result Classification
+──────────────────────────────────────────────────────────────────────
+  Overall Accuracy:  76.7%
+  Macro F1:          0.472
+  Weighted F1:       0.729
+  Cohen's Kappa:     0.615
+
+  Per-Class Performance:
+    success        : P=0.711, R=0.964, F1=0.818, n=28
+    failure        : P=0.860, R=0.881, F1=0.871, n=42
+    inconclusive   : P=0.500, R=0.125, F1=0.200, n=16
+    reversal       : P=0.000, R=0.000, F1=0.000, n=0
+
+  Confusion Matrix:
+                Predicted
+                  succ    fail    inco    reve
+    Actual succes     27       1       0       0
+    Actual failur      3      37       2       0
+    Actual inconc      8       5       2       1
+    Actual revers      0       0       0       0
+
+──────────────────────────────────────────────────────────────────────
+Effect Size Type Classification
+──────────────────────────────────────────────────────────────────────
+  Accuracy:   18.2% (4/22 correct)
+  Precision:  50.0%
+  Recall:     22.2%
+  Note: Limited to cases where ground truth has ES type (n=22)
+
+──────────────────────────────────────────────────────────────────────
+Effect Size Numerical Error
+──────────────────────────────────────────────────────────────────────
+  Mean Absolute Error: 0.140
+  RMSE:                0.140
+  Within ±0.05:        0.0%
+  Within ±0.10:        0.0%
+  Within ±0.20:        100.0%
+  Sample Size:         1
+  Note: Very limited data - interpret with caution
+
+──────────────────────────────────────────────────────────────────────
+Error Analysis
+──────────────────────────────────────────────────────────────────────
+  Total Errors: 102
+
+  By Type:
+    missing_extraction  : 82
+    result_mismatch     : 20
+
+======================================================================

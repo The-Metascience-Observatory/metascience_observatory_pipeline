@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mo-pipeline"
+version = "0.1.0"
+description = "Metascience Observatory replication pipeline: search -> classify -> download -> convert -> extract -> ingest"
+requires-python = ">=3.10"
+# Dependencies are intentionally NOT declared for pip to install: all stages run on
+# system Python where these are already present. Required at runtime:
+#   requests, biopython (Entrez), pandas, matplotlib, PyQt5, pymupdf (fitz)
+# Plus two sibling packages installed separately (editable/console):
+#   fetch-pdf-from-doi (pip -e ../fetch_pdf_from_doi), pdf4llm (console script, own venv)
+dependencies = []
+
+[tool.setuptools.packages.find]
+include = ["mo_pipeline*"]

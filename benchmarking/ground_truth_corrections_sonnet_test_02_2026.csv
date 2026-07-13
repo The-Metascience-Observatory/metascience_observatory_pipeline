@@ -1,0 +1,3 @@
+paper,gt_result,ext_result,correct_result,verdict,justification
+10.31234--osf.io--drfht,inconclusive,failure,inconclusive,ground_truth_correct,
+10.1525--collabra.37122,inconclusive,success,success,extraction_correct,

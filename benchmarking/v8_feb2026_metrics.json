@@ -1,0 +1,103 @@
+{
+  "total_gt_entries": 189,
+  "total_extracted_entries": 268,
+  "gt_papers": 143,
+  "extracted_papers": 142,
+  "matched_entries": 164,
+  "missing_entries": 25,
+  "extra_entries": 0,
+  "field_accuracy": {
+    "title": 0.9329268292682927,
+    "authors": 0.9451219512195121,
+    "journal": 0.9695121951219512,
+    "year": 0.9634146341463414,
+    "url": 0.9027777777777778,
+    "all_bibliographic": 0.823170731707317
+  },
+  "statistical_completeness": {
+    "original_n": {
+      "gt_has": 110,
+      "ext_has": 98,
+      "both_have": 92,
+      "ext_coverage": 0.5975609756097561,
+      "ext_recall": 0.8909090909090909,
+      "value_pairs": 92,
+      "exact_matches": 72,
+      "exact_match_rate": 0.6545454545454545
+    },
+    "original_es": {
+      "gt_has": 96,
+      "ext_has": 83,
+      "both_have": 79,
+      "ext_coverage": 0.5060975609756098,
+      "ext_recall": 0.8645833333333334,
+      "value_pairs": 79,
+      "exact_matches": 68,
+      "exact_match_rate": 0.7083333333333334
+    },
+    "original_p_value": {
+      "gt_has": 43,
+      "ext_has": 45,
+      "both_have": 37,
+      "ext_coverage": 0.27439024390243905,
+      "ext_recall": 1.0465116279069768,
+      "value_pairs": 37,
+      "exact_matches": 36,
+      "exact_match_rate": 0.8372093023255814
+    },
+    "replication_n": {
+      "gt_has": 155,
+      "ext_has": 160,
+      "both_have": 154,
+      "ext_coverage": 0.975609756097561,
+      "ext_recall": 1.032258064516129,
+      "value_pairs": 154,
+      "exact_matches": 116,
+      "exact_match_rate": 0.7483870967741936
+    },
+    "replication_es": {
+      "gt_has": 108,
+      "ext_has": 96,
+      "both_have": 88,
+      "ext_coverage": 0.5853658536585366,
+      "ext_recall": 0.8888888888888888,
+      "value_pairs": 88,
+      "exact_matches": 72,
+      "exact_match_rate": 0.6666666666666666
+    },
+    "replication_p_value": {
+      "gt_has": 121,
+      "ext_has": 125,
+      "both_have": 109,
+      "ext_coverage": 0.7621951219512195,
+      "ext_recall": 1.0330578512396693,
+      "value_pairs": 109,
+      "exact_matches": 94,
+      "exact_match_rate": 0.7768595041322314
+    }
+  },
+  "result_classification_accuracy": {
+    "overall": 0.7926829268292683,
+    "by_result": {
+      "success": {
+        "accuracy": 0.8852459016393442,
+        "count": 61
+      },
+      "failure": {
+        "accuracy": 0.9090909090909091,
+        "count": 77
+      },
+      "inconclusive": {
+        "accuracy": 0.23076923076923078,
+        "count": 26
+      }
+    }
+  },
+  "url_analysis": {
+    "gt_has_url": 144,
+    "ext_has_url": 158,
+    "both_have_url": 142,
+    "ext_url_recall": 0.9861111111111112,
+    "url_match_rate": 0.9154929577464789
+  }
+}
