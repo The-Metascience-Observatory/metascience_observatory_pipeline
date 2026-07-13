@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Keep the build cache out of Dropbox (set by dev.sh).
-  distDir: process.env.NEXT_DIST_DIR || ".next",
+  // distDir stays the default ".next" (Next.js rejects absolute/out-of-project
+  // paths). dev.sh symlinks dashboard/.next -> ~/.cache/mo_pipeline/next so the
+  // build cache physically lives outside Dropbox without churning it.
   // Proxy /api/* to the FastAPI orchestrator so the browser hits one origin.
   async rewrites() {
     const port = process.env.MO_API_PORT || "8090";

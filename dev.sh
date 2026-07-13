@@ -16,8 +16,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RUN="$ROOT/.run"; mkdir -p "$RUN"
 API_PORT="${MO_API_PORT:-8090}"
 DASH_PORT="${MO_DASH_PORT:-3010}"
-# Keep Next.js build cache out of Dropbox.
-export NEXT_DIST_DIR="${NEXT_DIST_DIR:-$HOME/.cache/mo_pipeline/next}"
+# Next.js build cache stays at dashboard/.next (Next rejects out-of-project
+# distDir). It is gitignored; a repo-root .dropboxignore keeps Dropbox from
+# syncing it.
 
 _pid_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
 _port_serving() { curl -sf -m 2 "http://127.0.0.1:$1/" >/dev/null 2>&1; }
