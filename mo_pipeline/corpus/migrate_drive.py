@@ -178,6 +178,71 @@ def plan_summary(entries: list[dict]) -> dict:
     return {"total_entries": len(entries), "by_role": dict(roles), "by_dest": dict(dests)}
 
 
+def sweep_leftovers(execute: bool = False, log_path: Path = LOG_CSV) -> dict:
+    """Move everything still under ingested/ and the WIP batch into legacy/.
+
+    Run AFTER migrate(): the paper folders with clean DOI names are already in
+    papers/. What remains is cruft and edge cases — dangling symlinks (targets
+    already moved), stray collated_results CSVs, conversion scratch dirs
+    (markdown_output*), and a tail of folders with MALFORMED DOI names (missing
+    '--', underscores, typo'd '110.' prefixes). These are preserved in legacy/
+    (batch-prefixed, never overwritten) for manual review, not deleted. Most are
+    duplicates of papers whose clean-named winner already migrated.
+    """
+    config.LEGACY_DIR.mkdir(parents=True, exist_ok=True) if execute else None
+    sources = []
+    if config.INGESTED_ROOT.exists():
+        for batch in sorted(p for p in config.INGESTED_ROOT.iterdir() if p.is_dir()):
+            for entry in batch.iterdir():
+                sources.append((batch.name, entry))
+        for stray in config.INGESTED_ROOT.glob("*"):
+            if stray.is_file():
+                sources.append(("ingested_root", stray))
+    if config.CURRENT_BATCH_DIR.exists():
+        for entry in config.CURRENT_BATCH_DIR.iterdir():
+            sources.append((config.CURRENT_BATCH_DIR.name, entry))
+
+    moved = skipped = failed = 0
+    log_rows = []
+    for batch, src in sources:
+        leaf = f"{batch}__{src.name}"
+        # ext4 caps a filename at 255 bytes; some report .html leaves blow past
+        # it once batch-prefixed. Truncate, appending a short hash for uniqueness.
+        if len(leaf.encode()) > 240:
+            import hashlib
+            h = hashlib.sha1(leaf.encode()).hexdigest()[:8]
+            leaf = leaf.encode()[:220].decode("utf-8", "ignore") + f"__{h}"
+        dest = config.LEGACY_DIR / leaf
+        try:
+            if dest.exists():
+                skipped += 1
+                continue
+            if not execute:
+                moved += 1
+                continue
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            # os.rename over shutil.move: keep dangling symlinks as links.
+            try:
+                os.rename(str(src), str(dest))
+            except OSError:
+                shutil.move(str(src), str(dest))
+            log_rows.append({"doi": "", "src": str(src), "dest": str(dest), "role": "leftover-sweep"})
+            moved += 1
+        except OSError as e:
+            print(f"  sweep skip (error): {src} -> {e}", file=sys.stderr)
+            failed += 1
+
+    if execute and log_rows:
+        new = not log_path.exists()
+        with open(log_path, "a", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=["doi", "src", "dest", "role"])
+            if new:
+                w.writeheader()
+            w.writerows(log_rows)
+    return {"leftover_sources": len(sources), "moved" if execute else "would_move": moved,
+            "skipped": skipped, "failed": failed, "executed": execute}
+
+
 def migrate(plan_path: Path = PLAN_CSV, execute: bool = False, log_path: Path = LOG_CSV) -> dict:
     """Execute the plan. execute=False is a dry-run (prints, moves nothing)."""
     if not plan_path.exists():

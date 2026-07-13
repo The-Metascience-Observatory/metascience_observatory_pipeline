@@ -29,6 +29,9 @@ def main(argv=None):
     mp = sub.add_parser("migrate", help="execute migration_plan.csv (dry-run unless --execute)")
     mp.add_argument("--execute", action="store_true", help="actually move folders")
 
+    sw = sub.add_parser("sweep", help="move remaining ingested/ + WIP leftovers to legacy/ (run after migrate)")
+    sw.add_argument("--execute", action="store_true", help="actually move")
+
     sub.add_parser("scan", help="rebuild corpus.sqlite from papers/")
     sub.add_parser("stats", help="print catalog stats")
 
@@ -55,6 +58,12 @@ def main(argv=None):
         _print(result)
         if not args.execute:
             print("\n(dry-run — re-run with --execute to perform moves)", file=sys.stderr)
+
+    elif args.cmd == "sweep":
+        result = migrate_drive.sweep_leftovers(execute=args.execute)
+        _print(result)
+        if not args.execute:
+            print("\n(dry-run — re-run with --execute to sweep)", file=sys.stderr)
 
     elif args.cmd == "scan":
         summary = catalog.scan()
