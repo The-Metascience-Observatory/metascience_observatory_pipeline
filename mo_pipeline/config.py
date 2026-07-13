@@ -121,8 +121,11 @@ LEGACY_REPLICATIONS_DB = (
 )
 
 # ── Website integration (extract + ingest write here; the site serves it) ────
+# MO_WEBSITE_DATA_DIR override lets tests/dry-runs redirect the production
+# database + version_history.txt to a scratch copy instead of the live site.
 WEBSITE_ROOT = OBSERVATORY_ROOT / "metascience_observatory_website"
-WEBSITE_DATA_DIR = WEBSITE_ROOT / "data"
+WEBSITE_DATA_DIR = Path(os.environ.get(
+    "MO_WEBSITE_DATA_DIR", WEBSITE_ROOT / "data"))
 WEBSITE_BACKUP_DIR = WEBSITE_DATA_DIR / "backup"
 ONTOLOGY_PATH = WEBSITE_DATA_DIR / "metascience_observatory_topic_ontology.json"
 VERSION_HISTORY_PATH = WEBSITE_DATA_DIR / "version_history.txt"
