@@ -34,6 +34,7 @@ def main(argv=None):
 
     sub.add_parser("scan", help="rebuild corpus.sqlite from papers/")
     sub.add_parser("stats", help="print catalog stats")
+    sub.add_parser("coverage", help="database->corpus markdown coverage")
 
     mi = sub.add_parser("mark-ingested",
                         help="stamp catalog+paper.json ingested from a collated CSV (post stage 9)")
@@ -78,6 +79,10 @@ def main(argv=None):
         conn = catalog.connect()
         _print(catalog.stats(conn))
         conn.close()
+
+    elif args.cmd == "coverage":
+        from mo_pipeline.corpus import backfill
+        backfill.coverage_report()
 
     elif args.cmd == "mark-ingested":
         import csv as _csv
