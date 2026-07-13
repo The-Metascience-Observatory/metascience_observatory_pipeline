@@ -1,0 +1,79 @@
+# mo_pipeline — unified Metascience Observatory replication pipeline
+
+One directory for the whole replication pipeline: search → classify → download →
+convert → extract → ingest, plus a corpus catalog and a web dashboard to run and
+monitor every stage. Consolidates what used to live across `pull_replication_studies/`,
+`claude_code_replications/`, and `metascience_observatory_website/data_ingestor/`.
+
+## Layout
+
+| Path | What |
+|---|---|
+| `mo_pipeline/config.py` | **The** unified config — every path and tunable. `python -m mo_pipeline.config` self-checks. |
+| `mo_pipeline/discover/` | Stages 1–6: search, deduplicate, prefilter, classify (Haiku), filter_direct, download. `aux/` = alt discovery branches. |
+| `mo_pipeline/extract/` | Stage 8: `extract.py` — LLM structured extraction (Sonnet) + collation. |
+| `mo_pipeline/ingest/` | Stage 9: `data_ingestor.py` + PyQt GUIs — enrich & merge into the website DB. |
+| `mo_pipeline/corpus/` | Corpus catalog (`corpus.sqlite`) + drive reorganization. |
+| `mo_pipeline/shared/` | DOI/title metadata fetchers used by extract + ingest. |
+| `prompts/` | Extraction prompts + `version.txt` (bump on any prompt edit). |
+| `server/` | FastAPI orchestrator (port 8090). |
+| `dashboard/` | Next.js dashboard (port 3010). |
+| `data/`, `progress/` | Candidate CSVs + search/classify checkpoints (gitignored). |
+
+Big data (PDFs, the paper corpus) stays on the external drive at
+`/media/dan/500Gb/metascience_observatory_pdfs/` — see the corpus layout below.
+
+## Setup
+
+```bash
+pip install --break-system-packages --user -e .   # editable install of mo_pipeline
+# fetch-pdf-from-doi and pdf4llm are separate installed packages (unchanged)
+```
+
+## Run a stage from the CLI
+
+```bash
+python -m mo_pipeline.discover.classify_candidates --workers 20
+python -m mo_pipeline.discover.download_all_confirmed --limit 100 --legalonly
+pdf4llm batch /media/.../inbox -o /media/.../papers --mode full-grobid --workers 4 --movepdf --resume
+python -m mo_pipeline.extract.extract /media/.../papers --batch --level full --tag sonnet_v8_5
+python -m mo_pipeline.ingest.data_ingestor collated_results_sonnet_v8_5.csv --no-gui
+```
+
+Env overrides for safe testing: `MO_DATA_DIR`, `MO_PROGRESS_DIR`, `MO_MEDIA_ROOT`,
+`MO_WEBSITE_DATA_DIR` (redirect the production DB to a scratch copy).
+
+## The corpus catalog
+
+The paper corpus lives at `MEDIA_ROOT/papers/`, one folder per DOI (slashes as
+`--`). Each folder keeps the per-paper layout: PDF + `abstract.md`/`body.md`/
+`references.json` + `replication_check.json` (screening) + one `{tag}/` subfolder
+per extraction run + a `paper.json` passport. Findings and processing status are
+queryable via `corpus.sqlite`:
+
+```bash
+python -m mo_pipeline.corpus scan          # rebuild catalog from papers/
+python -m mo_pipeline.corpus stats         # totals by status + with/without replications
+python -m mo_pipeline.corpus include-list --status converted --not-extracted-tag sonnet_v9
+python -m mo_pipeline.corpus mark-ingested collated.csv --db-version replications_database_X.csv
+```
+
+Drive layout: `papers/` (corpus) · `inbox/` (downloaded PDFs awaiting conversion) ·
+`special/` (pre-pipeline corpora) · `legacy/` (migration dup-losers, reviewable) ·
+`corpus.sqlite`. State (downloaded/converted/screened/extracted/ingested) is derived
+from files present; location no longer encodes findings.
+
+## The dashboard
+
+```bash
+./dev.sh up        # FastAPI :8090 + Next.js :3010  →  http://localhost:3010
+./dev.sh status    # services + any running pipeline stages
+./dev.sh down      # stops services only — running stages keep going (they're detached)
+```
+
+The dashboard shows every stage's live progress (from checkpoints + the catalog),
+runs/stops stages with mutex guards (one claude-CLI stage at a time; convert needs
+≥20 GB free RAM), and browses the corpus. Stages run as detached subprocesses under
+`~/.local/state/mo_pipeline/`, so they survive API restarts.
+
+See [CLAUDE.md](CLAUDE.md) for invariants and the taxonomy source of truth.

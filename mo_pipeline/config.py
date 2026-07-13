@@ -198,10 +198,12 @@ def _self_check() -> None:
         ],
         "Secrets": [("ENV_FILE", ENV_FILE)],
     }
-    # Paths that are legitimately absent until a stage creates them.
+    # Paths that are legitimately absent (created on demand, or retired by the
+    # corpus reorg — INGESTED_ROOT/CURRENT_BATCH_DIR were drained into papers/).
     expected_absent = {
         "CATALOG_PATH", "INBOX_DIR", "PAPERS_DIR", "SPECIAL_DIR", "LEGACY_DIR",
         "INGESTION_CHECKPOINT_PATH", "CITATION_MINED_CSV",
+        "INGESTED_ROOT", "CURRENT_BATCH_DIR",
     }
     missing = 0
     for group, items in groups.items():
