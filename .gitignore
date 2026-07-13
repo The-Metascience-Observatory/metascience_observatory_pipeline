@@ -30,3 +30,4 @@ dashboard/.next/
 
 # Editor/OS noise
 .DS_Store
+dashboard/next-env.d.ts
