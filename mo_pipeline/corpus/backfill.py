@@ -146,6 +146,21 @@ def cmd_convert(args):
     print("conversion done — PDFs moved into papers/{doi}/ with markdown")
 
 
+def cmd_convert_xml(_args):
+    """Convert leftover Elsevier fulltext XMLs in backfill_pull/ into papers/."""
+    from mo_pipeline.corpus import xml_to_markdown
+    xmls = list(PULL_DIR.glob("*.xml")) if PULL_DIR.exists() else []
+    if not xmls:
+        print("no *.xml in backfill_pull/ — nothing to convert")
+        return
+    print(f"converting {len(xmls)} Elsevier XML fulltexts -> {config.PAPERS_DIR}")
+    result = xml_to_markdown.convert_dir(PULL_DIR, config.PAPERS_DIR)
+    print(f"\nconverted {result['converted']}/{result['total']} "
+          f"({result['thin']} thin-body); {len(result['failed'])} failed")
+    if result["failed"]:
+        print("  failed:", result["failed"][:10])
+
+
 def cmd_finalize(_args):
     before = coverage_report()
     print("rescanning catalog...")
@@ -168,11 +183,13 @@ def main(argv=None):
     f.add_argument("--legalonly", action="store_true", help="skip Sci-Hub/AA")
     c = sub.add_parser("convert", help="pdf4llm convert backfill_pull -> papers/")
     c.add_argument("--workers", type=int, default=4)
+    sub.add_parser("convert-xml", help="convert leftover Elsevier XML fulltexts -> papers/")
     sub.add_parser("finalize", help="rescan + coverage delta")
     sub.add_parser("coverage", help="print current coverage only")
     args = ap.parse_args(argv)
     {"compute": cmd_compute, "fetch": cmd_fetch, "convert": cmd_convert,
-     "finalize": cmd_finalize, "coverage": lambda a: coverage_report()}[args.cmd](args)
+     "convert-xml": cmd_convert_xml, "finalize": cmd_finalize,
+     "coverage": lambda a: coverage_report()}[args.cmd](args)
 
 
 if __name__ == "__main__":
