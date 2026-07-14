@@ -102,6 +102,16 @@ PUBMED_QUERIES = [
     '"two-stage"[Title/Abstract] AND ("GWAS"[Title/Abstract] OR "genome-wide association"[Title/Abstract])',
     '"replicated in" AND "independent cohort"[Title/Abstract]',
     '"meta-analysis"[Title/Abstract] AND "replication cohort"[Title/Abstract]',
+
+    # ── Phase 6: negative/failure phrasings + registered reports ──
+    '"did not replicate"[Title/Abstract] OR "does not replicate"[Title/Abstract]',
+    '"unable to replicate"[Title/Abstract] OR "were unable to replicate"[Title/Abstract]',
+    '"reproduce our findings"[Title/Abstract] OR "reproduce their findings"[Title/Abstract]',
+    '"reanalysis of"[Title/Abstract] OR "re-analysis of"[Title/Abstract]',
+    '"registered report"[Title/Abstract] AND "replicat"[Title/Abstract]',
+    '"adversarial collaboration"[Title/Abstract]',
+    # ── Phase 6: ML / CS reproducibility ──
+    '"reproducibility study"[Title/Abstract] OR "reproducibility challenge"[Title/Abstract]',
 ]
 
 
@@ -109,26 +119,54 @@ PUBMED_QUERIES = [
 # OpenAlex queries
 # ═══════════════════════════════════════════════════════════════════════════════
 
-OPENALEX_TITLE_SEARCHES = [
+# Two explicit blocks (replacing the old `[:15]` slice that fed OSF/S2). The
+# genetics/GWAS block is biomedical-only and generates noise on the social-sci /
+# CS-biased repositories (OSF, Semantic Scholar), so those sources get only the
+# CORE block. OpenAlex + Crossref search both blocks.
+REPLICATION_CORE = [
     "replication study",
     "failed to replicate",
     "reproducibility of",
     "replication attempt",
     "registered replication report",
     "direct replication",
-    # ── New queries (Phase 5a) ──
+    # ── Phase 5a ──
     "close replication",
     "conceptual replication",
     "replication failure",
     "replicability",
     "Many Labs",
-
     # ── Phase 5c: additional phrasings ──
     "replicated the result",
     "replicate the effect",
     "preregistered replication",
     "non-replication",
 
+    # ── Phase 6: negative/failure phrasings (high recall, classifier filters) ──
+    "did not replicate",
+    "does not replicate",
+    "unable to replicate",
+    "reproduce our findings",
+    "reanalysis",
+    "Registered Report",           # broader than "registered replication report"
+    "adversarial collaboration",
+
+    # ── Phase 6: ML / CS reproducibility (retrieves ~100% — mostly OA/arXiv) ──
+    "reproducibility study",
+    "we reproduce",
+    "reproducibility challenge",
+
+    # ── Phase 6: ecology / poli-sci / sociology (retrieve 62–99%) ──
+    "replication data",
+    "reproducibility in ecology",
+
+    # ── Phase 6: economics — NOTE only ~30% of econ replications are
+    #    retrievable without RePEc/SSRN/NBER, so keep this minimal ──
+    "computational reproducibility",
+    "replication in economics",
+]
+
+GENETICS_QUERIES = [
     # ── Phase 5b: genetics / association-study replication language ──
     "replication cohort",
     "replication sample",
@@ -138,6 +176,9 @@ OPENALEX_TITLE_SEARCHES = [
     "independent replication cohort",
     "two-stage genome-wide association",
 ]
+
+# OpenAlex + Crossref search everything; OSF + Semantic Scholar get CORE only.
+OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -162,7 +203,7 @@ EUROPEPMC_QUERIES = [
     # EuropePMC BODY: search is especially powerful here because "replication cohort"
     # often appears in Methods/Results rather than Abstract.
     '(BODY:"replication cohort" OR BODY:"replication sample" OR BODY:"replication dataset") AND SRC:MED',
-    '(BODY:"discovery and replication" OR BODY:"discovery cohort" AND BODY:"replication cohort") AND SRC:MED',
+    '(BODY:"discovery and replication" OR (BODY:"discovery cohort" AND BODY:"replication cohort")) AND SRC:MED',
     '(BODY:"replicated the association" OR BODY:"association was replicated") AND SRC:MED',
     '(BODY:"independent replication" AND (BODY:"SNP" OR BODY:"association" OR BODY:"locus")) AND SRC:MED',
     '(TITLE:"replication cohort" OR TITLE:"replication sample") AND SRC:MED',
@@ -175,9 +216,19 @@ EUROPEPMC_QUERIES = [
     '(BODY:"non-replication" OR BODY:"non-replications") AND SRC:MED',
     '(BODY:"prior study" AND BODY:"replicat") AND SRC:MED',
 
+    # ── Phase 6: negative phrasings + registered reports + reanalysis ──
+    '(BODY:"did not replicate" OR BODY:"does not replicate" OR BODY:"were unable to replicate") AND SRC:MED',
+    '(BODY:"reproduce our findings" OR BODY:"reproduce their findings") AND SRC:MED',
+    '(BODY:"reanalysis of" OR BODY:"re-analysis of") AND BODY:"replicat" AND SRC:MED',
+    '(TITLE:"registered report" AND BODY:"replicat") AND SRC:MED',
+    '(BODY:"adversarial collaboration") AND SRC:MED',
+    # ── Phase 6: ML / CS reproducibility ──
+    '(TITLE:"reproducibility study" OR BODY:"reproducibility challenge") AND SRC:MED',
+
     # ── Preprints (bioRxiv / medRxiv / etc. indexed by Europe PMC as SRC:PPR) ──
     '(TITLE:"replication" OR ABSTRACT:"failed to replicate") AND SRC:PPR',
     '(TITLE:"replication study" OR TITLE:"replication of") AND SRC:PPR',
+    '(TITLE:"reproducibility" OR ABSTRACT:"did not replicate") AND SRC:PPR',
 ]
 
 
@@ -540,9 +591,10 @@ def run_europepmc_searches(progress):
 # ═══════════════════════════════════════════════════════════════════════════════
 # Reduced query subset for social-sci / cross-discipline sources
 # ═══════════════════════════════════════════════════════════════════════════════
-# Drops the 7 genetics / GWAS-specific queries at the end of OPENALEX_TITLE_SEARCHES —
-# those generate noise on OSF / Semantic Scholar, which are social-sci / CS biased.
-SOCIAL_SCI_QUERIES = OPENALEX_TITLE_SEARCHES[:15]
+# OSF / Semantic Scholar (social-sci / CS biased) get the full CORE block but not
+# the genetics/GWAS terms, which generate noise there. This is REPLICATION_CORE
+# directly, not a fragile positional slice.
+SOCIAL_SCI_QUERIES = REPLICATION_CORE
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
