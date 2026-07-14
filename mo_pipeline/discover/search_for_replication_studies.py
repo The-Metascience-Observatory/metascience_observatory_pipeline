@@ -178,6 +178,7 @@ GENETICS_QUERIES = [
 ]
 
 # OpenAlex + Crossref search everything; OSF + Semantic Scholar get CORE only.
+# (Combined lists are (re)derived below after runtime overrides are applied.)
 OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
 
 
@@ -230,6 +231,24 @@ EUROPEPMC_QUERIES = [
     '(TITLE:"replication study" OR TITLE:"replication of") AND SRC:PPR',
     '(TITLE:"reproducibility" OR ABSTRACT:"did not replicate") AND SRC:PPR',
 ]
+
+
+# ── Runtime keyword overlay (editable from the dashboard) ────────────────────
+# The four lists above are the code DEFAULTS. `data/keywords.json` (if present)
+# overrides any of them per-list; the dashboard edits that file. Re-derive the
+# combined lists here so overrides take effect.
+from mo_pipeline.discover import keywords as _keywords  # noqa: E402
+_eff = _keywords.apply_overrides({
+    "replication_core": REPLICATION_CORE,
+    "genetics_queries": GENETICS_QUERIES,
+    "pubmed_queries": PUBMED_QUERIES,
+    "europepmc_queries": EUROPEPMC_QUERIES,
+})
+REPLICATION_CORE = _eff["replication_core"]
+GENETICS_QUERIES = _eff["genetics_queries"]
+PUBMED_QUERIES = _eff["pubmed_queries"]
+EUROPEPMC_QUERIES = _eff["europepmc_queries"]
+OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

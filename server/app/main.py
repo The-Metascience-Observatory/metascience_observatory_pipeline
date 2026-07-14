@@ -34,6 +34,10 @@ class BatchPatch(BaseModel):
     tag: str | None = None
 
 
+class KeywordEdit(BaseModel):
+    items: list[str]
+
+
 # ── stage status assembly ────────────────────────────────────────────────────
 def _stage_status(stage) -> dict:
     st = state.load()
@@ -163,6 +167,41 @@ def get_batch():
 @app.put("/batch")
 def put_batch(patch: BatchPatch):
     return {"state": state.save({"batch": patch.batch, "tag": patch.tag})}
+
+
+@app.get("/keywords")
+def get_keywords():
+    """Effective stage-1 search keyword lists + metadata + which are overridden."""
+    # Importing the search module registers the code defaults with the overlay.
+    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
+    from mo_pipeline.discover import keywords as kw
+    eff = kw.effective()
+    overridden = kw.is_overridden()
+    return {"lists": [{**m, "items": eff.get(m["key"], []),
+                       "count": len(eff.get(m["key"], [])),
+                       "overridden": overridden.get(m["key"], False)}
+                      for m in kw.KEY_META]}
+
+
+@app.put("/keywords/{key}")
+def put_keywords(key: str, edit: KeywordEdit):
+    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
+    from mo_pipeline.discover import keywords as kw
+    try:
+        eff = kw.save_list(key, edit.items)
+    except KeyError as e:
+        raise HTTPException(404, str(e))
+    return {"saved": True, "key": key, "count": len(eff.get(key, []))}
+
+
+@app.post("/keywords/{key}/reset")
+def reset_keywords(key: str):
+    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
+    from mo_pipeline.discover import keywords as kw
+    if key not in [m["key"] for m in kw.KEY_META]:
+        raise HTTPException(404, "unknown keyword list")
+    eff = kw.reset(key)
+    return {"reset": True, "key": key, "count": len(eff.get(key, []))}
 
 
 @app.get("/corpus")

@@ -56,7 +56,19 @@ export const api = {
       headers: { "content-type": "application/json" }, body: JSON.stringify(patch) }),
   corpus: (q: Record<string, string> = {}) =>
     j<CorpusResponse>("/api/corpus?" + new URLSearchParams(q).toString()),
+  keywords: () => j<{ lists: KeywordList[] }>("/api/keywords"),
+  saveKeywords: (key: string, items: string[]) =>
+    j<{ saved: boolean; count: number }>(`/api/keywords/${key}`, {
+      method: "PUT", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ items }) }),
+  resetKeywords: (key: string) =>
+    j<{ reset: boolean; count: number }>(`/api/keywords/${key}/reset`, { method: "POST" }),
 };
+
+export interface KeywordList {
+  key: string; label: string; feeds: string[]; syntax: string;
+  items: string[]; count: number; overridden: boolean;
+}
 
 export const PROBE_COLOR: Record<ProbeState, string> = {
   done: "bg-emerald-500", partial: "bg-amber-500",
