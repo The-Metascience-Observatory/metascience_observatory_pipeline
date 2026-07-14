@@ -12,13 +12,19 @@ CASES = [
     "10.1023/a:1021350122677",         # colon that previously decoded to a slash
     "10.3758/s13428-021-01694-3",      # literal hyphens must be preserved
     "10.17605/osf.io/e9d3k",           # OSF triple segment
+    # Ancient Wiley SICI DOI: contains ':' (incl. '::'), '<', and '>' — all NTFS-forbidden.
+    "10.1002/1099-0879(200007)7:3<220::aid-cpp243>3.0.co;2-f",
 ]
+
+# Chars NTFS/exFAT forbid in filenames (the folder name must contain none of them).
+_NTFS_FORBIDDEN = set('<>:"|?*\\')
 
 
 def test_doi_folder_roundtrip():
     for doi in CASES:
         folder = doi_to_folder(doi)
-        assert ":" not in folder, f"colon leaked into folder name for {doi}"
+        assert not (_NTFS_FORBIDDEN & set(folder)), \
+            f"forbidden char leaked into folder name for {doi}: {folder}"
         assert folder_to_doi(folder) == doi, f"round-trip failed for {doi}"
 
 

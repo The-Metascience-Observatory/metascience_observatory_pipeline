@@ -103,12 +103,11 @@ DIRECT_REPLICATIONS_PDF_DIR = PDF_DIR / "very_likely_direct_replications"
 
 # ONE canonical search list, replacing 4 divergent copies. Dead entries dropped
 # (7th_batch, pdfgrep_batch no longer exist at MEDIA_ROOT; pull_replication_studies/
-# downloaded_pdfs archived — its ~976 PDFs are all redundant with the corpus).
+# downloaded_pdfs + manually_classified_PDFs archived — redundant with the corpus).
 # Order = priority.
 PDF_SEARCH_DIRS = [
     PDF_DIR,
     OBSERVATORY_ROOT / "PDFs",
-    OBSERVATORY_ROOT / "pull_replication_studies" / "manually_classified_PDFs",
     OBSERVATORY_ROOT / "agent_for_replications" / "ground_truth_dataset_PDFs",
     OBSERVATORY_ROOT / "pull_long_covid_papers" / "pdfs",
     CURRENT_BATCH_DIR,

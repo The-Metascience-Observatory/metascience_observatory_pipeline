@@ -38,32 +38,45 @@ _RESULT_GLOBS = ("*_result_full.json", "*_result_pdf_only.json",
                  "*_result_html.json", "*_result_xml.json")
 
 
+# Characters NTFS/exFAT forbid in filenames, other than '/' (encoded as '--')
+# and ':' (encoded as the short, readable '~'). These almost never occur in DOIs
+# — the exception is ancient Wiley SICI DOIs, e.g.
+# '10.1002/1099-0879(200007)7:3<220::aid-cpp243>3.0.co;2-f' — so they get a hex
+# '~XX~' token. `;`, `(`, `)` are filesystem-safe and left alone.
+_FS_FORBIDDEN = '<>"\\|?*'
+
+
 def doi_to_folder(doi: str) -> str:
     """'10.1001/archneurol.2010.292' -> '10.1001--archneurol.2010.292'.
 
     Reversible, filesystem-safe encoding (must match
     fetch_pdf_from_doi.doi_to_safe_filename, which names downloaded PDFs whose
     stem becomes the folder name):
-      '/' -> '--'   (DOI path separator)
-      ':' -> '~'    (colon: forbidden on the NTFS/exFAT media drive; tilde
-                     ~never appears in DOIs). e.g. old Springer/Kluwer DOIs
-                     '10.1023/a:1018769825030' -> '10.1023--a~1018769825030'."""
-    return doi.strip().replace("/", "--").replace(":", "~")
+      '/' -> '--'          DOI path separator
+      ':' -> '~'           colon (common in old Springer/Kluwer DOIs)
+      < > " \\ | ? * -> '~XX~'  hex-escaped (rare; Wiley SICI DOIs)
+    e.g. '10.1023/a:1018769825030' -> '10.1023--a~1018769825030'."""
+    s = doi.strip().replace("/", "--")
+    for ch in _FS_FORBIDDEN:
+        s = s.replace(ch, f"~{ord(ch):02x}~")
+    return s.replace(":", "~")
 
 
 def folder_to_doi(folder_name: str) -> str:
     """Inverse of doi_to_folder: '10.1001--archneurol.2010.292' -> '10.1001/…'.
 
-    Turns every '--' back into '/' and every '~' back into ':'. The '--' rule
-    handles multi-slash DOIs (OSF, many 10.1093/10.1002/10.1023/10.1027 journals)
-    e.g. '10.1093--jpepsy--jsy104' -> '10.1093/jpepsy/jsy104'; the '~' rule
-    restores colon DOIs '10.1023--a~1018769825030' -> '10.1023/a:1018769825030'.
-    Single literal hyphens ('1015-5759') are never doubled by the encoder, so they
-    are left untouched. (A DOI containing a literal '--' or '~' is not
-    round-trippable, but such DOIs are vanishingly rare in practice.)"""
+    Decodes the '~XX~' tokens first, then every bare '~' back to ':', then every
+    '--' back to '/'. The '--' rule handles multi-slash DOIs (OSF, many
+    10.1093/10.1002/10.1023/10.1027 journals) e.g. '10.1093--jpepsy--jsy104' ->
+    '10.1093/jpepsy/jsy104'; '~' restores colon DOIs. Single literal hyphens
+    ('1015-5759') are never doubled by the encoder, so they are left untouched.
+    (A DOI containing a literal '--', '~', or a '~XX~' token is not round-trippable,
+    but such DOIs are vanishingly rare in practice.)"""
     # Strip a trailing " (1)"-style dedup suffix if present.
     name = re.sub(r"\s*\(\d+\)$", "", folder_name)
-    return name.replace("--", "/").replace("~", ":")
+    for ch in _FS_FORBIDDEN:
+        name = name.replace(f"~{ord(ch):02x}~", ch)
+    return name.replace("~", ":").replace("--", "/")
 
 
 def is_doi_folder(name: str) -> bool:
