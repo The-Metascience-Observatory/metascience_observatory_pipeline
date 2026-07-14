@@ -39,22 +39,31 @@ _RESULT_GLOBS = ("*_result_full.json", "*_result_pdf_only.json",
 
 
 def doi_to_folder(doi: str) -> str:
-    """'10.1001/archneurol.2010.292' -> '10.1001--archneurol.2010.292'."""
-    return doi.strip().replace("/", "--")
+    """'10.1001/archneurol.2010.292' -> '10.1001--archneurol.2010.292'.
+
+    Reversible, filesystem-safe encoding (must match
+    fetch_pdf_from_doi.doi_to_safe_filename, which names downloaded PDFs whose
+    stem becomes the folder name):
+      '/' -> '--'   (DOI path separator)
+      ':' -> '~'    (colon: forbidden on the NTFS/exFAT media drive; tilde
+                     ~never appears in DOIs). e.g. old Springer/Kluwer DOIs
+                     '10.1023/a:1018769825030' -> '10.1023--a~1018769825030'."""
+    return doi.strip().replace("/", "--").replace(":", "~")
 
 
 def folder_to_doi(folder_name: str) -> str:
-    """'10.1001--archneurol.2010.292' -> '10.1001/archneurol.2010.292'.
+    """Inverse of doi_to_folder: '10.1001--archneurol.2010.292' -> '10.1001/…'.
 
-    The folder encoding (doi_to_folder) turns EVERY '/' into '--', so the inverse
-    is to turn every '--' back into '/'. This matters for multi-slash DOIs (OSF,
-    many 10.1093/10.1002/10.1023/10.1027 journals) e.g. '10.1093--jpepsy--jsy104'
-    -> '10.1093/jpepsy/jsy104'. Single literal hyphens ('1015-5759') are never
-    doubled by the encoder, so they are left untouched. (A DOI containing a literal
-    '--' is not round-trippable, but such DOIs are vanishingly rare in practice.)"""
+    Turns every '--' back into '/' and every '~' back into ':'. The '--' rule
+    handles multi-slash DOIs (OSF, many 10.1093/10.1002/10.1023/10.1027 journals)
+    e.g. '10.1093--jpepsy--jsy104' -> '10.1093/jpepsy/jsy104'; the '~' rule
+    restores colon DOIs '10.1023--a~1018769825030' -> '10.1023/a:1018769825030'.
+    Single literal hyphens ('1015-5759') are never doubled by the encoder, so they
+    are left untouched. (A DOI containing a literal '--' or '~' is not
+    round-trippable, but such DOIs are vanishingly rare in practice.)"""
     # Strip a trailing " (1)"-style dedup suffix if present.
     name = re.sub(r"\s*\(\d+\)$", "", folder_name)
-    return name.replace("--", "/")
+    return name.replace("--", "/").replace("~", ":")
 
 
 def is_doi_folder(name: str) -> bool:
