@@ -23,11 +23,16 @@ __pycache__/
 .venv/
 server/.venv/
 
-# Node / Next.js
-dashboard/node_modules/
-dashboard/.next
+# Node / Next.js (anywhere — a stray HOME under dashboard/ once put 216MB of
+# webpack cache into git history; keep these path-agnostic)
+node_modules/
+.next/
 dashboard/home/
+**/.cache/
 *.tsbuildinfo
+
+# Test caches
+.pytest_cache/
 
 # Editor/OS noise
 .DS_Store
