@@ -46,11 +46,14 @@ CLASSIFICATION_FIELDS = [
 ]
 
 SYSTEM_PROMPT = (
-    "You are a biomedical literature classifier. You return ONLY a raw JSON "
-    "object — no markdown, no code fences, no explanation, no preamble."
+    "You are a scientific literature classifier working across all disciplines. "
+    "You return ONLY a raw JSON object — no markdown, no code fences, no "
+    "explanation, no preamble."
 )
 
-SCREENING_PROMPT = """Analyze this biomedical paper's title and abstract. Determine whether this paper reports an experimental replication -- meaning the authors conducted an experiment specifically to test whether the findings of a previously published study can be reproduced.
+SCREENING_PROMPT = """Analyze this paper's title and abstract. Determine whether this paper reports an experimental replication -- meaning the authors conducted an experiment specifically to test whether the findings of a previously published study can be reproduced.
+
+The corpus spans all disciplines -- psychology, economics, education, linguistics, political science, medicine, biology, chemistry, physics, materials science, and computer science. Do not assume a paper is biomedical, and do not treat social-science, humanities-adjacent, or physical-science papers as out of scope.
 
 Title: {title}
 Abstract: {abstract}
