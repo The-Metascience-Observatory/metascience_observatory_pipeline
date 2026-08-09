@@ -28,6 +28,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+from mo_pipeline.discover.screening_backend import BACKENDS, get_backend
 from mo_pipeline.config import (
     DATA_DIR, PROGRESS_DIR,
     CANDIDATES_FILTERED_CSV, CLASSIFIED_CSV, CONFIRMED_REPLICATIONS_CSV,
@@ -154,59 +155,22 @@ def _load_prior_classified():
     return by_doi, by_pmid
 
 
-def classify_one(idx, title, abstract):
-    """Classify one paper via `claude -p`. Returns (idx, parsed_dict_or_None)."""
+def classify_one(idx, title, abstract, backend=None):
+    """Classify one paper. Returns (idx, parsed_dict_or_None).
+
+    Delegates to the configured screening backend (default `claude -p` with
+    Haiku — see discover/screening_backend.py). The backend exists so a large
+    sweep can be moved off the Claude rate-limit pool, which is the binding
+    constraint here: ~10k calls/week, shared with extraction via the
+    `claude_cli` mutex group.
+    """
     prompt = SCREENING_PROMPT.format(
         title=title or "(no title)",
         abstract=abstract or "(no abstract available)",
     )
-
-    cmd = [
-        "claude", "-p",
-        "--model", LLM_MODEL,
-        "--output-format", "json",
-        "--tools", "",
-        "--system-prompt", SYSTEM_PROMPT,
-        "--no-session-persistence",
-    ]
-
-    try:
-        result = subprocess.run(
-            cmd,
-            input=prompt,
-            capture_output=True,
-            text=True,
-            timeout=LLM_TIMEOUT_SEC,
-        )
-    except subprocess.TimeoutExpired:
-        print(f"  [{idx}] TIMEOUT after {LLM_TIMEOUT_SEC}s")
-        return idx, None
-    except Exception as e:
-        print(f"  [{idx}] subprocess error: {e}")
-        return idx, None
-
-    if result.returncode != 0:
-        err = (result.stderr or "")[:300]
-        print(f"  [{idx}] CLI exit {result.returncode}: {err}")
-        return idx, None
-
-    try:
-        outer = json.loads(result.stdout)
-    except json.JSONDecodeError as e:
-        print(f"  [{idx}] outer JSON parse error: {e}")
-        return idx, None
-
-    if outer.get("is_error"):
-        print(f"  [{idx}] CLI reported error: {outer.get('result', '')[:200]}")
-        return idx, None
-
-    raw = outer.get("result", "")
-    inner = _extract_json(raw)
-    if inner is None:
-        print(f"  [{idx}] inner JSON parse error. Raw: {raw[:200]}")
-        return idx, None
-
-    return idx, inner
+    if backend is None:
+        backend = get_backend()
+    return backend.screen(idx, SYSTEM_PROMPT, prompt)
 
 
 def _auto_row(row, is_replication, reasoning):
@@ -231,14 +195,31 @@ def _reuse_prior_row(row, prior_row):
 def main():
     sys.stdout.reconfigure(line_buffering=True)
 
-    parser = argparse.ArgumentParser(description="Classify replication study candidates via Claude CLI")
+    parser = argparse.ArgumentParser(
+        description="Classify replication study candidates via a screening LLM")
     parser.add_argument(
         "-w", "--workers", type=int, default=DEFAULT_WORKERS,
-        help=f"Number of concurrent claude subprocess calls (default: {DEFAULT_WORKERS})",
+        help=f"Number of concurrent screening calls (default: {DEFAULT_WORKERS})",
     )
     parser.add_argument(
         "--limit", type=int, default=None,
         help="Only classify the first N unclassified rows (useful for prompt testing)",
+    )
+    parser.add_argument(
+        "--provider", choices=sorted(BACKENDS), default=None,
+        help="Screening backend. Default comes from config.SCREENING_PROVIDER "
+             "(claude_cli). Use openrouter to spend money instead of the "
+             "rate-limited Claude budget, e.g. for a large sweep.",
+    )
+    parser.add_argument(
+        "--model", default=None,
+        help="Override the screening model for the chosen provider "
+             "(e.g. 'haiku', or 'openai/gpt-5-nano' for openrouter).",
+    )
+    parser.add_argument(
+        "--max-llm-calls", type=int, default=None,
+        help="Hard ceiling on fresh LLM calls this run; stops cleanly when hit. "
+             "Use to stay inside the weekly Claude budget (~10k/week).",
     )
     args = parser.parse_args()
     batch_size = args.workers
@@ -329,6 +310,15 @@ def main():
     if args.limit:
         work = work[:args.limit]
 
+    # Budget ceiling. The Claude screening budget is ~10k calls/week and shared
+    # with extraction, so a full pass over the filtered set can silently blow
+    # through it — the row count is NOT the call count, since rows already
+    # ingested or previously classified are reused above without an LLM call.
+    if args.max_llm_calls is not None and len(work) > args.max_llm_calls:
+        print(f"Capping this run at {args.max_llm_calls:,} fresh LLM calls "
+              f"(of {len(work):,} outstanding) — rerun to continue.", flush=True)
+        work = work[:args.max_llm_calls]
+
     print(f"Skipped — already ingested (Level 2): {skipped_ingested}")
     print(f"Skipped — prior classify result reused (Level 1): {skipped_prior}")
     print(f"To classify via LLM: {len(work)} (in batches of {batch_size})")
@@ -343,6 +333,12 @@ def main():
     replication_count = sum(1 for r in classified_rows if r.get("is_replication", "").lower() == "true")
     start_time = time.time()
 
+    # One backend for the whole run. Announce it: which provider is in use
+    # determines whether this run spends the rate-limited Claude budget
+    # (~10k/week, shared with extraction) or paid OpenRouter capacity.
+    backend = get_backend(provider=args.provider, model=args.model)
+    print(f"Screening backend: {backend.name} (model: {backend.model})", flush=True)
+
     # Process in batches of concurrent subprocess calls; checkpoint after each batch
     for batch_start in range(0, len(work), batch_size):
         batch = work[batch_start:batch_start + batch_size]
@@ -352,7 +348,7 @@ def main():
             for idx, row in batch:
                 title = row.get("title", "")
                 abstract = row.get("abstract", "")
-                future = executor.submit(classify_one, idx, title, abstract)
+                future = executor.submit(classify_one, idx, title, abstract, backend)
                 futures[future] = (idx, row)
 
             for future in as_completed(futures):

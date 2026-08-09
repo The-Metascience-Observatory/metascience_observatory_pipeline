@@ -69,6 +69,16 @@ S2_API_KEY = ""            # optional Semantic Scholar API key
 LLM_MODEL = "haiku"
 LLM_TIMEOUT_SEC = 120
 
+# ── Stage-4 screening backend ────────────────────────────────────────────────
+# The Claude CLI is free on the Max plan but rate-budgeted (~10k screening
+# calls/week) and shares the `claude_cli` mutex group with extraction, so a
+# large sweep starves the rest of the pipeline. `openrouter` trades money for
+# throughput: ~$46 per 1M screens on gpt-5-nano, and it does not touch the
+# Claude rate limit. Both are overridable per-run via --provider/--model, and
+# by env vars of the same name. See discover/screening_backend.py.
+SCREENING_PROVIDER = "claude_cli"      # "claude_cli" | "openrouter"
+SCREENING_MODEL = None                 # None -> provider default (LLM_MODEL / gpt-5-nano)
+
 # ── OpenAlex biomedical concept IDs ──────────────────────────────────────────
 BIOMED_CONCEPT_IDS = [
     "C86803240",   # Biology
@@ -89,6 +99,15 @@ DOWNLOAD_STATUS_CSV = DATA_DIR / "download_status.csv"
 PROCESSED_MANIFEST_CSV = DATA_DIR / "processed_manifest.csv"
 DIRECT_REPLICATIONS_CSV = DATA_DIR / "direct_replications.csv"
 CITATION_MINED_CSV = DATA_DIR / "citation_mined_candidates.csv"
+
+# ── Keyword yield stats (derived, cached — see discover/keyword_stats.py) ────
+KEYWORD_STATS_JSON = DATA_DIR / "keyword_stats.json"
+KEYWORD_STATS_HISTORY_JSONL = DATA_DIR / "keyword_stats_history.jsonl"
+
+# ── DOI-list runs (dashboard "run pipeline on a set of DOIs") ────────────────
+# One folder per named run: dois.csv (normalized list), include_list.txt
+# (paper-folder names for extract --include-list), meta.json.
+DOI_RUNS_DIR = DATA_DIR / "doi_runs"
 
 # ── Discover-stage progress checkpoints (progress/) ──────────────────────────
 SEARCH_PROGRESS_FILE = PROGRESS_DIR / "search_progress.json"
