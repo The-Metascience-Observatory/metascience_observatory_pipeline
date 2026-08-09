@@ -240,6 +240,11 @@ def has_stat_exclusion(text):
     return any(p.search(text) for p in _stat_re)
 
 
+# Every reason string classify_row() returns with keep=True. Kept beside the
+# function so the two cannot drift (the summary printer reads this).
+KEEP_REASONS = frozenset({"strong_positive", "weak_positive", "title_has_replication"})
+
+
 def classify_row(row):
     """Return (keep: bool, reason: str, detail: str) for a candidate row.
 
@@ -342,7 +347,7 @@ def main():
 
     print(f"\nFilter results:", flush=True)
     for reason, count in sorted(reasons.items(), key=lambda x: -x[1]):
-        tag = "KEEP" if reason in ("strong_positive", "title_has_replication") else "EXCLUDE"
+        tag = "KEEP" if reason in KEEP_REASONS else "EXCLUDE"
         print(f"  {tag:7s} {reason}: {count}", flush=True)
 
     print(f"\nTotal kept for LLM classification: {len(kept)}", flush=True)
