@@ -43,6 +43,28 @@ FIELDNAMES = [
 STRONG_POSITIVE_PATTERNS = [
     r"\breplicat\w*\s+stud(?:y|ies)\b",
     r"\breplicat\w*\s+(?:the|a|an|this|these|those|prior|previous|original|earlier)\s+(?:stud|finding|result|experiment|effect|observation)",
+
+    # ── Phase 3 (recall audit): title-form replications ──────────────────────
+    # Derived from the 102 FLoRa ground-truth papers this filter was measured
+    # dropping (see benchmarking/recall_harness.py). The patterns above all
+    # require "replication" to be FOLLOWED by study/finding/result/etc, which
+    # misses the commonest title form in the literature: "A Replication of X",
+    # "A Replication and Extension of X", "Replication of <NamedThing>".
+    # Verified against ground truth rather than guessed.
+    # NOTE: a bare `replication of` cannot go here. Strong positives take
+    # precedence over the exclusion steps (see classify_row), so it would
+    # bypass the bio/viral guard and admit ~11k rows like "Replication of
+    # SARS-CoV-2" / "Filovirus Replication in Vero E6 Cells". Measured. Instead
+    # it is handled as a *weak* positive below, which still runs the exclusions.
+    r"\breplications?\s+and\s+extensions?\b",
+    r"\breplication\s+and\s+(?:validation|cross[\s-]validation|adaptation)\b",
+    r"\breplicat\w*\s+report\b",
+    r"\breplicat\w*\s+and\s+adapt\w*\b",
+    r"\bfailures?\s+to\s+replicat",
+    r"\bnon[\s-]replication\b",
+    r"\b(?:constructive|approximate|conceptual|systematic|large[\s-]scale|cross[\s-]cultural|cross[\s-]cent(?:er|re)|transethnic|preregistered|pre[\s-]registered|independent|successful|partial|attempted)\s+replicat",
+    r"\breplicat\w+\s+and\s+extend\w*\b",
+    r"\breproduc\w+\s+the\s+results?\b",
     r"\bfailed?\s+to\s+replicat",
     r"\bfailure\s+to\s+replicat",
     r"\bdirect\s+replicat",
@@ -130,6 +152,11 @@ BIO_REPLICATION_PATTERNS = [
     r"\binfluenza\b.*\breplicat",
     r"\bsars\b.*\breplicat",
     r"\bcovid\b.*\breplicat",
+    # Reverse direction: these only matched virus-before-"replicat", so
+    # "Replication of SARS-CoV-2 in bronchial epithelium" slipped past into the
+    # weak-positive tier. Pathogen names are never study-replication targets.
+    r"\breplicat\w*\s+(?:of|in)\s+(?:the\s+)?(?:hiv|sars|covid|influenza|hepatitis|dengue|zika|ebola|filovirus|rotavirus|norovirus|coronaviruse?s?)\b",
+    r"\breplicat\w*\s+of\s+\w*\s*virus\w*\b",
     r"\bcell\s+replicat",
     r"\bcellular\s+replicat",
 ]
@@ -160,8 +187,19 @@ STAT_REPLICATE_PATTERNS = [
     r"\breplicat\w*\s+measurements?\b",
 ]
 
+# ── Weak positive signals ────────────────────────────────────────────────────
+# Study-replication phrasings that are genuinely predictive but too generic to
+# override the exclusion steps. Checked only AFTER bio/measurement/stat
+# exclusions have run (see classify_row step 6), so "Replication of SARS-CoV-2"
+# is still dropped while "Replication of the Asch effect" is kept.
+WEAK_POSITIVE_PATTERNS = [
+    r"\breplication\s+of\b",
+    r"\breplicat\w*\s+in\s+(?:a\s+)?(?:new|second|different)\s+(?:sample|context|setting|population)",
+]
+
 # Compile all patterns
 _strong_pos_re = [re.compile(p, re.IGNORECASE) for p in STRONG_POSITIVE_PATTERNS]
+_weak_pos_re = [re.compile(p, re.IGNORECASE) for p in WEAK_POSITIVE_PATTERNS]
 _bio_re = [re.compile(p, re.IGNORECASE) for p in BIO_REPLICATION_PATTERNS]
 _meas_re = [re.compile(p, re.IGNORECASE) for p in MEASUREMENT_REPRO_PATTERNS]
 _stat_re = [re.compile(p, re.IGNORECASE) for p in STAT_REPLICATE_PATTERNS]
@@ -180,6 +218,14 @@ def find_strong_positive(text):
 
 def has_strong_positive(text):
     return find_strong_positive(text) is not None
+
+
+def find_weak_positive(text):
+    """Return the first weak-positive pattern string that matches, or None."""
+    for pattern, compiled in zip(WEAK_POSITIVE_PATTERNS, _weak_pos_re):
+        if compiled.search(text):
+            return pattern
+    return None
 
 
 def has_bio_exclusion(text):
@@ -236,7 +282,16 @@ def classify_row(row):
                 return True, "title_has_replication", ""
             return False, "stat_replicates_only", ""
 
-    # Step 6: Has replication word but no strong signal → exclude
+    # Step 6: Weak positives — study-replication phrasings that are too generic to
+    # bypass the exclusions above, but are strong enough once those have run.
+    # "Replication of <X>" is the commonest replication title form in the
+    # literature, yet a bare match also catches "Replication of SARS-CoV-2", so it
+    # is only trusted *here*, downstream of the bio/measurement guards.
+    matched_weak = find_weak_positive(text)
+    if matched_weak is not None:
+        return True, "weak_positive", matched_weak
+
+    # Step 7: Has replication word but no signal at all → exclude
     # (too many false positives in this bucket — measurement reproducibility in
     # medical imaging, methodological reviews, etc.)
     return False, "weak_replication_word", ""
