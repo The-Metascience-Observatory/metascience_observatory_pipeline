@@ -1,0 +1,32 @@
+========================================================================
+FLoRa GROUND-TRUTH EVALUATION — run 'flora_pilot' (tags: flora_pilot)
+========================================================================
+
+COVERAGE FUNNEL
+------------------------------------------------------------------------
+GT rows in run:            50
+Papers:                    50
+  not downloaded/converted:   12
+  not yet extracted:           1
+  extracted:                  37
+  pipeline said no reps:       1
+GT rows matched to an AI experiment row: 33
+GT rows unmatched:                       17
+Extra AI rows (not in FLoRa, unpenalized): 7
+
+RESULT CLASSIFICATION (3-way, pipeline reversal->failure)
+------------------------------------------------------------------------
+Accuracy:     72.7%  (n=33)
+Cohen kappa:  0.579
+  success       gt=17   pred=12   recall=64.7%   precision=91.7%
+  failure       gt=7    pred=5    recall=71.4%   precision=100.0%
+  inconclusive  gt=9    pred=16   recall=88.9%   precision=50.0%
+
+BINARY success-vs-failure (GT success/failure rows only)
+------------------------------------------------------------------------
+Accuracy:            66.7%  (n=24)
+AI said inconclusive: 8  (taxonomy mismatch candidates, count as errors above)
+Strict flips (success<->failure): 0
+
+Note: FLoRa outcomes are the replication authors' own characterization (Mixed->inconclusive); the pipeline rubric is stricter (partial support -> inconclusive). Review disagreements.csv to separate taxonomy mismatch from real errors.
+========================================================================
