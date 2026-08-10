@@ -40,6 +40,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better
 from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title
 from mo_pipeline import config as _cfg
+from mo_pipeline.corpus.models import folder_to_doi, folder_to_doi_url
 
 logger = logging.getLogger(__name__)
 
@@ -212,11 +213,6 @@ def load_existing_replication_urls() -> set[str]:
 
     print(f"Loaded {len(urls)} existing replication URLs from {latest_file}", file=sys.stderr)
     return urls
-
-
-def folder_to_doi_url(folder_name: str) -> str:
-    """Convert folder name like '10.1002--acp.3769' to 'https://doi.org/10.1002/acp.3769'."""
-    return "https://doi.org/" + folder_name.replace("--", "/")
 
 
 def _extract_doi_from_url(url: str) -> str | None:
@@ -1762,12 +1758,22 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
     ]
 
     rows = []
+    skipped_no_tag = 0
     for paper_dir in sorted(papers_dir.iterdir()):
         if not paper_dir.is_dir():
             continue
 
-        # Find result JSON — look in tag subdir first, then paper dir
-        search_dir = paper_dir / tag if tag and (paper_dir / tag).is_dir() else paper_dir
+        # Find result JSON. When a tag is given the tag subdir is REQUIRED: falling
+        # back to the paper root would collate whatever older, untagged extraction
+        # happens to sit there, silently mixing previous runs into this run's output
+        # (and re-ingesting stale results under the new tag's name).
+        if tag:
+            search_dir = paper_dir / tag
+            if not search_dir.is_dir():
+                skipped_no_tag += 1
+                continue
+        else:
+            search_dir = paper_dir
         result_file = None
         for suffix in ("_result_xml.json", "_result_html.json", "_result_pdf_only.json", "_result_full.json", "_result_mid.json", "_result.json"):
             candidate = search_dir / f"{paper_dir.name}{suffix}"
@@ -1782,7 +1788,7 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
         except (json.JSONDecodeError, IOError):
             continue
 
-        replication_doi = paper_dir.name.replace("--", "/")
+        replication_doi = folder_to_doi(paper_dir.name)
 
         # Read paper-level replication metadata if enriched during extraction
         rep_meta = data.get("replication_metadata", {})
@@ -1832,6 +1838,9 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
     n_papers = len(set(r["replication_doi"] for r in rows if r["contains_replications"]))
     print(f"\nCollated {len(rows)} rows → {out_path}", file=sys.stderr)
     print(f"  Replications: {n_rep} rows ({n_papers} papers)  |  No replications: {n_norep} papers", file=sys.stderr)
+    if skipped_no_tag:
+        print(f"  Skipped (no '{tag}/' subdir — not extracted under this tag): {skipped_no_tag} papers",
+              file=sys.stderr)
 
     return out_path
 
