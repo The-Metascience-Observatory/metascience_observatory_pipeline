@@ -76,8 +76,15 @@ LLM_TIMEOUT_SEC = 120
 # throughput: ~$46 per 1M screens on gpt-5-nano, and it does not touch the
 # Claude rate limit. Both are overridable per-run via --provider/--model, and
 # by env vars of the same name. See discover/screening_backend.py.
-SCREENING_PROVIDER = "claude_cli"      # "claude_cli" | "openrouter"
-SCREENING_MODEL = None                 # None -> provider default (LLM_MODEL / gpt-5-nano)
+# Benchmarked 2026-08-09 on 60 known FLoRa replications + 60 Haiku-negatives +
+# 8 adversarial non-replications (see benchmarking/screening_model_eval.md):
+#   ling-2.6-flash  100% recall, 0/8 false positives, 0 hallucinated flags, $1.28/100k
+#   haiku-4.5       100% recall but $169/100k via OpenRouter, and >=18% of its
+#                   own high-confidence negatives are demonstrably wrong
+#   gpt-5.6-luna     93% recall at $20/100k — worst of the set
+# Claude CLI remains free-but-rate-limited (~10k/week, shares the claude_cli mutex).
+SCREENING_PROVIDER = "openrouter"          # "claude_cli" | "openrouter"
+SCREENING_MODEL = "inclusionai/ling-2.6-flash"
 
 # ── OpenAlex biomedical concept IDs ──────────────────────────────────────────
 BIOMED_CONCEPT_IDS = [
@@ -139,16 +146,16 @@ LEGACY_REPLICATIONS_DB = (
     / "replications_database_2026_01_28_151337.csv"
 )
 
-# ── Website integration (extract + ingest write here; the site serves it) ────
-# MO_WEBSITE_DATA_DIR override lets tests/dry-runs redirect the production
-# database + version_history.txt to a scratch copy instead of the live site.
+# ── Website integration (extract reads the ontology; the DB lives here) ──────
+# Ingestion itself runs manually from metascience_observatory_website/
+# data_ingestor/ — the pipeline only reads these paths (ontology, latest-DB
+# lookup for --dontcheck style skips). MO_WEBSITE_DATA_DIR override lets
+# tests/dry-runs redirect to a scratch copy instead of the live site.
 WEBSITE_ROOT = OBSERVATORY_ROOT / "metascience_observatory_website"
 WEBSITE_DATA_DIR = Path(os.environ.get(
     "MO_WEBSITE_DATA_DIR", WEBSITE_ROOT / "data"))
-WEBSITE_BACKUP_DIR = WEBSITE_DATA_DIR / "backup"
 ONTOLOGY_PATH = WEBSITE_DATA_DIR / "metascience_observatory_topic_ontology.json"
 VERSION_HISTORY_PATH = WEBSITE_DATA_DIR / "version_history.txt"
-JOURNAL_MAPPINGS_PATH = WEBSITE_DATA_DIR / "journal_name_mappings.json"
 
 # ── Prompts (extract stage) ──────────────────────────────────────────────────
 # Dead "base"/"mid" entries dropped: they pointed at nonexistent prompt.md /
@@ -162,13 +169,6 @@ PROMPT_FILES = {
 PROMPT_SHARED_CORE = PROMPTS_DIR / "prompt_shared_core.md"
 SCREEN_PROMPT_FILE = PROMPTS_DIR / "prompt_screen.md"
 EXTRACTOR_VERSION_FILE = PROMPTS_DIR / "version.txt"
-
-# ── Ingest-stage paths ───────────────────────────────────────────────────────
-INGEST_DIR = REPO_ROOT / "mo_pipeline" / "ingest"
-API_CACHE_PATH = INGEST_DIR / "api_cache.json"
-INGESTION_CHECKPOINT_PATH = INGEST_DIR / "ingestion_checkpoint.csv"
-INGESTION_CHECKPOINT_META_PATH = INGEST_DIR / "ingestion_checkpoint_meta.json"
-DATA_DICTIONARY_CSV = DATA_DIR / "dictionaries" / "data_dictionary.csv"
 
 # ── Secrets ──────────────────────────────────────────────────────────────────
 ENV_FILE = REPO_ROOT / ".env.local"
@@ -211,17 +211,13 @@ def _self_check() -> None:
             ("EXTRACTOR_VERSION_FILE", EXTRACTOR_VERSION_FILE),
             *[(f"PROMPT_FILES[{k}]", v) for k, v in PROMPT_FILES.items()],
         ],
-        "Ingest": [
-            ("API_CACHE_PATH", API_CACHE_PATH),
-            ("DATA_DICTIONARY_CSV", DATA_DICTIONARY_CSV),
-        ],
         "Secrets": [("ENV_FILE", ENV_FILE)],
     }
     # Paths that are legitimately absent (created on demand, or retired by the
     # corpus reorg — INGESTED_ROOT/CURRENT_BATCH_DIR were drained into papers/).
     expected_absent = {
         "CATALOG_PATH", "INBOX_DIR", "PAPERS_DIR", "SPECIAL_DIR", "LEGACY_DIR",
-        "INGESTION_CHECKPOINT_PATH", "CITATION_MINED_CSV",
+        "CITATION_MINED_CSV",
         "INGESTED_ROOT", "CURRENT_BATCH_DIR",
     }
     missing = 0

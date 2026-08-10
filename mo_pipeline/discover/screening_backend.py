@@ -212,9 +212,14 @@ class OpenRouterBackend:
 # ── selection ───────────────────────────────────────────────────────────────
 
 def _cfg(name, default):
-    """config attribute, overridable by env var of the same name."""
+    """config attribute, overridable by env var of the same name.
+
+    Note the `or default` rather than getattr's default arg: config declares
+    SCREENING_MODEL = None to mean "use the provider's default", and getattr
+    would return that explicit None instead of falling through.
+    """
     from mo_pipeline import config
-    return os.environ.get(name) or getattr(config, name, default)
+    return os.environ.get(name) or getattr(config, name, None) or default
 
 
 def _openrouter_key():
