@@ -106,7 +106,7 @@ def _already_pulled_stems() -> set[str]:
 
 
 def cmd_fetch(args):
-    from fetch_pdf_from_doi import batch_fetch_pdfs
+    from fetchpdf import batch_fetch_pdfs
     if not MISSING_DOIS_FILE.exists():
         sys.exit("run `compute` first")
     dois = [d.strip() for d in MISSING_DOIS_FILE.read_text().splitlines() if d.strip()]
