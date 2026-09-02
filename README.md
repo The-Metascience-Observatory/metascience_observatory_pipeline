@@ -1,9 +1,12 @@
 # mo_pipeline — unified Metascience Observatory replication pipeline
 
-One directory for the whole replication pipeline: search → classify → download →
-convert → extract → ingest, plus a corpus catalog and a web dashboard to run and
-monitor every stage. Consolidates what used to live across `pull_replication_studies/`,
-`claude_code_replications/`, and `metascience_observatory_website/data_ingestor/`.
+One directory for the replication pipeline: search → classify → download →
+convert → extract (+ collate), plus a corpus catalog and a web dashboard to run and
+monitor every stage. Consolidates what used to live across `pull_replication_studies/`
+and `claude_code_replications/`. Ingestion into the website database is **not** part
+of this pipeline — it is run manually from
+`../metascience_observatory_website/data_ingestor/` (the canonical ingestion code;
+a former copy here was removed 2026-08-09).
 
 ## Layout
 
@@ -11,10 +14,9 @@ monitor every stage. Consolidates what used to live across `pull_replication_stu
 |---|---|
 | `mo_pipeline/config.py` | **The** unified config — every path and tunable. `python -m mo_pipeline.config` self-checks. |
 | `mo_pipeline/discover/` | Stages 1–6: search, deduplicate, prefilter, classify (Haiku), filter_direct, download. `aux/` = alt discovery branches. |
-| `mo_pipeline/extract/` | Stage 8: `extract.py` — LLM structured extraction (Sonnet) + collation. |
-| `mo_pipeline/ingest/` | Stage 9: `data_ingestor.py` + PyQt GUIs — enrich & merge into the website DB. |
+| `mo_pipeline/extract/` | Stage 8: `extract.py` — agentic LLM extraction (Sonnet) + collation; `extract_core.py` — single-shot core-fields extractor (no statistics). |
 | `mo_pipeline/corpus/` | Corpus catalog (`corpus.sqlite`) + drive reorganization. |
-| `mo_pipeline/shared/` | DOI/title metadata fetchers used by extract + ingest. |
+| `mo_pipeline/shared/` | DOI/title metadata fetchers used by extract. |
 | `prompts/` | Extraction prompts + `version.txt` (bump on any prompt edit). |
 | `server/` | FastAPI orchestrator (port 8090). |
 | `dashboard/` | Next.js dashboard (port 3010). |
@@ -27,17 +29,21 @@ Big data (PDFs, the paper corpus) stays on the external drive at
 
 ```bash
 pip install --break-system-packages --user -e .   # editable install of mo_pipeline
-# fetch-pdf-from-doi and pdf4llm are separate installed packages (unchanged)
+# fetchpdf (../fetchpdf_public), fetchpdf_grey (../fetchpdf) and pdf4llm are separate editable installs
 ```
 
 ## Run a stage from the CLI
 
 ```bash
 python -m mo_pipeline.discover.classify_candidates --workers 20
-python -m mo_pipeline.discover.download_all_confirmed --limit 100 --legalonly
+python -m mo_pipeline.discover.download_all_confirmed --limit 100 --legalonly   # inbox/{doi}/: XML|HTML + PDF + gated markdown
+python -m mo_pipeline.discover.download_all_confirmed --backfill-structured --backfill-pdf --doi-csv data/confirmed_replications.csv
 pdf4llm batch /media/.../inbox -o /media/.../papers --mode full-grobid --workers 4 --movepdf --resume
 python -m mo_pipeline.extract.extract /media/.../papers --batch --level full --tag sonnet_v8_5
-python -m mo_pipeline.ingest.data_ingestor collated_results_sonnet_v8_5.csv --no-gui
+python -m mo_pipeline.extract.extract_core /media/.../papers --tag core_v1   # core fields only, one model call per paper
+# then ingest the collated CSV manually, from the website repo:
+#   cd ../metascience_observatory_website/data_ingestor
+#   python data_ingestor.py collated_results_sonnet_v8_5.csv --no-gui
 ```
 
 Env overrides for safe testing: `MO_DATA_DIR`, `MO_PROGRESS_DIR`, `MO_MEDIA_ROOT`,
@@ -58,7 +64,7 @@ python -m mo_pipeline.corpus include-list --status converted --not-extracted-tag
 python -m mo_pipeline.corpus mark-ingested collated.csv --db-version replications_database_X.csv
 ```
 
-Drive layout: `papers/` (corpus) · `inbox/` (downloaded PDFs awaiting conversion) ·
+Drive layout: `papers/` (corpus) · `inbox/` (one folder per downloaded record awaiting conversion) ·
 `special/` (pre-pipeline corpora) · `legacy/` (migration dup-losers, reviewable) ·
 `corpus.sqlite`. State (downloaded/converted/screened/extracted/ingested) is derived
 from files present; location no longer encodes findings.
