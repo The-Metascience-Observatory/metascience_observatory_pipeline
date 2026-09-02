@@ -1,0 +1,21 @@
+{
+  "_README": "Same-work DOI aliases for the matcher (benchmarking/matching.py canonical_doi). One study can be reachable by several DOIs; without this table the matcher reads them as different originals and a correct extraction is scored as a miss. Keys and canonical values are DOIs (any case; normalized on load). `kind`: preprint = a preprint server record of the published work; publisher_alias = a second registration of the same article (JSTOR, legacy agencies); registered_report_of = a Registered Report protocol paper whose ground-truth row stands in for the study actually replicated. Add an entry only with a `source` you have checked; a wrong entry silently merges two different studies, the one error this table must never make.",
+  "10.2307/329894": {
+    "canonical": "10.1111/j.1540-4781.1992.tb02573.x",
+    "kind": "publisher_alias",
+    "source": "Phillips (1992), Modern Language Journal 76(1):14-26. JSTOR registration alongside the Wiley DOI; same article. Seen in FLoRa row flora_371 vs the pipeline's Wiley DOI.",
+    "added": "2026-09-02"
+  },
+  "10.31235/osf.io/93eyz": {
+    "canonical": "10.1016/j.ssresearch.2015.12.008",
+    "kind": "preprint",
+    "source": "Ochsenfeld (2016), 'Preferences, constraints, and the process of sex segregation in college majors', Social Science Research 56:117-132. SocArXiv postprint of the published article. Seen in FLoRa row flora_91.",
+    "added": "2026-09-02"
+  },
+  "10.7554/elife.10012": {
+    "canonical": "10.1101/gr.126516.111",
+    "kind": "registered_report_of",
+    "source": "eLife 2016 Registered Report 'Fusobacterium nucleatum infection is prevalent in human colorectal carcinoma' is the RP:CB protocol for replicating Castellarin et al. (2012), Genome Research 22:299-306, which is the study the replication paper itself names as the original. Seen in FLoRa row flora_103.",
+    "added": "2026-09-02"
+  }
+}
