@@ -251,6 +251,41 @@ another paper by the same authors), drops one duplicate row, and flags four rows
 where FLoRa's "authors' own characterization" and the codebook's "partial support is
 inconclusive" genuinely disagree.
 
+### Auditing a ground-truth set
+
+`gt_audit.py` looks for rows that are wrong about which study was replicated,
+which is the error that costs most: a correct extraction scored as a miss.
+
+```bash
+python benchmarking/gt_audit.py --gt silver:main_gt_human            # report only
+python benchmarking/gt_audit.py --gt silver:main_gt_human --write-corrections
+python benchmarking/gt_audit.py --gt silver:flora --papers-dir /media/dan/500Gb/metascience_observatory_pdfs/papers
+```
+
+Two checks, with very different precision, which is why only one of them writes
+anything:
+
+- **DOI against title** (always on). Resolves each row's `original_url` at
+  Crossref and compares the title that comes back with the title the row
+  records. A disagreement means the row names one paper and points at another;
+  the audit then asks Crossref which DOI the recorded title belongs to, so the
+  row can be repaired. This is precise: it found 3 such rows in
+  `main_gt_human`, all confirmed by hand, and `--write-corrections` appends only
+  these, with their evidence, to the corrections sidecar.
+- **Presence in the paper's own bibliography** (`--papers-dir`). Deliberately
+  blunt: it fires only when no author of the recorded original is mentioned
+  anywhere in the replication paper's text, with diacritics folded and a
+  minimum text length, because everything sharper misfired. Requiring the
+  surname near the year flagged four rows in `main_gt_human` that were all
+  properly cited, and requiring the DOI flags every preprint identifier. Even
+  so this stays **review-only and never writes a correction**: it caught
+  `flora_15` and `flora_500`, two of the four FLoRa mislinks found by hand, and
+  cannot catch the other two, where the wrong paper is genuinely cited as
+  background.
+
+Answers are cached under `cache/crossref/`, so re-running is free. Findings go
+to `gt_audit_<set>.csv`; nothing is applied without `--write-corrections`.
+
 ### DOI aliases
 
 One study can carry several DOIs: a preprint and its published version, a JSTOR

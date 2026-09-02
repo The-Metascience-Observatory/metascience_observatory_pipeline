@@ -771,11 +771,24 @@ def validate_original_dois(
 
 
 def _extract_last_names(orig_authors: str) -> list[str]:
-    """Pull last names from a semicolon-separated author string like 'Smith, John; Jones, Alice'."""
+    """Last names from a semicolon-separated author string, in either order.
+
+    Both conventions occur and must work: the prompt asks for "Smith, John" but
+    metadata enrichment rewrites authors into "John Smith", and every external
+    ground-truth set uses the latter. Taking the text before the comma handles
+    only the first, and returned the whole name for the second -- so the
+    citation cross-check below could not find the author in the sentence and
+    flagged a mismatch that was not one, which then cost a review round.
+    """
     names = []
-    for author in orig_authors.split(";"):
-        last = author.strip().split(",")[0].strip()
-        if last and len(last) > 1:
+    for author in (orig_authors or "").split(";"):
+        author = author.strip()
+        if not author:
+            continue
+        # "Smith, John" -> before the comma; "John A. Smith" -> the final token.
+        last = author.split(",")[0].strip() if "," in author else author.split()[-1]
+        last = last.strip(".").strip()
+        if len(last) > 1:
             names.append(last)
     return names
 

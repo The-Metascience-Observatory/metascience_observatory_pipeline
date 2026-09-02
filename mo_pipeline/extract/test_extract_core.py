@@ -404,3 +404,22 @@ def test_collate_picks_up_core_results_and_prefers_full(tmp_path):
                                                                    "replications": [{**entry, "ai_version": "8.7"}]}))
     rows = list(csv.DictReader(open(ex.collate_results(tmp_path, tag="t1"))))
     assert rows[0]["ai_version"] == "8.7"
+
+
+def test_last_names_parse_in_either_author_order():
+    """The citation cross-check needs surnames from both conventions: the prompt
+    asks for "Smith, John", enrichment and every external ground-truth set use
+    "John Smith". Parsing only the first flagged mismatches that were not real
+    and paid for a review round each time."""
+    f = ex._extract_last_names
+    assert f("Smith, John; Jones, Alice") == ["Smith", "Jones"]
+    assert f("Vanessa Hus; Katherine Gotham; Catherine Lord") == ["Hus", "Gotham", "Lord"]
+    assert f("Jared B. Fitzgerald; Juliet B. Schor") == ["Fitzgerald", "Schor"]
+    assert f("Vaughn, Leigh Ann") == ["Vaughn"] and f("Leigh Ann Vaughn") == ["Vaughn"]
+    assert f("") == [] and f(None) == []
+
+
+def test_citation_check_corroborates_a_first_last_author():
+    data = {"replications": [{"citation_sentence": "We replicate Vaughn (2018) Study 1.",
+                              "original_authors": "Leigh Ann Vaughn", "original_year": "2018"}]}
+    assert ex.validate_citation_sentences(data, None) == []
