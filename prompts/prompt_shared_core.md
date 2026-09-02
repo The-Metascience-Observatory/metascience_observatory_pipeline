@@ -1,6 +1,11 @@
 ## Output
 
+<!-- mode:write -->
 When you have your result, use the **Write** tool to save it as `result.json` in the paper directory. The JSON must follow this schema:
+<!-- /mode -->
+<!-- mode:reply -->
+Reply with the JSON object only — no prose before or after it, no code fences. It must follow this schema:
+<!-- /mode -->
 
 ```json
 {
@@ -23,6 +28,7 @@ When you have your result, use the **Write** tool to save it as `result.json` in
       "confidence": "high",
       "explanation": "The authors explicitly state in their conclusion: 'we successfully replicated the main findings of the original study with similar effect sizes'",
       "citation_sentence": "We aimed to replicate Smith and Jones (2015), who found that providing a default enrollment option significantly increased participation rates.",
+<!-- mode:full -->
       "original_n": "",
       "original_es": "",
       "original_es_type": "",
@@ -37,6 +43,7 @@ When you have your result, use the **Write** tool to save it as `result.json` in
       "replication_p_value": "",
       "replication_p_value_type": "",
       "replication_p_value_tails": ""
+<!-- /mode -->
     }
   ]
 }
@@ -55,7 +62,9 @@ When you have your result, use the **Write** tool to save it as `result.json` in
 - Example: Paper replicates Studies 1, 3, and 5 from Smith (2010) → **3 separate rows**, all with same `original_url`
 - Each row has a different `description` (describing what that specific study tested)
 - Each row gets its own `result` classification based on that study's outcome
+<!-- mode:full -->
 - Each row should include statistical details specific to that study
+<!-- /mode -->
 
 **Example output for multi-study replication:**
 
@@ -72,12 +81,14 @@ If a paper replicates Studies 1, 2, and 4 from the same original paper:
       "description": "Study 1: Priming with elderly-related words causes participants to walk more slowly",
       "result": "failure",
       "replication_type": "direct",
+<!-- mode:full -->
       "original_n": "30",
       "original_es": "0.50",
       "original_es_type": "d",
       "replication_n": "150",
       "replication_es": "0.02",
       "replication_es_type": "d",
+<!-- /mode -->
       ...
     },
     {
@@ -87,12 +98,14 @@ If a paper replicates Studies 1, 2, and 4 from the same original paper:
       "description": "Study 2: Priming with elderly-related words affects performance on lexical decision task",
       "result": "success",
       "replication_type": "direct",
+<!-- mode:full -->
       "original_n": "40",
       "original_es": "0.35",
       "original_es_type": "d",
       "replication_n": "180",
       "replication_es": "0.32",
       "replication_es_type": "d",
+<!-- /mode -->
       ...
     },
     {
@@ -102,12 +115,14 @@ If a paper replicates Studies 1, 2, and 4 from the same original paper:
       "description": "Study 4: Priming with elderly-related words impairs memory recall performance",
       "result": "failure",
       "replication_type": "close experiment",
+<!-- mode:full -->
       "original_n": "35",
       "original_es": "0.42",
       "original_es_type": "d",
       "replication_n": "160",
       "replication_es": "-0.05",
       "replication_es_type": "d",
+<!-- /mode -->
       ...
     }
   ]
@@ -118,7 +133,9 @@ Each study gets its own entry even though they all replicate the same original p
 - Same `original_url`, `original_authors`, and `original_title` for all entries
 - Different `description` for each study (specify which study and what it tested)
 - Different `result` classifications based on each study's individual outcome
+<!-- mode:full -->
 - Different statistical details (sample sizes, effect sizes) for each study
+<!-- /mode -->
 
 **When to create a single entry:** Only when a paper reports an aggregate result across all studies without breaking them down individually (rare). If the paper provides individual results for each study, create separate entries.
 
@@ -129,7 +146,12 @@ Each study gets its own entry even though they all replicate the same original p
 
 Example: A paper replicates a mediation study testing 3 mediator pathways using the same 300 participants. This is 1 replication entry (the mediation study), not 3 separate entries.
 
+<!-- mode:write -->
 You may narrate your reasoning as you work — this is saved for debugging. But you **must** write `result.json` before finishing.
+<!-- /mode -->
+<!-- mode:reply -->
+Do not narrate. Your entire reply must be the JSON object.
+<!-- /mode -->
 
 ## Field Reference
 
@@ -154,6 +176,7 @@ You may narrate your reasoning as you work — this is saved for debugging. But 
 | `explanation` | string | A one to two sentence explanation/justification for the result finding, perhaps featuring a brief quote from the text in support of the result. |
 | `citation_sentence` | string | The exact sentence(s) from the paper where the authors identify which prior study they are replicating. Must include the author name(s) and year as cited in the text. This grounds the original study identification in specific textual evidence. |
 
+<!-- mode:full -->
 ### Statistical fields (lower priority — extract if reported, otherwise leave as "")
 
 These fields are secondary to the required fields above. Most papers will not report all of them — that is expected and fine.
@@ -188,6 +211,7 @@ These fields are secondary to the required fields above. Most papers will not re
 - If a p-value is reported as "ns" or "not significant" without a number, leave as `""`.
 - Effect size types should match what the paper reports. Do not convert between types — downstream processing handles conversions.
 - For confidence intervals, always use the 95% CI if multiple are reported.
+<!-- /mode -->
 
 ## Replication Type
 
@@ -279,6 +303,8 @@ When in doubt between reversal and anything else, choose the other category.
 
 Select one discipline and one subdiscipline from the hierarchy below (based on the **original study's** topic). Format shows: discipline [subdisciplines]. If nothing fits exactly, choose the closest match or use "other".
 
+**Genetic associations — classify by the relationship, not the organ system.** When the finding is an association between a genetic variant and a phenotype, do not file it under the clinical specialty that owns the phenotype. Use `medical fields / medical genetics` when the phenotype is a diagnosed disease in a patient population or a genotype-driven treatment response; use `biology / genetics` when it is a quantitative trait or a biological mechanism. Reach for the specialty itself (`ophthalmology`, `nephrology`, `cardiovascular medicine`, …) only when the claim is about care, diagnosis, or treatment rather than about a variant. A GWAS of glaucoma published in an eye journal is `medical genetics`, not `ophthalmology`.
+
 {{DISCIPLINE_LIST}}
 
 ## Confidence
@@ -298,4 +324,6 @@ Rate your confidence that the specific extraction is correct overall — that yo
 - **Multi-effect replications from the same original**: If a paper replicates multiple distinct effects from the same original study (e.g., effects on compassion, empathy, and Theory of Mind), create one row per effect with the same `original_url` but different `description` and potentially different `result`.
 - **Within-paper replications**: Exclude. If Study 2 replicates Study 1 within the same paper (even with separate participants), this does not count as a qualifying replication. The original study must be a separately published work.
 - **Missing DOI**: Leave `""`. Title + journal + year will be used to resolve it downstream. But **always extract the title**.
+<!-- mode:full -->
 - **Missing statistics**: Many papers won't report all statistical fields. Leave unreported fields as `""`. Only extract what is explicitly stated clearly in paper for the particular experiment being analyzed — do not calculate or try to infer values.
+<!-- /mode -->
