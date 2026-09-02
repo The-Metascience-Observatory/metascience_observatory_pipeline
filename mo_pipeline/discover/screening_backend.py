@@ -1,5 +1,5 @@
 """
-Pluggable screening backend for stage-4 classification.
+Pluggable LLM backends: stage-4 screening and the single-shot core extractor.
 
 Stage 4 shells out to the `claude -p` CLI with Haiku. That is free on the Max
 plan but rate-budgeted (~10k calls/week) and it shares the `claude_cli` mutex
@@ -18,14 +18,25 @@ live model list:
 
 Cost is not the constraint at any plausible scale; throughput is.
 
-The CLI backend is the DEFAULT and its behaviour is byte-for-byte the logic
-that previously lived in `classify_candidates.classify_one`, so switching
-providers is opt-in and reversible.
+Two entry points per backend:
+
+    complete(system_prompt, user_prompt) -> CompletionResult
+        One no-tools call. Returns the reply text, a usage dict in extract.py's
+        shape, and -- on failure -- an error string plus the raw exit/stderr so
+        the caller can classify it (extract.is_usage_limit_error). Used by
+        extract/extract_core.py.
+    screen(idx, system_prompt, user_prompt) -> (idx, dict | None)
+        Stage 4's historical interface, a thin wrapper over complete() whose
+        prints and return values are unchanged.
+
+The CLI backend is the DEFAULT for screening and its behaviour is byte-for-byte
+the logic that previously lived in `classify_candidates.classify_one`, so
+switching providers is opt-in and reversible.
 
 Usage:
     from mo_pipeline.discover.screening_backend import get_backend
     backend = get_backend()                      # honours config
-    verdict = backend.screen(idx, title, abstract, system_prompt, user_prompt)
+    verdict = backend.screen(idx, system_prompt, user_prompt)
 
 Selection (config.py, overridable by env):
     SCREENING_PROVIDER = "claude_cli" | "openrouter"
@@ -40,6 +51,7 @@ import subprocess
 import time
 import urllib.error
 import urllib.request
+from dataclasses import dataclass, field
 
 from mo_pipeline.config import LLM_MODEL, LLM_TIMEOUT_SEC
 
@@ -75,6 +87,95 @@ def extract_json(text):
     return None
 
 
+def parse_json_reply(text):
+    """Parse an extraction reply into a dict, or None.
+
+    More forgiving than extract_json for long multi-entry replies: after the
+    fence strip and a plain json.loads, it decodes the first complete object
+    starting at the first `{` (so trailing prose containing braces cannot break
+    it), and only then falls back to the greedy regex. A bare list is wrapped
+    into the {"contains_replications", "replications"} envelope.
+    """
+    if not text:
+        return None
+    body = strip_code_fences(text)
+    parsed = None
+    try:
+        parsed = json.loads(body)
+    except json.JSONDecodeError:
+        start = body.find("{")
+        if start != -1:
+            try:
+                parsed, _ = json.JSONDecoder().raw_decode(body[start:])
+            except json.JSONDecodeError:
+                parsed = None
+        if parsed is None:
+            match = re.search(r"\{.*\}", body, re.DOTALL)
+            if match:
+                try:
+                    parsed = json.loads(match.group(0))
+                except json.JSONDecodeError:
+                    parsed = None
+    if isinstance(parsed, list):
+        parsed = {"contains_replications": bool(parsed), "replications": parsed}
+    return parsed if isinstance(parsed, dict) else None
+
+
+# ── result of one completion ────────────────────────────────────────────────
+
+@dataclass
+class CompletionResult:
+    """What one no-tools call produced.
+
+    `error` is a short human string (None on success). `returncode`/`stdout`/
+    `stderr` are the raw subprocess facts for the CLI backend so a caller can
+    reproduce extract.py's "{cli} CLI failed for {paper}:\\n{stderr+stdout}"
+    message, whose empty body is how is_usage_limit_error spots a silent
+    session-limit exit. `usage` follows extract.py's per-paper usage dict.
+    """
+    text: str = ""
+    usage: dict = field(default_factory=dict)
+    error: str | None = None
+    raw: dict | None = None
+    returncode: int | None = None
+    stdout: str = ""
+    stderr: str = ""
+
+    @property
+    def ok(self) -> bool:
+        return self.error is None
+
+
+def primary_model(model_usage: dict | None, fallback: str) -> str:
+    """The model that did the work, from a CLI envelope's `modelUsage`.
+
+    The CLI also runs a small helper model (Haiku) for internal chores and
+    lists it first, so "first key" reports the wrong model. Pick the entry
+    with the most output tokens; fall back to the first key, then `fallback`.
+    """
+    if not model_usage:
+        return fallback
+    def out_tokens(v):
+        return v.get("outputTokens", 0) if isinstance(v, dict) else 0
+    return max(model_usage, key=lambda k: out_tokens(model_usage[k]))
+
+
+def _cli_usage(outer: dict, fallback_model: str) -> dict:
+    """extract.py:usage shape from a `claude --output-format json` envelope."""
+    model_usage = outer.get("modelUsage", {}) or {}
+    u = outer.get("usage", {}) or {}
+    return {
+        "model": primary_model(model_usage, fallback_model),
+        "input_tokens": u.get("input_tokens", 0),
+        "output_tokens": u.get("output_tokens", 0),
+        "cache_creation_tokens": u.get("cache_creation_input_tokens", 0),
+        "cache_read_tokens": u.get("cache_read_input_tokens", 0),
+        "cost_usd": outer.get("total_cost_usd", 0),
+        "duration_ms": outer.get("duration_ms", 0),
+        "num_turns": outer.get("num_turns", 0),
+    }
+
+
 # ── backends ────────────────────────────────────────────────────────────────
 
 class ClaudeCLIBackend:
@@ -83,12 +184,16 @@ class ClaudeCLIBackend:
 
     name = "claude_cli"
 
-    def __init__(self, model=None, timeout=None):
+    def __init__(self, model=None, timeout=None, cwd=None):
         self.model = model or LLM_MODEL
         self.timeout = timeout or LLM_TIMEOUT_SEC
+        # Working directory for the CLI. The CLI injects a CLAUDE.md found in
+        # its cwd into the conversation, so a caller that wants a deterministic
+        # prompt passes a directory without one (e.g. the paper folder).
+        self.cwd = cwd
 
-    def screen(self, idx, system_prompt, user_prompt):
-        """Return (idx, parsed_dict_or_None)."""
+    def complete(self, system_prompt, user_prompt, cwd=None) -> CompletionResult:
+        """One single-turn, no-tools call. Never raises."""
         cmd = [
             "claude", "-p",
             "--model", self.model,
@@ -100,32 +205,40 @@ class ClaudeCLIBackend:
         try:
             result = subprocess.run(
                 cmd, input=user_prompt, capture_output=True,
-                text=True, timeout=self.timeout,
+                text=True, timeout=self.timeout, cwd=cwd or self.cwd,
             )
         except subprocess.TimeoutExpired:
-            print(f"  [{idx}] TIMEOUT after {self.timeout}s")
-            return idx, None
+            return CompletionResult(error=f"TIMEOUT after {self.timeout}s")
         except Exception as e:
-            print(f"  [{idx}] subprocess error: {e}")
-            return idx, None
+            return CompletionResult(error=f"subprocess error: {e}")
 
+        base = CompletionResult(returncode=result.returncode,
+                                stdout=result.stdout or "", stderr=result.stderr or "")
         if result.returncode != 0:
-            print(f"  [{idx}] CLI exit {result.returncode}: {(result.stderr or '')[:300]}")
-            return idx, None
-
+            base.error = f"CLI exit {result.returncode}: {(result.stderr or '')[:300]}"
+            return base
         try:
             outer = json.loads(result.stdout)
         except json.JSONDecodeError as e:
-            print(f"  [{idx}] outer JSON parse error: {e}")
-            return idx, None
-
+            base.error = f"outer JSON parse error: {e}"
+            return base
+        base.raw = outer
+        base.text = outer.get("result", "") or ""
+        base.usage = _cli_usage(outer, self.model)
         if outer.get("is_error"):
-            print(f"  [{idx}] CLI reported error: {outer.get('result', '')[:200]}")
-            return idx, None
+            base.error = f"CLI reported error: {base.text[:200]}"
+        return base
 
-        inner = extract_json(outer.get("result", ""))
+    def screen(self, idx, system_prompt, user_prompt):
+        """Return (idx, parsed_dict_or_None). Prints are unchanged from the
+        pre-backend classify_one."""
+        r = self.complete(system_prompt, user_prompt)
+        if r.error:
+            print(f"  [{idx}] {r.error}")
+            return idx, None
+        inner = extract_json(r.text)
         if inner is None:
-            print(f"  [{idx}] inner JSON parse error. Raw: {outer.get('result', '')[:200]}")
+            print(f"  [{idx}] inner JSON parse error. Raw: {r.text[:200]}")
             return idx, None
         return idx, inner
 
@@ -136,30 +249,35 @@ class OpenRouterBackend:
 
     name = "openrouter"
 
-    def __init__(self, model=None, timeout=None, api_key=None, max_retries=4):
+    def __init__(self, model=None, timeout=None, api_key=None, max_retries=4,
+                 max_tokens=400):
         self.model = model or _cfg("SCREENING_MODEL", "openai/gpt-5-nano")
         self.timeout = timeout or LLM_TIMEOUT_SEC
         self.api_key = api_key or _openrouter_key()
         self.max_retries = max_retries
+        # Screening verdicts are small; the 400 default caps a runaway
+        # generation so it cannot silently multiply cost. Extraction passes
+        # config.EXTRACT_CORE_MAX_OUTPUT_TOKENS.
+        self.max_tokens = max_tokens
         if not self.api_key:
             raise RuntimeError(
                 "OpenRouter backend selected but no API key found. Set "
                 "OPENROUTER_API_KEY in the environment or in a .env.local file."
             )
 
-    def screen(self, idx, system_prompt, user_prompt):
+    def complete(self, system_prompt, user_prompt, cwd=None) -> CompletionResult:
+        """One chat-completions call with backoff on 429/5xx. Never raises."""
         body = json.dumps({
             "model": self.model,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            # Screening verdicts are small; cap output so a runaway generation
-            # cannot silently multiply cost.
-            "max_tokens": 400,
+            "max_tokens": self.max_tokens,
             "temperature": 0,
         }).encode()
 
+        payload = None
         for attempt in range(self.max_retries):
             req = urllib.request.Request(
                 OPENROUTER_URL, data=body,
@@ -179,32 +297,45 @@ class OpenRouterBackend:
                 # 429/5xx are transient; back off and retry. 4xx otherwise is fatal.
                 if e.code in (429, 500, 502, 503, 504) and attempt < self.max_retries - 1:
                     wait = 2 ** attempt
-                    print(f"  [{idx}] OpenRouter {e.code}, retry in {wait}s")
+                    print(f"  OpenRouter {e.code}, retry in {wait}s")
                     time.sleep(wait)
                     continue
-                print(f"  [{idx}] OpenRouter HTTP {e.code}: {e.read()[:200]!r}")
-                return idx, None
+                return CompletionResult(error=f"OpenRouter HTTP {e.code}: {e.read()[:200]!r}")
             except Exception as e:
                 if attempt < self.max_retries - 1:
                     time.sleep(2 ** attempt)
                     continue
-                print(f"  [{idx}] OpenRouter error: {e}")
-                return idx, None
-        else:
-            return idx, None
+                return CompletionResult(error=f"OpenRouter error: {e}")
+        if payload is None:
+            return CompletionResult(error="OpenRouter: no response after retries")
 
         if payload.get("error"):
-            print(f"  [{idx}] OpenRouter error: {str(payload['error'])[:200]}")
-            return idx, None
+            return CompletionResult(error=f"OpenRouter error: {str(payload['error'])[:200]}", raw=payload)
         try:
             content = payload["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError):
-            print(f"  [{idx}] unexpected OpenRouter payload: {str(payload)[:200]}")
-            return idx, None
+            return CompletionResult(error=f"unexpected OpenRouter payload: {str(payload)[:200]}", raw=payload)
+        u = payload.get("usage", {}) or {}
+        usage = {
+            "model": payload.get("model", self.model),
+            "input_tokens": u.get("prompt_tokens", 0),
+            "output_tokens": u.get("completion_tokens", 0),
+            "cache_creation_tokens": 0,
+            "cache_read_tokens": 0,
+            "cost_usd": u.get("cost", 0) or 0,
+            "duration_ms": 0,
+            "num_turns": 1,
+        }
+        return CompletionResult(text=content or "", usage=usage, raw=payload)
 
-        inner = extract_json(content)
+    def screen(self, idx, system_prompt, user_prompt):
+        r = self.complete(system_prompt, user_prompt)
+        if r.error:
+            print(f"  [{idx}] {r.error}")
+            return idx, None
+        inner = extract_json(r.text)
         if inner is None:
-            print(f"  [{idx}] inner JSON parse error. Raw: {content[:200]}")
+            print(f"  [{idx}] inner JSON parse error. Raw: {r.text[:200]}")
             return idx, None
         return idx, inner
 
@@ -244,11 +375,14 @@ def _openrouter_key():
 BACKENDS = {b.name: b for b in (ClaudeCLIBackend, OpenRouterBackend)}
 
 
-def get_backend(provider=None, model=None):
+def get_backend(provider=None, model=None, **kwargs):
     """Instantiate the configured screening backend.
 
     Defaults to claude_cli so existing behaviour is unchanged unless a caller
-    or config explicitly opts into another provider.
+    or config explicitly opts into another provider. Extra keyword arguments
+    (timeout, cwd, max_tokens, ...) go to the backend constructor; callers
+    that are not stage 4 should pass an explicit `model`, because the
+    screening default (SCREENING_MODEL) may be an OpenRouter slug.
     """
     provider = provider or _cfg("SCREENING_PROVIDER", "claude_cli")
     if provider not in BACKENDS:
@@ -257,5 +391,5 @@ def get_backend(provider=None, model=None):
         )
     cls = BACKENDS[provider]
     if provider == "claude_cli":
-        return cls(model=model or _cfg("SCREENING_MODEL", None) or LLM_MODEL)
-    return cls(model=model)
+        return cls(model=model or _cfg("SCREENING_MODEL", None) or LLM_MODEL, **kwargs)
+    return cls(model=model, **kwargs)

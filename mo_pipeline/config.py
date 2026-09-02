@@ -38,7 +38,7 @@ BASE_DIR = REPO_ROOT
 
 # ── External PDF drive layout (new corpus organization — see mo_pipeline.corpus) ─
 CATALOG_PATH = MEDIA_ROOT / "corpus.sqlite"
-INBOX_DIR = MEDIA_ROOT / "inbox"          # stage-6 output: flat {doi}.pdf awaiting conversion
+INBOX_DIR = MEDIA_ROOT / "inbox"          # stage-6 output: inbox/{doi}/{doi}.* awaiting conversion
 PAPERS_DIR = MEDIA_ROOT / "papers"        # the corpus: one folder per DOI
 SPECIAL_DIR = MEDIA_ROOT / "special"      # pre-pipeline corpora (acm_AIS, questionable)
 LEGACY_DIR = MEDIA_ROOT / "legacy"        # dup losers / oddities from migration
@@ -77,7 +77,8 @@ LLM_TIMEOUT_SEC = 120
 # Claude rate limit. Both are overridable per-run via --provider/--model, and
 # by env vars of the same name. See discover/screening_backend.py.
 # Benchmarked 2026-08-09 on 60 known FLoRa replications + 60 Haiku-negatives +
-# 8 adversarial non-replications (see benchmarking/screening_model_eval.md):
+# 8 adversarial non-replications (see benchmarking/README.md, "Screening-model
+# eval" section — the numbers below are the only surviving record of that run):
 #   ling-2.6-flash  100% recall, 0/8 false positives, 0 hallucinated flags, $1.28/100k
 #   haiku-4.5       100% recall but $169/100k via OpenRouter, and >=18% of its
 #                   own high-confidence negatives are demonstrably wrong
@@ -85,6 +86,19 @@ LLM_TIMEOUT_SEC = 120
 # Claude CLI remains free-but-rate-limited (~10k/week, shares the claude_cli mutex).
 SCREENING_PROVIDER = "openrouter"          # "claude_cli" | "openrouter"
 SCREENING_MODEL = "inclusionai/ling-2.6-flash"
+
+# ── Stage-8 core-fields extractor (extract/extract_core.py) ─────────────────
+# Single-shot, no-tools sibling of extract.py that records NO statistics. One
+# model call per paper: Python assembles abstract + full text + reference list
+# and parses the JSON reply. Defaults to the Claude CLI on the Max plan (free,
+# rate-limited, holds the `claude_cli` mutex); `--provider openrouter --model
+# <slug>` moves it off the Claude rate pool. Overridable per run via CLI flags
+# and by env vars of the same name.
+EXTRACT_CORE_PROVIDER = "claude_cli"      # "claude_cli" | "openrouter"
+EXTRACT_CORE_MODEL = "sonnet"             # claude_cli alias; OpenRouter needs an explicit --model
+EXTRACT_CORE_TIMEOUT_SEC = 600            # one call carries a whole paper; LLM_TIMEOUT_SEC is too short
+EXTRACT_CORE_MAX_INPUT_CHARS = 350_000    # ~90k tokens; the p90 paper is 75 KB, so rarely hit
+EXTRACT_CORE_MAX_OUTPUT_TOKENS = 8192     # OpenRouter max_tokens; multi-study papers need room
 
 # ── OpenAlex biomedical concept IDs ──────────────────────────────────────────
 BIOMED_CONCEPT_IDS = [
@@ -157,11 +171,28 @@ WEBSITE_DATA_DIR = Path(os.environ.get(
 ONTOLOGY_PATH = WEBSITE_DATA_DIR / "metascience_observatory_topic_ontology.json"
 VERSION_HISTORY_PATH = WEBSITE_DATA_DIR / "version_history.txt"
 
+# ── Benchmarking (extraction accuracy + discovery recall harnesses) ──────────
+# See benchmarking/README.md. Ground truth lives in gold/ (adjudicated) and
+# silver/ (external label sets); results/ holds dated evaluation runs; cache/
+# holds the LLM-matcher decision cache (gitignored, safe to delete).
+BENCHMARKING_DIR = REPO_ROOT / "benchmarking"
+BENCH_GOLD_DIR = BENCHMARKING_DIR / "gold"
+BENCH_SILVER_DIR = BENCHMARKING_DIR / "silver"
+BENCH_RESULTS_DIR = BENCHMARKING_DIR / "results"
+BENCH_CACHE_DIR = BENCHMARKING_DIR / "cache"
+MATCH_PROMPT_FILE = PROMPTS_DIR / "prompt_match.md"
+MATCH_VERSION_FILE = PROMPTS_DIR / "version_match.txt"
+
 # ── Prompts (extract stage) ──────────────────────────────────────────────────
-# Dead "base"/"mid" entries dropped: they pointed at nonexistent prompt.md /
-# prompt_mid.md. Normal mode is "full".
+# Normal mode is "full". "base" is prompt_full.md rendered with its statistics
+# blocks stripped (the agentic control arm for extract_core); "core" is the
+# single-shot extract_core.py prompt, also stat-free. Dead "mid" was dropped
+# (nonexistent prompt_mid.md). See extract._render_mode for the
+# <!-- mode:X --> markers the renderer honours.
 PROMPT_FILES = {
     "full": PROMPTS_DIR / "prompt_full.md",
+    "base": PROMPTS_DIR / "prompt_full.md",
+    "core": PROMPTS_DIR / "prompt_core.md",
     "pdf_only": PROMPTS_DIR / "prompt_full_pdf_only.md",
     "html": PROMPTS_DIR / "prompt_full_html.md",
     "xml": PROMPTS_DIR / "prompt_full_xml.md",

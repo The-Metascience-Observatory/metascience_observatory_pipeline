@@ -38,9 +38,11 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better
-from mo_pipeline.shared.fetch_metadata_from_title import fetch_metadata_from_title
+from mo_pipeline.shared.fetch_metadata_from_title import (
+    _title_similarity as _shared_title_similarity, fetch_metadata_from_title)
 from mo_pipeline import config as _cfg
 from mo_pipeline.corpus.models import folder_to_doi, folder_to_doi_url
+from mo_pipeline.discover.screening_backend import parse_json_reply, primary_model
 
 logger = logging.getLogger(__name__)
 
@@ -94,6 +96,24 @@ VALID_REPLICATION_TYPES = {"direct", "close experiment", "close extension", "con
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_P_VALUE_TYPES = {"<", "=", ">"}
 VALID_P_VALUE_TAILS = {"one-sided", "two-sided"}
+
+# The 14 statistical fields. The stat-free renderings (extract_core.py, and
+# --level base here) strip these from every entry; collate still emits their
+# columns blank so the ingestor sees an unchanged CSV shape.
+STAT_FIELDS = (
+    "original_n", "original_es", "original_es_type", "original_es_95_CI",
+    "original_p_value", "original_p_value_type", "original_p_value_tails",
+    "replication_n", "replication_es", "replication_es_type", "replication_es_95_CI",
+    "replication_p_value", "replication_p_value_type", "replication_p_value_tails",
+)
+
+# Result-file suffixes in collate priority order (first match wins). The
+# single-shot core result sits last so a full extraction under the same tag
+# outranks it. Mirrored in benchmarking/harness.py RESULT_SUFFIXES.
+RESULT_SUFFIXES = (
+    "_result_xml.json", "_result_html.json", "_result_pdf_only.json",
+    "_result_full.json", "_result_mid.json", "_result.json", "_result_core.json",
+)
 def _load_ontology() -> dict[str, list[str]]:
     """Load the canonical topic ontology and flatten to discipline → subdisciplines.
 
@@ -128,7 +148,67 @@ def _render_discipline_block() -> str:
     return "\n".join(lines)
 
 
-def load_system_prompt(level: str = "base") -> str:
+# Prompt files carry HTML-comment mode blocks so ONE shared core serves both
+# the statistics-bearing prompts and the stat-free ones (invariant 3):
+#
+#     <!-- mode:full -->   kept only when rendering mode "full"   <!-- /mode -->
+#     <!-- mode:core -->   kept only when rendering mode "core"   <!-- /mode -->
+#
+# Markers sit on their own lines, never nest, and are always removed, so the
+# rendered "full" prompt is byte-identical to the file minus its marker lines.
+_MODE_OPEN = re.compile(r"^\s*<!--\s*mode:([a-z_]+)\s*-->\s*$")
+_MODE_CLOSE = re.compile(r"^\s*<!--\s*/mode\s*-->\s*$")
+# A rendering is selected by a SET of tags, along two independent axes:
+#   statistics      "full" (record them) vs "core" (never record them)
+#   output channel  "write" (agentic: save result.json with the Write tool)
+#                   vs "reply" (single-shot: answer with the JSON inline)
+# They are independent, and conflating them is what silently lost two papers:
+# `--level base` is stat-free AND agentic, so it needs core+write. Anything not
+# listed renders as the normal full agentic mode.
+_TAGS_FOR_LEVEL = {
+    "full":     frozenset({"full", "write"}),
+    "pdf_only": frozenset({"full", "write"}),
+    "html":     frozenset({"full", "write"}),
+    "xml":      frozenset({"full", "write"}),
+    "base":     frozenset({"core", "write"}),
+    "core":     frozenset({"core", "reply"}),
+}
+_DEFAULT_TAGS = frozenset({"full", "write"})
+# The levels whose prompt omits the statistics, so their rows stay identifiable
+# in the database as "<prompt version>-<level>".
+STAT_FREE_LEVELS = frozenset({"base", "core"})
+
+
+def _render_mode(text: str, tags) -> str:
+    """Keep `<!-- mode:X -->` blocks whose X is an active tag, strip all markers."""
+    keep = frozenset({tags} if isinstance(tags, str) else tags)
+    out: list[str] = []
+    active: str | None = None
+    for line in text.splitlines(keepends=True):
+        m = _MODE_OPEN.match(line)
+        if m:
+            if active is not None:
+                raise ValueError(f"nested <!-- mode:{m.group(1)} --> inside mode:{active}")
+            active = m.group(1)
+            continue
+        if _MODE_CLOSE.match(line):
+            if active is None:
+                raise ValueError("<!-- /mode --> without an open block")
+            active = None
+            continue
+        if active is None or active in keep:
+            out.append(line)
+    if active is not None:
+        raise ValueError(f"unclosed <!-- mode:{active} --> block")
+    rendered = "".join(out)
+    if "core" in keep:
+        # Dropping the trailing stat keys of a JSON example leaves `...,\n}`.
+        # A trailing comma is never valid there, so collapsing it is always right.
+        rendered = re.sub(r",([ \t]*\n[ \t]*\})", r"\1", rendered)
+    return rendered
+
+
+def load_system_prompt(level: str = "full") -> str:
     """Load the system prompt for a given mode level.
 
     Concatenates the mode-specific workflow prompt (title, intro, file
@@ -136,11 +216,210 @@ def load_system_prompt(level: str = "base") -> str:
     reference, replication type, result classification, discipline list,
     confidence, edge cases). The mode file comes first so the model reads
     input-handling instructions before the shared schema/definitions.
+
+    "full" (and the pdf_only/html/xml variants) render the statistics blocks.
+    "base" renders prompt_full.md and "core" renders prompt_core.md with the
+    statistics blocks removed -- see _render_mode.
     """
-    mode_text = PROMPT_FILES[level].read_text()
-    shared_text = PROMPT_SHARED_CORE.read_text()
+    tags = _TAGS_FOR_LEVEL.get(level, _DEFAULT_TAGS)
+    mode_text = _render_mode(PROMPT_FILES[level].read_text(), tags)
+    shared_text = _render_mode(PROMPT_SHARED_CORE.read_text(), tags)
     shared_text = shared_text.replace("{{DISCIPLINE_LIST}}", _render_discipline_block())
     return mode_text.rstrip() + "\n\n" + shared_text
+
+
+# ── The artifact tier ladder ─────────────────────────────────────────────────
+# A paper folder can hold the same text in up to three renditions. They are not
+# equal: the publisher's own JATS keeps table structure and cannot suffer the
+# glyph corruption a broken PDF ToUnicode CMap causes, scraped publisher HTML is
+# the same idea one step down in trust, and GROBID's markdown is a reconstruction
+# of the PDF. Highest present tier is the PRIMARY the agent reads first; the rest
+# stay in the folder as named fallbacks, because tables published as images and
+# bibliographies GROBID mangled are only recoverable from the PDF.
+#
+# Ordered best-first. Globs, not names: the stem is the encoded DOI.
+FULLTEXT_TIERS = (
+    ("xml", "*_from_xml.md", "publisher XML (JATS), rendered to Markdown"),
+    ("html", "*_from_html.md", "publisher HTML, rendered to Markdown"),
+    ("grobid", "body.md", "GROBID reconstruction of the PDF"),
+)
+
+
+def _first_match(paper_dir: Path, pattern: str) -> Path | None:
+    """The single file matching `pattern`, or None. Deterministic when several."""
+    matches = sorted(paper_dir.glob(pattern))
+    return matches[0] if matches else None
+
+
+def paper_artifacts(paper_dir: Path, force_tier: str | None = None) -> dict:
+    """Inventory one paper folder against the tier ladder.
+
+    `force_tier` ("xml" | "html" | "grobid" | "pdf") restricts the ladder to that
+    rung for tier-paired benchmark runs; a paper lacking the forced tier falls
+    through to the PDF (the benchmark harness only forces tiers on papers that
+    have them).
+
+    Returns {primary_tier, primary, fallbacks, supporting, pdf, has_fulltext}.
+    `primary` is the best full text present; `fallbacks` are the lower tiers that
+    are also on disk. Used by BOTH extract_paper and extract_batch so discovery
+    and validation can never disagree about what is extractable.
+    """
+    tiers = [(tier, path, label)
+             for tier, pattern, label in FULLTEXT_TIERS
+             if (path := _first_match(paper_dir, pattern)) is not None]
+    if force_tier == "pdf":
+        tiers = []
+    elif force_tier:
+        tiers = [t for t in tiers if t[0] == force_tier]
+
+    supporting = [paper_dir / name for name in
+                  ("abstract.md", "references.json", "tables.md", "metadata.json")
+                  if (paper_dir / name).exists()]
+    pdf = _first_match(paper_dir, "*.pdf")
+
+    # The raw markup, kept addressable for ONE reason: fetchpdf's converter walks
+    # JATS <body> only, and a JATS bibliography lives in <back><ref-list>. So the
+    # rendition -- excellent for prose and tables -- has no reference list at
+    # all, while the .xml beside it does. Verified against the converter.
+    structured_raw = (_first_match(paper_dir, "*.xml")
+                      or _first_match(paper_dir, "*.fulltext.html"))
+
+    return {
+        "primary_tier": tiers[0][0] if tiers else None,
+        "primary": tiers[0][1] if tiers else None,
+        "primary_label": tiers[0][2] if tiers else None,
+        "fallbacks": [(tier, path, label) for tier, path, label in tiers[1:]],
+        "supporting": supporting,
+        "structured_raw": structured_raw,
+        "pdf": pdf,
+        # A PDF alone is full text too -- the agent can read it directly, which
+        # is exactly what --onlypdf does. It just sits at the bottom of the
+        # ladder, so it does not count as a *tier* above.
+        "has_fulltext": bool(tiers) or pdf is not None,
+    }
+
+
+#: Converted-text lengths below which a folder is suspected of holding no
+#: article. Under _HUSK_NO_PDF_CHARS there is less text than an abstract, so
+#: nothing can be extracted whatever the PDF says; between the two, a one-page
+#: PDF is required to confirm it.
+_HUSK_MAX_CHARS = 2000
+_HUSK_NO_PDF_CHARS = 500
+
+
+def _husk_reason(paper_dir: Path, art: dict) -> str:
+    """Why this folder holds no article, or "" when it plausibly does.
+
+    Stage 6 has occasionally stored the wrong file under a DOI (a publisher
+    advertisement, a cover page). Conversion converts whatever it is handed, so
+    the folder looks extractable. Deliberately conservative, because refusing a
+    real paper costs more than one bad negative: it fires only when the
+    converted text is too short to be an article AND a single-page PDF confirms
+    there was never more, or when the text is below the length of an abstract
+    and so cannot support any extraction at all. A genuine two-page research
+    letter passes. The benchmark harness makes the same call from the other
+    side, in benchmarking/harness.py `_document_identity`.
+    """
+    if art.get("primary_tier") not in (None, "grobid"):
+        return ""                      # a publisher rendition means real markup arrived
+    primary = art.get("primary")
+    try:
+        n_chars = len(primary.read_text(errors="replace").strip()) if primary else 0
+    except OSError:
+        return ""
+    if n_chars >= _HUSK_MAX_CHARS:
+        return ""
+    if n_chars < _HUSK_NO_PDF_CHARS:
+        return f"only {n_chars} characters of converted text: shorter than an abstract"
+    pdf = art.get("pdf")
+    if pdf is None:
+        return ""                      # short, but nothing corroborates a husk
+    try:
+        import fitz
+        with fitz.open(str(pdf)) as doc:
+            pages = doc.page_count
+    except Exception:
+        return ""                      # cannot tell: let the agent try
+    if pages <= 1:
+        return f"a {pages}-page PDF and only {n_chars} characters of converted text"
+    return ""
+
+
+def _describe_artifacts(paper_dir: Path, art: dict) -> str:
+    """The file inventory the agent is handed, primary first, fallbacks gated.
+
+    Deliberately not a flat list of everything in the folder: three renditions of
+    one paper invite three full reads. Each line says what the file is and, for
+    the lower tiers, when it is worth opening.
+    """
+    if art["primary"] is None:
+        # No tier at all, only the PDF. Not an error -- a paper downloaded but
+        # never converted lands here, and the agent can read a PDF directly.
+        return (
+            f"PRIMARY full text: {art['pdf'].name} — the PDF itself; this folder "
+            f"has no markdown rendition. Read it with the Read tool's `pages` "
+            f"parameter a few pages at a time, never all at once."
+            + ("\nSupporting: " + ", ".join(p.name for p in art["supporting"])
+               if art["supporting"] else "")
+        )
+
+    lines = [f"PRIMARY full text: {art['primary'].name} — {art['primary_label']}."]
+    if art["primary_tier"] in ("xml", "html"):
+        note = (
+            "  Tables in it are HTML, not Markdown (colspan/rowspan survive that "
+            "way and do not survive Markdown). A table the publisher shipped as "
+            "an image is marked `[table not machine-readable — published as an "
+            "image]`"
+        )
+        # Only promise a PDF fallback for those tables when there is a PDF.
+        note += ("; that marker is your cue to open the PDF for those numbers."
+                 if art["pdf"] else ", and those numbers are unrecoverable here — "
+                                    "record them as missing rather than guessing.")
+        lines.append(note)
+
+    if art["supporting"]:
+        names = [p.name for p in art["supporting"]]
+        line = "Supporting: " + ", ".join(names)
+        if "references.json" in names:
+            line += " (references.json is GROBID's structured bibliography)"
+        lines.append(line + ".")
+
+    # Where the reference list actually is. The renditions of publisher XML do
+    # not carry one, so saying nothing here would send the agent hunting through
+    # a file that structurally cannot contain what it wants.
+    if art["primary_tier"] == "xml":
+        sources = []
+        if any(p.name == "references.json" for p in art["supporting"]):
+            sources.append("`references.json`")
+        if art["structured_raw"]:
+            sources.append(f"the `<ref-list>` in `{art['structured_raw'].name}` "
+                           f"(raw markup — grep it for the author surname)")
+        if art["pdf"]:
+            sources.append(f"the References section of `{art['pdf'].name}`")
+        lines.append(
+            "IMPORTANT — the primary has NO reference list: the rendition covers "
+            "the article body only, and a JATS bibliography sits outside it. Take "
+            "the citation sentence from the primary, then get the original study's "
+            "bibliographic details from " + (", then ".join(sources) if sources
+                                             else "the paper's own inline citations")
+            + "."
+        )
+
+    for _tier, path, label in art["fallbacks"]:
+        lines.append(
+            f"Lower-tier copy of the same text: {path.name} — {label}. Read it "
+            f"only if the primary is empty, truncated, or garbled."
+        )
+
+    if art["pdf"]:
+        lines.append(
+            f"PDF: {art['pdf'].name}. Lowest tier — it may carry OCR/glyph errors, "
+            f"so never let it override the primary. Open it only to (a) read a "
+            f"table the primary marks as an image, (b) recover bibliographic "
+            f"details when references.json is empty, corrupt, or missing the "
+            f"target entry, or (c) find a statistic that is genuinely absent above."
+        )
+    return "\n".join(lines)
 
 
 def _format_duration(seconds: float) -> str:
@@ -228,9 +507,16 @@ def _normalize_title(title: str) -> str:
     return re.sub(r'[^a-z0-9\s]', '', title.lower()).strip()
 
 
-def _title_similarity(a: str, b: str) -> float:
-    """Return 0-1 similarity between two titles."""
-    return difflib.SequenceMatcher(None, _normalize_title(a), _normalize_title(b)).ratio()
+def _title_similarity(a: str, b: str, threshold: float = 0.55) -> float:
+    """Similarity of two titles, or 0.0 when they are not plausibly the same work.
+
+    Delegates to the shared implementation rather than a bare SequenceMatcher
+    ratio, because it also accepts the case a metadata API creates constantly:
+    a record carrying only the main title of a paper whose full title has a
+    subtitle. A plain ratio scores that pair around 0.4, and every caller here
+    compares against 0.55, so a correct DOI was being discarded.
+    """
+    return _shared_title_similarity(a, b, threshold=threshold)
 
 
 def validate_extraction(data: dict) -> tuple[dict, list[str]]:
@@ -646,6 +932,69 @@ def enrich_metadata(
     return data, msgs
 
 
+_PROV_STATIC: dict = {}
+
+
+def _provenance_static() -> dict:
+    """CLI version, git commit, prompt hashes — computed once per process."""
+    if _PROV_STATIC:
+        return _PROV_STATIC
+    import hashlib
+    def sha(p: Path) -> str:
+        try:
+            return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+        except OSError:
+            return ""
+    def run(cmd: list[str]) -> str:
+        try:
+            return subprocess.run(cmd, capture_output=True, text=True, timeout=15,
+                                  cwd=_cfg.REPO_ROOT).stdout.strip()
+        except Exception:
+            return ""
+    from mo_pipeline import version as _version
+    _PROV_STATIC.update({
+        "cli_version": run(["claude", "--version"]),
+        # pipeline_version, code_fingerprint, git commit and dirty flags. The
+        # fingerprint is what identifies a run made on a dirty tree, where the
+        # commit describes code that is not what ran. See mo_pipeline/version.py.
+        **_version.manifest(),
+        "prompt_version": str(load_version_number()),
+        "prompt_sha256": {"prompt_shared_core.md": sha(_cfg.PROMPT_SHARED_CORE),
+                          **{p.name: sha(p) for p in _cfg.PROMPT_FILES.values()}},
+    })
+    return _PROV_STATIC
+
+
+def _write_provenance(output_dir: Path, *, model_id: str, prompt_level: str, artifacts: dict | None,
+                      html_mode: bool, pdf_only: bool, force_tier: str | None, dontcheck: bool) -> None:
+    st = _provenance_static()
+    if artifacts and artifacts.get("primary_tier"):
+        tier, primary = artifacts["primary_tier"], artifacts["primary"].name
+    elif html_mode:
+        tier, primary = "html", ""
+    else:
+        tier, primary = "pdf", ""
+    mode_file = _cfg.PROMPT_FILES.get(prompt_level)
+    prov = {
+        "model_id": model_id,
+        "prompt_version": st["prompt_version"],
+        "prompt_level": prompt_level,
+        "prompt_files_used": ["prompt_shared_core.md"] + ([mode_file.name] if mode_file else []),
+        "prompt_sha256": st["prompt_sha256"],
+        "primary_tier": tier, "primary_file": primary, "force_tier": force_tier,
+        "cli_version": st["cli_version"], "git_commit": st["git_commit"],
+        "git_dirty_prompts": st["git_dirty_prompts"],
+        "git_dirty_pipeline": st["git_dirty_pipeline"],
+        "pipeline_version": st["pipeline_version"],
+        "code_fingerprint": st["code_fingerprint"], "dontcheck": dontcheck,
+        "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
+    }
+    try:
+        (output_dir / "provenance.json").write_text(json.dumps(prov, indent=2))
+    except OSError as e:
+        logger.warning(f"could not write provenance.json: {e}")
+
+
 def extract_paper(
     paper_dir: Path,
     model: str = "sonnet",
@@ -655,6 +1004,7 @@ def extract_paper(
     use_cursor: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
+    force_tier: str | None = None,
 ) -> tuple[dict, dict, list[str]]:
     """Run the selected agent CLI against a single paper directory.
 
@@ -672,23 +1022,15 @@ def extract_paper(
     else:
         output_dir = paper_dir
 
-    # Auto-detect XML mode: folder has .xml but no .html, .pdf, or abstract.md
-    xml_mode = False
-    if not html_mode and not pdf_only:
-        has_xml = any(paper_dir.glob("*.xml"))
-        has_html = any(paper_dir.glob("*.html"))
-        has_pdf = any(paper_dir.glob("*.pdf"))
-        has_abstract = (paper_dir / "abstract.md").exists()
-        if has_xml and not has_html and not has_pdf and not has_abstract:
-            xml_mode = True
+    # There is no XML auto-detect any more: the default path below reads every
+    # tier present in the folder, so an XML-only paper is an ordinary paper with
+    # a shorter ladder. --html and --onlypdf remain as explicit single-format
+    # overrides for corpora that only ever had the one file.
 
     # Check if output already exists for this level (enables resuming)
     if html_mode:
         suffixes = {"html": "_result_html.json"}
         prompt_level = "html"
-    elif xml_mode:
-        suffixes = {"xml": "_result_xml.json"}
-        prompt_level = "xml"
     elif pdf_only:
         suffixes = {"pdf_only": "_result_pdf_only.json"}
         prompt_level = "pdf_only"
@@ -711,6 +1053,7 @@ def extract_paper(
         raise SkipPaper(f"Already in dataset: {doi_url}")
 
     # Validate expected files exist
+    artifacts = None
     if html_mode:
         # For HTML mode, find the HTML file
         html_files = list(paper_dir.glob("*.html"))
@@ -718,29 +1061,31 @@ def extract_paper(
             raise FileNotFoundError(f"Missing HTML file in {paper_dir}")
         html_file = html_files[0]  # Use first HTML if multiple exist
         pdf_file = None
-        xml_file = None
-    elif xml_mode:
-        # For XML mode, find the XML file
-        xml_files = list(paper_dir.glob("*.xml"))
-        if not xml_files:
-            raise FileNotFoundError(f"Missing XML file in {paper_dir}")
-        xml_file = xml_files[0]  # Use first XML if multiple exist
-        pdf_file = None
-        html_file = None
-    else:
-        # Find PDF for all non-HTML/non-XML modes
+    elif pdf_only:
         pdf_files = list(paper_dir.glob("*.pdf"))
         if not pdf_files:
             raise FileNotFoundError(f"Missing PDF file in {paper_dir}")
         pdf_file = pdf_files[0]  # Use first PDF if multiple exist
         html_file = None
-        xml_file = None
-
-        # Validate abstract.md exists for non-PDF-only modes
-        if not pdf_only:
-            abstract = paper_dir / "abstract.md"
-            if not abstract.exists():
-                raise FileNotFoundError(f"Missing abstract.md in {paper_dir}")
+    else:
+        # Default mode: whatever tiers this folder has. The old rule demanded
+        # both a PDF and an abstract.md and refused everything else; now the
+        # only hard requirement is that SOMETHING readable is present.
+        artifacts = paper_artifacts(paper_dir, force_tier=force_tier)
+        if not artifacts["has_fulltext"]:
+            raise FileNotFoundError(
+                f"No readable full text in {paper_dir} "
+                f"(expected a *_from_xml.md / *_from_html.md rendition, a "
+                f"body.md, or a PDF)"
+            )
+        husk = _husk_reason(paper_dir, artifacts)
+        if husk:
+            # Refusing beats extracting: the agent would read the husk, find no
+            # replications, and that confident negative is indistinguishable
+            # downstream from a real paper that has none.
+            raise FileNotFoundError(f"No article text in {paper_dir}: {husk}")
+        pdf_file = artifacts["pdf"]
+        html_file = None
 
     system_prompt = load_system_prompt(level=prompt_level)
 
@@ -769,14 +1114,6 @@ def extract_paper(
                 f"Read {paper_dir}/{html_file.name} and extract all replication data.\n"
                 f"Save your result to {output_dir}/result.json"
             )
-    elif xml_mode:
-        user_prompt = (
-            f"Extract replication data from the paper in: {paper_dir}\n"
-            f"The paper is available as an XML file: {xml_file.name}\n"
-            f"Read {paper_dir}/{xml_file.name} and extract all replication data.\n"
-            f"The XML contains structured markup (JATS, TEI, or similar) — read through the tags to extract text, tables, references, and statistics.\n"
-            f"Save your result to {output_dir}/result.json"
-        )
     elif pdf_only:
         user_prompt = (
             f"Extract replication data from the paper in: {paper_dir}\n"
@@ -785,27 +1122,16 @@ def extract_paper(
             f"Save your result to {output_dir}/result.json"
         )
     else:
-        # Build list of available files
-        available_files = [
-            f"{paper_dir}/abstract.md",
-            f"{paper_dir}/body.md",
-            f"{paper_dir}/references.json"
-        ]
-
-        # Check if tables.md exists
-        tables_file = paper_dir / "tables.md"
-        if tables_file.exists():
-            available_files.append(f"{paper_dir}/tables.md")
-
-        # Add PDF
-        available_files.append(f"{paper_dir}/{pdf_file.name}")
-
-        files_list = ", ".join(available_files)
+        # The folder holds up to three renditions of the same paper. Naming one
+        # primary and gating the rest is what keeps the agent from reading all
+        # of them; the prompt file explains the ladder, this says which rungs
+        # THIS paper actually has.
         user_prompt = (
             f"Extract replication data from the paper in: {paper_dir}\n"
-            f"The files you are working with are {files_list}.\n"
+            f"{_describe_artifacts(paper_dir, artifacts)}\n"
             f"Save your result to {output_dir}/result.json"
         )
+        log_messages.append(f"  tier: {artifacts['primary_tier'] or 'pdf'}")
 
     if use_cursor:
         # Cursor CLI does not expose a dedicated system prompt flag,
@@ -892,7 +1218,7 @@ def extract_paper(
 
     # Get the actual model ID from modelUsage keys
     model_usage = cli_output.get("modelUsage", {})
-    model_id = next(iter(model_usage), model)
+    model_id = primary_model(model_usage, model)
 
     # Extract usage info
     usage = {
@@ -918,13 +1244,27 @@ def extract_paper(
     debug_path = output_dir / "debug_log.json"
     debug_path.write_text(json.dumps(debug_log, indent=2))
 
-    # Read the result.json the agent should have written
+    # Provenance sidecar: everything a benchmark needs to say WHAT produced this
+    # result (model, prompt bytes, input tier, CLI, commit). The result JSON
+    # itself carries only ai_version; debug_log.json only the model. The
+    # benchmark harness reads this file (benchmarking/harness.py:load_extraction).
+    _write_provenance(output_dir, model_id=model_id, prompt_level=prompt_level,
+                      artifacts=artifacts, html_mode=html_mode, pdf_only=pdf_only,
+                      force_tier=force_tier, dontcheck=existing_urls is None)
+
+    # Read the result.json the agent should have written. An agent that
+    # replied with the JSON inline instead of using the Write tool is not a
+    # lost paper: salvage the envelope from its reply.
     result_path = output_dir / "result.json"
     if not result_path.exists():
-        raise RuntimeError(
-            f"Agent did not write result.json for {paper_dir}.\n"
-            f"Agent output: {cli_output.get('result', '')[:500]}"
-        )
+        salvaged = salvage_inline_result(cli_output.get("result", ""))
+        if salvaged is None:
+            raise RuntimeError(
+                f"Agent did not write result.json for {paper_dir}.\n"
+                f"Agent output: {cli_output.get('result', '')[:500]}"
+            )
+        result_path.write_text(json.dumps(salvaged, indent=2))
+        log_messages.append("  ⚠️  agent replied inline instead of writing result.json — salvaged from the reply")
 
     # Retry JSON parse with short delay to handle filesystem flush race condition
     for attempt in range(3):
@@ -943,6 +1283,10 @@ def extract_paper(
     # Inject replication_url (this paper's DOI URL) and ai_version into each replication entry
     replication_url = folder_to_doi_url(paper_dir.name)
     ai_version = load_version_number()
+    if prompt_level in STAT_FREE_LEVELS:
+        # Stat-free rendering of the same prompt family: keep its rows
+        # distinguishable in the database ("8.7-base").
+        ai_version = f"{ai_version}-{prompt_level}"
     for rep in data.get("replications", []):
         rep["replication_url"] = replication_url
         rep["ai_version"] = ai_version
@@ -1049,6 +1393,18 @@ def extract_paper(
                 f"or reasonable people could disagree), KEEP confidence as 'medium' or 'low' — this is the honest answer\n"
                 f"   - Update the explanation field to describe what you found in your review\n"
                 f"   - If you disagree with the result classification, change it\n\n"
+                f"Result rules you must apply when reconsidering a label (they are the same "
+                f"rules the first pass was given):\n"
+                f"   - A global claim of support (\"supports\", \"largely verified\", \"bolstered\") does NOT "
+                f"override an abstract or conclusion that also reports \"differing results\", \"some "
+                f"differences\", \"partially\", \"mixed\": that combination is inconclusive.\n"
+                f"   - Change 'inconclusive' to 'success' only if EVERY sub-measure named in the entry's "
+                f"description replicated. If only some did, narrow the description instead of widening "
+                f"the label.\n"
+                f"   - Partial support is inconclusive, not success. A single significant result does not "
+                f"settle a multi-measure entry.\n"
+                f"   - If you change a result label, leave confidence at 'medium': a changed label is by "
+                f"definition a case the evidence did not make obvious.\n\n"
                 f"IMPORTANT: Upgrading to 'high' requires finding specific new evidence. "
                 f"Simply re-reading and agreeing is NOT sufficient grounds for upgrading. "
                 f"Keeping medium/low is a valid and expected outcome when ambiguity is real.\n"
@@ -1097,6 +1453,9 @@ def extract_paper(
             "claude",
             "--print",
             "--output-format", "json",
+            # Same model as the first pass: without this the reviewer ran on the
+            # CLI default, so a run's provenance did not describe what reviewed it.
+            "--model", model,
             "--max-turns", "20",
             "--allowedTools", "Read", "Grep", "Glob", "Write",
             "--dangerously-skip-permissions",
@@ -1165,6 +1524,21 @@ def extract_paper(
                 # Update usage with refinement costs
                 try:
                     refine_output = json.loads(refine_stdout)
+                    # Keep the reviewer's own narration: a label flip in the second
+                    # pass is otherwise invisible after the fact.
+                    debug_log["review"] = {
+                        "model": model,
+                        "reasons": {"low_medium": len(low_med_entries),
+                                    "doi_mismatches": len(doi_mismatches),
+                                    "citation_mismatches": len(citation_mismatches)},
+                        "entries_reviewed": [{"index": idx, "confidence_before": conf,
+                                              "result_before": res, "description": desc}
+                                             for idx, conf, res, desc in low_med_entries],
+                        "upgraded_to_high": upgraded,
+                        "assistant_text": refine_output.get("result", "")[:20000],
+                        "wall_sec": round(refine_wall, 1),
+                    }
+                    debug_path.write_text(json.dumps(debug_log, indent=2))
                     usage["input_tokens"] += refine_output.get("usage", {}).get("input_tokens", 0)
                     usage["output_tokens"] += refine_output.get("usage", {}).get("output_tokens", 0)
                     usage["cost_usd"] += refine_output.get("total_cost_usd", 0)
@@ -1206,11 +1580,13 @@ def extract_paper(
         except Exception as e:
             log_messages.append(f"  !  Metadata enrichment failed: {e}")
 
-    # Rename result.json to {folder_name}_result.json / _result_mid.json / _result_full.json / _result_pdf_only.json / _result_html.json / _result_xml.json
+    # Rename result.json to {folder_name}_result.json / _result_mid.json /
+    # _result_full.json / _result_pdf_only.json / _result_html.json.
+    # _result_xml.json is no longer produced -- the default multi-format path
+    # writes _result_full.json whatever tier it read -- but historical files with
+    # that name are still recognized by the skip check and by collate.
     if html_mode:
         suffix = "_result_html.json"
-    elif xml_mode:
-        suffix = "_result_xml.json"
     elif pdf_only:
         suffix = "_result_pdf_only.json"
     else:
@@ -1221,6 +1597,19 @@ def extract_paper(
     result_path.unlink()
 
     return data, usage, log_messages
+
+
+def salvage_inline_result(reply_text: str) -> dict | None:
+    """The result envelope from an agent reply that carried the JSON inline
+    (fenced or bare) instead of writing result.json; None if the reply holds
+    no usable envelope."""
+    data = parse_json_reply(reply_text or "")
+    if not isinstance(data, dict) or "replications" not in data:
+        return None
+    if not isinstance(data.get("replications"), list):
+        return None
+    data.setdefault("contains_replications", bool(data["replications"]))
+    return data
 
 
 def is_usage_limit_error(error_text: str) -> bool:
@@ -1323,7 +1712,7 @@ def screen_paper(
         raise RuntimeError(f"Failed to parse screen CLI output:\n{r.stdout[:300]}")
 
     model_usage = cli_output.get("modelUsage", {})
-    model_id = next(iter(model_usage), model)
+    model_id = primary_model(model_usage, model)
     usage = {
         "model": model_id,
         "input_tokens": cli_output.get("usage", {}).get("input_tokens", 0),
@@ -1504,6 +1893,7 @@ def extract_batch(
     use_cursor: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
+    force_tier: str | None = None,
     limit: int | None = None,
 ) -> list[dict]:
     """Process all paper directories under papers_dir.
@@ -1526,15 +1916,16 @@ def extract_batch(
             and (include_papers is None or p.name in include_papers)
         )
     else:
-        # Normal mode: include dirs with abstract.md OR XML-only dirs (auto-detected in extract_paper)
+        # Normal mode: any folder with something readable in it. Uses the same
+        # inventory extract_paper validates against, so discovery can never
+        # queue a paper that extraction then refuses (or skip one it would take).
         paper_dirs = sorted(
             p for p in papers_dir.iterdir()
             if p.is_dir()
-            and (
-                (p / "abstract.md").exists()
-                or (any(p.glob("*.xml")) and not any(p.glob("*.html")) and not any(p.glob("*.pdf")))
-            )
+            # Cheap name filter first: the inventory costs several globs per
+            # folder, and the drive is USB-slow with thousands of folders.
             and (include_papers is None or p.name in include_papers)
+            and paper_artifacts(p)["has_fulltext"]
         )
 
     if limit is not None and len(paper_dirs) > limit:
@@ -1577,6 +1968,7 @@ def extract_batch(
                 use_cursor=use_cursor,
                 pdf_only=pdf_only,
                 html_mode=html_mode,
+                force_tier=force_tier,
             )
             return (paper_dir, data, usage, None, log_msgs)
         except SkipPaper as e:
@@ -1750,6 +2142,7 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
         "original_journal", "original_volume", "original_issue",
         "original_pages", "original_year", "description", "result",
         "replication_type", "discipline", "subdiscipline", "explanation", "confidence",
+        "citation_sentence",
         "original_n", "original_es", "original_es_type", "original_es_95_CI",
         "original_p_value", "original_p_value_type", "original_p_value_tails",
         "replication_n", "replication_es", "replication_es_type", "replication_es_95_CI",
@@ -1775,7 +2168,7 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
         else:
             search_dir = paper_dir
         result_file = None
-        for suffix in ("_result_xml.json", "_result_html.json", "_result_pdf_only.json", "_result_full.json", "_result_mid.json", "_result.json"):
+        for suffix in RESULT_SUFFIXES:
             candidate = search_dir / f"{paper_dir.name}{suffix}"
             if candidate.exists():
                 result_file = candidate
@@ -1881,9 +2274,11 @@ def main():
     )
     parser.add_argument(
         "--level",
-        choices=["base", "mid", "full"],
+        choices=["base", "full"],
         default="full",
-        help="Extraction level: base (core fields), mid (+ optional stats), full (all statistical details)",
+        help="Extraction level: full (every field incl. statistics; the normal mode) or "
+             "base (the same agentic workflow with the statistics blocks stripped from the "
+             "prompt -- the control arm for extract_core.py; writes _result.json).",
     )
     parser.add_argument(
         "--dontcheck",
@@ -1927,6 +2322,12 @@ def main():
         "--html",
         action="store_true",
         help="HTML mode: process papers with single HTML file. Uses prompt_full.md",
+    )
+    parser.add_argument(
+        "--force-tier",
+        choices=["xml", "html", "grobid", "pdf"],
+        default=None,
+        help="Benchmark only: restrict the full-text tier ladder to one rung (papers lacking it fall through to the PDF). Recorded in provenance.json.",
     )
     parser.add_argument(
         "--screen",
@@ -1979,6 +2380,7 @@ def main():
             use_cursor=args.usecursor,
             pdf_only=args.onlypdf,
             html_mode=args.html,
+            force_tier=args.force_tier,
             limit=args.limit,
         )
     else:
@@ -1993,6 +2395,7 @@ def main():
                 use_cursor=args.usecursor,
                 pdf_only=args.onlypdf,
                 html_mode=args.html,
+                force_tier=args.force_tier,
             )
             tokens = usage["input_tokens"] + usage["output_tokens"]
             print(

@@ -93,6 +93,21 @@ def _request_with_retry(url, headers=None, timeout=10, max_retries=3):
     return None
 
 
+def crossref_title(item: dict) -> str:
+    """Crossref's full title: it files a subtitle in its own field.
+
+    Taking `title[0]` alone yields "Errors Are Aversive" for a paper actually
+    titled "Errors Are Aversive: Defensive Motivation and the Error-Related
+    Negativity", which then loses a title comparison against the real title and
+    a correct DOI is thrown away.
+    """
+    main = (item.get("title") or [None])[0] or ""
+    sub = (item.get("subtitle") or [None])[0] or ""
+    if sub and sub.lower() not in main.lower():
+        return f"{main.rstrip(': ')}: {sub}"
+    return main
+
+
 def _title_similarity(query_title, fetched_title, threshold=0.9):
     """Return a similarity score (0-1) if titles match, or 0.0 if below threshold.
 
@@ -315,12 +330,12 @@ def fetch_metadata_from_title(title, email=None, delay=0.2, authors=None,
                     # Skip if validation fails
                     if not _validate_metadata(candidate_meta, journal, year, volume):
                         continue
-                    fetched_title = (item.get("title") or [None])[0]
+                    fetched_title = crossref_title(item)
                     sim = _title_similarity(title, fetched_title)
                     if sim > best_sim:
                         best_sim, best_item = sim, item
                 if best_item:
-                    fetched_title = (best_item.get("title") or [None])[0]
+                    fetched_title = crossref_title(best_item)
                     doi = normalize_doi(best_item.get("DOI"))
                     cr_authors = []
                     for a in best_item.get("author", []):

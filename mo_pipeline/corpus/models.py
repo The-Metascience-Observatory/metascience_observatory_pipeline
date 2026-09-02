@@ -32,10 +32,21 @@ STATUS_ORDER = ["empty", "downloaded", "converted", "screened", "extracted", "in
 
 # Files that mark each stage.
 _CONVERTED_MARKERS = ("abstract.md", "body.md")
+# The other route to readable full text: fetchpdf's markdown rendition of the
+# publisher's XML/HTML. A paper that arrived as markup and never went through
+# GROBID has no abstract.md, but extraction can read it perfectly well — so it
+# counts as converted too, or `include-list --status converted` would hide it
+# from the very stage that prefers it.
+_RENDITION_GLOBS = ("*_from_xml.md", "*_from_html.md")
+_STRUCTURED_GLOBS = ("*.xml", "*.fulltext.html")
 _SCREEN_FILE = "replication_check.json"
 _PASSPORT_FILE = "paper.json"
+# *_result_core.json is the single-shot core-fields extractor (extract_core.py);
+# *_result.json is `extract.py --level base`. Both count as extracted: they carry
+# result + replication_type, which is all the catalog reads.
 _RESULT_GLOBS = ("*_result_full.json", "*_result_pdf_only.json",
-                 "*_result_html.json", "*_result_xml.json")
+                 "*_result_html.json", "*_result_xml.json",
+                 "*_result_core.json", "*_result.json")
 
 
 # Characters NTFS/exFAT forbid in filenames, other than '/' (encoded as '--')
@@ -55,8 +66,13 @@ def doi_to_folder(doi: str) -> str:
       '/' -> '--'          DOI path separator
       ':' -> '~'           colon (common in old Springer/Kluwer DOIs)
       < > " \\ | ? * -> '~XX~'  hex-escaped (rare; Wiley SICI DOIs)
+      '-' -> '~2d~'        only when part of a '--' run or adjacent to a '/',
+                           where it would be ambiguous with the slash encoding
+                           (e.g. ASEE '10.18260/1-2--47556'); lone hyphens stay raw
     e.g. '10.1023/a:1018769825030' -> '10.1023--a~1018769825030'."""
-    s = doi.strip().replace("/", "--")
+    s = doi.strip()
+    s = re.sub(r"-+(?=/)|(?<=/)-+|-{2,}", lambda m: "~2d~" * len(m.group()), s)
+    s = s.replace("/", "--")
     for ch in _FS_FORBIDDEN:
         s = s.replace(ch, f"~{ord(ch):02x}~")
     return s.replace(":", "~")
@@ -65,18 +81,24 @@ def doi_to_folder(doi: str) -> str:
 def folder_to_doi(folder_name: str) -> str:
     """Inverse of doi_to_folder: '10.1001--archneurol.2010.292' -> '10.1001/…'.
 
-    Decodes the '~XX~' tokens first, then every bare '~' back to ':', then every
-    '--' back to '/'. The '--' rule handles multi-slash DOIs (OSF, many
-    10.1093/10.1002/10.1023/10.1027 journals) e.g. '10.1093--jpepsy--jsy104' ->
-    '10.1093/jpepsy/jsy104'; '~' restores colon DOIs. Single literal hyphens
-    ('1015-5759') are never doubled by the encoder, so they are left untouched.
-    (A DOI containing a literal '--', '~', or a '~XX~' token is not round-trippable,
-    but such DOIs are vanishingly rare in practice.)"""
-    # Strip a trailing " (1)"-style dedup suffix if present.
-    name = re.sub(r"\s*\(\d+\)$", "", folder_name)
+    Decode order matters: '~2d~' escaped-hyphen tokens to a sentinel, then the
+    '~XX~' tokens, then every bare '~' back to ':', then every '--' back to '/',
+    then the sentinel back to '-'. The '--' rule handles multi-slash DOIs (OSF,
+    many 10.1093/10.1002/10.1023/10.1027 journals) e.g. '10.1093--jpepsy--jsy104'
+    -> '10.1093/jpepsy/jsy104'; '~' restores colon DOIs. Single literal hyphens
+    ('1015-5759') are never escaped by the encoder, so they are left untouched.
+    (A DOI containing a literal '~' or a literal ':XX:' that mimics a hex token is
+    not round-trippable, but such DOIs are vanishingly rare in practice.)"""
+    # Strip trailing whitespace (incl. unicode) and a " (1)"-style dedup suffix.
+    name = re.sub(r"\s*\(\d+\)$", "", folder_name.strip())
+    name = name.replace("~2d~", "\x00")
     for ch in _FS_FORBIDDEN:
         name = name.replace(f"~{ord(ch):02x}~", ch)
-    return name.replace("~", ":").replace("--", "/")
+    return name.replace("~", ":").replace("--", "/").replace("\x00", "-")
+
+
+def folder_to_doi_url(folder_name: str) -> str:
+    return "https://doi.org/" + folder_to_doi(folder_name)
 
 
 def is_doi_folder(name: str) -> bool:
@@ -109,6 +131,8 @@ class Paper:
     ingested_db_version: str | None = None
     tags: list[str] = field(default_factory=list)
     has_pdf: bool = False
+    has_structured: bool = False    # publisher XML / HTML on disk
+    has_rendition: bool = False     # ...rendered to markdown, i.e. extractable
 
     def as_row(self) -> dict:
         d = asdict(self)
@@ -158,8 +182,9 @@ def scan_folder(folder: Path) -> Paper:
       ingested  — paper.json has an 'ingested' record
       extracted — >=1 tag subfolder with a result JSON
       screened  — replication_check.json present
-      converted — abstract.md + body.md present
-      downloaded— a .pdf present
+      converted — abstract.md + body.md present, or a markdown rendition of the
+                  publisher's XML/HTML (either is readable full text)
+      downloaded— a .pdf or a raw .xml/.fulltext.html present
       empty     — none of the above
     """
     doi = folder_to_doi(folder.name)
@@ -172,7 +197,10 @@ def scan_folder(folder: Path) -> Paper:
         paper.ingested_db_version = ingested_rec.get("db_version")
 
     paper.has_pdf = any(folder.glob("*.pdf"))
-    converted = all((folder / m).exists() for m in _CONVERTED_MARKERS)
+    paper.has_structured = any(any(folder.glob(g)) for g in _STRUCTURED_GLOBS)
+    paper.has_rendition = any(any(folder.glob(g)) for g in _RENDITION_GLOBS)
+    converted = (all((folder / m).exists() for m in _CONVERTED_MARKERS)
+                 or paper.has_rendition)
 
     # Screening verdict (from replication_check.json), if any.
     screen = _read_json(folder / _SCREEN_FILE)
@@ -213,7 +241,7 @@ def scan_folder(folder: Path) -> Paper:
         paper.status = "screened"
     elif converted:
         paper.status = "converted"
-    elif paper.has_pdf:
+    elif paper.has_pdf or paper.has_structured:
         paper.status = "downloaded"
     else:
         paper.status = "empty"
