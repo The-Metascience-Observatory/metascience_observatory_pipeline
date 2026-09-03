@@ -444,3 +444,68 @@ def test_batch_is_detected_by_structure_not_by_a_stray_pdf(tmp_path):
     (paper / "some_tag" / f"{FOLDER}_result_core.json").write_text("{}")
     assert core.looks_like_batch(paper) is False
     assert core.looks_like_batch(tmp_path / "does_not_exist") is False
+
+
+def test_reference_matching_survives_a_thin_grobid_parse():
+    """GROBID's parse of the corpus backlog is thin: a sampled median of 4
+    references per paper and 88% of papers with no parsed year on any entry,
+    plus the Elsevier path writing {"raw": ...} with no fields. Requiring the
+    parsed fields made this corroboration dead code on most papers, so the
+    citation check flagged mismatches it could have cleared and each one bought
+    a review round."""
+    m = ex._reference_matches
+    assert m({"authors": ["Smith J"], "title": "A study", "year": 2015}, ["Smith"], "2015")
+    # the year and surname are in the text even when GROBID did not split them out
+    assert m({"authors": [], "year": None,
+              "title": "Smith J (2015) A study. J Ex 4:1-9."}, ["Smith"], "2015")
+    assert m({"raw": "Smith, J. (2015). A study. Journal of Examples 4, 1-9."}, ["Smith"], "2015")
+    assert m({"authors": [], "year": None,
+              "title": "Acemoğlu D (2001) Reversal of fortune."}, ["Acemoglu"], "2001")
+    # and a different study still must not corroborate
+    assert not m({"raw": "Jones, A. (1999). Something else entirely."}, ["Smith"], "2015")
+    assert not m({"raw": "Smith, J. (1999). A study."}, ["Smith"], "2015")   # wrong year
+    assert not m({}, ["Smith"], "2015")
+
+
+# -- the raw-markup last rung -----------------------------------------------
+
+
+def _xml_only(tmp_path):
+    paper = tmp_path / FOLDER
+    paper.mkdir()
+    (paper / f"{FOLDER}.xml").write_bytes(
+        b"<article><body><p>Prose.</p></body>"
+        b"<back><ref-list><ref>Smith 2010</ref></ref-list></back></article>")
+    return paper
+
+
+def test_raw_markup_is_the_primary_when_there_is_no_rendition_and_no_pdf(tmp_path):
+    """429 folders held markup and nothing else; every converter can fail on the
+    same document, and then the paper had no full text at all."""
+    paper = _xml_only(tmp_path)
+
+    art = ex.paper_artifacts(paper)
+
+    assert art["primary_tier"] == "raw_xml"
+    assert art["primary"].name == f"{FOLDER}.xml"
+    assert art["has_fulltext"] is True
+    assert "DOES carry the full reference list" in ex._describe_artifacts(paper, art)
+
+
+def test_a_rendition_or_a_pdf_always_outranks_the_raw_markup(tmp_path):
+    paper = _xml_only(tmp_path)
+    (paper / f"{FOLDER}_from_xml.md").write_text("Rendered prose. " * 50)
+    assert ex.paper_artifacts(paper)["primary_tier"] == "xml"
+
+    (paper / f"{FOLDER}_from_xml.md").unlink()
+    (paper / f"{FOLDER}.pdf").write_bytes(b"%PDF-fake")
+    assert ex.paper_artifacts(paper)["primary_tier"] is None, "the PDF tier, not raw markup"
+
+
+def test_force_tier_never_substitutes_raw_markup(tmp_path):
+    """--force-tier exists to hold a benchmark to one rung; a silent swap would
+    make a tier study measure something else."""
+    paper = _xml_only(tmp_path)
+
+    assert ex.paper_artifacts(paper, force_tier="grobid")["primary_tier"] is None
+    assert ex.paper_artifacts(paper, force_tier="pdf")["primary_tier"] is None

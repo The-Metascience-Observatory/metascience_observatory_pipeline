@@ -34,6 +34,7 @@ import subprocess
 import sys
 import threading
 import time
+import unicodedata
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -284,6 +285,18 @@ def paper_artifacts(paper_dir: Path, force_tier: str | None = None) -> dict:
     structured_raw = (_first_match(paper_dir, "*.xml")
                       or _first_match(paper_dir, "*.fulltext.html"))
 
+    # Last rung. Every converter can fail on the same document -- Wiley's
+    # <component> schema defeats all of ours -- and for a record that arrived as
+    # markup with no PDF (429 such folders on 2026-09-03) that leaves the paper
+    # with no full text at all while a complete article sits right there. Raw
+    # markup runs about 3.7x the tokens of its rendition, so it is strictly a
+    # last resort: offered only when no tier and no PDF exist. Never substituted
+    # under --force-tier, which exists to hold a benchmark to one rung.
+    if not tiers and pdf is None and structured_raw is not None and force_tier is None:
+        tiers = [("raw_xml", structured_raw,
+                  "the publisher's raw markup — no rendition could be made of "
+                  "this paper and there is no PDF")]
+
     return {
         "primary_tier": tiers[0][0] if tiers else None,
         "primary": tiers[0][1] if tiers else None,
@@ -364,6 +377,13 @@ def _describe_artifacts(paper_dir: Path, art: dict) -> str:
         )
 
     lines = [f"PRIMARY full text: {art['primary'].name} — {art['primary_label']}."]
+    if art["primary_tier"] == "raw_xml":
+        lines.append(
+            "  It is XML, not Markdown: read the text inside the tags and ignore "
+            "the markup. Tables are in the markup with their spans intact, and "
+            "unlike a rendition this file DOES carry the full reference list "
+            "(JATS `<back><ref-list>`, Elsevier `<ce:bibliography>`), so the "
+            "original study's bibliographic details are in here.")
     if art["primary_tier"] in ("xml", "html"):
         note = (
             "  Tables in it are HTML, not Markdown (colspan/rowspan survive that "
@@ -793,14 +813,38 @@ def _extract_last_names(orig_authors: str) -> list[str]:
     return names
 
 
+def _fold(text: str) -> str:
+    """Lowercase and strip diacritics, so "Acemoglu" matches "Acemoğlu"."""
+    return "".join(c for c in unicodedata.normalize("NFKD", (text or "").lower())
+                   if not unicodedata.combining(c))
+
+
 def _reference_matches(ref: dict, last_names: list[str], year: str) -> bool:
-    """Check whether a references.json entry matches the extracted author last name(s) and year."""
-    ref_year = ref.get("year")
-    if ref_year is None or str(ref_year) != str(year):
+    """Does this bibliography entry look like the study an extracted row names?
+
+    Reads the entry's whole text rather than its parsed `year` and `authors`
+    fields. GROBID's parse of the corpus is thin -- a sampled median of 4
+    references per paper, with 88% of papers having no parsed year on any entry
+    -- and the Elsevier path writes {"raw": "..."} carrying no fields at all.
+    Requiring parsed fields therefore made this corroboration impossible for
+    most papers, which silently turned it from a safety net into dead code: the
+    citation check then flagged mismatches it could have cleared, and every one
+    of those buys a review round that can change a label. The year and the
+    surname are almost always present in the entry's text even when GROBID did
+    not split them out.
+    """
+    parts: list[str] = []
+    for value in ref.values():
+        if isinstance(value, (str, int, float)):
+            parts.append(str(value))
+        elif isinstance(value, list):
+            parts.extend(str(v) for v in value)
+    blob = _fold(" ".join(parts))
+    if not blob:
         return False
-    ref_authors = ref.get("authors") or []
-    authors_blob = " ".join(ref_authors).lower() if isinstance(ref_authors, list) else str(ref_authors).lower()
-    return any(name.lower() in authors_blob for name in last_names)
+    if year and str(year) not in blob:
+        return False
+    return any(_fold(n) in blob for n in last_names)
 
 
 def validate_citation_sentences(data: dict, references: list[dict] | None = None) -> list[dict]:
