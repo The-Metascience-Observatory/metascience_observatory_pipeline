@@ -426,6 +426,24 @@ def extract_paper_core(paper_dir: Path, backend, system_prompt: str, existing_ur
 
 # ── batch ───────────────────────────────────────────────────────────────────
 
+def looks_like_batch(path: Path) -> bool:
+    """Is this a directory OF paper folders, rather than one paper?
+
+    Decided by what the subdirectories are, never by whether a PDF happens to
+    sit in this directory. The corpus root holds a few loose stage-7 leftovers,
+    so "contains a PDF" reported the whole corpus as a single paper: one doomed
+    extraction, and --include-list silently ignored. Returns on the first paper
+    folder it sees, so it costs one readdir on a slow drive.
+    """
+    try:
+        for child in path.iterdir():
+            if child.is_dir() and paper_artifacts(child)["has_fulltext"]:
+                return True
+    except OSError:
+        pass
+    return False
+
+
 def discover_papers(papers_dir: Path, include: set[str] | None, limit: int | None) -> list[Path]:
     """Same rule as extract_batch: any folder with readable full text."""
     dirs = sorted(p for p in papers_dir.iterdir()
@@ -565,6 +583,10 @@ def main() -> int:
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("path", type=Path, help="papers directory (batch) or one paper folder")
     ap.add_argument("--tag", default=None, help="run tag: outputs go to <paper>/<tag>/ (per-run resume)")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--batch", action="store_true",
+                      help="path is a directory of paper folders (auto-detected; pass this to be sure)")
+    mode.add_argument("--single", action="store_true", help="path is one paper folder")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--include-list", type=Path, default=None,
                     help="file of paper folder names, one per line")
@@ -591,7 +613,13 @@ def main() -> int:
     include = None
     if args.include_list:
         include = {l.strip() for l in args.include_list.read_text().splitlines() if l.strip()}
-    single = paper_artifacts(args.path)["has_fulltext"]
+    if args.batch or args.single:
+        single = args.single
+    else:
+        single = not looks_like_batch(args.path)
+    if single and not paper_artifacts(args.path)["has_fulltext"]:
+        sys.exit(f"{args.path} holds neither readable full text nor any paper folder. "
+                 f"Pass --batch if it is a directory of paper folders.")
 
     if args.show_prompt:
         target = args.path if single else next(iter(discover_papers(args.path, include, 1)), None)

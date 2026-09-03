@@ -12,8 +12,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 
-from mo_pipeline.corpus import catalog, migrate_drive
+from mo_pipeline.corpus import adopt, catalog, migrate_drive
 
 
 def _print(obj):
@@ -32,6 +33,33 @@ def main(argv=None):
     sw = sub.add_parser("sweep", help="move remaining ingested/ + WIP leftovers to legacy/ (run after migrate)")
     sw.add_argument("--execute", action="store_true", help="actually move")
 
+    rp = sub.add_parser("repair-names",
+                        help="rename legacy/ambiguous DOI folder names (dry-run unless --apply)")
+    rp.add_argument("--apply", action="store_true", help="actually rename")
+    rp.add_argument("--check", action="store_true",
+                    help="verify every folder's doi.txt round-trips to its name")
+
+    ad = sub.add_parser("adopt-structured",
+                        help="move inbox XML/HTML (+ sidecars) into papers/{doi}/ "
+                             "after conversion (dry-run unless --execute)")
+    ad.add_argument("--execute", action="store_true", help="actually move the files")
+
+    ib = sub.add_parser("inbox-subfolders",
+                        help="move flat inbox/{doi}.* files into inbox/{doi}/ (one folder "
+                             "per record, as stage 6 now writes; dry-run unless --execute)")
+    ib.add_argument("--execute", action="store_true", help="actually move the files")
+
+    rm = sub.add_parser("render-markdown",
+                        help="write the missing {stem}_from_xml.md / _from_html.md for "
+                             "XML/HTML already on the drive (dry-run unless --execute)")
+    rm.add_argument("--execute", action="store_true", help="actually write the markdown")
+    rm.add_argument("--limit", type=int, default=None,
+                    help="convert at most N records (the drive is slow; start small)")
+    rm.add_argument("--overwrite", action="store_true",
+                    help="re-render artifacts that already have a rendition")
+    rm.add_argument("-v", "--verbose", action="store_true",
+                    help="per-file conversion detail (table and figure counts)")
+
     sub.add_parser("scan", help="rebuild corpus.sqlite from papers/")
     sub.add_parser("stats", help="print catalog stats")
     sub.add_parser("coverage", help="database->corpus markdown coverage")
@@ -49,7 +77,9 @@ def main(argv=None):
                     help="only papers whose screening/extraction found replications")
     il.add_argument("--exclude-no-replications", action="store_true",
                     help="skip papers screened as containing no replications")
-    il.add_argument("-o", "--output", help="write folder paths here (default stdout)")
+    il.add_argument("-o", "--output",
+                    help="write folder names here, one per line, ready for extract --include-list "
+                         "(default stdout)")
 
     args = ap.parse_args(argv)
 
@@ -70,6 +100,39 @@ def main(argv=None):
         _print(result)
         if not args.execute:
             print("\n(dry-run — re-run with --execute to sweep)", file=sys.stderr)
+
+    elif args.cmd == "repair-names":
+        from mo_pipeline.corpus import repair_folder_names
+        if args.check:
+            sys.exit(1 if repair_folder_names.check() else 0)
+        result = repair_folder_names.repair(apply=args.apply)
+        _print(result)
+        if not args.apply:
+            print("\n(dry-run — re-run with --apply to rename)", file=sys.stderr)
+
+    elif args.cmd == "adopt-structured":
+        result = adopt.adopt_structured(execute=args.execute)
+        _print(result)
+        if not args.execute and result["adopted"]:
+            print(f"dry run — re-run with --execute to move {result['files']} files",
+                  file=sys.stderr)
+
+    elif args.cmd == "inbox-subfolders":
+        from mo_pipeline.corpus import inbox_layout
+        result = inbox_layout.migrate_inbox(execute=args.execute)
+        _print(result)
+        if not args.execute and result["records"]:
+            print(f"dry run — re-run with --execute to move {result['files']} files "
+                  f"into {result['records']} record folders", file=sys.stderr)
+
+    elif args.cmd == "render-markdown":
+        from mo_pipeline.corpus import render
+        result = render.render_markdown(execute=args.execute, limit=args.limit,
+                                        overwrite=args.overwrite, verbose=args.verbose)
+        _print(result)
+        if not args.execute and result["pending"]:
+            print(f"dry run — re-run with --execute to render {result['pending']} records",
+                  file=sys.stderr)
 
     elif args.cmd == "scan":
         summary = catalog.scan()
@@ -102,7 +165,10 @@ def main(argv=None):
         cr = True if args.with_replications else None
         rows = catalog.query(conn, status=args.status, contains_replications=cr,
                              not_extracted_tag=args.not_extracted_tag)
-        folders = [r["folder"] for r in rows
+        # Folder NAMES, not the catalog's absolute paths: both extractors match
+        # an include list against `p.name`, so absolute paths matched nothing at
+        # all. doi_runs and the benchmark harness already write names.
+        folders = [Path(r["folder"]).name for r in rows
                    if not (args.exclude_no_replications and r["contains_replications"] == 0)]
         conn.close()
         text = "\n".join(folders)

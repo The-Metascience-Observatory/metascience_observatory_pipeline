@@ -423,3 +423,24 @@ def test_citation_check_corroborates_a_first_last_author():
     data = {"replications": [{"citation_sentence": "We replicate Vaughn (2018) Study 1.",
                               "original_authors": "Leigh Ann Vaughn", "original_year": "2018"}]}
     assert ex.validate_citation_sentences(data, None) == []
+
+
+def test_batch_is_detected_by_structure_not_by_a_stray_pdf(tmp_path):
+    """The corpus root holds a few loose stage-7 leftovers. Deciding "is this one
+    paper?" by whether a PDF sits in the directory therefore ran the whole corpus
+    as a single paper and silently ignored --include-list."""
+    root = tmp_path / "papers"
+    root.mkdir()
+    (root / "leftover.pdf").write_bytes(b"%PDF-fake")
+    paper = root / FOLDER
+    paper.mkdir()
+    (paper / "body.md").write_text("Real prose about a replication. " * 200)
+    # the old rule said "one paper", because a PDF is present
+    assert ex.paper_artifacts(root)["has_fulltext"] is True
+    assert core.looks_like_batch(root) is True
+
+    # a paper folder is not a batch, even though its tag subdirs are directories
+    (paper / "some_tag").mkdir()
+    (paper / "some_tag" / f"{FOLDER}_result_core.json").write_text("{}")
+    assert core.looks_like_batch(paper) is False
+    assert core.looks_like_batch(tmp_path / "does_not_exist") is False
