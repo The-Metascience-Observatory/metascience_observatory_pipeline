@@ -33,6 +33,11 @@ The CLI backend is the DEFAULT for screening and its behaviour is byte-for-byte
 the logic that previously lived in `classify_candidates.classify_one`, so
 switching providers is opt-in and reversible.
 
+The two providers are NOT interchangeable for a controlled comparison: the
+OpenRouter path pins temperature 0 and a max_tokens cap and retries 429/5xx four
+times, while the CLI exposes neither knob and does not retry. Treat a
+provider switch as a change of condition, not as a free substitution.
+
 Usage:
     from mo_pipeline.discover.screening_backend import get_backend
     backend = get_backend()                      # honours config
@@ -56,6 +61,32 @@ from dataclasses import dataclass, field
 from mo_pipeline.config import LLM_MODEL, LLM_TIMEOUT_SEC
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+#: Each provider's own default model. `SCREENING_MODEL` names a model for the
+#: CONFIGURED provider only: it is a provider-specific value, so it must not be
+#: handed to a provider the caller asked for explicitly.
+PROVIDER_DEFAULT_MODEL = {"claude_cli": LLM_MODEL, "openrouter": "openai/gpt-5-nano"}
+
+
+def check_model(provider: str, model: str) -> str:
+    """Reject a model that belongs to the other provider, before any call.
+
+    Worth failing loudly for, because the alternative is near-invisible: the
+    Claude CLI exits 1 with `[claude-code:unrecognized_model]`, `screen()`
+    returns None, classify books it as a retryable failure, and stage 4 finishes
+    with exit 0 having classified nothing at all. OpenRouter model ids are
+    `vendor/model`; every Claude CLI alias and full model id has no slash.
+    """
+    if provider == "claude_cli" and "/" in model:
+        raise ValueError(
+            f"model {model!r} looks like an OpenRouter slug but the provider is claude_cli. "
+            f"SCREENING_MODEL names a model for the configured provider "
+            f"({_cfg('SCREENING_PROVIDER', 'claude_cli')}); pass an explicit model to use another.")
+    if provider == "openrouter" and "/" not in model:
+        raise ValueError(
+            f"model {model!r} is not an OpenRouter id (expected `vendor/model`). "
+            f"Pass an explicit --model, e.g. anthropic/claude-sonnet-4.6.")
+    return model
 
 
 # ── shared JSON salvage (identical to the pre-existing CLI behaviour) ────────
@@ -251,7 +282,9 @@ class OpenRouterBackend:
 
     def __init__(self, model=None, timeout=None, api_key=None, max_retries=4,
                  max_tokens=400):
-        self.model = model or _cfg("SCREENING_MODEL", "openai/gpt-5-nano")
+        # Its own default, never SCREENING_MODEL: that names a model for the
+        # configured provider, which may not be this one.
+        self.model = model or PROVIDER_DEFAULT_MODEL["openrouter"]
         self.timeout = timeout or LLM_TIMEOUT_SEC
         self.api_key = api_key or _openrouter_key()
         self.max_retries = max_retries
@@ -378,18 +411,22 @@ BACKENDS = {b.name: b for b in (ClaudeCLIBackend, OpenRouterBackend)}
 def get_backend(provider=None, model=None, **kwargs):
     """Instantiate the configured screening backend.
 
-    Defaults to claude_cli so existing behaviour is unchanged unless a caller
-    or config explicitly opts into another provider. Extra keyword arguments
-    (timeout, cwd, max_tokens, ...) go to the backend constructor; callers
-    that are not stage 4 should pass an explicit `model`, because the
-    screening default (SCREENING_MODEL) may be an OpenRouter slug.
+    Extra keyword arguments (timeout, cwd, max_tokens, ...) go to the backend
+    constructor.
+
+    `SCREENING_MODEL` is applied only when the caller wants the provider that
+    config names. It is a provider-specific value, and reading it regardless of
+    provider meant `get_backend(provider="claude_cli")` handed the Claude CLI
+    "inclusionai/ling-2.6-flash" as soon as the configured default became
+    OpenRouter -- so stage 4 classified nothing while still exiting 0.
     """
-    provider = provider or _cfg("SCREENING_PROVIDER", "claude_cli")
+    configured = _cfg("SCREENING_PROVIDER", "claude_cli")
+    provider = provider or configured
     if provider not in BACKENDS:
         raise ValueError(
             f"unknown SCREENING_PROVIDER {provider!r}; expected one of {sorted(BACKENDS)}"
         )
-    cls = BACKENDS[provider]
-    if provider == "claude_cli":
-        return cls(model=model or _cfg("SCREENING_MODEL", None) or LLM_MODEL, **kwargs)
-    return cls(model=model, **kwargs)
+    if model is None and provider == configured:
+        model = _cfg("SCREENING_MODEL", None) or None
+    model = check_model(provider, model or PROVIDER_DEFAULT_MODEL[provider])
+    return BACKENDS[provider](model=model, **kwargs)
