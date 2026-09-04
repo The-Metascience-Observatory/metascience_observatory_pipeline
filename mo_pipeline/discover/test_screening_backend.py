@@ -116,3 +116,24 @@ def test_cli_unrecognised_model_is_fatal(monkeypatch):
     assert b.complete("s", "u").fatal
     with pytest.raises(sb.BackendUnavailable):
         b.screen(1, "s", "u")
+
+
+def test_a_truncated_reply_is_reported_as_truncation(monkeypatch, capsys):
+    """finish_reason 'length' means the text is real but incomplete. Read as
+    malformed JSON it looks like a model defect; read as truncation it is a
+    one-line config fix."""
+    payload = {"choices": [{"message": {"content": '{"replications": [{"resu'},
+                            "finish_reason": "length"}], "usage": {}}
+    b = sb.OpenRouterBackend.__new__(sb.OpenRouterBackend)
+    b.model, b.timeout, b.api_key, b.max_retries, b.max_tokens = "x/y", 1, "k", 1, 400
+
+    class R:
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self): return __import__("json").dumps(payload).encode()
+    monkeypatch.setattr(sb.urllib.request, "urlopen", lambda *a, **k: R())
+    r = b.complete("s", "u")
+    assert r.truncated and r.text and not r.error      # real text, just incomplete
+    assert sb._screen(b, 3, "s", "u") == (3, None)
+    out = capsys.readouterr().out
+    assert "truncated at the output cap" in out and "max_tokens=400" in out

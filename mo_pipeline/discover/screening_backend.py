@@ -180,6 +180,9 @@ class CompletionResult:
     #: True when `error` describes the backend itself rather than this request,
     #: so every subsequent call would fail identically.
     fatal: bool = False
+    #: True when the model hit its output cap mid-answer. The text is real but
+    #: incomplete, which otherwise reads downstream as malformed JSON.
+    truncated: bool = False
     raw: dict | None = None
     returncode: int | None = None
     stdout: str = ""
@@ -376,7 +379,11 @@ class OpenRouterBackend:
             "duration_ms": 0,
             "num_turns": 1,
         }
-        return CompletionResult(text=content or "", usage=usage, raw=payload)
+        # A reasoning model can spend most of its budget before emitting, so a
+        # length stop is common and must not be reported as malformed output.
+        finish = (payload.get("choices") or [{}])[0].get("finish_reason")
+        return CompletionResult(text=content or "", usage=usage, raw=payload,
+                                truncated=finish == "length")
 
     def screen(self, idx, system_prompt, user_prompt):
         """Return (idx, parsed_dict_or_None), or raise BackendUnavailable when the
@@ -400,11 +407,12 @@ def _screen(backend, idx, system_prompt, user_prompt):
     if r.error:
         print(f"  [{idx}] {r.error}")
         return idx, None
-    if not (r.text or "").strip():
-        cap = getattr(backend, "max_tokens", None)
-        print(f"  [{idx}] empty reply from {backend.model}"
-              + (f" (max_tokens={cap}; a reasoning model can spend the whole budget "
-                 f"before answering)" if cap else ""))
+    cap = getattr(backend, "max_tokens", None)
+    if r.truncated or not (r.text or "").strip():
+        what = "truncated at the output cap" if r.truncated else "empty reply"
+        print(f"  [{idx}] {what} from {backend.model}"
+              + (f" (max_tokens={cap}; a reasoning model can spend most of the budget "
+                 f"before it emits anything)" if cap else ""))
         return idx, None
     inner = extract_json(r.text)
     if inner is None:

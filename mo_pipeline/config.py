@@ -98,7 +98,12 @@ EXTRACT_CORE_PROVIDER = "claude_cli"      # "claude_cli" | "openrouter"
 EXTRACT_CORE_MODEL = "sonnet"             # claude_cli alias; OpenRouter needs an explicit --model
 EXTRACT_CORE_TIMEOUT_SEC = 600            # one call carries a whole paper; LLM_TIMEOUT_SEC is too short
 EXTRACT_CORE_MAX_INPUT_CHARS = 350_000    # ~90k tokens; the p90 paper is 75 KB, so rarely hit
-EXTRACT_CORE_MAX_OUTPUT_TOKENS = 8192     # OpenRouter max_tokens; multi-study papers need room
+# OpenRouter max_tokens. 16k, not 8k: a reasoning model spends most of its budget
+# before it emits anything, and a parallel session measured 8000 still hitting
+# `finish_reason: length` on a comparable coding task. It is a cap, not a target,
+# so the cost of being generous is nothing and the cost of being tight is a
+# silently truncated extraction.
+EXTRACT_CORE_MAX_OUTPUT_TOKENS = 16384
 
 # ── OpenAlex biomedical concept IDs ──────────────────────────────────────────
 BIOMED_CONCEPT_IDS = [
@@ -153,13 +158,6 @@ PDF_SEARCH_DIRS = [
     CURRENT_BATCH_DIR,
 ]
 
-# Legacy replications DB used by filter_direct_replications to exclude already-
-# ingested DOIs (a frozen historical snapshot).
-LEGACY_REPLICATIONS_DB = (
-    OBSERVATORY_ROOT / "agent_for_replications"
-    / "replications_database_2026_01_28_151337.csv"
-)
-
 # ── Website integration (extract reads the ontology; the DB lives here) ──────
 # Ingestion itself runs manually from metascience_observatory_website/
 # data_ingestor/ — the pipeline only reads these paths (ontology, latest-DB
@@ -170,6 +168,33 @@ WEBSITE_DATA_DIR = Path(os.environ.get(
     "MO_WEBSITE_DATA_DIR", WEBSITE_ROOT / "data"))
 ONTOLOGY_PATH = WEBSITE_DATA_DIR / "metascience_observatory_topic_ontology.json"
 VERSION_HISTORY_PATH = WEBSITE_DATA_DIR / "version_history.txt"
+
+
+def latest_replications_db() -> Path | None:
+    """The newest `replications_database_*.csv`, or None if it cannot be found.
+
+    Resolved at call time, never pinned to a constant. The ingestor writes a new
+    dated CSV on every ingest, so any constant goes stale the moment one lands --
+    and a stale one fails silently, because every caller guards it with an
+    `exists()` check. That is exactly what happened: this used to be
+    LEGACY_REPLICATIONS_DB, pinned to a 2026-01-28 snapshot in a directory that
+    no longer exists, which disabled stage 5's already-published exclusion
+    without a word for months.
+
+    version_history.txt lists one filename per line, newest last, with optional
+    `#` comments recording what each ingest changed.
+    """
+    if not VERSION_HISTORY_PATH.exists():
+        return None
+    latest = None
+    for line in VERSION_HISTORY_PATH.read_text().splitlines():
+        line = line.split("#")[0].strip()
+        if line:
+            latest = line
+    if not latest:
+        return None
+    path = WEBSITE_DATA_DIR / latest
+    return path if path.exists() else None
 
 # ── Benchmarking (extraction accuracy + discovery recall harnesses) ──────────
 # See benchmarking/README.md. Ground truth lives in gold/ (adjudicated) and
@@ -235,6 +260,8 @@ def _self_check() -> None:
             ("WEBSITE_DATA_DIR", WEBSITE_DATA_DIR),
             ("ONTOLOGY_PATH", ONTOLOGY_PATH),
             ("VERSION_HISTORY_PATH", VERSION_HISTORY_PATH),
+            ("latest_replications_db()", latest_replications_db() or
+             Path("<unresolved: stage 5 will not exclude published papers>")),
         ],
         "Prompts": [
             ("PROMPT_SHARED_CORE", PROMPT_SHARED_CORE),

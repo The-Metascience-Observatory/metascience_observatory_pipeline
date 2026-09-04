@@ -389,8 +389,10 @@ def extract_paper_core(paper_dir: Path, backend, system_prompt: str, existing_ur
     }
     (output_dir / "debug_log.json").write_text(json.dumps(debug, indent=2, default=str))
     if data is None:
-        raise RuntimeError(f"{backend.name} reply was not valid JSON for {paper_dir}:\n"
-                           f"{attempts[-1].text[:500]}")
+        why = ("the reply was truncated at the output cap (raise "
+               "EXTRACT_CORE_MAX_OUTPUT_TOKENS)" if attempts[-1].truncated
+               else "the reply was not valid JSON")
+        raise RuntimeError(f"{backend.name}: {why} for {paper_dir}:\n{attempts[-1].text[:500]}")
 
     data = postprocess(data, paper_dir, ai_version)
     data, msgs = validate_extraction(data)
