@@ -154,6 +154,16 @@ def parse_json_reply(text):
 
 # ── result of one completion ────────────────────────────────────────────────
 
+class BackendUnavailable(RuntimeError):
+    """The backend cannot serve ANY request: a retired model, a bad key, no credit.
+
+    Distinct from a per-call failure. Retrying is pointless and expensive: stage 4
+    would book each of ~24,000 papers as "FAILED, will retry on next run" and exit
+    0 having classified nothing, which reads as a successful run. Raised out of
+    screen() so the run stops on the first call instead.
+    """
+
+
 @dataclass
 class CompletionResult:
     """What one no-tools call produced.
@@ -167,6 +177,9 @@ class CompletionResult:
     text: str = ""
     usage: dict = field(default_factory=dict)
     error: str | None = None
+    #: True when `error` describes the backend itself rather than this request,
+    #: so every subsequent call would fail identically.
+    fatal: bool = False
     raw: dict | None = None
     returncode: int | None = None
     stdout: str = ""
@@ -246,7 +259,10 @@ class ClaudeCLIBackend:
         base = CompletionResult(returncode=result.returncode,
                                 stdout=result.stdout or "", stderr=result.stderr or "")
         if result.returncode != 0:
-            base.error = f"CLI exit {result.returncode}: {(result.stderr or '')[:300]}"
+            combined = ((result.stderr or "") + (result.stdout or ""))[:400]
+            base.error = f"CLI exit {result.returncode}: {combined}"
+            # A model the CLI does not know fails identically on every call.
+            base.fatal = "unrecognized_model" in combined or "unknown model" in combined.lower()
             return base
         try:
             outer = json.loads(result.stdout)
@@ -261,17 +277,10 @@ class ClaudeCLIBackend:
         return base
 
     def screen(self, idx, system_prompt, user_prompt):
-        """Return (idx, parsed_dict_or_None). Prints are unchanged from the
+        """Return (idx, parsed_dict_or_None), or raise BackendUnavailable when the
+        backend itself is misconfigured. Prints are otherwise unchanged from the
         pre-backend classify_one."""
-        r = self.complete(system_prompt, user_prompt)
-        if r.error:
-            print(f"  [{idx}] {r.error}")
-            return idx, None
-        inner = extract_json(r.text)
-        if inner is None:
-            print(f"  [{idx}] inner JSON parse error. Raw: {r.text[:200]}")
-            return idx, None
-        return idx, inner
+        return _screen(self, idx, system_prompt, user_prompt)
 
 
 class OpenRouterBackend:
@@ -333,7 +342,15 @@ class OpenRouterBackend:
                     print(f"  OpenRouter {e.code}, retry in {wait}s")
                     time.sleep(wait)
                     continue
-                return CompletionResult(error=f"OpenRouter HTTP {e.code}: {e.read()[:200]!r}")
+                body = e.read()[:300].decode(errors="replace")
+                # 401/402/403/404 concern the key, the credit or the model id:
+                # identical for every request, so stop rather than repeat them.
+                hint = (" Set SCREENING_MODEL to a live model id "
+                        "(https://openrouter.ai/api/v1/models lists them) or pass --model."
+                        if e.code == 404 else "")
+                return CompletionResult(
+                    error=f"OpenRouter HTTP {e.code} for model {self.model!r}: {body}{hint}",
+                    fatal=e.code in (401, 402, 403, 404))
             except Exception as e:
                 if attempt < self.max_retries - 1:
                     time.sleep(2 ** attempt)
@@ -362,15 +379,38 @@ class OpenRouterBackend:
         return CompletionResult(text=content or "", usage=usage, raw=payload)
 
     def screen(self, idx, system_prompt, user_prompt):
-        r = self.complete(system_prompt, user_prompt)
-        if r.error:
-            print(f"  [{idx}] {r.error}")
-            return idx, None
-        inner = extract_json(r.text)
-        if inner is None:
-            print(f"  [{idx}] inner JSON parse error. Raw: {r.text[:200]}")
-            return idx, None
-        return idx, inner
+        """Return (idx, parsed_dict_or_None), or raise BackendUnavailable when the
+        backend itself is misconfigured. Prints are otherwise unchanged from the
+        pre-backend classify_one."""
+        return _screen(self, idx, system_prompt, user_prompt)
+
+
+def _screen(backend, idx, system_prompt, user_prompt):
+    """One screening verdict, or None for a failure worth retrying.
+
+    Three outcomes are kept apart that used to collapse into one unhelpful
+    "inner JSON parse error":
+      fatal        the backend can serve nothing -> raise, never retry
+      empty reply  the model spent its whole token budget before answering
+      unparseable  it answered, but not with JSON
+    """
+    r = backend.complete(system_prompt, user_prompt)
+    if r.fatal:
+        raise BackendUnavailable(r.error)
+    if r.error:
+        print(f"  [{idx}] {r.error}")
+        return idx, None
+    if not (r.text or "").strip():
+        cap = getattr(backend, "max_tokens", None)
+        print(f"  [{idx}] empty reply from {backend.model}"
+              + (f" (max_tokens={cap}; a reasoning model can spend the whole budget "
+                 f"before answering)" if cap else ""))
+        return idx, None
+    inner = extract_json(r.text)
+    if inner is None:
+        print(f"  [{idx}] inner JSON parse error. Raw: {r.text[:200]}")
+        return idx, None
+    return idx, inner
 
 
 # ── selection ───────────────────────────────────────────────────────────────

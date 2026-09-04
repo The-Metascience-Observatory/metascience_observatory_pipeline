@@ -57,3 +57,62 @@ def test_a_cross_provider_model_is_rejected_not_silently_attempted():
 def test_unknown_provider_still_raises(cfg):
     with pytest.raises(ValueError, match="unknown SCREENING_PROVIDER"):
         sb.get_backend(provider="nope")
+
+
+# ── a misconfigured backend must stop the run, not be retried per item ──────
+
+class _HTTPError(Exception):
+    def __init__(self, code, body=b"{}"):
+        self.code = code
+        self._body = body
+    def read(self): return self._body
+
+
+def _openrouter(monkeypatch, raiser):
+    monkeypatch.setattr(sb.urllib.error, "HTTPError", _HTTPError, raising=False)
+    monkeypatch.setattr(sb.urllib.request, "urlopen", raiser)
+    b = sb.OpenRouterBackend.__new__(sb.OpenRouterBackend)
+    b.model, b.timeout, b.api_key, b.max_retries, b.max_tokens = "x/y", 1, "k", 1, 400
+    return b
+
+
+def test_a_retired_model_stops_the_run(monkeypatch):
+    """The real failure: stage 4 booked all ~24,000 papers as retryable and exited
+    0 having classified nothing, because a 404 looked like a per-item error."""
+    def boom(*a, **k):
+        raise _HTTPError(404, b'{"error":{"message":"no longer available"}}')
+    b = _openrouter(monkeypatch, boom)
+    r = b.complete("s", "u")
+    assert r.fatal and "404" in r.error and "x/y" in r.error   # complete() still never raises
+    with pytest.raises(sb.BackendUnavailable):
+        b.screen(1, "s", "u")
+
+
+def test_a_transient_code_is_not_fatal(monkeypatch):
+    def boom(*a, **k):
+        raise _HTTPError(503, b"upstream")
+    b = _openrouter(monkeypatch, boom)
+    r = b.complete("s", "u")
+    assert r.error and not r.fatal
+    assert b.screen(1, "s", "u") == (1, None)                  # retryable, so keep going
+
+
+def test_an_empty_reply_is_reported_as_empty(monkeypatch, capsys):
+    """A reasoning model can spend a 400-token budget before answering; that used
+    to surface as "inner JSON parse error" with nothing to act on."""
+    b = sb.OpenRouterBackend.__new__(sb.OpenRouterBackend)
+    b.model, b.max_tokens = "x/y", 400
+    monkeypatch.setattr(b, "complete", lambda *a, **k: sb.CompletionResult(text="   "))
+    assert sb._screen(b, 7, "s", "u") == (7, None)
+    out = capsys.readouterr().out
+    assert "empty reply" in out and "max_tokens=400" in out
+
+
+def test_cli_unrecognised_model_is_fatal(monkeypatch):
+    class P:
+        returncode, stdout, stderr = 1, "", "[claude-code:unrecognized_model] nope"
+    monkeypatch.setattr(sb.subprocess, "run", lambda *a, **k: P())
+    b = sb.ClaudeCLIBackend(model="not-a-model", timeout=1)
+    assert b.complete("s", "u").fatal
+    with pytest.raises(sb.BackendUnavailable):
+        b.screen(1, "s", "u")

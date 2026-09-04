@@ -38,7 +38,8 @@ from pathlib import Path
 
 from mo_pipeline import config
 from mo_pipeline.corpus.models import folder_to_doi_url
-from mo_pipeline.discover.screening_backend import BACKENDS, get_backend, parse_json_reply
+from mo_pipeline.discover.screening_backend import (BACKENDS, BackendUnavailable, get_backend,
+                                                    parse_json_reply)
 from mo_pipeline.extract.extract import (
     RESULT_SUFFIXES, STAT_FIELDS, SkipPaper, _extract_doi_from_url, _format_duration, _husk_reason,
     _write_provenance, collate_results, enrich_metadata, is_usage_limit_error,
@@ -351,6 +352,10 @@ def extract_paper_core(paper_dir: Path, backend, system_prompt: str, existing_ur
     for attempt in range(2):
         r = backend.complete(system_prompt, user_prompt, cwd=paper_dir)
         attempts.append(r)
+        if r.fatal:
+            # Misconfigured backend: every remaining paper would fail the same
+            # way, so stop the batch rather than book 200 identical failures.
+            raise BackendUnavailable(r.error)
         if r.error:
             if r.returncode not in (None, 0):
                 # extract.py's message shape: an empty body after ":\n" is how
@@ -484,6 +489,8 @@ def extract_core_batch(papers_dir: Path, backend, *, workers: int = 4, tag: str 
             return pd, data, usage, None, log
         except SkipPaper as e:
             return pd, "skip", None, str(e), []
+        except BackendUnavailable:
+            raise                      # abort the batch; retrying cannot help
         except Exception as e:
             return pd, None, None, str(e), []
 
