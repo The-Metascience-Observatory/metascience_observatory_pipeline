@@ -1,0 +1,18 @@
+gt_result,judge_reason,judge_relation,n_ext_rows_in_paper,original_title,reason,replication_doi,row_id
+inconclusive,,,,Treatment Integrity of Interventions With Children in the School Psychology Lite,not_converted,10.1002/pits.22364,flora_222
+success,,,,Good and bad shopping vibes: Spending and patronage satisfaction,not_extracted,10.1007/s11002-025-09794-2,flora_19
+success,,,,Neonatal recognition of the mother's face,not_converted,10.1016/0163-6383(95)90009-8,flora_511
+inconclusive,,,,COVCOG 2: Cognitive and Memory Deficits in Long COVID: A Second Publication From,not_converted,10.1016/j.cortex.2025.05.019,flora_531
+success,,,,A risk reduction strategy to prevent maternal deaths associated with unsafe abor,pipeline says no replications,10.1016/j.ijgo.2016.06.008,flora_484
+failure,,,,Experiencing Physical Warmth Promotes Interpersonal Warmth,not_converted,10.1027/1864-9335/a000187,flora_34
+success,,,,The Symptoms of Resource Scarcity,not_converted,10.1027/1864-9335/a000210,flora_530
+failure,,,,Experiencing Physical Warmth Promotes Interpersonal Warmth,not_converted,10.1027/1864-9335/a000361,flora_523
+success,,,,Incrimination through innuendo: Can media questions become public answers?,not_converted,10.1027/1864-9335/a000540,flora_519
+success,,,,"Personality traits below facets: The consensual validity, longitudinal stability",not_converted,10.1037/pspp0000202,flora_293
+inconclusive,,,,Fighting COVID-19 Misinformation on Social Media: Experimental Evidence for a Sc,not_converted,10.1037/tmb0000086,flora_296
+success,"The pipeline row cites a different original study: the 2009 PNAS paper by Smith et al. (DOI 10.1073/pnas.0905267106), not the 2013 NeuroImage paper (DOI 10.1016/j.neuroimage.2013.05.039) described in the GT entry, despite shared first author and related neuroimaging topics.",different_original,1,Resting-state fMRI in the Human Connectome Project,no matching extracted row,10.1038/s41598-018-35209-6,flora_300
+inconclusive,,,,"Relationships between reading, tracing and writing skills in introductory progra",not_converted,10.1080/08993408.2022.2079866,flora_313
+success,,,,Unconscious Bias in Citizens’ Evaluations of Public Sector Performance,not_converted,10.1111/padm.13031,flora_70
+success,"The GT entry cites Hudson et al. 2007 (DOI: 10.1016/j.biopsych.2006.03.040) on eating disorder prevalence and correlates, while the pipeline row cites Striegel-Moore et al. 2010 (DOI: 10.1037/a0018915) on CBT-GSH treatment for binge eating—distinct original studies with different DOIs, authors, years, and journals.",different_original,1,The Prevalence and Correlates of Eating Disorders in the National Comorbidity Su,no matching extracted row,10.1176/ps.62.4.pss6204_0367,flora_398
+failure,"The pipeline row replicates Mazar et al. (2008) on Ten Commandments priming and cheating, but the GT entry replicates a different 2007 Mazar & Ariely paper on temporal influences on cheating ('What the Hell' Effect); DOIs, titles, and studied effects all differ.",different_original,1,"Temporal Influences on Cheating Behavior: The ""What the Hell"" Effect",no matching extracted row,10.1177/2515245918781032,flora_106
+inconclusive,,,,High in the hierarchy: How vertical location and judgments of leaders’ power are,not_converted,10.1525/collabra.216,flora_92

@@ -1,0 +1,20 @@
+[
+ {
+  "paper": "10.1007--s10508-009-9559-6",
+  "result": "failure",
+  "not_found_in_paper": [
+   "p < .001"
+  ],
+  "description": "Using vignettes, homosexual women showed no consistent bias in their preferences for women described as behavi",
+  "explanation": "Contrary to the original prediction of no consistent preference, homosexual women in this study showed a strong, significant preference for femininity over masculinity in female faces (t(157) = -9.33, p < .001), and the "
+ },
+ {
+  "paper": "10.3758--pbr.15.3.543",
+  "result": "inconclusive",
+  "not_found_in_paper": [
+   "p>.80"
+  ],
+  "description": "Swapping feature bindings between two previously studied objects, while leaving each individual feature unchan",
+  "explanation": "Young adults showed the expected binding cost (both single-feature blocks outperformed the binding block, ps<.001, 'revealing some degree of binding difficulty'), but older adults showed no additional cost for the bindin"
+ }
+]
