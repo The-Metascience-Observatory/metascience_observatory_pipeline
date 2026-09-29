@@ -1,0 +1,458 @@
+{
+  "provenance": {
+    "harness_version": "1.0",
+    "timestamp_utc": "2026-09-02T15:24:08Z",
+    "gt": {
+      "spec": "benchmarking/archive/legacy_feb2026/ground_truth_enhanced_V6DERIVED.csv",
+      "files": {
+        "benchmarking/archive/legacy_feb2026/ground_truth_enhanced_V6DERIVED.csv": "8d611bd14728db777589eb137a9be36e015254dbac47306e8abd710aae164700"
+      },
+      "gt_dirty": true,
+      "n_pipeline_rows": 36
+    },
+    "split": "all",
+    "run": null,
+    "tags": "v8_feb2026",
+    "papers_dir": "benchmarking/ground_truth_data_filtered_PDFs",
+    "model_ids": {
+      "claude-sonnet-4-6": 143
+    },
+    "ai_versions_in_results": {
+      "8": 141,
+      "unknown": 2
+    },
+    "tier_counts": {
+      "unknown": 143
+    },
+    "prompt_version_now": "8.6",
+    "prompt_sha256": {
+      "prompt_shared_core.md": "e1f433af8e9870e01b6fd6d5c66fe6d999f163492db17b6791cfda21298e50f2",
+      "prompt_full.md": "9dd48e2b4a6a52095c9693eabffcfd3f13484814da953823f848c938ce750305",
+      "prompt_full_pdf_only.md": "af6414299e2b4bb458598f871a63f31ef11156c3217022f092f2b05991758db9",
+      "prompt_full_html.md": "16f3d1c13006d856b418caafb9be388261931a94f6ca32177f18493144db9968",
+      "prompt_full_xml.md": "6b3253f6281e17fb1a6f74bd073b9f586d2e68a7ef1f05d0ace0dc73f6f7051c"
+    },
+    "codebook_sha256": "748a449dd455c571ff7dd1b24cefc860390d70b27ce3ca6fff9d77a42e9f4732",
+    "git_commit": "67749053b280846bc55487ec89ef5af32356319a",
+    "git_dirty_prompts": true,
+    "git_dirty_pipeline": true,
+    "claude_cli_version": "2.1.258 (Claude Code)",
+    "matcher": {
+      "mode": "deterministic"
+    },
+    "bootstrap": {
+      "n": 300,
+      "seed": 0
+    }
+  },
+  "metrics": {
+    "n_matched_rows": 161,
+    "entry": {
+      "tp": 161,
+      "fn": 28,
+      "granularity_misses": 0,
+      "wrong_original": 0,
+      "fp": 104,
+      "precision": 0.6075471698113207,
+      "recall": 0.8518518518518519,
+      "f1": 0.7092511013215859
+    },
+    "paper_level": {
+      "tp": 141,
+      "fn": 2,
+      "precision": 1.0,
+      "fpr": null
+    },
+    "funnel": {
+      "papers_total": 143,
+      "scored": 141,
+      "no_replications": 2
+    },
+    "result_3class": {
+      "n": 161,
+      "accuracy": 0.8074534161490683,
+      "cohen_kappa": 0.6778337206300026,
+      "macro_f1": 0.6845242956308697,
+      "per_class": {
+        "success": {
+          "support": 60,
+          "predicted": 64,
+          "tp": 53,
+          "precision": 0.828125,
+          "recall": 0.8833333333333333,
+          "f1": 0.8548387096774193
+        },
+        "failure": {
+          "support": 75,
+          "predicted": 83,
+          "tp": 71,
+          "precision": 0.8554216867469879,
+          "recall": 0.9466666666666667,
+          "f1": 0.8987341772151898
+        },
+        "inconclusive": {
+          "support": 26,
+          "predicted": 14,
+          "tp": 6,
+          "precision": 0.42857142857142855,
+          "recall": 0.23076923076923078,
+          "f1": 0.3
+        }
+      },
+      "confusion": {
+        "success": {
+          "success": 53,
+          "failure": 3,
+          "inconclusive": 4
+        },
+        "failure": {
+          "success": 0,
+          "failure": 71,
+          "inconclusive": 4
+        },
+        "inconclusive": {
+          "success": 11,
+          "failure": 9,
+          "inconclusive": 6
+        }
+      }
+    },
+    "result_4class": {
+      "n": 0
+    },
+    "result_all_rows_raw": {
+      "n": 161,
+      "accuracy": 0.8074534161490683,
+      "cohen_kappa": 0.6793858803880002,
+      "macro_f1": 0.6864324361345112,
+      "per_class": {
+        "success": {
+          "support": 60,
+          "predicted": 64,
+          "tp": 53,
+          "precision": 0.828125,
+          "recall": 0.8833333333333333,
+          "f1": 0.8548387096774193
+        },
+        "failure": {
+          "support": 75,
+          "predicted": 82,
+          "tp": 71,
+          "precision": 0.8658536585365854,
+          "recall": 0.9466666666666667,
+          "f1": 0.9044585987261147
+        },
+        "inconclusive": {
+          "support": 26,
+          "predicted": 14,
+          "tp": 6,
+          "precision": 0.42857142857142855,
+          "recall": 0.23076923076923078,
+          "f1": 0.3
+        },
+        "reversal": {
+          "support": 0,
+          "predicted": 1,
+          "tp": 0,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        }
+      },
+      "confusion": {
+        "success": {
+          "success": 53,
+          "failure": 3,
+          "inconclusive": 4,
+          "reversal": 0
+        },
+        "failure": {
+          "success": 0,
+          "failure": 71,
+          "inconclusive": 4,
+          "reversal": 0
+        },
+        "inconclusive": {
+          "success": 11,
+          "failure": 8,
+          "inconclusive": 6,
+          "reversal": 1
+        },
+        "reversal": {
+          "success": 0,
+          "failure": 0,
+          "inconclusive": 0,
+          "reversal": 0
+        }
+      }
+    },
+    "collapse_applied_n": 1,
+    "replication_type": {
+      "n": 0,
+      "accuracy_4class": null,
+      "n_4class": 0,
+      "adjacent_accuracy": null,
+      "kappa_4class": null,
+      "accuracy_2class_direct_or_close": null,
+      "n_2class": 0
+    },
+    "original_doi": {
+      "n": 144,
+      "accuracy": 0.9097222222222222,
+      "ext_missing_rate": 0.027777777777777776
+    },
+    "bibliographic": {
+      "n": 161,
+      "title_ok": 0.9316770186335404,
+      "authors_ok": 0.9316770186335404,
+      "year_ok": 0.9565217391304348,
+      "journal_ok": 0.968944099378882
+    },
+    "citation_sentence": {
+      "n": 161,
+      "present_rate": 0.0,
+      "author_year_ok_rate": null
+    },
+    "statistics": {
+      "original_n": {
+        "gt_has": 109,
+        "ext_has": 98,
+        "both_present": 91,
+        "gt_has_ext_missing": 18,
+        "ext_has_gt_missing": 7,
+        "type_mismatch_unscored": 0,
+        "tier1": 0.8241758241758241,
+        "tier2": 0.8681318681318682,
+        "tier3": 0.8901098901098901
+      },
+      "original_es": {
+        "gt_has": 93,
+        "ext_has": 78,
+        "both_present": 74,
+        "gt_has_ext_missing": 19,
+        "ext_has_gt_missing": 4,
+        "type_mismatch_unscored": 8,
+        "tier1": 0.8333333333333334,
+        "tier2": 0.8636363636363636,
+        "tier3": 0.8787878787878788
+      },
+      "original_p_value": {
+        "gt_has": 42,
+        "ext_has": 42,
+        "both_present": 35,
+        "gt_has_ext_missing": 7,
+        "ext_has_gt_missing": 7,
+        "type_mismatch_unscored": 0,
+        "tier1": 0.9142857142857143,
+        "tier2": 0.9428571428571428,
+        "tier3": 0.9714285714285714
+      },
+      "replication_n": {
+        "gt_has": 152,
+        "ext_has": 157,
+        "both_present": 151,
+        "gt_has_ext_missing": 1,
+        "ext_has_gt_missing": 6,
+        "type_mismatch_unscored": 0,
+        "tier1": 0.7748344370860927,
+        "tier2": 0.8145695364238411,
+        "tier3": 0.8410596026490066
+      },
+      "replication_es": {
+        "gt_has": 105,
+        "ext_has": 95,
+        "both_present": 83,
+        "gt_has_ext_missing": 22,
+        "ext_has_gt_missing": 12,
+        "type_mismatch_unscored": 8,
+        "tier1": 0.8133333333333334,
+        "tier2": 0.8666666666666667,
+        "tier3": 0.9466666666666667
+      },
+      "replication_p_value": {
+        "gt_has": 119,
+        "ext_has": 123,
+        "both_present": 107,
+        "gt_has_ext_missing": 12,
+        "ext_has_gt_missing": 16,
+        "type_mismatch_unscored": 0,
+        "tier1": 0.8130841121495327,
+        "tier2": 0.822429906542056,
+        "tier3": 0.9532710280373832
+      }
+    }
+  },
+  "ci95": {
+    "result_3class.accuracy": {
+      "lo": 0.7388535031847133,
+      "hi": 0.8571428571428571,
+      "n_boot": 300
+    },
+    "result_3class.cohen_kappa": {
+      "lo": 0.570803331921502,
+      "hi": 0.7547100110823791,
+      "n_boot": 300
+    },
+    "result_3class.macro_f1": {
+      "lo": 0.6029132046269142,
+      "hi": 0.7529317638806691,
+      "n_boot": 300
+    },
+    "result_3class.inconclusive_recall": {
+      "lo": 0.07407407407407407,
+      "hi": 0.4,
+      "n_boot": 300
+    },
+    "original_doi.accuracy": {
+      "lo": 0.8611111111111112,
+      "hi": 0.9574468085106383,
+      "n_boot": 300
+    }
+  },
+  "breakdowns": {
+    "source": {
+      "ground_truth_enhanced_V6DERIVED": {
+        "n": 161,
+        "papers": 125,
+        "accuracy": 0.8074534161490683,
+        "doi_accuracy": 0.9097222222222222
+      }
+    },
+    "provenance": {
+      "external:fred_api": {
+        "n": 110,
+        "papers": 104,
+        "accuracy": 0.7909090909090909,
+        "doi_accuracy": 0.9454545454545454
+      },
+      "human:dan_elton": {
+        "n": 6,
+        "papers": 6,
+        "accuracy": 0.8333333333333334,
+        "doi_accuracy": 0.5
+      },
+      "human:forrt_cd": {
+        "n": 6,
+        "papers": 4,
+        "accuracy": 0.5,
+        "doi_accuracy": 0.8333333333333334
+      },
+      "human:forrt_lk": {
+        "n": 10,
+        "papers": 9,
+        "accuracy": 0.9,
+        "doi_accuracy": 0.9
+      },
+      "pipeline:v6": {
+        "n": 29,
+        "papers": 17,
+        "accuracy": 0.896551724137931,
+        "doi_accuracy": 0.8333333333333334
+      }
+    },
+    "discipline_group": {
+      "biomed": {
+        "n": 23,
+        "papers": 21,
+        "accuracy": 0.5652173913043478,
+        "doi_accuracy": 1.0
+      },
+      "other": {
+        "n": 85,
+        "papers": 68,
+        "accuracy": 0.8470588235294118,
+        "doi_accuracy": 0.8607594936708861
+      },
+      "psych": {
+        "n": 50,
+        "papers": 36,
+        "accuracy": 0.86,
+        "doi_accuracy": 0.9743589743589743
+      },
+      "unknown": {
+        "n": 3,
+        "papers": 3,
+        "accuracy": 0.6666666666666666,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "gt_type": {
+      "(blank)": {
+        "n": 161,
+        "papers": 125,
+        "accuracy": 0.8074534161490683,
+        "doi_accuracy": 0.9097222222222222
+      }
+    },
+    "tier": {
+      "unknown": {
+        "n": 161,
+        "papers": 125,
+        "accuracy": 0.8074534161490683,
+        "doi_accuracy": 0.9097222222222222
+      }
+    },
+    "year_bucket": {
+      "2019-2022": {
+        "n": 64,
+        "papers": 50,
+        "accuracy": 0.796875,
+        "doi_accuracy": 0.9047619047619048
+      },
+      "2023+": {
+        "n": 55,
+        "papers": 50,
+        "accuracy": 0.8181818181818182,
+        "doi_accuracy": 0.9454545454545454
+      },
+      "<=2018": {
+        "n": 42,
+        "papers": 25,
+        "accuracy": 0.8095238095238095,
+        "doi_accuracy": 0.8461538461538461
+      }
+    },
+    "split": {
+      "all": {
+        "n": 161,
+        "papers": 125,
+        "accuracy": 0.8074534161490683,
+        "doi_accuracy": 0.9097222222222222
+      }
+    },
+    "gt_ambiguity": {
+      "(blank)": {
+        "n": 161,
+        "papers": 125,
+        "accuracy": 0.8074534161490683,
+        "doi_accuracy": 0.9097222222222222
+      }
+    },
+    "match_method": {
+      "doi": {
+        "n": 131,
+        "papers": 116,
+        "accuracy": 0.7938931297709924,
+        "doi_accuracy": 1.0
+      },
+      "fuzzy": {
+        "n": 30,
+        "papers": 17,
+        "accuracy": 0.8666666666666667,
+        "doi_accuracy": 0.0
+      }
+    }
+  },
+  "matcher": {
+    "methods": {
+      "doi": 131,
+      "fuzzy": 30
+    },
+    "relations": {
+      "same_effect": 161
+    },
+    "judge_calls": 0,
+    "cache_hits": 0,
+    "judge_failures": 0
+  }
+}

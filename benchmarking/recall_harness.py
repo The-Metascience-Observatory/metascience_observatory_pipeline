@@ -2,10 +2,10 @@
 """
 Discovery-recall harness: how many KNOWN replications does the pipeline FIND?
 
-This is the measurement the pipeline has never had. `flora_harness.py` scores
-*extraction accuracy* on papers handed to the pipeline -- its `setup` step
-injects the answer key as the work list, so every metric it reports is
-conditional on discovery having already succeeded. This harness asks the prior
+This is the measurement the pipeline has never had. `harness.py evaluate` scores
+*extraction accuracy* on papers handed to the pipeline -- its doi runs inject
+the answer key as the work list, so every metric it reports is conditional on
+discovery having already succeeded. This harness asks the prior
 question: of replications we know exist, how many does stage 1 search surface,
 and where do the rest die?
 
@@ -39,7 +39,7 @@ BENCH_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BENCH_DIR.parent))
 sys.path.insert(1, str(BENCH_DIR))
 
-from flora_harness import load_ground_truth_xlsx  # noqa: E402
+from harness import _load_xlsx as load_ground_truth_xlsx  # noqa: E402
 
 from mo_pipeline import config  # noqa: E402
 from mo_pipeline.discover.doi_runs import normalize_doi  # noqa: E402
@@ -121,6 +121,28 @@ def _latest_production_csv() -> Path | None:
     return files[-1] if files else None
 
 
+def _provenance() -> dict:
+    """What state of the discovery stages produced this baseline."""
+    import hashlib
+    import subprocess
+    import time
+    def run(cmd):
+        try:
+            return subprocess.run(cmd, capture_output=True, text=True, timeout=15,
+                                  cwd=config.REPO_ROOT).stdout.strip()
+        except Exception:
+            return ""
+    kw = config.DATA_DIR / "keywords.json"
+    return {
+        "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "git_commit": run(["git", "rev-parse", "HEAD"]),
+        "git_dirty_discover": bool(run(["git", "status", "--porcelain", "mo_pipeline/discover/"])),
+        "keywords_json_sha256": hashlib.sha256(kw.read_bytes()).hexdigest() if kw.exists() else "",
+        "stage_files": {name: {"path": str(path), "mtime": (Path(path).stat().st_mtime if Path(path).exists() else None)}
+                        for name, path, _ in FUNNEL},
+    }
+
+
 def measure(truth: dict[str, dict], label: str, circular: bool) -> dict:
     """Walk `truth` through the funnel, recording presence and per-stage loss."""
     total = len(truth)
@@ -148,7 +170,29 @@ def measure(truth: dict[str, dict], label: str, circular: bool) -> dict:
         "total": total,
         "stages": stages,
         "never_found": never_found,
+        "provenance": _provenance(),
     }
+
+
+def compare(old_path: Path, new_path: Path) -> str:
+    """Per-stage deltas between two baseline JSONs (matched by label)."""
+    old = {r["label"]: r for r in json.loads(Path(old_path).read_text())}
+    new = {r["label"]: r for r in json.loads(Path(new_path).read_text())}
+    L = [f"\nBaseline comparison: {Path(old_path).name} -> {Path(new_path).name}"]
+    for label, n in new.items():
+        o = old.get(label)
+        if not o:
+            L.append(f"\n=== {label}: (not in old baseline)")
+            continue
+        L.append(f"\n=== {label} (n {o['total']} -> {n['total']})")
+        L.append(f"    {'stage':22} {'old':>7} {'new':>7} {'delta':>8}")
+        os_ = {s["stage"]: s for s in o["stages"]}
+        for s in n["stages"]:
+            a = os_.get(s["stage"], {}).get("pct")
+            b = s.get("pct")
+            d = f"{b - a:+.1f}pp" if a is not None and b is not None else "n/a"
+            L.append(f"    {s['stage']:22} {a if a is not None else 'n/a':>7} {b if b is not None else 'n/a':>7} {d:>8}")
+    return "\n".join(L)
 
 
 def profile_missing(truth: dict[str, dict], dois: list[str], fields=("discipline",)) -> dict:
@@ -201,7 +245,13 @@ def main() -> None:
     ap.add_argument("--json", type=Path, help="write full results as JSON")
     ap.add_argument("--list-missing", type=int, default=0,
                     help="print N never-found titles per set")
+    ap.add_argument("--compare", nargs=2, metavar=("OLD_JSON", "NEW_JSON"),
+                    help="print per-stage deltas between two saved baselines and exit")
     args = ap.parse_args()
+
+    if args.compare:
+        print(compare(Path(args.compare[0]), Path(args.compare[1])))
+        return
 
     sets = []
     if args.set in ("flora", "all"):

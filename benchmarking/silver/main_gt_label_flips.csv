@@ -1,0 +1,9 @@
+row_id,replication_url,original_url,original_title,result_feb06,result_feb19,provenance,adjudicated_result,adjudicator_id,adjudication_note
+mainf_a2b6f468cd,http://doi.org/10.1016/j.actpsy.2022.103717,http://doi.org/10.1086/691462,Brain Drain: The Mere Presence of One’s Own Smartphone Reduces Available Cognitive Capacity,inconclusive,failure,human:forrt_lk,,,
+mainf_3688a0dc7a,http://doi.org/10.1016/j.intell.2020.101471,http://doi.org/10.1111/j.1467-8624.2007.00995.x,Implicit Theories of Intelligence Predict Achievement Across an Adolescent Transition: A Longitudinal Study and an Intervention,inconclusive,failure,human:forrt_lk,,,
+mainf_cf2790f362,http://doi.org/10.1177/01461672211052120,http://doi.org/10.1016/j.cognition.2014.09.006,The drunk utilitarian: Blood alcohol concentration predicts utilitarian responses in moral dilemmas,success,failure,human:forrt_lk,,,
+mainf_20277dcfde,http://doi.org/10.1525/collabra.277,http://doi.org/10.1016/j.jesp.2009.06.003,The semantic red effect: Processing the word red undermines intellectual performance,success,failure,human:forrt_lk,,,
+mainf_0e9707bb2b,http://doi.org/10.1016/j.joep.2020.102350,http://doi.org/10.1111/j.1467-9280.1992.tb00678.x,The Disjunction Effect in Choice under Uncertainty,inconclusive,success,external:fred_api,,,
+mainf_199c3ffcaf,http://doi.org/10.20982/tqmp.20.1.r001,http://doi.org/10.3758/bf03211160,Articulatory rehearsal and phonological storage in working memory,failure,inconclusive,external:fred_api,,,
+mainf_a91f7c47a1,http://doi.org/10.1525/collabra.37122,http://doi.org/10.1037/0022-3514.67.3.357,The temporal pattern to the experience of regret.,inconclusive,success,external:fred_api,,,
+mainf_1794aa96b9,http://doi.org/10.1002/pros.21320,http://doi.org/10.1038/ng1808,A common variant associated with prostate cancer in European and African populations,success,failure,external:fred_api,,,

@@ -1,0 +1,30 @@
+gt_result,judge_reason,judge_relation,n_ext_rows_in_paper,original_title,reason,replication_doi,row_id
+success,,,1,Alliance in action: A new measure of clients' perceptions of therapists' allianc,no matching extracted row,10.1002/cpp.70057,8dcffb219a
+success,,,2,Criticizing groups from the inside and the outside: an identity perspective on t,no matching extracted row,10.1002/ejsp.2748,ae0c42b655
+success,,,2,Reactions to internal and external criticism of outgroups: social convention in ,no matching extracted row,10.1002/ejsp.2748,574621ddfc
+failure,,,1,"Predispositions about Learning from, Print and Television",no matching extracted row,10.1007/bf02298289,740969ab65
+failure,,,1,The differential investment of mental effort in learning as a function of percep,no matching extracted row,10.1007/bf02298289,90e3cc0601
+failure,,,1,Entry regulation and entrepreneurship: a natural experiment in German craftsmans,no matching extracted row,10.1007/s00181-018-1457-0,820e3ec4ea
+success,,,2,Impulsive choice and pre‐exposure to delays: iv. effects of delay‐ and immediacy,no matching extracted row,10.1007/s40732-024-00597-x,3d79d1a4e2
+success,,,1,The drunk utilitarian: Blood alcohol concentration predicts utilitarian response,no matching extracted row,10.1016/j.cognition.2014.09.006,136632ed0c
+failure,,,2,With a clean conscience cleanliness reduces the severity of moral judgments,no matching extracted row,10.1027/1864-9335/a000186,4c91927f6b
+failure,,,2,With a clean conscience cleanliness reduces the severity of moral judgments,no matching extracted row,10.1027/1864-9335/a000186,4c91927f6b
+failure,,,2,"Cleanliness Reduces the Severity of
+Moral Judgment",no matching extracted row,10.1027/1864-9335/a000186,e1dc8d815b
+inconclusive,,,1,The ratio of 2nd to 4th digit length: a predictor of sperm numbers and concentra,no matching extracted row,10.1038/s41598-020-66915-9,bcb5dbdb3b
+inconclusive,,,1,Racial stereotypes of one hundred college students.,no matching extracted row,10.1080/02732173.1991.9981978,373cac848c
+inconclusive,,,,To do or not to do: Desirability and consistency mediate judgments of regret.,pipeline says no replications,10.1111/spc3.12557,b49753f64f
+success,,,1,Affective Flexibility,no matching extracted row,10.1177/0956797617719730,487ce3b2b9
+failure,,,1,Millionaire Migration and State Taxation of Top Incomes: Evidence from a Natural,no matching extracted row,10.1177/1091142114537893,a7f158b2c0
+inconclusive,,,1,Implicit social cognitions predict sex differences in math engagement and achiev,no matching extracted row,10.1177/1948550616683017,4d3acc61cd
+inconclusive,,,1,The affect heuristic in judgments of risks and benefits,no matching extracted row,10.1177/19485506211056761,eb3ea947d4
+failure,,,2,Reversal of Fortune: Geography and Institutions in the Making of the Modern Worl,no matching extracted row,10.1257/mac.6.3.1,86241f5ed5
+success,,,2,Visual biases in judging body weight,no matching extracted row,10.1371/journal.pone.0313619,f96cfb8620
+success,,,1,Foundational Tests of the Need-Support Model,no matching extracted row,10.1525/collabra.185,01059a4ba3
+success,,,1,Foundational Tests of the Need-Support Model,no matching extracted row,10.1525/collabra.185,ed873efa07
+success,,,1,Foundational Tests of the Need-Support Model,no matching extracted row,10.1525/collabra.185,2a8e6fa66b
+inconclusive,,,1,Replicating a Simple Study of Asymmetry in Human Cognition,no matching extracted row,10.2466/20.22.pms.114.1.185-188,d5af97002a
+success,,,1,Psycholinguistic and corpus-linguistic evidence for L2 constructions,no matching extracted row,10.32714/ricl.10.01.08,2869f67c63
+failure,,,,"Genetic Predisposition for Immune System, Hormone, and Metabolic Dysfunction in ",pipeline says no replications,10.3389/fped.2021.590040,cef3e3e2a0
+inconclusive,,,1,Affective Factors in Self-Access Learning,no matching extracted row,10.37237/150205,e5b4b1fcbb
+failure,,,1,Maximizing Performance,no matching extracted row,10.70252/nkky8370,f8fdb80cfe

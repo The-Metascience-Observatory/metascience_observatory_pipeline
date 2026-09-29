@@ -9,6 +9,8 @@ progress/
 
 # Benchmarking ground-truth corpora (PDFs, large)
 benchmarking/ground_truth_data_filtered_PDFs/
+# LLM-matcher decision cache (re-derivable; keyed by prompt+model+content hash)
+benchmarking/cache/
 
 # Extraction test fixture outputs
 mo_pipeline/extract/test_pdf/*/
@@ -37,3 +39,5 @@ dashboard/home/
 # Editor/OS noise
 .DS_Store
 dashboard/next-env.d.ts
+# extraction/download run logs under benchmarking/results (large, regenerable)
+benchmarking/results/*.log
