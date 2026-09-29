@@ -23,6 +23,7 @@ Folder layout (unchanged by this module — the user's kept invariant):
 from __future__ import annotations
 
 import json
+from datetime import datetime
 import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
@@ -41,12 +42,19 @@ _RENDITION_GLOBS = ("*_from_xml.md", "*_from_html.md")
 _STRUCTURED_GLOBS = ("*.xml", "*.fulltext.html")
 _SCREEN_FILE = "replication_check.json"
 _PASSPORT_FILE = "paper.json"
-# *_result_core.json is the single-shot core-fields extractor (extract_core.py);
-# *_result.json is `extract.py --level base`. Both count as extracted: they carry
+# `_result_core.json` is the single-shot core-fields extractor (extract_core.py);
+# `_result.json` is `extract.py --level base`. Both count as extracted: they carry
 # result + replication_type, which is all the catalog reads.
-_RESULT_GLOBS = ("*_result_full.json", "*_result_pdf_only.json",
-                 "*_result_html.json", "*_result_xml.json",
-                 "*_result_core.json", "*_result.json")
+#
+# Matched as `{paper folder stem}{suffix}`, never as a bare `*` glob. Both
+# extractors name their output after the paper folder, so anchoring costs
+# nothing -- and an unanchored `*_result.json` also matched the claim-centrality
+# pilot's `centrality_result.json`, which made the catalog read a centrality run
+# as an extraction and blank out the paper's real verdict. Every one of the 163
+# unanchored result files on the drive was a centrality file.
+_RESULT_SUFFIXES = ("_result_full.json", "_result_pdf_only.json",
+                    "_result_html.json", "_result_xml.json",
+                    "_result_core.json", "_result.json")
 
 
 # Characters NTFS/exFAT forbid in filenames, other than '/' (encoded as '--')
@@ -112,6 +120,7 @@ class TagFindings:
     ai_version: str | None = None
     contains_replications: bool | None = None
     n_replications: int = 0
+    run_at: float = 0.0             # provenance.json timestamp, else file mtime
     results: list[str] = field(default_factory=list)          # per-entry result category
     replication_types: list[str] = field(default_factory=list)
 
@@ -147,13 +156,35 @@ def _read_json(path: Path):
         return None
 
 
-def _tag_findings(tag_dir: Path) -> TagFindings | None:
-    """Read the result JSON in one tag subfolder into a TagFindings."""
+def _run_timestamp(tag_dir: Path, result_path: Path) -> float:
+    """When this run happened: provenance.json's timestamp, else file mtime.
+
+    Every run since 2026-09-03 writes provenance.json; older ones do not, so the
+    result file's mtime is the fallback. Both beat the previous tie-break, which
+    was the alphabetical order of the tag folder names.
+    """
+    prov = _read_json(tag_dir / "provenance.json")
+    if isinstance(prov, dict) and prov.get("timestamp"):
+        try:
+            return datetime.fromisoformat(str(prov["timestamp"])).timestamp()
+        except ValueError:
+            pass
+    try:
+        return result_path.stat().st_mtime
+    except OSError:
+        return 0.0
+
+
+def _tag_findings(tag_dir: Path, stem: str) -> TagFindings | None:
+    """Read the result JSON in one tag subfolder into a TagFindings.
+
+    `stem` is the paper folder's name; result files are named after it.
+    """
     result_path = None
-    for g in _RESULT_GLOBS:
-        hits = sorted(tag_dir.glob(g))
-        if hits:
-            result_path = hits[0]
+    for suffix in _RESULT_SUFFIXES:
+        candidate = tag_dir / f"{stem}{suffix}"
+        if candidate.exists():
+            result_path = candidate
             break
     if result_path is None:
         return None
@@ -161,11 +192,17 @@ def _tag_findings(tag_dir: Path) -> TagFindings | None:
     if data is None:
         return TagFindings(tag=tag_dir.name)
     reps = data.get("replications", []) or []
-    ai_version = None
-    if reps and isinstance(reps[0], dict):
-        ai_version = reps[0].get("ai_version")
+    # First entry that carries a version, not reps[0] alone: a "no replications"
+    # result has no entries at all, and a mixed batch can leave the first entry
+    # unstamped, both of which used to yield ai_version=None and collapse the
+    # ordering key.
+    ai_version = next(
+        (r.get("ai_version") for r in reps
+         if isinstance(r, dict) and r.get("ai_version") is not None),
+        None)
     return TagFindings(
         tag=tag_dir.name,
+        run_at=_run_timestamp(tag_dir, result_path),
         ai_version=str(ai_version) if ai_version is not None else None,
         contains_replications=data.get("contains_replications"),
         n_replications=len(reps),
@@ -213,24 +250,34 @@ def scan_folder(folder: Path) -> Paper:
     # Extraction runs (tag subfolders).
     tag_findings: list[TagFindings] = []
     for sub in sorted(p for p in folder.iterdir() if p.is_dir()):
-        tf = _tag_findings(sub)
+        tf = _tag_findings(sub, folder.name)
         if tf is not None:
             tag_findings.append(tf)
     paper.tags = [tf.tag for tf in tag_findings]
 
     if tag_findings:
-        # Latest = highest ai_version, then most result entries.
+        # Latest = highest ai_version, then most recent run, then most entries.
+        #
+        # The run timestamp is the load-bearing addition. ai_version is absent
+        # from every "no replications" result and every pre-stamping run, so the
+        # version tuple collapses to () and used to leave `max()` returning the
+        # first element of an alphabetically sorted directory listing -- which
+        # reported sonnetv5 as later than sonnetv6, and decided the verdict for
+        # 670 of 1,647 multi-tag papers by folder name.
         def _key(tf: TagFindings):
             try:
                 ver = tuple(int(x) for x in re.findall(r"\d+", tf.ai_version or ""))
             except Exception:
                 ver = ()
-            return (ver, tf.n_replications)
+            return (ver, tf.run_at, tf.n_replications)
         latest = max(tag_findings, key=_key)
         paper.latest_tag = latest.tag
         paper.ai_version = latest.ai_version
-        paper.contains_replications = latest.contains_replications
         paper.n_replications = latest.n_replications
+        # Only overwrite a verdict with a verdict. A result JSON that carries no
+        # `contains_replications` key must not erase one derived from screening.
+        if latest.contains_replications is not None:
+            paper.contains_replications = latest.contains_replications
 
     # Derive status.
     if paper.ingested_db_version:
