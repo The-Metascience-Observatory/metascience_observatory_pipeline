@@ -21,14 +21,16 @@ from pathlib import Path
 csv.field_size_limit(sys.maxsize)
 
 # Uses the specialized package at /home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/fetch_pdf_from_doi
-from fetch_pdf_from_doi import fetch_pdf_from_doi
+from fetchpdf import fetch_pdf_from_doi
 from mo_pipeline.config import (
     DATA_DIR, PDF_DIR, CONFIRMED_REPLICATIONS_CSV, DOWNLOAD_STATUS_CSV,
     DIRECT_REPLICATIONS_CSV as DIRECT_CSV,
     DIRECT_REPLICATIONS_PDF_DIR as OUTPUT_DIR,
-    LEGACY_REPLICATIONS_DB as REPLICATIONS_DB,
+    VERSION_HISTORY_PATH,
     PDF_SEARCH_DIRS,
+    latest_replications_db,
 )
+from mo_pipeline.corpus.models import doi_to_folder, folder_to_doi
 
 # ---------------------------------------------------------------------------
 # Patterns that suggest a CLOSE replication (different population / context)
@@ -57,11 +59,25 @@ DIRECT_PATTERNS = [
     r"many\s*labs",
 ]
 
+# Compiled case-insensitively, and matched against the RAW text.
+#
+# These used to be matched with re.search against text that had been
+# .lower()'d, while two patterns carry uppercase literals -- the ancestry
+# alternation below and the "SNP" alternative. A capitalised literal can never
+# match lowercased text, so both were dead: the ancestry rule, which is the
+# single strongest "same effect, different population" signal that the
+# prefilter and the classify prompt both key on, had never fired at all, and
+# genetics papers retesting a variant in a new cohort were passing through
+# labelled "direct". Compiling with IGNORECASE and dropping the .lower() fixes
+# it without touching the pattern strings.
+EXTENSION_RE = [re.compile(p, re.IGNORECASE) for p in EXTENSION_PATTERNS]
+DIRECT_RE = [re.compile(p, re.IGNORECASE) for p in DIRECT_PATTERNS]
+
 
 def doi_to_filename(doi):
     if not doi:
         return None
-    return doi.replace("/", "--").replace("\\", "--") + ".pdf"
+    return doi_to_folder(doi) + ".pdf"
 
 
 def is_strong_direct(row):
@@ -71,10 +87,10 @@ def is_strong_direct(row):
     if row.get("confidence", "").lower() != "high":
         return False
 
-    text = (row.get("reasoning", "") + " " + row.get("title", "")).lower()
+    text = row.get("reasoning", "") + " " + row.get("title", "")
 
-    has_extension = any(re.search(p, text) for p in EXTENSION_PATTERNS)
-    has_direct = any(re.search(p, text) for p in DIRECT_PATTERNS)
+    has_extension = any(p.search(text) for p in EXTENSION_RE)
+    has_direct = any(p.search(text) for p in DIRECT_RE)
 
     return has_direct and not has_extension
 
@@ -89,9 +105,8 @@ def build_pdf_index():
             for fname in files:
                 if fname.lower().endswith(".pdf"):
                     base = fname.rsplit(".pdf", 1)[0]
-                    # Remove ' (1)' suffixes from duplicate downloads
-                    base = re.sub(r"\s*\(\d+\)$", "", base)
-                    doi_candidate = base.replace("--", "/").lower()
+                    # folder_to_doi also strips ' (1)' duplicate-download suffixes
+                    doi_candidate = folder_to_doi(base).lower()
                     doi_to_pdf[doi_candidate] = os.path.join(root, fname)
     return doi_to_pdf
 
@@ -159,10 +174,28 @@ def main():
     direct_rows = [r for r in rows if is_strong_direct(r)]
     print(f"Strong direct replications: {len(direct_rows)}")
 
-    # Exclude papers already in the replications database
+    # Exclude papers already in the replications database.
+    #
+    # The path is resolved at run time (config.latest_replications_db reads
+    # version_history.txt) rather than pinned, and a failure to resolve it is
+    # LOUD. Both matter: this block used to be guarded by a bare `if
+    # PINNED_PATH.exists():` against a January snapshot in a directory that had
+    # since been deleted, so for months it silently did nothing and stage 6
+    # re-downloaded every already-published paper. A skipped exclusion must
+    # never again look like a clean run.
     db_dois = set()
-    if REPLICATIONS_DB.exists():
-        with open(REPLICATIONS_DB, "r", newline="", encoding="utf-8") as f:
+    db_path = latest_replications_db()
+    if db_path is None:
+        print(
+            f"WARNING: no replications database resolved from {VERSION_HISTORY_PATH}.\n"
+            "         NOT excluding already-published papers — stage 6 will "
+            "re-download them.\n"
+            "         Check that version_history.txt exists and its last entry "
+            "names a CSV that is present.",
+            file=sys.stderr,
+        )
+    else:
+        with open(db_path, "r", newline="", encoding="utf-8") as f:
             for db_row in csv.DictReader(f):
                 url = db_row.get("replication_url", "").strip()
                 m = re.search(r"(?:doi\.org/)(10\..+)", url)
@@ -174,7 +207,8 @@ def main():
             if r.get("doi", "").strip().lower() not in db_dois
         ]
         excluded = before - len(direct_rows)
-        print(f"Excluded {excluded} already in database ({len(db_dois)} DB DOIs)")
+        print(f"Excluded {excluded} already in database "
+              f"({len(db_dois)} DOIs from {db_path.name})")
         print(f"Remaining: {len(direct_rows)}")
 
     # Write CSV manifest
