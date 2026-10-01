@@ -8,6 +8,11 @@ of this pipeline — it is run manually from
 `../metascience_observatory_website/data_ingestor/` (the canonical ingestion code;
 a former copy here was removed 2026-08-09).
 
+## Acknowledgment
+
+If you use this code in your research, please acknowledge the MetaScience
+Observatory and include a link to this repository.
+
 ## Layout
 
 | Path | What |
@@ -92,3 +97,13 @@ runs/stops stages with mutex guards (one claude-CLI stage at a time; convert nee
 `~/.local/state/mo_pipeline/`, so they survive API restarts.
 
 See [CLAUDE.md](CLAUDE.md) for invariants and the taxonomy source of truth.
+
+## License
+
+The original code, prompts, and documentation are licensed under the
+[MIT License](LICENSE). The acknowledgment request above is a courtesy request,
+not an additional license condition.
+
+Research datasets and third-party material, including paper PDFs and extracted
+paper text, are outside the scope of this software license. Their respective
+rights and license terms apply.
