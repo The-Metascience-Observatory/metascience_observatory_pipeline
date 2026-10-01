@@ -21,11 +21,12 @@ DASH_PORT="${MO_DASH_PORT:-3010}"
 # syncing it.
 
 _pid_alive() { [ -n "${1:-}" ] && kill -0 "$1" 2>/dev/null; }
-_port_serving() { curl -sf -m 2 "http://127.0.0.1:$1/" >/dev/null 2>&1; }
+# $2 = a path that answers 200 (the API has no "/" route, only /health).
+_port_serving() { curl -sf -m 2 "http://127.0.0.1:$1${2:-/}" >/dev/null 2>&1; }
 
 start_api() {
   if _pid_alive "$(cat "$RUN/api.pid" 2>/dev/null)"; then echo "api already up (managed)"; return; fi
-  if _port_serving "$API_PORT"; then echo "api already up on :$API_PORT (external) — leaving it"; return; fi
+  if _port_serving "$API_PORT" /health; then echo "api already up on :$API_PORT (external) — leaving it"; return; fi
   echo "starting api on :$API_PORT"
   ( cd "$ROOT" && nohup python -m uvicorn server.app.main:app \
       --host 127.0.0.1 --port "$API_PORT" > "$RUN/api.log" 2>&1 & echo $! > "$RUN/api.pid" )

@@ -1,3 +1,4 @@
+import json
 import requests
 import time
 import urllib.parse
@@ -663,7 +664,6 @@ def fetch_metadata_from_title(title, email=None, delay=0.2, authors=None,
     # ---------- 🔟 Dimensions.ai ----------
     if DIMENSIONS_API_KEY:
         try:
-            import json as json_lib
             dim_headers = {**headers, "Authorization": f"Bearer {DIMENSIONS_API_KEY}"}
             # Search by title (and optionally year/authors for better matching)
             search_parts = [f'title="{title}"']

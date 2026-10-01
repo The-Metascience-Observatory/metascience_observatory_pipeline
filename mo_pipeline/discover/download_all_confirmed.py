@@ -66,10 +66,9 @@ from pathlib import Path
 
 csv.field_size_limit(sys.maxsize)
 
-# fetchpdf_grey first: importing it installs the grey last-resort hook on the
-# public library's fetch_pdf, which is what batch_fetch_pdfs calls per record.
-from fetchpdf_grey import disable_last_resorts
-from fetchpdf import batch_fetch_pdfs
+# Through the shim (CLAUDE.md invariant 7): it imports fetchpdf_grey first, which
+# loads the Elsevier key and installs the grey last-resort hook on fetch_pdf.
+from mo_pipeline.shared.fetch import batch_fetch_pdfs, disable_last_resorts
 
 from mo_pipeline.config import (
     CONFIRMED_REPLICATIONS_CSV as CONFIRMED_CSV,
