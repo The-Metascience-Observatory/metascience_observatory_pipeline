@@ -2,37 +2,33 @@ import csv
 import os
 import shutil
 
-CSV_PATH = "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/data/direct_replications.csv"
-TARGET_DIR = "/home/dan/downloaded_pdfs/very_likely_direct_replications/"
+from pathlib import Path
+
+from mo_pipeline import config
+from mo_pipeline.corpus.models import doi_to_folder, folder_to_doi
+
+_LEGACY = config.OBSERVATORY_ROOT / "pull_replication_studies"
+CSV_PATH = str(_LEGACY / "data" / "direct_replications.csv")
+TARGET_DIR = str(Path.home() / "downloaded_pdfs" / "very_likely_direct_replications")
 
 SEARCH_DIRS = [
-    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/downloaded_pdfs/",
-    "/home/dan/downloaded_pdfs/",
-    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/PDFs/",
+    str(_LEGACY / "downloaded_pdfs"),
+    str(Path.home() / "downloaded_pdfs"),
+    str(config.OBSERVATORY_ROOT / "PDFs"),
 ]
 
 EXCLUDE_PREFIXES = ("10.17605/osf", "10.6084/m9.figshare")
 
 def doi_to_filename(doi):
-    return doi.replace("/", "--") + ".pdf"
+    return doi_to_folder(doi) + ".pdf"
 
 def filename_to_doi(filename):
-    """Convert a PDF filename to a DOI (lowercased)."""
+    """Convert a PDF filename to a DOI (lowercased). folder_to_doi also strips
+    ' (1)'-style duplicate-download suffixes."""
     name = filename.lower()
     if name.endswith(".pdf"):
         name = name[:-4]
-    # Remove " (1)" style suffixes (duplicates from downloads)
-    while name.endswith(")"):
-        paren_start = name.rfind(" (")
-        if paren_start != -1:
-            inner = name[paren_start+2:-1]
-            if inner.isdigit():
-                name = name[:paren_start]
-            else:
-                break
-        else:
-            break
-    return name.replace("--", "/")
+    return folder_to_doi(name)
 
 # Step 1: Read all non-empty DOIs from CSV
 dois = set()

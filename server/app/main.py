@@ -8,6 +8,8 @@ so the API can restart freely without losing running stages.
 """
 from __future__ import annotations
 
+import os
+
 import shutil
 from pathlib import Path
 
@@ -21,7 +23,13 @@ from .registry import STAGES, BY_ID, stage_dict, _mem_available_gb, _grobid_up, 
 from .settings import CONVERT_MIN_MEM_GB
 
 app = FastAPI(title="MO Pipeline Orchestrator", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+# The dashboard reaches the API through Next's /api rewrite (same origin), so
+# CORS only matters for direct browser calls. Allowing "*" let any web page the
+# user visits POST runs or DELETE doi-runs on localhost:8090.
+_DASH_PORT = os.environ.get("MO_DASH_PORT", "3010")
+app.add_middleware(CORSMiddleware,
+                   allow_origins=[f"http://localhost:{_DASH_PORT}", f"http://127.0.0.1:{_DASH_PORT}"],
+                   allow_methods=["*"], allow_headers=["*"])
 
 
 # ── models ───────────────────────────────────────────────────────────────────
@@ -36,6 +44,12 @@ class BatchPatch(BaseModel):
 
 class KeywordEdit(BaseModel):
     items: list[str]
+
+
+class DoiRunCreate(BaseModel):
+    name: str
+    csv_text: str | None = None    # pasted / uploaded CSV content
+    source_path: str | None = None  # or a server-side CSV path
 
 
 # ── stage status assembly ────────────────────────────────────────────────────
@@ -115,6 +129,20 @@ def run_stage(stage_id: str, req: RunRequest):
         if mem < CONVERT_MIN_MEM_GB:
             raise HTTPException(409, f"blocked: MemAvailable {mem:.0f}GB < {CONVERT_MIN_MEM_GB}GB")
 
+        # Convert GROBID guard. pdf4llm needs it at :8070 and nothing else
+        # starts it, so this both brings it up and refuses to launch without
+        # it -- otherwise the batch runs and fails per-PDF, thousands of times,
+        # for a reason that is only visible in the log. `start()` is a no-op
+        # when it is already answering and never touches a running container.
+        from .grobid import start as _grobid_start, ANSWERING, RUNNING_NOT_ANSWERING
+        grobid_state = _grobid_start()
+        if grobid_state != ANSWERING:
+            detail = ("container is up but unreachable — this host's docker port "
+                      "publishing is broken; recreate it on --network host"
+                      if grobid_state == RUNNING_NOT_ANSWERING else
+                      "could not be started")
+            raise HTTPException(409, f"blocked: GROBID {grobid_state} — {detail}")
+
     # Extract needs a tag (from params or state).
     tag = params.get("tag") or st.get("tag")
     try:
@@ -183,6 +211,54 @@ def get_keywords():
                       for m in kw.KEY_META]}
 
 
+@app.get("/keywords/stats")
+def keyword_stats():
+    """Cached per-keyword yield stats. Never computes inline — POST …/refresh."""
+    from mo_pipeline.discover import keyword_stats as ks
+    return ks.status()
+
+
+@app.post("/keywords/stats/refresh")
+def keyword_stats_refresh():
+    """Recompute yield stats in a background thread (streams the big CSVs)."""
+    from mo_pipeline.discover import keyword_stats as ks
+    if not ks.start_refresh_background():
+        raise HTTPException(409, "keyword stats recompute already running")
+    return {"started": True}
+
+
+@app.get("/artifacts")
+def artifacts():
+    """Dataset-state panel: cheap stats (size/mtime) for the discover-stage
+    artifacts, plus warnings when a downstream file is older than its input."""
+    items = [  # (name, owning stage, path, upstream input file or None)
+        ("candidates_raw.csv", "search", config.CANDIDATES_RAW_CSV, None),
+        ("candidates_dedup.csv", "dedup", config.CANDIDATES_DEDUP_CSV, "candidates_raw.csv"),
+        ("candidates_filtered.csv", "prefilter", config.CANDIDATES_FILTERED_CSV, "candidates_dedup.csv"),
+        ("classified.csv", "classify", config.CLASSIFIED_CSV, "candidates_filtered.csv"),
+        ("confirmed_replications.csv", "classify", config.CONFIRMED_REPLICATIONS_CSV, "classified.csv"),
+        ("direct_replications.csv", "filter_direct", config.DIRECT_REPLICATIONS_CSV, "confirmed_replications.csv"),
+        ("download_status.csv", "download", config.DOWNLOAD_STATUS_CSV, "confirmed_replications.csv"),
+        ("search_progress.json", "search", config.SEARCH_PROGRESS_FILE, None),
+        ("classify_progress.json", "classify", config.CLASSIFY_PROGRESS_FILE, None),
+    ]
+    out, warnings = [], []
+    mtimes: dict[str, float | None] = {}
+    for name, stage, path, _up in items:
+        try:
+            st = path.stat()
+            size, mtime = st.st_size, st.st_mtime
+        except OSError:
+            size = mtime = None
+        mtimes[name] = mtime
+        out.append({"name": name, "stage": stage, "size": size, "mtime": mtime})
+    for name, stage, _path, up in items:
+        m, um = mtimes[name], mtimes.get(up)
+        if m and um and m < um:
+            warnings.append(f"{name} is older than its input {up} — stale, re-run {stage}")
+    return {"artifacts": out, "warnings": warnings}
+
+
 @app.put("/keywords/{key}")
 def put_keywords(key: str, edit: KeywordEdit):
     from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
@@ -202,6 +278,83 @@ def reset_keywords(key: str):
         raise HTTPException(404, "unknown keyword list")
     eff = kw.reset(key)
     return {"reset": True, "key": key, "count": len(eff.get(key, []))}
+
+
+@app.get("/doi-runs")
+def doi_runs_list():
+    """All named DOI-list runs with their pipeline status."""
+    from mo_pipeline.discover import doi_runs
+    out = []
+    for meta in doi_runs.list_runs():
+        try:
+            status = doi_runs.run_status(meta["slug"])
+        except Exception as e:
+            status = {"error": str(e)}
+        out.append({**meta, "status": status})
+    return {"runs": out}
+
+
+@app.post("/doi-runs")
+def doi_runs_create(req: DoiRunCreate):
+    """Create a run from pasted/uploaded CSV text or a server-side CSV path."""
+    from mo_pipeline.discover import doi_runs
+    try:
+        meta = doi_runs.create_run(req.name, csv_text=req.csv_text,
+                                   source_path=req.source_path)
+    except FileExistsError as e:
+        raise HTTPException(409, str(e))
+    except FileNotFoundError as e:
+        raise HTTPException(404, str(e))
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    return {**meta, "status": doi_runs.run_status(meta["slug"])}
+
+
+@app.get("/doi-runs/{slug}")
+def doi_runs_get(slug: str):
+    from mo_pipeline.discover import doi_runs
+    try:
+        meta = doi_runs.get_run(slug)
+    except FileNotFoundError as e:
+        raise HTTPException(404, str(e))
+    return {**meta, "status": doi_runs.run_status(slug)}
+
+
+@app.delete("/doi-runs/{slug}")
+def doi_runs_delete(slug: str):
+    """Remove the run's DOI list + metadata (never touches the corpus)."""
+    from mo_pipeline.discover import doi_runs
+    try:
+        doi_runs.delete_run(slug)
+    except FileNotFoundError as e:
+        raise HTTPException(404, str(e))
+    return {"deleted": True, "slug": slug}
+
+
+@app.get("/corpus/download/options")
+def corpus_download_options():
+    """Paper types (stage-4 replication_type) with corpus counts, for checkboxes."""
+    from . import corpus_download
+    return {"types": corpus_download.options()}
+
+
+@app.get("/corpus/download")
+def corpus_download_zip(types: str = "all"):
+    """Stream a zip of paper folders: ?types=all or ?types=direct,close,unclassified."""
+    import re as _re
+    from fastapi.responses import StreamingResponse
+    from . import corpus_download
+    sel = (None if types.strip().lower() in ("", "all")
+           else {t.strip().lower() for t in types.split(",") if t.strip()})
+    folders = corpus_download.folders_for(sel)
+    if not folders:
+        raise HTTPException(404, "no papers match the selected types")
+    label = "all" if sel is None else _re.sub(r"[^a-z0-9-]+", "_", "-".join(sorted(sel)))[:60]
+    return StreamingResponse(
+        corpus_download.zip_stream(folders),
+        media_type="application/zip",
+        headers={"Content-Disposition": f'attachment; filename="mo_corpus_{label}.zip"'},
+    )
 
 
 @app.get("/corpus")

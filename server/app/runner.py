@@ -11,7 +11,9 @@ PID file (JSON) per stage id, at settings.PIDS_DIR/<stage_id>.json:
 
 Liveness = the PID is alive AND /proc/<pid>/cmdline still matches the stage's
 launch marker (guards against PID reuse). A finished stage leaves its exit_file;
-we read the code from there.
+we read the code from there. A stage that left no exit_file did not finish: it
+is `stopped` if stop() was asked to end it, else `unknown` (killed from outside,
+machine rebooted). It used to read as `finished`, so a stopped 6-hour run showed green.
 """
 from __future__ import annotations
 
@@ -87,7 +89,13 @@ def status(stage_id: str) -> dict:
             exit_code = int(Path(ef).read_text().strip() or "-1")
         except Exception:
             exit_code = -1
-    return {"state": "failed" if exit_code not in (0, None) else "finished",
+    if rec.get("stop_requested"):
+        state = "stopped"
+    elif exit_code is None:
+        state = "unknown"
+    else:
+        state = "finished" if exit_code == 0 else "failed"
+    return {"state": state,
             "exit_code": exit_code, "log": rec.get("log"),
             "started_at": rec.get("started_at"), "batch": rec.get("batch"),
             "tag": rec.get("tag"), "params": rec.get("params", {})}
@@ -116,7 +124,12 @@ def launch(stage_id: str, argv: list[str], *, cwd: str | None = None,
     # leading ':' no-op embeds the marker into the process cmdline so is_running
     # can distinguish our process from a reused PID. Exit code -> sentinel file.
     inner = " ".join(_shquote(a) for a in argv)
-    wrapped = f": {marker}; {inner}; echo $? > {_shquote(str(exit_file))}"
+    # The traps record a signal death (130 INT, 143 TERM) in the sentinel; bash
+    # runs them once the foreground child returns. SIGKILL cannot be trapped, so
+    # status() also consults the stop_requested mark that stop() writes.
+    ef = _shquote(str(exit_file))
+    wrapped = (f": {marker}; trap 'echo 130 > {ef}; exit 130' INT; "
+               f"trap 'echo 143 > {ef}; exit 143' TERM; {inner}; echo $? > {ef}")
     proc = subprocess.Popen(
         ["bash", "-c", wrapped],
         cwd=cwd, env=full_env,
@@ -141,6 +154,8 @@ def stop(stage_id: str, force: bool = False) -> dict:
         return {"stopped": False, "reason": "not running"}
     pgid = rec.get("pgid") or rec.get("pid")
     sig = signal.SIGKILL if force else signal.SIGINT
+    rec["stop_requested"] = {"signal": sig.name, "at": time.strftime("%Y%m%d-%H%M%S")}
+    _pid_file(stage_id).write_text(json.dumps(rec, indent=2))
     try:
         os.killpg(pgid, sig)
     except ProcessLookupError:

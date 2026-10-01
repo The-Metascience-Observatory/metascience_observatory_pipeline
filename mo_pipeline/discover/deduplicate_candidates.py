@@ -90,56 +90,44 @@ def merge_rows(rows):
 
 
 def deduplicate(rows):
-    """Deduplicate rows by DOI, PMID, then normalized title. All O(n)."""
-    # We assign each row to a canonical group identified by a key.
-    # Groups are keyed by: DOI (preferred) > PMID > normalized title.
-    # We use a union-find-like approach: track group_key -> list of rows.
+    """Deduplicate rows sharing a DOI, PMID or normalized title (> 20 chars).
 
-    groups = defaultdict(list)  # canonical_key -> [rows]
-    # Maps to link secondary keys to the same canonical key
-    doi_to_key = {}    # normalized_doi -> canonical_key
-    pmid_to_key = {}   # pmid -> canonical_key
-    title_to_key = {}  # normalized_title -> canonical_key
-    next_key = [0]
+    Union-find over row indices, so a row that carries two identifiers merges the
+    groups each one already belongs to: A(doi=X), B(pmid=P), C(doi=X, pmid=P) is
+    one paper. The previous first-match lookup put C with A and left B on its own,
+    so the same paper went to the screening LLM twice. Near-linear.
+    """
+    parent = list(range(len(rows)))
 
-    def get_new_key():
-        k = next_key[0]
-        next_key[0] += 1
-        return k
+    def find(i):
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
 
-    for row in rows:
+    def union(i, j):
+        ri, rj = find(i), find(j)
+        if ri != rj:
+            parent[max(ri, rj)] = min(ri, rj)   # keep the earliest row as root
+
+    first_seen = {}  # (kind, value) -> first row index carrying it
+    for i, row in enumerate(rows):
         doi = normalize_doi(row.get("doi", ""))
         pmid = (row.get("pmid") or "").strip()
         title = normalize_title(row.get("title", ""))
+        keys = [("doi", doi), ("pmid", pmid)] + ([("title", title)] if title and len(title) > 20 else [])
+        for key in keys:
+            if not key[1]:
+                continue
+            if key in first_seen:
+                union(i, first_seen[key])
+            else:
+                first_seen[key] = i
 
-        # Find existing group by any identifier
-        canonical = None
-        if doi and doi in doi_to_key:
-            canonical = doi_to_key[doi]
-        elif pmid and pmid in pmid_to_key:
-            canonical = pmid_to_key[pmid]
-        elif title and len(title) > 20 and title in title_to_key:
-            canonical = title_to_key[title]
-
-        if canonical is None:
-            canonical = get_new_key()
-
-        # Register all identifiers for this group
-        if doi:
-            doi_to_key[doi] = canonical
-        if pmid:
-            pmid_to_key[pmid] = canonical
-        if title and len(title) > 20:
-            title_to_key[title] = canonical
-
-        groups[canonical].append(row)
-
-    # Merge each group
-    result = []
-    for key in sorted(groups.keys()):
-        result.append(merge_rows(groups[key]))
-
-    return result
+    groups = defaultdict(list)  # root row index -> [rows], in input order
+    for i, row in enumerate(rows):
+        groups[find(i)].append(row)
+    return [merge_rows(groups[k]) for k in sorted(groups)]
 
 
 def main():

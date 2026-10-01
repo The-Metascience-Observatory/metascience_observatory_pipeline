@@ -12,8 +12,11 @@ Read [README.md](README.md) first.
 ## Running it
 
 - Install once: `pip install --break-system-packages --user -e .` (system Python;
-  `fetchpdf` (`../fetchpdf_public`) + `fetchpdf_grey` (`../fetchpdf`) + `pdf4llm` are
-  separate editable installs, not consolidated).
+  `fetchpdf` (`../fetchpdf_public`) + `fetchpdf_grey` (`../fetchpdf-grey`) + `pdf4llm` are
+  separate editable installs, not consolidated). `pyproject.toml` declares no
+  dependencies, so third-party ones are installed by hand: `pip install litdown`
+  for the rendition ladder's second rung (without it `corpus/litdown_render.py`
+  returns None and rendering falls back to fetchpdf alone, as before).
 - Dashboard: `./dev.sh up` starts the FastAPI API (:8090) + Next.js dashboard (:3010) →
   http://localhost:3010. `./dev.sh down` stops the two services but **never** the
   detached pipeline stages. `./dev.sh status` lists both plus any running stages.
@@ -34,7 +37,7 @@ Stage 7 is the external `pdf4llm` binary, not part of this package. The argv bui
 | 3 | Prefilter | `python -m mo_pipeline.discover.prefilter_candidates` |
 | 4 | Classify | `python -m mo_pipeline.discover.classify_candidates [--workers N] [--limit N]` |
 | 5 | Filter direct | `python -m mo_pipeline.discover.filter_direct_replications` (no args) |
-| 6 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--backfill-structured] [--backfill-pdf]` |
+| 6 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf]` |
 | 7 | Convert | `pdf4llm batch <inbox> -o <papers> --mode full-grobid --workers 4 --movepdf --resume` |
 | 8 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--collate-only]` |
 | 8b | Extract (core, no statistics) | `python -m mo_pipeline.extract.extract_core <papers_dir> [--tag T] [--workers N] [--include-list F] [--provider claude_cli\|openrouter] [--model M] [--dontcheck] [--collate-only] [--show-prompt]` |
@@ -107,7 +110,9 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    output by PDF stem), so run `python -m mo_pipeline.corpus adopt-structured
    --execute` after a convert to bring the rest of the folder across. The library
    is `../fetchpdf_public` (PyPI `fetchpdf`); `import fetchpdf_grey`
-   (`../fetchpdf`) adds the Sci-Hub last resort and owns `disable_last_resorts`.
+   (`../fetchpdf-grey`) adds the Sci-Hub last resort and owns `disable_last_resorts`.
+   Fetch through `mo_pipeline/shared/fetch.py`, never `from fetchpdf import` directly:
+   fetchpdf reads the Elsevier key at first import, and only fetchpdf_grey loads it.
    Records downloaded flat before this layout: `corpus inbox-subfolders`.
    Every run ends with fetchpdf's per-source cost table (calls/hits/seconds) and
    leaves `source_counts.json` at the inbox root — read it before cutting a source.
@@ -120,9 +125,21 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    record folders it just filled (default; `--no-to-markdown` skips it) and by
    `python -m mo_pipeline.corpus render-markdown --execute` over the drive —
    and never by fetchpdf's own `--to-markdown`, which converts unconditionally
-   while stage 8 trusts any rendition it finds. The conversion is fetchpdf's
-   (prose → Markdown, every table → canonical HTML so colspan/rowspan survive;
-   Elsevier `ce:`/CALS documents included since 2026-09-02). `render.MIN_PROSE_LINE`
+   while stage 8 trusts any rendition it finds. The conversion is a **two-rung
+   ladder**: fetchpdf first (prose → Markdown, every table → canonical HTML so
+   colspan/rowspan survive; Elsevier `ce:`/CALS documents included since
+   2026-09-02), and where the prose gate refuses that output,
+   `corpus/litdown_render.py` retries the XML with **litdown** and keeps its
+   result if it passes the same gate. The second rung only ever runs on a file
+   already rejected, so it cannot make a record worse. It unwraps PMC's
+   `<pmc-articleset>` (litdown dispatches on the root element) and splices
+   fetchpdf's canonical HTML tables over litdown's expanded grids, since
+   fetchpdf's table walker is good on these files even where its prose walker
+   husks. Every rendition's front matter names its `converter:` and its real
+   `table_format:`. Measured on the 25 unrendered corpus XMLs (2026-09-03):
+   fetchpdf alone cleared the gate on 11, the ladder on 23 — and litdown is the
+   only engine tried that reads Elsevier at all (docling returns 2 characters,
+   pandoc dumps bare metadata). `render.MIN_PROSE_LINE`
    (median prose-line length ≥ 60) refuses a rendition that looks like full text
    and is not; calibrated 2026-08-26 on the pre-fix Elsevier husks (354/355 cut,
    115/120 good kept) and kept as the guard against the next converter
@@ -146,7 +163,7 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    prompt edit**; `python -m mo_pipeline.version` prints the manifest and exits 1 if the
    prompt files have drifted from the hashes recorded for the current version.
 
-## The corpus (on `/media/dan/500Gb/metascience_observatory_pdfs/`)
+## The corpus (on `/media/dan/data/metascience_observatory_pdfs/`)
 
 Reorganized into a flat layout (the old ad-hoc `ingested/` tree is gone):
 `papers/` (one folder per DOI — the corpus), `inbox/` (one folder per downloaded
@@ -184,7 +201,13 @@ Do not duplicate these definitions elsewhere.
 ## Gotchas
 
 - Extract reads the XML by way of its markdown rendition, never the raw markup
-  as full text (invariant 9). Stage 7 (`pdf4llm batch`) still converts PDFs only.
+  as full text (invariant 9) — with **one** exception, the ladder's last rung: a
+  folder with no rendition, no `body.md` and no PDF gets the raw `.xml` as its
+  PRIMARY (`extract.paper_artifacts`, tier `raw_xml`). Some documents defeat
+  every converter (Wiley's `<component>` schema does), and 429 folders on
+  2026-09-03 held markup and nothing else, so the alternative was no full text
+  at all. Raw markup is ~3.7x the tokens of its rendition, so it is offered only
+  when nothing else exists, and never under `--force-tier`. Stage 7 (`pdf4llm batch`) still converts PDFs only.
   The raw `{stem}.xml` stays addressable for exactly one job: **it holds the
   reference list and the rendition does not**. fetchpdf's converter walks JATS
   `<body>`, and a JATS bibliography lives in `<back><ref-list>` — so a
@@ -223,11 +246,14 @@ Do not duplicate these definitions elsewhere.
   fix by deleting the progress file to reclassify from scratch.
 - Re-running search is incremental and safe: `search_progress.json` keys completed queries
   by `<api>:<query>`, so only new terms fire; `candidates_raw.csv` dedups.
-- The external drive is slow (USB) and its headroom moves — 94GB free / 80% used as
-  of 2026-08-22, after the corpus reorg. `df -h /media/dan/500Gb` before any bulk pull
-  (`--download-si` downloads files up to 300MB each; the XML backfill is ~75KB/paper).
-  Prefer catalog queries over walking `papers/`. Corpus scans take minutes; `catalog.connect()` uses `busy_timeout` so a long
-  scan and the dashboard's `/corpus` reads don't deadlock.
+- The corpus moved on 2026-09-05 from the external USB drive `/media/dan/500Gb`
+  (failing: unrecoverable read errors, pending sectors) to the internal NVMe
+  `/media/dan/data` (xfs, 1.5TB free that day). **Treat the old drive as
+  read-only salvage; never write to it or point `MO_MEDIA_ROOT` at it.** Check
+  `df -h /media/dan/data` before any bulk pull (`--download-si` downloads files up
+  to 300MB each; the XML backfill is ~75KB/paper). Prefer catalog queries over
+  walking `papers/` (15k+ folders). Corpus scans take minutes; `catalog.connect()`
+  uses `busy_timeout` so a long scan and the dashboard's `/corpus` reads don't deadlock.
 
 ## Where things are
 

@@ -15,21 +15,24 @@ import shutil
 import sys
 from pathlib import Path
 
+from mo_pipeline import config
+from mo_pipeline.corpus.models import doi_to_folder
+
 csv.field_size_limit(sys.maxsize)
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
 CONFIRMED_CSV = Path("data/confirmed_replications.csv")
-INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/ingested")
-OUTPUT_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/7th_batch")
+INGESTED_DIR = config.INGESTED_ROOT
+OUTPUT_DIR = config.MEDIA_ROOT / "7th_batch"
 
 PDF_SEARCH_DIRS = [
-    Path("/home/dan/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/manually_classified_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/agent_for_replications/ground_truth_dataset_PDFs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_long_covid_papers/pdfs"),
+    Path.home() / "downloaded_pdfs",
+    config.OBSERVATORY_ROOT / "PDFs",
+    config.OBSERVATORY_ROOT / "pull_replication_studies" / "downloaded_pdfs",
+    config.OBSERVATORY_ROOT / "pull_replication_studies" / "manually_classified_PDFs",
+    config.OBSERVATORY_ROOT / "agent_for_replications" / "ground_truth_dataset_PDFs",
+    config.OBSERVATORY_ROOT / "pull_long_covid_papers" / "pdfs",
 ]
 
 
@@ -66,7 +69,7 @@ def main():
         doi = row.get("doi", "").strip().lower()
         if not doi:
             continue
-        stem = doi.replace("/", "--")
+        stem = doi_to_folder(doi)
         if stem in ingested_stems:
             continue
         if stem in available:

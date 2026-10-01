@@ -33,13 +33,26 @@ from mo_pipeline import config
 #: and discover stages do not alter an extraction's output.
 EXTRACT_SOURCES = (
     "mo_pipeline/extract/extract.py",
+    "mo_pipeline/extract/codex_backend.py",
     "mo_pipeline/extract/extract_core.py",
     "mo_pipeline/config.py",
     "mo_pipeline/corpus/models.py",
     "mo_pipeline/discover/screening_backend.py",
     "mo_pipeline/shared/fetch_metadata_from_doi.py",
     "mo_pipeline/shared/fetch_metadata_from_title.py",
+    # The renditions extraction reads as its PRIMARY tier are written here.
+    "mo_pipeline/corpus/render.py",
+    "mo_pipeline/corpus/litdown_render.py",
 )
+
+
+def _dist_version(name: str) -> str:
+    """Installed version of a converter the renditions depend on ('' if absent)."""
+    try:
+        from importlib.metadata import version
+        return version(name)
+    except Exception:
+        return ""
 
 PROMPT_CHANGELOG = config.PROMPTS_DIR / "CHANGELOG.md"
 _CACHE: dict = {}
@@ -98,6 +111,7 @@ def manifest() -> dict:
             "pipeline_version": __version__,
             "prompt_version": _read_version(config.EXTRACTOR_VERSION_FILE),
             "code_fingerprint": code_fingerprint(),
+            "converter_versions": {d: _dist_version(d) for d in ("fetchpdf", "litdown")},
             "git_commit": _git("rev-parse", "HEAD"),
             "git_dirty_pipeline": bool(_git("status", "--porcelain", "mo_pipeline/")),
             "git_dirty_prompts": bool(_git("status", "--porcelain", "prompts/")),

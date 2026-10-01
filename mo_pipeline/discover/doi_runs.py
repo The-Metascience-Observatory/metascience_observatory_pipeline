@@ -99,6 +99,11 @@ def extract_dois_from_text(text: str) -> dict:
 
 # ── run CRUD ─────────────────────────────────────────────────────────────────
 def _run_dir(slug: str) -> Path:
+    # Every slug that reaches here from the API is untrusted: only a canonical
+    # slug (slugify's alphabet, so no '.' or '/') names a run, so '..' or any
+    # other path segment can never resolve outside DOI_RUNS_DIR.
+    if not re.fullmatch(r"[a-z0-9_-]{1,64}", slug or ""):
+        raise FileNotFoundError(f"no such run: {slug!r}")
     return config.DOI_RUNS_DIR / slug
 
 
@@ -204,7 +209,10 @@ def run_status(slug: str) -> dict:
 
     inbox_pending = 0
     if config.INBOX_DIR.exists():
-        inbox_stems = {p.stem.lower() for p in config.INBOX_DIR.glob("*.pdf")}
+        # One folder per record (inbox/{doi}/{doi}.pdf); the root glob covers
+        # flat leftovers from before `corpus inbox-subfolders`.
+        inbox_stems = {p.stem.lower() for p in config.INBOX_DIR.glob("*/*.pdf")}
+        inbox_stems |= {p.stem.lower() for p in config.INBOX_DIR.glob("*.pdf")}
         inbox_pending = sum(1 for fo in folder_set if fo.lower() in inbox_stems)
 
     collated = config.PAPERS_DIR / f"collated_results_{slug}.csv"

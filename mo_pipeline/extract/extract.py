@@ -453,18 +453,21 @@ def _format_duration(seconds: float) -> str:
     return f"{seconds:.1f}s"
 
 
-def load_version_number() -> float | int:
-    """Load the version number from version.txt.
+def load_version_number() -> str:
+    """Load the prompt version from version.txt, verbatim (e.g. "8.9", "8.10").
 
-    Returns the version as a number (int or float), or 0 if the file doesn't exist or is invalid.
+    Kept as text: parsing it as a float turned "8.10" into 8.1 (sorting below
+    8.9) and "9.0" into 9. Returns "0" if the file is missing or malformed.
     """
     try:
         raw = VERSION_NUMBER_FILE.read_text().strip()
-        val = float(raw)
-        return int(val) if val == int(val) else val
-    except (FileNotFoundError, ValueError) as e:
+    except FileNotFoundError as e:
         logger.warning(f"Failed to load version number from {VERSION_NUMBER_FILE}: {e}")
-        return 0
+        return "0"
+    if not re.fullmatch(r"\d+(\.\d+)*", raw):
+        logger.warning(f"Malformed version number in {VERSION_NUMBER_FILE}: {raw!r}")
+        return "0"
+    return raw
 
 
 def normalize_doi_url(url: str) -> str:
@@ -1023,7 +1026,7 @@ def _provenance_static() -> dict:
 
 
 def _write_provenance(output_dir: Path, *, model_id: str, prompt_level: str, artifacts: dict | None,
-                      html_mode: bool, pdf_only: bool, force_tier: str | None, dontcheck: bool) -> None:
+                      html_mode: bool, pdf_only: bool, force_tier: str | None, dontcheck: bool, cli_name: str = "claude") -> None:
     st = _provenance_static()
     if artifacts and artifacts.get("primary_tier"):
         tier, primary = artifacts["primary_tier"], artifacts["primary"].name
@@ -1031,6 +1034,9 @@ def _write_provenance(output_dir: Path, *, model_id: str, prompt_level: str, art
         tier, primary = "html", ""
     else:
         tier, primary = "pdf", ""
+    cli_version = st["cli_version"]
+    if cli_name != "claude":
+        cli_version = subprocess.check_output([cli_name, "--version"], text=True, timeout=10).strip()
     mode_file = _cfg.PROMPT_FILES.get(prompt_level)
     prov = {
         "model_id": model_id,
@@ -1039,7 +1045,7 @@ def _write_provenance(output_dir: Path, *, model_id: str, prompt_level: str, art
         "prompt_files_used": ["prompt_shared_core.md"] + ([mode_file.name] if mode_file else []),
         "prompt_sha256": st["prompt_sha256"],
         "primary_tier": tier, "primary_file": primary, "force_tier": force_tier,
-        "cli_version": st["cli_version"], "git_commit": st["git_commit"],
+        "cli_name": cli_name, "cli_version": cli_version, "git_commit": st["git_commit"],
         "git_dirty_prompts": st["git_dirty_prompts"],
         "git_dirty_pipeline": st["git_dirty_pipeline"],
         "pipeline_version": st["pipeline_version"],
@@ -1059,6 +1065,7 @@ def extract_paper(
     existing_urls: set[str] | None = None,
     tag: str | None = None,
     use_cursor: bool = False,
+    use_codex: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
     force_tier: str | None = None,
@@ -1190,7 +1197,11 @@ def extract_paper(
         )
         log_messages.append(f"  tier: {artifacts['primary_tier'] or 'pdf'}")
 
-    if use_cursor:
+    if use_codex:
+        from mo_pipeline.extract.codex_backend import build_command
+        cmd = build_command(paper_dir, model, system_prompt, user_prompt)
+        cli_name = "codex"
+    elif use_cursor:
         # Cursor CLI does not expose a dedicated system prompt flag,
         # so we prepend the system instructions to the user prompt.
         cursor_prompt = (
@@ -1221,6 +1232,10 @@ def extract_paper(
             user_prompt,
         ]
         cli_name = "claude"
+
+    # A killed earlier run can leave result.json behind; if this agent then
+    # exits 0 without writing, the stale file would be read as its output.
+    (output_dir / "result.json").unlink(missing_ok=True)
 
     start = time.monotonic()
 
@@ -1266,7 +1281,11 @@ def extract_paper(
 
     # Parse the selected CLI JSON envelope
     try:
-        cli_output = json.loads(result.stdout)
+        if use_codex:
+            from mo_pipeline.extract.codex_backend import parse_events
+            cli_output = parse_events(result.stdout)
+        else:
+            cli_output = json.loads(result.stdout)
     except json.JSONDecodeError:
         raise RuntimeError(
             f"Failed to parse {cli_name} CLI output for {paper_dir}:\n"
@@ -1307,7 +1326,7 @@ def extract_paper(
     # benchmark harness reads this file (benchmarking/harness.py:load_extraction).
     _write_provenance(output_dir, model_id=model_id, prompt_level=prompt_level,
                       artifacts=artifacts, html_mode=html_mode, pdf_only=pdf_only,
-                      force_tier=force_tier, dontcheck=existing_urls is None)
+                      force_tier=force_tier, dontcheck=existing_urls is None, cli_name=cli_name)
 
     # Read the result.json the agent should have written. An agent that
     # replied with the JSON inline instead of using the Write tool is not a
@@ -1400,7 +1419,7 @@ def extract_paper(
     needs_refinement = low_med_entries or doi_mismatches or citation_mismatches
     session_id = cli_output.get("session_id", "")
 
-    if needs_refinement and not use_cursor and not _shutdown_requested:
+    if needs_refinement and not use_cursor and not use_codex and not _shutdown_requested:
         reasons = []
         if low_med_entries:
             reasons.append(f"{len(low_med_entries)} low/medium confidence")
@@ -1650,6 +1669,10 @@ def extract_paper(
         suffixes = {"base": "_result.json", "mid": "_result_mid.json", "full": "_result_full.json"}
         suffix = suffixes[level]
     final_path = output_dir / f"{paper_dir.name}{suffix}"
+    if prompt_level in STAT_FREE_LEVELS:
+        for rep in data.get("replications", []):
+            for field in STAT_FIELDS:
+                rep.pop(field, None)
     final_path.write_text(json.dumps(data, indent=2))
     result_path.unlink()
 
@@ -1903,7 +1926,7 @@ def screen_batch(
         while not _shutdown_requested:
             time.sleep(1800)
             print(f"[Probe] Checking if session limit has reset...", file=sys.stderr)
-            if probe_session_available(model):
+            if use_codex or probe_session_available(model):
                 print(f"[Probe] Session available — resuming {len(usage_limit_failures)} papers", file=sys.stderr)
                 break
             print(f"[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
@@ -1948,6 +1971,7 @@ def extract_batch(
     tag: str | None = None,
     include_papers: set[str] | None = None,
     use_cursor: bool = False,
+    use_codex: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
     force_tier: str | None = None,
@@ -1980,7 +2004,7 @@ def extract_batch(
             p for p in papers_dir.iterdir()
             if p.is_dir()
             # Cheap name filter first: the inventory costs several globs per
-            # folder, and the drive is USB-slow with thousands of folders.
+            # folder, and the corpus holds thousands of folders.
             and (include_papers is None or p.name in include_papers)
             and paper_artifacts(p)["has_fulltext"]
         )
@@ -2023,6 +2047,7 @@ def extract_batch(
                 existing_urls=existing_urls,
                 tag=tag,
                 use_cursor=use_cursor,
+                use_codex=use_codex,
                 pdf_only=pdf_only,
                 html_mode=html_mode,
                 force_tier=force_tier,
@@ -2113,7 +2138,7 @@ def extract_batch(
         while not _shutdown_requested:
             time.sleep(1800)  # 30 minutes
             print(f"[Probe] Checking if session limit has reset...", file=sys.stderr)
-            if probe_session_available(model):
+            if use_codex or probe_session_available(model):
                 print(f"[Probe] Session available — resuming {len(usage_limit_failures)} papers", file=sys.stderr)
                 break
             print(f"[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
@@ -2398,7 +2423,12 @@ def main():
         help="Model to use for screening (default: haiku)",
     )
 
+    parser.add_argument("--usecodex", action="store_true", help="Use Codex CLI (set --model explicitly)")
     args = parser.parse_args()
+    if args.usecodex and args.usecursor:
+        parser.error("--usecodex and --usecursor are mutually exclusive")
+    if args.usecodex and args.model == "sonnet":
+        parser.error("--usecodex requires an explicit Codex --model")
 
     start = time.monotonic()
 
@@ -2435,6 +2465,7 @@ def main():
             tag=args.tag,
             include_papers=include_papers,
             use_cursor=args.usecursor,
+            use_codex=args.usecodex,
             pdf_only=args.onlypdf,
             html_mode=args.html,
             force_tier=args.force_tier,
@@ -2450,6 +2481,7 @@ def main():
                 existing_urls=existing_urls,
                 tag=args.tag,
                 use_cursor=args.usecursor,
+                use_codex=args.usecodex,
                 pdf_only=args.onlypdf,
                 html_mode=args.html,
                 force_tier=args.force_tier,

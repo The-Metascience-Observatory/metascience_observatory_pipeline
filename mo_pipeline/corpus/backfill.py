@@ -106,7 +106,7 @@ def _already_pulled_stems() -> set[str]:
 
 
 def cmd_fetch(args):
-    from fetchpdf import batch_fetch_pdfs
+    from mo_pipeline.shared.fetch import batch_fetch_pdfs, disable_last_resorts
     if not MISSING_DOIS_FILE.exists():
         sys.exit("run `compute` first")
     dois = [d.strip() for d in MISSING_DOIS_FILE.read_text().splitlines() if d.strip()]
@@ -123,10 +123,11 @@ def cmd_fetch(args):
     if free_gb < MIN_FREE_GB:
         sys.exit(f"aborting: only {free_gb:.1f} GB free (< {MIN_FREE_GB}) — free space first")
     PULL_DIR.mkdir(parents=True, exist_ok=True)
+    if args.legalonly:
+        disable_last_resorts()
     results = batch_fetch_pdfs(
         dois, str(PULL_DIR), email=config.ENTREZ_EMAIL, workers=args.workers,
-        delay=0.2, legalonly=args.legalonly, use_playwright=not args.legalonly,
-        create_missing_report=True, verbose=False)
+        delay=0.2, create_missing_report=True, verbose=False)
     ok = sum(1 for r in results if r[1])
     print(f"fetched {ok}/{len(dois)} PDFs "
           f"({shutil.disk_usage(config.MEDIA_ROOT).free/1e9:.1f} GB free now)")

@@ -1,5 +1,8 @@
 """
-The 9-stage pipeline registry + per-stage progress probes.
+The 8-stage pipeline registry + per-stage progress probes.
+
+Ingestion into the website database is no longer a stage; it is run manually
+from metascience_observatory_website/data_ingestor/ against the collated CSV.
 
 Each Stage declares how to launch it (argv builder), what parameters its run
 form exposes, which mutex groups it belongs to, and a probe() that reports cheap
@@ -54,7 +57,16 @@ def _prog(state: str, done=None, total=None, detail="", **extra) -> dict:
 
 
 # ── per-stage probes ─────────────────────────────────────────────────────────
-_SEARCH_TOTAL_QUERIES = 152  # PubMed+OpenAlex(x2)+EuropePMC+Crossref+OSF+S2
+def _search_total_queries() -> int | None:
+    """Effective query total across the per-API fan-out (overlay-aware). The
+    first call pays the search-module import (~0.5 s, Bio); later calls only
+    re-read keywords.json, so dashboard keyword edits reflect immediately."""
+    try:
+        from mo_pipeline.discover import keywords as kw
+        return kw.total_effective_queries() or None
+    except Exception:
+        return None
+
 
 def probe_search(_state) -> dict:
     p = _json(config.SEARCH_PROGRESS_FILE) or {}
@@ -62,9 +74,10 @@ def probe_search(_state) -> dict:
     raw = _csv_rows(config.CANDIDATES_RAW_CSV)
     if not done:
         return _prog("idle", detail="no search progress yet")
-    return _prog("done" if done >= _SEARCH_TOTAL_QUERIES else "partial",
-                 done, _SEARCH_TOTAL_QUERIES,
-                 detail=f"{done}/{_SEARCH_TOTAL_QUERIES} queries, {raw or 0} raw candidates")
+    total = _search_total_queries()
+    return _prog("done" if total and done >= total else "partial",
+                 done, total,
+                 detail=f"{done}/{total or '?'} queries, {raw or 0} raw candidates")
 
 
 def probe_dedup(_state) -> dict:
@@ -111,21 +124,42 @@ def probe_filter_direct(_state) -> dict:
     return _prog("done", n, n, detail=f"{n} direct replications, {pdfs} PDFs")
 
 
+def _inbox_count(inbox, pattern: str) -> int:
+    """Files matching `pattern` in the inbox: one folder per record, plus the
+    root for flat leftovers from before `corpus inbox-subfolders`."""
+    if not inbox.exists():
+        return 0
+    return len(list(inbox.glob(f"*/{pattern}"))) + len(list(inbox.glob(pattern)))
+
+
 def probe_download(_state) -> dict:
     inbox = config.INBOX_DIR
-    have = len(list(inbox.glob("*.pdf"))) if inbox.exists() else 0
+    have = _inbox_count(inbox, "*.pdf")
+    # Stage 6 also retrieves a structured copy per record; only the PDFs are
+    # what stage 7 converts, so they alone drive the count and the status.
+    structured = _inbox_count(inbox, "*.xml") + _inbox_count(inbox, "*.fulltext.html")
+    # The markdown renditions of that structured half are what stage 8 reads as
+    # its primary full text, so a structured count without them overstates what
+    # extraction can actually use.
+    rendered = _inbox_count(inbox, "*_from_xml.md") + _inbox_count(inbox, "*_from_html.md")
     confirmed = _csv_rows(config.CONFIRMED_REPLICATIONS_CSV) or 0
-    failed = _csv_rows(config.DATA_DIR / "failed_dois.csv") or 0
+    # fetchpdf appends failures to the output dir it was given, i.e. the inbox.
+    failed = _csv_rows(inbox / "failed_dois.csv") or 0
     return _prog("partial" if have else "idle", have, confirmed or None,
-                 detail=f"{have} PDFs in inbox awaiting conversion; {failed} known failures")
+                 detail=f"{have} PDFs in inbox awaiting conversion; "
+                        f"{structured} XML/HTML alongside ({rendered} rendered to markdown); "
+                        f"{failed} known failures")
 
 
 def probe_convert(_state) -> dict:
     inbox = config.INBOX_DIR
-    pending = len(list(inbox.glob("*.pdf"))) if inbox.exists() else 0
+    pending = _inbox_count(inbox, "*.pdf")
     mem = _mem_available_gb()
-    grobid = _grobid_up()
-    detail = f"{pending} PDFs in inbox; MemAvailable {mem:.0f}GB; GROBID {'up' if grobid else 'down'}"
+    from .grobid import state as _grobid_state, ANSWERING
+    grobid_state = _grobid_state()
+    grobid = grobid_state == ANSWERING
+    detail = (f"{pending} PDFs in inbox; MemAvailable {mem:.0f}GB; "
+              f"GROBID {grobid_state.replace('_', ' ')}")
     return _prog("partial" if pending else "idle", 0, pending, detail=detail,
                  mem_available_gb=mem, grobid_up=grobid)
 
@@ -146,21 +180,6 @@ def probe_extract(state) -> dict:
                  detail=f"{done}/{total} papers extracted under tag '{tag}'")
 
 
-def probe_ingest(_state) -> dict:
-    vh = config.VERSION_HISTORY_PATH
-    latest = None
-    if vh.exists():
-        for line in vh.read_text().splitlines():
-            line = line.split("#")[0].strip()
-            if line:
-                latest = line
-    ck = _csv_rows(config.INGESTION_CHECKPOINT_PATH)
-    detail = f"latest DB: {latest or 'none'}"
-    if ck:
-        detail += f"; checkpoint {ck} rows"
-    return _prog("idle", detail=detail, latest_db=latest)
-
-
 # ── system helpers ───────────────────────────────────────────────────────────
 def _mem_available_gb() -> float:
     try:
@@ -173,12 +192,9 @@ def _mem_available_gb() -> float:
 
 
 def _grobid_up() -> bool:
-    try:
-        import urllib.request
-        with urllib.request.urlopen("http://localhost:8070/api/isalive", timeout=1) as r:
-            return r.status == 200
-    except Exception:
-        return False
+    """Kept as the name main.py imports; the implementation lives in grobid.py."""
+    from .grobid import is_up
+    return is_up()
 
 
 def _catalog_stats():
@@ -257,6 +273,8 @@ def _classify_argv(params, state):
 
 def _download_argv(params, state):
     argv = [PY, "-m", "mo_pipeline.discover.download_all_confirmed"]
+    if params.get("doi_csv"):
+        argv += ["--doi-csv", str(params["doi_csv"])]
     if params.get("type"):
         argv += ["--type", str(params["type"])]
     if params.get("limit"):
@@ -275,23 +293,27 @@ def _convert_argv(params, state):
 
 def _extract_argv(params, state):
     tag = params.get("tag") or (state or {}).get("tag")
-    argv = [PY, "-m", "mo_pipeline.extract.extract", str(config.PAPERS_DIR),
-            "--batch", "--level", "full", "--workers", str(params.get("workers", 4))]
+    if params.get("core"):
+        # Single-shot core-fields extractor: no statistics, one no-tools model
+        # call per paper (mo_pipeline/extract/extract_core.py). Same tag/include
+        # -list/model/collate flags; --provider is core-only.
+        argv = [PY, "-m", "mo_pipeline.extract.extract_core", str(config.PAPERS_DIR),
+                "--workers", str(params.get("workers", 4))]
+        if params.get("provider"):
+            argv += ["--provider", str(params["provider"])]
+    else:
+        argv = [PY, "-m", "mo_pipeline.extract.extract", str(config.PAPERS_DIR),
+                "--batch", "--level", str(params.get("level", "full")), "--workers", str(params.get("workers", 4))]
+        if params.get("usecodex"):
+            argv += ["--usecodex"]
     if tag:
         argv += ["--tag", tag]
     if params.get("include_list"):
         argv += ["--include-list", str(params["include_list"])]
     if params.get("model"):
         argv += ["--model", str(params["model"])]
-    return argv
-
-
-def _ingest_argv(params, state):
-    inp = params.get("input_csv")
-    argv = [PY, "-m", "mo_pipeline.ingest.data_ingestor", str(inp),
-            "--no-gui", "--workers", str(params.get("workers", 4))]
-    if params.get("skip_api_calls"):
-        argv += ["--skip-api-calls"]
+    if params.get("collate_only"):
+        argv += ["--collate-only"]
     return argv
 
 
@@ -317,22 +339,31 @@ STAGES: list[Stage] = [
           _download_argv, [Param("type", "str", "", help="filter by replication type"),
                            Param("limit", "int", None, help="max DOIs to attempt"),
                            Param("workers", "int", 4, 1, 8, "parallel downloads"),
-                           Param("legalonly", "bool", False, help="skip Sci-Hub")],
-          ["self"], probe_download),
+                           Param("legalonly", "bool", False, help="skip Sci-Hub"),
+                           Param("doi_csv", "str", "", help="CSV of DOIs to fetch instead "
+                                 "of confirmed set (see DOI runs page)")],
+          # `inbox`: convert moves PDFs out of inbox/ (--movepdf) while download
+          # writes into it; the two must never overlap.
+          ["self", "inbox"], probe_download),
     Stage("convert", 7, "Convert (pdf4llm)", "PDF -> abstract/body/refs into papers/",
           _convert_argv, [Param("workers", "int", 4, 1, 4, "capped at 4 (RAM)")],
-          ["self", "heavy_ram"], probe_convert),
+          ["self", "heavy_ram", "inbox"], probe_convert),
     Stage("extract", 8, "Extract", "LLM extract structured replication records (Sonnet)",
           _extract_argv, [Param("tag", "str", "", help="run tag (per-run resume)"),
                           Param("workers", "int", 4, 1, 8, "parallel papers"),
                           Param("include_list", "str", "", help="path to include-list file"),
-                          Param("model", "str", "sonnet", help="claude model alias")],
+                          Param("model", "str", "sonnet", help="model ID for the selected CLI/provider"),
+                          Param("level", "str", "full", help="agentic extraction: full or base (no statistics)"),
+                          Param("usecodex", "bool", False, help="agentic extraction via Codex CLI; set model explicitly"),
+                          Param("collate_only", "bool", False,
+                                help="only collate existing results for the tag into a CSV"),
+                          Param("core", "bool", False,
+                                help="core fields only: single-shot extractor, no statistics "
+                                     "(extract_core.py)"),
+                          Param("provider", "str", "",
+                                help="core only: claude_cli (default) or openrouter "
+                                     "(then set model to an OpenRouter slug)")],
           ["self", "claude_cli"], probe_extract),
-    Stage("ingest", 9, "Ingest", "Enrich + merge collated CSV into the website database",
-          _ingest_argv, [Param("input_csv", "str", "", help="collated_results_*.csv to ingest"),
-                         Param("workers", "int", 4, 1, 8, "parallel enrichment"),
-                         Param("skip_api_calls", "bool", False, help="no metadata enrichment")],
-          ["self"], probe_ingest),
 ]
 
 BY_ID = {s.id: s for s in STAGES}

@@ -50,7 +50,8 @@ def load_replication_metadata(papers_dir: Path, replication_doi: str) -> dict | 
     Converts DOI like '10.1002/acp.3769' to folder name '10.1002--acp.3769'
     and reads metadata.json from that folder.
     """
-    folder_name = replication_doi.replace("/", "--")
+    from mo_pipeline.corpus.models import doi_to_folder
+    folder_name = doi_to_folder(replication_doi)
     metadata_path = papers_dir / folder_name / "metadata.json"
 
     if not metadata_path.exists():

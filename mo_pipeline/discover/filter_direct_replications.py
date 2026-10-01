@@ -20,8 +20,10 @@ from pathlib import Path
 
 csv.field_size_limit(sys.maxsize)
 
-# Uses the specialized package at /home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/fetch_pdf_from_doi
-from fetchpdf import fetch_pdf_from_doi
+# Through the shim, so fetchpdf sees the Elsevier key. Stage 5 never used the
+# grey last-resort sources; keep it on legal sources.
+from mo_pipeline.shared.fetch import fetch_pdf_from_doi, disable_last_resorts
+disable_last_resorts()
 from mo_pipeline.config import (
     DATA_DIR, PDF_DIR, CONFIRMED_REPLICATIONS_CSV, DOWNLOAD_STATUS_CSV,
     DIRECT_REPLICATIONS_CSV as DIRECT_CSV,

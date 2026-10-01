@@ -22,14 +22,15 @@ a former copy here was removed 2026-08-09).
 | `dashboard/` | Next.js dashboard (port 3010). |
 | `data/`, `progress/` | Candidate CSVs + search/classify checkpoints (gitignored). |
 
-Big data (PDFs, the paper corpus) stays on the external drive at
-`/media/dan/500Gb/metascience_observatory_pdfs/` — see the corpus layout below.
+Big data (PDFs, the paper corpus) lives on the internal data drive at
+`/media/dan/data/metascience_observatory_pdfs/` (moved 2026-09-05 off the failing
+USB drive `/media/dan/500Gb`) — see the corpus layout below.
 
 ## Setup
 
 ```bash
 pip install --break-system-packages --user -e .   # editable install of mo_pipeline
-# fetchpdf (../fetchpdf_public), fetchpdf_grey (../fetchpdf) and pdf4llm are separate editable installs
+# fetchpdf (../fetchpdf_public), fetchpdf_grey (../fetchpdf-grey) and pdf4llm are separate editable installs
 ```
 
 ## Run a stage from the CLI
@@ -41,6 +42,7 @@ python -m mo_pipeline.discover.download_all_confirmed --backfill-structured --ba
 pdf4llm batch /media/.../inbox -o /media/.../papers --mode full-grobid --workers 4 --movepdf --resume
 python -m mo_pipeline.extract.extract /media/.../papers --batch --level full --tag sonnet_v8_5
 python -m mo_pipeline.extract.extract_core /media/.../papers --tag core_v1   # core fields only, one model call per paper
+python -m mo_pipeline.extract.extract /media/.../papers --batch --level base --usecodex --model gpt-5.6-terra --workers 10 --tag terra_base --include-list data/selected_papers.txt
 # then ingest the collated CSV manually, from the website repo:
 #   cd ../metascience_observatory_website/data_ingestor
 #   python data_ingestor.py collated_results_sonnet_v8_5.csv --no-gui
@@ -48,6 +50,13 @@ python -m mo_pipeline.extract.extract_core /media/.../papers --tag core_v1   # c
 
 Env overrides for safe testing: `MO_DATA_DIR`, `MO_PROGRESS_DIR`, `MO_MEDIA_ROOT`,
 `MO_WEBSITE_DATA_DIR` (redirect the production DB to a scratch copy).
+
+The agentic extractor supports `--usecodex` with an explicit Codex model ID.
+It runs `codex exec` in each paper folder, records the CLI and model in provenance,
+and keeps the existing validation, metadata enrichment, and collation steps.
+`--level base` omits statistics from both the prompt and saved rows. Codex runs
+do not invoke the Claude-specific second-pass reviewer; validation warnings remain
+in the run log. Existing results under the same tag are skipped on resume.
 
 ## The corpus catalog
 

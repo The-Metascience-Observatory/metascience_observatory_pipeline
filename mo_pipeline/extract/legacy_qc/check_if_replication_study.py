@@ -29,6 +29,8 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from mo_pipeline.corpus.models import folder_to_doi
+
 # Handle Ctrl+C gracefully
 def signal_handler(sig, frame):
     print("\n\nInterrupted by user. Exiting...", file=sys.stderr)
@@ -522,7 +524,7 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
         except (json.JSONDecodeError, IOError):
             continue
 
-        doi = paper_dir.name.replace("--", "/")
+        doi = folder_to_doi(paper_dir.name)
         rows.append({
             "doi": doi,
             "contains_replications": data.get("contains_replications", False),

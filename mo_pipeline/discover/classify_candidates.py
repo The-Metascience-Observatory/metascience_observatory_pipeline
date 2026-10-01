@@ -11,7 +11,8 @@ Max subscription (no API key needed). Concurrent subprocess calls for speed.
 Checkpoints for resumability.
 
 Two levels of deduplication before LLM classification:
-  Level 2: DOI matches data/processed_manifest.csv → already ingested, auto-mark True
+  Level 2: DOI matches data/processed_manifest.csv with a corpus extraction verdict
+           → auto-mark True (extraction found replications) or False (found none)
   Level 1: DOI/PMID matches prior data/classified.csv result → reuse without LLM call
 
 Input:  data/candidates_filtered.csv (from prefilter step)
@@ -125,17 +126,64 @@ def _norm_doi(doi):
     return (doi or "").strip().lower()
 
 
+CONFIDENCE_VALUES = {"high", "medium", "low"}
+REPLICATION_TYPE_VALUES = {"direct", "close", "conceptual", "systematic", "multi-site"}
+# reasoning stamped on Level-2 rows before 2026-10-01, when every corpus paper was
+# auto-confirmed whatever its extraction found. Such rows are never reused.
+_LEGACY_AUTO_REASON = "Already ingested into corpus"
+
+
 def _load_ingested_dois():
-    """Load DOI set from processed_manifest.csv (Level 2 dedup)."""
-    dois = set()
+    """{doi: "1"|"0"} from processed_manifest.csv (Level 2 dedup).
+
+    Only papers whose corpus extraction reached a verdict are returned. A manifest
+    without the contains_replications column predates the fix and listed every
+    paper on the drive, so it is ignored until rebuilt.
+    """
+    verdicts = {}
     if not PROCESSED_MANIFEST_CSV.exists():
-        return dois
+        return verdicts
     with open(PROCESSED_MANIFEST_CSV, "r", newline="", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
+        reader = csv.DictReader(f)
+        if "contains_replications" not in (reader.fieldnames or []):
+            print("WARNING: processed_manifest.csv predates the contains_replications column; "
+                  "ignoring it. Rebuild: python -m mo_pipeline.discover.build_processed_manifest")
+            return verdicts
+        for row in reader:
             doi = _norm_doi(row.get("doi", ""))
-            if doi:
-                dois.add(doi)
-    return dois
+            verdict = (row.get("contains_replications") or "").strip()
+            if doi and verdict in ("0", "1"):
+                verdicts[doi] = verdict
+    return verdicts
+
+
+def _as_bool(val):
+    if isinstance(val, bool):
+        return val
+    if isinstance(val, str) and val.strip().lower() in ("true", "false"):
+        return val.strip().lower() == "true"
+    return None
+
+
+def _validated(result):
+    """The model's verdict with enums checked, or None (a failure, retried next run).
+
+    255 rows once carried the replication type in `confidence`; stage 5 gates on
+    confidence == "high", so a wrong value there silently changes the confirmed set.
+    """
+    is_rep = _as_bool(result.get("is_replication"))
+    conf = str(result.get("confidence") or "").strip().lower()
+    rtype = result.get("replication_type")
+    rtype = "" if rtype in (None, "", "null") else str(rtype).strip().lower()
+    if is_rep is None or conf not in CONFIDENCE_VALUES or (rtype and rtype not in REPLICATION_TYPE_VALUES):
+        return None
+    return {**result, "is_replication": is_rep, "confidence": conf, "replication_type": rtype or None}
+
+
+def _prior_is_valid(prior):
+    if (prior.get("reasoning") or "") == _LEGACY_AUTO_REASON:
+        return False
+    return _validated(prior) is not None
 
 
 def _load_prior_classified():
@@ -173,13 +221,13 @@ def classify_one(idx, title, abstract, backend=None):
     return backend.screen(idx, SYSTEM_PROMPT, prompt)
 
 
-def _auto_row(row, is_replication, reasoning):
+def _auto_row(row, is_replication, reasoning, confidence):
     """Build a classified row without an LLM call (Level 2 dedup or empty rows)."""
     out_row = dict(row)
     for field in CLASSIFICATION_FIELDS:
         out_row[field] = ""
     out_row["is_replication"] = str(is_replication)
-    out_row["confidence"] = "high"
+    out_row["confidence"] = confidence
     out_row["reasoning"] = reasoning
     return out_row
 
@@ -284,13 +332,16 @@ def main():
         abstract = row.get("abstract", "")
 
         if not title and not abstract:
-            classified_rows.append(_auto_row(row, False, "No title or abstract available"))
+            classified_rows.append(_auto_row(row, False, "No title or abstract available", "low"))
             already_done.add(idx)
             continue
 
-        # Level 2: already ingested into the corpus — definitely a confirmed replication
+        # Level 2: the corpus extraction already decided this paper
         if doi and doi in ingested_dois:
-            classified_rows.append(_auto_row(row, True, "Already ingested into corpus"))
+            found = ingested_dois[doi] == "1"
+            classified_rows.append(_auto_row(
+                row, found, "Corpus extraction found replications" if found
+                else "Corpus extraction found no replications", "high"))
             already_done.add(idx)
             skipped_ingested += 1
             continue
@@ -299,7 +350,7 @@ def main():
         prior = prior_by_doi.get(doi) if doi else None
         if prior is None and pmid:
             prior = prior_by_pmid.get(pmid)
-        if prior is not None:
+        if prior is not None and _prior_is_valid(prior):
             classified_rows.append(_reuse_prior_row(row, prior))
             already_done.add(idx)
             skipped_prior += 1
@@ -358,6 +409,11 @@ def main():
                 if result is None:
                     print(f"  [{idx}] FAILED — will retry on next run")
                     continue
+                checked = _validated(result)
+                if checked is None:
+                    print(f"  [{idx}] INVALID verdict {json.dumps({k: result.get(k) for k in ('is_replication', 'confidence', 'replication_type')})} — will retry on next run")
+                    continue
+                result = checked
 
                 out_row = dict(row)
                 for field in CLASSIFICATION_FIELDS:

@@ -11,18 +11,20 @@ import shutil
 from pathlib import Path
 from collections import defaultdict
 
+from mo_pipeline import config
+
 # ── Configuration ────────────────────────────────────────────────────────────
 
-INGESTED_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/ingested")
-OUTPUT_DIR = Path("/media/dan/500Gb/metascience_observatory_pdfs/pdfgrep_batch")
+INGESTED_DIR = config.INGESTED_ROOT
+OUTPUT_DIR = config.MEDIA_ROOT / "pdfgrep_batch"
 
 # Directories to search (excluding have_been_ingested itself)
 SEARCH_DIRS = [
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/PDFs"),
-    Path("/home/dan/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_replication_studies/downloaded_pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/pull_long_covid_papers/pdfs"),
-    Path("/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/agent_for_replications/ground_truth_dataset_PDFs"),
+    config.OBSERVATORY_ROOT / "PDFs",
+    Path.home() / "downloaded_pdfs",
+    config.OBSERVATORY_ROOT / "pull_replication_studies" / "downloaded_pdfs",
+    config.OBSERVATORY_ROOT / "pull_long_covid_papers" / "pdfs",
+    config.OBSERVATORY_ROOT / "agent_for_replications" / "ground_truth_dataset_PDFs",
 ]
 
 # Search terms ordered by specificity (most specific first)
@@ -57,7 +59,7 @@ def build_already_batched_set():
         for pdf in OUTPUT_DIR.glob("*.pdf"):
             stems.add(pdf.stem.lower())
     # Also check 7th_batch
-    batch7 = Path("/media/dan/500Gb/metascience_observatory_pdfs/7th_batch")
+    batch7 = config.MEDIA_ROOT / "7th_batch"
     if batch7.exists():
         for pdf in batch7.glob("*.pdf"):
             stems.add(pdf.stem.lower())

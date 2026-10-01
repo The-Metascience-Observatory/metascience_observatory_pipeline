@@ -3,7 +3,7 @@
 
 export type ProbeState =
   | "idle" | "partial" | "done" | "stale" | "failed" | "error" | "unknown";
-export type RunState = "idle" | "running" | "finished" | "failed";
+export type RunState = "idle" | "running" | "finished" | "failed" | "stopped" | "unknown";
 
 export interface Param {
   name: string; type: "int" | "str" | "bool";
@@ -21,6 +21,19 @@ export interface System {
   mem_available_gb: number; grobid_up: boolean; media_mounted: boolean;
   media_disk: { free_gb: number; total_gb: number; pct_used: number } | null;
 }
+export interface DoiRunStatus {
+  n_dois: number; in_corpus: number; converted: number;
+  extracted_with_tag: number; inbox_pending: number; missing: number;
+  collated_csv: string | null;
+  paths: { dois_csv: string; include_list: string };
+  error?: string;
+}
+export interface DoiRun {
+  name: string; slug: string; created: string; source: string;
+  doi_column: string; n_dois: number; n_rows: number; n_invalid: number;
+  status: DoiRunStatus;
+}
+export interface PaperTypeOption { type: string; count: number; }
 export interface CorpusResponse {
   available: boolean;
   stats?: { total: number; by_status: Record<string, number>;
@@ -56,6 +69,14 @@ export const api = {
       headers: { "content-type": "application/json" }, body: JSON.stringify(patch) }),
   corpus: (q: Record<string, string> = {}) =>
     j<CorpusResponse>("/api/corpus?" + new URLSearchParams(q).toString()),
+  corpusDownloadOptions: () =>
+    j<{ types: PaperTypeOption[] }>("/api/corpus/download/options"),
+  doiRuns: () => j<{ runs: DoiRun[] }>("/api/doi-runs"),
+  createDoiRun: (body: { name: string; csv_text?: string; source_path?: string }) =>
+    j<DoiRun>("/api/doi-runs", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify(body) }),
+  deleteDoiRun: (slug: string) =>
+    j<{ deleted: boolean }>(`/api/doi-runs/${slug}`, { method: "DELETE" }),
   keywords: () => j<{ lists: KeywordList[] }>("/api/keywords"),
   saveKeywords: (key: string, items: string[]) =>
     j<{ saved: boolean; count: number }>(`/api/keywords/${key}`, {
@@ -63,11 +84,42 @@ export const api = {
       body: JSON.stringify({ items }) }),
   resetKeywords: (key: string) =>
     j<{ reset: boolean; count: number }>(`/api/keywords/${key}/reset`, { method: "POST" }),
+  keywordStats: () => j<KeywordStatsEnvelope>("/api/keywords/stats"),
+  refreshKeywordStats: () =>
+    j<{ started: boolean }>("/api/keywords/stats/refresh", { method: "POST" }),
+  artifacts: () => j<{ artifacts: ArtifactInfo[]; warnings: string[] }>("/api/artifacts"),
 };
 
 export interface KeywordList {
   key: string; label: string; feeds: string[]; syntax: string;
   items: string[]; count: number; overridden: boolean;
+}
+
+export interface KeywordQueryStat {
+  query: string; raw: number; completed: boolean; apiCount: number;
+  filtered: number; classified: number; confirmed: number; direct: number;
+  confirmRate: number | null; zeroYield: boolean; notSearched: boolean;
+}
+export interface KeywordApiStats {
+  api: string; label: string; queriesExpected: number; queriesCompleted: number;
+  raw: number; zeroYield: number; notSearched: number; queries: KeywordQueryStat[];
+}
+export interface KeywordStats {
+  version: number; generatedAt: string; computeSeconds: number;
+  staleness: { notes: string[] };
+  totals: { raw: number; filtered: number; classified: number; confirmed: number;
+            direct: number; queriesExpected: number; queriesCompleted: number;
+            zeroYield: number; notSearched: number };
+  apis: KeywordApiStats[];
+  orphans: Array<{ api: string; query: string; raw: number; inProgress: boolean }>;
+  unknownDownstream: Record<string, Record<string, number>>;
+}
+export interface KeywordStatsEnvelope {
+  state: "ready" | "computing" | "missing"; stale: boolean;
+  stats: KeywordStats | null; historyCount: number;
+}
+export interface ArtifactInfo {
+  name: string; stage: string; size: number | null; mtime: number | null;
 }
 
 export const PROBE_COLOR: Record<ProbeState, string> = {

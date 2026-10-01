@@ -27,11 +27,13 @@ from pathlib import Path
 
 import requests
 
+from mo_pipeline import config
+
 csv.field_size_limit(sys.maxsize)
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-COLLATED_RESULTS = Path("/media/dan/500Gb/metascience_observatory_pdfs/ingested/collated_results_direct_replications_sonnet_02_07_2026.csv")
+COLLATED_RESULTS = config.INGESTED_ROOT / "collated_results_direct_replications_sonnet_02_07_2026.csv"
 OUTPUT_CSV = Path("data/citation_mined_candidates.csv")
 PROGRESS_FILE = Path("progress/citation_mine_progress.json")
 

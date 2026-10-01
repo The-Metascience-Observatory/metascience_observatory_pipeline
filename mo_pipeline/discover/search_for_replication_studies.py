@@ -347,18 +347,34 @@ def dedup_and_append(rows):
 # Shared HTTP + query-loop helpers
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _http_get_json(url, params=None, headers=None, timeout=60, retries=3, retry_wait_429=None):
+# Set by _http_get_json on a terminal failure. Every search function treats None
+# as "no more pages" and returns what it has, so without this flag the query loop
+# could not tell a failed query from an empty one and checkpointed both as done --
+# a 429 meant the query was never retried.
+_REQUEST_FAILED = False
+
+# Minimum pause between queries (and before any retry) per API. Semantic Scholar's
+# delay used to apply only between pages of one query.
+_QUERY_DELAY = {"semantic_scholar": S2_DELAY}
+_LEGACY_CAP = 1000  # MAX_PER_QUERY when checkpoints did not record their cap
+
+
+def _http_get_json(url, params=None, headers=None, timeout=60, retries=3, retry_wait_429=None,
+                   min_wait=0.0):
     """GET a JSON endpoint with exponential backoff on 429/5xx/network errors.
     retry_wait_429: fixed seconds to wait on 429 (overrides exponential backoff for that code).
-    Returns parsed JSON on success, None on terminal failure."""
+    min_wait: floor for every retry wait (an API's own rate-limit delay).
+    Returns parsed JSON on success, None on terminal failure (and sets _REQUEST_FAILED)."""
+    global _REQUEST_FAILED
     for attempt in range(retries):
         try:
             r = requests.get(url, params=params, headers=headers, timeout=timeout)
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
             if attempt == retries - 1:
                 print(f"    giving up after {retries} attempts: {type(e).__name__}: {e}")
+                _REQUEST_FAILED = True
                 return None
-            backoff = 2 ** attempt
+            backoff = max(2 ** attempt, min_wait)
             print(f"    {type(e).__name__}, retrying in {backoff}s")
             time.sleep(backoff)
             continue
@@ -367,38 +383,59 @@ def _http_get_json(url, params=None, headers=None, timeout=60, retries=3, retry_
                 return r.json()
             except ValueError:
                 print(f"    JSON decode error from {url}")
+                _REQUEST_FAILED = True
                 return None
         if r.status_code in (429, 500, 502, 503, 504) and attempt < retries - 1:
             if r.status_code == 429 and retry_wait_429 is not None:
                 backoff = retry_wait_429
             else:
                 backoff = 2 ** attempt
+            backoff = max(backoff, min_wait)
             print(f"    HTTP {r.status_code}, retrying in {backoff}s")
             time.sleep(backoff)
             continue
         print(f"    HTTP {r.status_code} (terminal) from {url}: {r.text[:200]}")
+        _REQUEST_FAILED = True
         return None
+    _REQUEST_FAILED = True
     return None
 
 
 def _run_query_loop(api_name, queries, fetch_fn, progress):
-    """Shared driver: for each query, skip if completed else fetch -> tag -> dedup_and_append -> save."""
-    total = 0
+    """Shared driver: for each query, skip if completed else fetch -> tag -> dedup_and_append -> save.
+
+    A query counts as completed only if no request failed, and only for the cap it
+    ran under: raising --max-per-query re-runs queries checkpointed at a lower cap.
+    Rows from a failed query are still kept (appending is deduplicated).
+    """
+    global _REQUEST_FAILED
+    total, failed = 0, 0
     n = len(queries)
+    caps = progress.setdefault("query_caps", {})
+    delay = _QUERY_DELAY.get(api_name, 0.0)
     for i, q in enumerate(queries, start=1):
         key = f"{api_name}:{q}"
-        if key in progress["completed_queries"]:
+        if key in progress["completed_queries"] and caps.get(key, _LEGACY_CAP) >= MAX_PER_QUERY:
             print(f"  [skip {i}/{n}] {key[:60]}...")
             continue
         print(f"  [{i}/{n}] {api_name} query: {str(q)[:80]}")
+        _REQUEST_FAILED = False
         records = fetch_fn(q)
         for rec in records:
             rec["source_api"] = api_name
             rec["source_query"] = str(q)
         total += dedup_and_append(records)
-        progress["completed_queries"].append(key)
+        if _REQUEST_FAILED:
+            failed += 1
+            print(f"    request failed; NOT checkpointing {key[:60]} (kept {len(records)} rows, will retry next run)")
+        else:
+            if key not in progress["completed_queries"]:
+                progress["completed_queries"].append(key)
+            caps[key] = MAX_PER_QUERY
         save_progress(progress)
-    print(f"  {api_name} total new rows: {total}")
+        if delay:
+            time.sleep(delay)
+    print(f"  {api_name} total new rows: {total}" + (f"; {failed} queries failed, will retry" if failed else ""))
     return total
 
 
@@ -766,7 +803,7 @@ def search_semantic_scholar(query, max_results=None):
             "fields": _S2_FIELDS,
         }
         data = _http_get_json(base_url, params=params, headers=_S2_HEADERS,
-                             retries=6, retry_wait_429=15)
+                             retries=6, retry_wait_429=15, min_wait=S2_DELAY)
         if data is None:
             break
         items = data.get("data") or []
