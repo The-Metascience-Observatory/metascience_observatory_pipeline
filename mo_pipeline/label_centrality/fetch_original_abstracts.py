@@ -22,22 +22,10 @@ import requests
 from mo_pipeline import config
 from mo_pipeline.label_centrality import common
 from mo_pipeline.corpus.models import normalize_doi
+from mo_pipeline.shared.env import env_key
 
 OPENALEX_BASE = "https://api.openalex.org/works"
 BATCH = 50
-
-
-def load_env() -> dict[str, str]:
-    env: dict[str, str] = {}
-    for env_file in (config.ENV_FILE,
-                     config.WEBSITE_ROOT / ".env.local"):
-        if env_file.exists():
-            for line in env_file.read_text().splitlines():
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, v = line.split("=", 1)
-                    env.setdefault(k.strip(), v.strip().strip('"').strip("'"))
-    return env
 
 
 def deinvert(inv: dict | None) -> str:
@@ -82,9 +70,9 @@ def main() -> int:
     dois = sorted({u["original_doi"] for u in manifest["units"] if u["original_doi"]})
     print(f"{len(dois)} unique original DOIs")
 
-    env = load_env()
-    api_key = env.get("OPENALEXAPIKEY")
-    mailto = env.get("CONTACT_EMAIL") or config.ENTREZ_EMAIL
+    website_env = config.WEBSITE_ROOT / ".env.local"
+    api_key = env_key("OPENALEXAPIKEY", website_env)
+    mailto = env_key("CONTACT_EMAIL", website_env) or config.ENTREZ_EMAIL
 
     cache: dict[str, dict] = {}
     if common.ABSTRACTS_PATH.exists():

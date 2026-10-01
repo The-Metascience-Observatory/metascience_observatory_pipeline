@@ -1,68 +1,24 @@
 import requests
 import time
 import logging
-import os
 import re
 import json
 import urllib.parse
-from pathlib import Path
 from difflib import SequenceMatcher
+from mo_pipeline.shared.env import env_key
+from mo_pipeline.shared.http import get_with_retry
 
 logger = logging.getLogger(__name__)
 
-# Load OpenAlex API key from environment
-def _get_openalex_api_key():
-    """Load OpenAlex API key from .env.local or environment"""
-    api_key = os.getenv('OPENALEXAPIKEY')
-    if not api_key:
-        # Try to load from .env.local in parent directory
-        try:
-            # parents[2] is the repo root. `.parent.parent` was the package
-            # directory, so the key was never found and every OpenAlex call ran
-            # anonymous -- which stopped working outright once OpenAlex moved to
-            # a daily budget ($0 for anonymous: "Insufficient budget", HTTP 429).
-            env_path = Path(__file__).resolve().parents[2] / '.env.local'
-            if env_path.exists():
-                with open(env_path) as f:
-                    for line in f:
-                        if line.startswith('OPENALEXAPIKEY='):
-                            api_key = line.strip().split('=', 1)[1]
-                            break
-        except Exception:
-            pass
-    return api_key
-
-OPENALEX_API_KEY = _get_openalex_api_key()
-
-
-def _get_env_key(key_name):
-    """Load an API key from environment or .env.local"""
-    val = os.getenv(key_name)
-    if not val:
-        try:
-            # parents[2] is the repo root. `.parent.parent` was the package
-            # directory, so the key was never found and every OpenAlex call ran
-            # anonymous -- which stopped working outright once OpenAlex moved to
-            # a daily budget ($0 for anonymous: "Insufficient budget", HTTP 429).
-            env_path = Path(__file__).resolve().parents[2] / '.env.local'
-            if env_path.exists():
-                with open(env_path) as f:
-                    for line in f:
-                        if line.startswith(f'{key_name}='):
-                            val = line.strip().split('=', 1)[1]
-                            break
-        except Exception:
-            pass
-    return val
-
-CORE_API_KEY = _get_env_key('COREAPIKEY')
-SCOPUS_API_KEY = _get_env_key('SCOPUS_API_KEY')
-DIMENSIONS_API_KEY = _get_env_key('DIMENSIONS_API_KEY')
-SEMANTIC_SCHOLAR_API_KEY = _get_env_key('SEMANTIC_SCHOLAR_API_KEY')
-CROSSREF_API_KEY = _get_env_key('CROSSREF_API_KEY')
-CROSSREF_EMAIL = _get_env_key('CROSSREFEMAIL')
-ENTREZ_API_KEY = _get_env_key('ENTREZ_EUTILS_API_KEY')
-CONTACT_EMAIL = _get_env_key('CONTACT_EMAIL') or 'your_email@example.com'
+OPENALEX_API_KEY = env_key('OPENALEXAPIKEY')
+CORE_API_KEY = env_key('COREAPIKEY')
+SCOPUS_API_KEY = env_key('SCOPUS_API_KEY')
+DIMENSIONS_API_KEY = env_key('DIMENSIONS_API_KEY')
+SEMANTIC_SCHOLAR_API_KEY = env_key('SEMANTIC_SCHOLAR_API_KEY')
+CROSSREF_API_KEY = env_key('CROSSREF_API_KEY')
+CROSSREF_EMAIL = env_key('CROSSREFEMAIL')
+ENTREZ_API_KEY = env_key('ENTREZ_EUTILS_API_KEY')
+CONTACT_EMAIL = env_key('CONTACT_EMAIL') or 'your_email@example.com'
 
 
 def _format_initial(name):
@@ -174,39 +130,6 @@ def _new_authors_are_better(current, new):
     return new_full > cur_full
 
 
-def _request_with_retry(url, headers=None, timeout=10, max_retries=3):
-    """Make an HTTP GET request with exponential backoff on transient failures.
-    Uses Retry-After header when available, with longer waits for 429 rate limits.
-    Timeouts and connection errors skip retries to avoid wasting time on unresponsive APIs."""
-    for attempt in range(max_retries):
-        try:
-            r = requests.get(url, timeout=timeout, headers=headers)
-            if r.status_code == 429 or r.status_code >= 500:
-                # Use Retry-After header if present, otherwise exponential backoff
-                retry_after = r.headers.get('Retry-After')
-                if retry_after:
-                    try:
-                        wait = min(int(retry_after), 10)  # cap at 10s
-                    except ValueError:
-                        wait = 5 * (2 ** attempt)  # fallback
-                elif r.status_code == 429:
-                    wait = 5 * (2 ** attempt)  # 5s, 10s, 20s for rate limits
-                else:
-                    wait = 2 ** attempt  # 1s, 2s, 4s for server errors
-                logger.warning(f"HTTP {r.status_code} from {url}, retrying in {wait}s (attempt {attempt+1}/{max_retries})")
-                time.sleep(wait)
-                continue
-            return r
-        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
-            logger.warning(f"Connection/timeout error for {url}: {e}, skipping")
-            return None
-        except requests.exceptions.RequestException as e:
-            wait = 2 ** attempt
-            logger.warning(f"Request error for {url}: {e}, retrying in {wait}s (attempt {attempt+1}/{max_retries})")
-            time.sleep(wait)
-    return None
-
-
 def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enable_core=False):
     if email is None:
         email = CONTACT_EMAIL
@@ -259,7 +182,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
 
     # ---------- 1️⃣ DataCite ----------
     try:
-        r = _request_with_retry(f"https://api.datacite.org/dois/{doi.lower()}", headers=headers)
+        r = get_with_retry(f"https://api.datacite.org/dois/{doi.lower()}", headers=headers)
         if r and r.status_code == 200:
             d = r.json().get("data", {}).get("attributes", {})
             authors = []
@@ -290,7 +213,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
         try:
             import xml.etree.ElementTree as ET
             arxiv_id = doi.split("arXiv.", 1)[-1]
-            r = _request_with_retry(
+            r = get_with_retry(
                 f"https://export.arxiv.org/api/query?id_list={arxiv_id}",
                 headers=headers,
             )
@@ -329,7 +252,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
             crossref_url += f"?mailto={CROSSREF_EMAIL}"
         if CROSSREF_API_KEY:
             crossref_headers['Crossref-Plus-API-Token'] = f'Bearer {CROSSREF_API_KEY}'
-        r = _request_with_retry(crossref_url, headers=crossref_headers)
+        r = get_with_retry(crossref_url, headers=crossref_headers)
         if r and r.status_code == 200:
             m = r.json()["message"]
             authors = []
@@ -364,7 +287,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
 
     # ---------- 3️⃣ Unpaywall ----------
     try:
-        r = _request_with_retry(f"https://api.unpaywall.org/v2/{doi}?email={email}", headers=headers)
+        r = get_with_retry(f"https://api.unpaywall.org/v2/{doi}?email={email}", headers=headers)
         if r and r.status_code == 200:
             u = r.json()
             best_loc = u.get("best_oa_location") or {}
@@ -398,7 +321,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
             f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
             f"?db=pubmed&term={doi}[AID]&retmode=json&email={email}{api_key_param}"
         )
-        r = _request_with_retry(search_url, headers=headers)
+        r = get_with_retry(search_url, headers=headers)
         if r and r.status_code == 200:
             pmids = r.json().get("esearchresult", {}).get("idlist", [])
             if pmids:
@@ -450,7 +373,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                         f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi"
                         f"?db=pubmed&id={pmids[0]}&retmode=json&email={email}{api_key_param}"
                     )
-                    r2 = _request_with_retry(summary_url, headers=headers)
+                    r2 = get_with_retry(summary_url, headers=headers)
                     if r2 and r2.status_code == 200:
                         result = r2.json().get("result", {})
                         d = result.get(pmids[0], {})
@@ -493,7 +416,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
             search_title = meta.get("title") or ""
             if search_title:
                 q = urllib.parse.quote(search_title)
-                r = _request_with_retry(
+                r = get_with_retry(
                     f"https://api.base-search.net/cgi-bin/BaseHttpSearchInterface.fcgi"
                     f"?func=PerformSearch&query=dctitle:{q}&format=json&hits=5",
                     headers=headers,
@@ -537,7 +460,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
     if SCOPUS_API_KEY:
         try:
             scopus_headers = {**headers, "X-ELS-APIKey": SCOPUS_API_KEY, "Accept": "application/json"}
-            r = _request_with_retry(
+            r = get_with_retry(
                 f"https://api.elsevier.com/content/abstract/doi/{doi}",
                 headers=scopus_headers,
             )
@@ -621,7 +544,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
         s2_headers = headers.copy()
         if SEMANTIC_SCHOLAR_API_KEY:
             s2_headers['x-api-key'] = SEMANTIC_SCHOLAR_API_KEY
-        r = _request_with_retry(
+        r = get_with_retry(
             f"https://api.semanticscholar.org/graph/v1/paper/DOI:{doi}"
             "?fields=title,year,venue,url,authors",
             headers=s2_headers,
@@ -731,7 +654,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
 
     # ---------- 1️⃣2️⃣ OpenCitations Meta ----------
     try:
-        r = _request_with_retry(
+        r = get_with_retry(
             f"https://api.opencitations.net/meta/v1/metadata/doi:{doi}",
             headers=headers,
         )
@@ -779,7 +702,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
 
     # ---------- 1️⃣3️⃣ Europe PMC (last: only returns abbreviated author initials) ----------
     try:
-        r = _request_with_retry(
+        r = get_with_retry(
             f"https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:{doi}&format=json",
         )
         if r and r.status_code == 200:
@@ -835,7 +758,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
     try:
         import bibtexparser
         bib_headers = {**headers, "Accept": "application/x-bibtex; charset=utf-8"}
-        r = _request_with_retry(f"https://doi.org/{doi}", headers=bib_headers)
+        r = get_with_retry(f"https://doi.org/{doi}", headers=bib_headers)
         if r and r.status_code == 200 and r.text.strip().startswith("@"):
             # Normalize non-standard month strings before parsing.
             # bibtexparser rejects variants like "july", "june", "sept", "january", etc.

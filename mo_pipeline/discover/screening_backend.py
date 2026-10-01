@@ -494,22 +494,10 @@ def _cfg(name, default):
 
 
 def _openrouter_key():
-    """OPENROUTER_API_KEY from env, else from a .env.local beside the repo.
-
-    Mirrors the `_get_env_key` pattern in shared/fetch_metadata_from_doi.py
-    rather than introducing a second convention.
-    """
-    if os.environ.get("OPENROUTER_API_KEY"):
-        return os.environ["OPENROUTER_API_KEY"]
+    """OPENROUTER_API_KEY from env, the repo's .env.local, or the observatory root's."""
     from mo_pipeline import config
-    for base in (config.REPO_ROOT, config.REPO_ROOT.parent):
-        env = base / ".env.local"
-        if not env.exists():
-            continue
-        for line in env.read_text().splitlines():
-            if line.strip().startswith("OPENROUTER_API_KEY="):
-                return line.split("=", 1)[1].strip().strip("'\"")
-    return None
+    from mo_pipeline.shared.env import env_key
+    return env_key("OPENROUTER_API_KEY", config.OBSERVATORY_ROOT / ".env.local")
 
 
 BACKENDS = {b.name: b for b in (ClaudeCLIBackend, OpenRouterBackend, CodexCLIBackend)}
