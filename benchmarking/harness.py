@@ -26,6 +26,8 @@ Subcommands
   evaluate      score a run's extractions against gold or a silver set
   retest        run-to-run agreement between two tags on the same papers
   match-audit   blinded sheet of LLM match decisions for human audit + scoring
+  originals     original-study identification vs human originals (originals.py)
+  originals-select  stratified doi run of human-labelled papers for that check
 
 Typical release loop
   python benchmarking/harness.py run --run gold_v1 --tag gold1_p86_sonnet_r1
@@ -1471,6 +1473,7 @@ def cmd_run(args) -> None:
 # ── CLI ──────────────────────────────────────────────────────────────────────
 def main() -> None:
     import gold_build  # the gold-set toolchain; imported here, not at the top, to avoid a cycle
+    import originals  # original-study identification, scored per paper as sets
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -1552,6 +1555,17 @@ def main() -> None:
     s = sub.add_parser("match-audit"); s.add_argument("--results", required=True, help="an evaluate output dir")
     s.add_argument("--frac", type=float, default=0.1); s.add_argument("--seed", type=int, default=SEED_DEFAULT)
     s.add_argument("--score", action="store_true"); s.set_defaults(func=gold_build.cmd_match_audit)
+
+    s = sub.add_parser("originals", help="original-study identification vs human FLoRa/FReD originals")
+    s.add_argument("--tags", required=True); s.add_argument("--run", default=None)
+    s.add_argument("--sets", default=",".join(originals.GT_SETS))
+    s.add_argument("--bootstrap", type=int, default=2000); s.add_argument("--papers-dir", default=None)
+    s.add_argument("--out-dir", default=None); s.set_defaults(func=originals.cmd_originals)
+    s = sub.add_parser("originals-select", help="stratified doi run of human-labelled papers on the drive")
+    s.add_argument("--slug", required=True); s.add_argument("--n", type=int, default=50)
+    s.add_argument("--sets", default=",".join(originals.GT_SETS)); s.add_argument("--seed", type=int, default=SEED_DEFAULT)
+    s.add_argument("--exclude-runs", default="", help="comma-separated doi runs whose papers to leave out")
+    s.add_argument("--dry-run", action="store_true"); s.set_defaults(func=originals.cmd_select)
 
     args = p.parse_args()
     args.func(args)
