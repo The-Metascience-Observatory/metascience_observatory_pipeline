@@ -137,3 +137,24 @@ def test_a_truncated_reply_is_reported_as_truncation(monkeypatch, capsys):
     assert sb._screen(b, 3, "s", "u") == (3, None)
     out = capsys.readouterr().out
     assert "truncated at the output cap" in out and "max_tokens=400" in out
+
+
+def test_codex_backend_parses_the_event_stream(monkeypatch):
+    import subprocess
+    from mo_pipeline.discover import screening_backend as sb
+    events = "\n".join([
+        '{"type":"thread.started","thread_id":"t"}',
+        '{"type":"item.completed","item":{"type":"agent_message","text":"{\\"is_replication\\": true, \\"confidence\\": \\"high\\", \\"replication_type\\": \\"direct\\"}"}}',
+        '{"type":"turn.completed","usage":{"input_tokens":10,"cached_input_tokens":4,"output_tokens":3}}'])
+    monkeypatch.setattr(subprocess, "run", lambda *a, **k: subprocess.CompletedProcess(a, 0, events, ""))
+    b = sb.get_backend(provider="codex_cli")
+    assert b.model == "gpt-5.6-luna"
+    idx, verdict = b.screen(7, "sys", "user")
+    assert idx == 7 and verdict["replication_type"] == "direct"
+
+
+def test_codex_backend_rejects_openrouter_slugs():
+    import pytest
+    from mo_pipeline.discover import screening_backend as sb
+    with pytest.raises(ValueError):
+        sb.get_backend(provider="codex_cli", model="openai/gpt-5.6-luna")

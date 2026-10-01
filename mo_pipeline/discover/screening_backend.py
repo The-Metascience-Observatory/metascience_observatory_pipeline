@@ -65,7 +65,8 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 #: Each provider's own default model. `SCREENING_MODEL` names a model for the
 #: CONFIGURED provider only: it is a provider-specific value, so it must not be
 #: handed to a provider the caller asked for explicitly.
-PROVIDER_DEFAULT_MODEL = {"claude_cli": LLM_MODEL, "openrouter": "openai/gpt-5-nano"}
+PROVIDER_DEFAULT_MODEL = {"claude_cli": LLM_MODEL, "openrouter": "openai/gpt-5-nano",
+                          "codex_cli": "gpt-5.6-luna"}
 
 
 def check_model(provider: str, model: str) -> str:
@@ -86,6 +87,8 @@ def check_model(provider: str, model: str) -> str:
         raise ValueError(
             f"model {model!r} is not an OpenRouter id (expected `vendor/model`). "
             f"Pass an explicit --model, e.g. anthropic/claude-sonnet-4.6.")
+    if provider == "codex_cli" and "/" in model:
+        raise ValueError(f"model {model!r} is an OpenRouter slug; the Codex CLI wants e.g. gpt-5.6-luna.")
     return model
 
 
@@ -392,6 +395,62 @@ class OpenRouterBackend:
         return _screen(self, idx, system_prompt, user_prompt)
 
 
+class CodexCLIBackend:
+    """`codex exec` subprocess (OpenAI models on the ChatGPT plan's Codex usage).
+
+    Does not touch the Claude rate limit. Codex has no system-prompt flag, so the
+    system prompt is prepended to the task. Read-only sandbox, ephemeral session,
+    user config ignored, run from an empty temp dir so no AGENTS.md is injected.
+    """
+
+    name = "codex_cli"
+
+    def __init__(self, model=None, timeout=None, cwd=None):
+        self.model = model or PROVIDER_DEFAULT_MODEL["codex_cli"]
+        self.timeout = timeout or LLM_TIMEOUT_SEC
+        self.cwd = cwd
+
+    def complete(self, system_prompt, user_prompt, cwd=None) -> CompletionResult:
+        """One single-turn call. Never raises."""
+        import tempfile
+        from mo_pipeline.extract.codex_backend import parse_events
+        prompt = (f"System instructions:\n{system_prompt}\n\nTask:\n{user_prompt}\n\n"
+                  "Answer directly from the text above. Do not run commands or read files.")
+        cmd = ["codex", "exec", "--ignore-user-config", "--ephemeral", "--skip-git-repo-check",
+               "--sandbox", "read-only", "--model", self.model, "--json", prompt]
+        try:
+            with tempfile.TemporaryDirectory(prefix="mo_codex_") as tmp:
+                result = subprocess.run(cmd, capture_output=True, text=True, timeout=self.timeout,
+                                        cwd=cwd or self.cwd or tmp, stdin=subprocess.DEVNULL)
+        except subprocess.TimeoutExpired:
+            return CompletionResult(error=f"TIMEOUT after {self.timeout}s")
+        except Exception as e:
+            return CompletionResult(error=f"subprocess error: {e}")
+        base = CompletionResult(returncode=result.returncode,
+                                stdout=result.stdout or "", stderr=result.stderr or "")
+        combined = ((result.stderr or "") + (result.stdout or ""))
+        if result.returncode != 0:
+            base.error = f"codex exit {result.returncode}: {combined[-400:]}"
+            low = combined.lower()
+            base.fatal = ("model" in low and ("not found" in low or "not supported" in low
+                                              or "does not exist" in low)) or "not logged in" in low
+            return base
+        try:
+            parsed = parse_events(result.stdout)
+        except Exception as e:
+            base.error = f"codex stream error: {str(e)[:300]}"
+            return base
+        u = parsed.get("usage") or {}
+        base.text = parsed.get("result", "") or ""
+        base.usage = {"model": self.model, "input_tokens": u.get("input_tokens", 0),
+                      "output_tokens": u.get("output_tokens", 0),
+                      "cache_read_tokens": u.get("cached_input_tokens", 0)}
+        return base
+
+    def screen(self, idx, system_prompt, user_prompt):
+        return _screen(self, idx, system_prompt, user_prompt)
+
+
 def _screen(backend, idx, system_prompt, user_prompt):
     """One screening verdict, or None for a failure worth retrying.
 
@@ -453,7 +512,7 @@ def _openrouter_key():
     return None
 
 
-BACKENDS = {b.name: b for b in (ClaudeCLIBackend, OpenRouterBackend)}
+BACKENDS = {b.name: b for b in (ClaudeCLIBackend, OpenRouterBackend, CodexCLIBackend)}
 
 
 def get_backend(provider=None, model=None, **kwargs):
