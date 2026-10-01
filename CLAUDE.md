@@ -156,9 +156,11 @@ probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeli
    regression. A rejected rendition is not a loss — the paper simply stays on
    the GROBID tier, which is where it was before.
 8. **Search keywords are code defaults + a runtime overlay.** The curated lists live in
-   `discover/search_for_replication_studies.py`; the dashboard edits `data/keywords.json`
-   (via `discover/keywords.py`), which overrides them per-list at import. Edit terms via the
-   dashboard **Keywords** page or that JSON — do not expect source edits to be the only path.
+   `discover/queries.py`; the dashboard edits `data/keywords.json` (via
+   `discover/keywords.py`), which overrides them per-list. Which list feeds which source is
+   `keywords.API_FANOUT`, the one definition the search and the yield stats both read. Edit
+   terms via the dashboard **Keywords** page or that JSON — do not expect source edits to be
+   the only path.
 10. **Four versions move independently; a git commit is not enough.** The pipeline code
    (`mo_pipeline.__version__`, which `pyproject.toml` reads — never restate it there),
    the extraction prompt (`prompts/version.txt`, stamped on every row as `ai_version`),

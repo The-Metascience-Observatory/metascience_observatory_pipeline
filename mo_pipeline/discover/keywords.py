@@ -1,24 +1,19 @@
 """
 Runtime-editable overlay for the stage-1 search keyword lists.
 
-The curated lists live in `search_for_replication_studies.py` as code defaults.
-This module lets the dashboard VIEW and EDIT them without rewriting Python: edits
-are stored as a JSON overlay at `data/keywords.json` (gitignored runtime state),
-merged over the code defaults per-list. Deleting the overlay (or a single list)
-reverts to the code defaults.
-
-Flow:
-  - search module defines its default lists, then calls `apply_overrides(defaults)`
-    at import → registers the defaults here and returns the effective lists.
-  - the API calls `effective()` (fresh read) for GET, `save_list()` for PUT,
-    `reset()` to revert. None of these import the search module (no cycle).
+The curated lists live in `discover/queries.py` as code defaults. This module
+lets the dashboard VIEW and EDIT them without rewriting Python: edits are stored
+as a JSON overlay at `data/keywords.json` (gitignored runtime state), merged over
+the code defaults per-list. Deleting the overlay (or a single list) reverts to
+the code defaults. `effective()` is what the search module runs and what the
+API serves; `save_list()` / `reset()` edit the overlay.
 """
 from __future__ import annotations
 
-import copy
 import json
 
 from mo_pipeline import config
+from mo_pipeline.discover.queries import DEFAULTS as _DEFAULTS
 
 KEYWORDS_PATH = config.DATA_DIR / "keywords.json"
 
@@ -40,15 +35,6 @@ KEY_META = [
 ]
 _KEYS = [m["key"] for m in KEY_META]
 
-_DEFAULTS: dict[str, list[str]] = {}
-
-
-def register_defaults(defaults: dict[str, list[str]]) -> None:
-    """Called by the search module at import so effective()/the API know the
-    code defaults without importing the search module (avoids a cycle)."""
-    _DEFAULTS.update(copy.deepcopy(defaults))
-
-
 def _read_overlay() -> dict:
     try:
         return json.loads(KEYWORDS_PATH.read_text())
@@ -56,17 +42,10 @@ def _read_overlay() -> dict:
         return {}
 
 
-def apply_overrides(defaults: dict[str, list[str]]) -> dict[str, list[str]]:
-    """Register `defaults`, then return them with any overlay lists substituted."""
-    register_defaults(defaults)
-    overlay = _read_overlay()
-    return {k: list(overlay.get(k, defaults[k])) for k in defaults}
-
-
 def effective() -> dict[str, list[str]]:
     """Current effective lists = code defaults with overlay substituted."""
     overlay = _read_overlay()
-    return {k: list(overlay.get(k, _DEFAULTS.get(k, []))) for k in _KEYS if k in _DEFAULTS}
+    return {k: list(overlay.get(k, _DEFAULTS[k])) for k in _KEYS}
 
 
 def is_overridden() -> dict[str, bool]:
@@ -114,22 +93,9 @@ API_FANOUT: list[tuple[str, str, list[str]]] = [
 ]
 
 
-def ensure_defaults() -> bool:
-    """Make sure the code defaults are registered, importing the search module
-    if needed (heavy: requests + Bio, ~0.5 s once). Function-level import so
-    there is no cycle and callers like the API registry stay light to import."""
-    if not _DEFAULTS:
-        try:
-            from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
-        except Exception:
-            return False
-    return bool(_DEFAULTS)
-
-
 def expected_queries() -> dict[str, list[str]]:
     """api name -> ordered effective query list (the real per-API fan-out).
     Reads the overlay fresh, so dashboard edits are reflected immediately."""
-    ensure_defaults()
     eff = effective()
     return {api: [q for k in keys for q in eff.get(k, [])]
             for api, _label, keys in API_FANOUT}

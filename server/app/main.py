@@ -186,7 +186,6 @@ def put_state(patch: StatePatch):
 def get_keywords():
     """Effective stage-1 search keyword lists + metadata + which are overridden."""
     from mo_pipeline.discover import keywords as kw
-    kw.ensure_defaults()  # registers the code defaults with the overlay
     eff = kw.effective()
     overridden = kw.is_overridden()
     return {"lists": [{**m, "items": eff.get(m["key"], []),
@@ -244,7 +243,6 @@ def artifacts():
 @app.put("/keywords/{key}")
 def put_keywords(key: str, edit: KeywordEdit):
     from mo_pipeline.discover import keywords as kw
-    kw.ensure_defaults()
     try:
         eff = kw.save_list(key, edit.items)
     except KeyError as e:
@@ -255,7 +253,6 @@ def put_keywords(key: str, edit: KeywordEdit):
 @app.post("/keywords/{key}/reset")
 def reset_keywords(key: str):
     from mo_pipeline.discover import keywords as kw
-    kw.ensure_defaults()
     if key not in [m["key"] for m in kw.KEY_META]:
         raise HTTPException(404, "unknown keyword list")
     eff = kw.reset(key)

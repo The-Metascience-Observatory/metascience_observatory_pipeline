@@ -111,7 +111,6 @@ def compute() -> dict:
     t0 = time.time()
     inputs = _fingerprint()  # captured before reading: conservative under concurrent writes
 
-    kw.ensure_defaults()
     expected = kw.expected_queries()  # api -> ordered effective query list
     query_apis: Counter = Counter()  # query -> how many APIs issue it
     for qs in expected.values():

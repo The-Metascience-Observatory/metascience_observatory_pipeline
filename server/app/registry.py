@@ -53,9 +53,8 @@ def _prog(state: str, done=None, total=None, detail="", **extra) -> dict:
 
 # ── per-stage probes ─────────────────────────────────────────────────────────
 def _search_total_queries() -> int | None:
-    """Effective query total across the per-API fan-out (overlay-aware). The
-    first call pays the search-module import (~0.5 s, Bio); later calls only
-    re-read keywords.json, so dashboard keyword edits reflect immediately."""
+    """Effective query total across the per-API fan-out (overlay-aware): it
+    re-reads keywords.json, so dashboard keyword edits reflect immediately."""
     try:
         from mo_pipeline.discover import keywords as kw
         return kw.total_effective_queries() or None
