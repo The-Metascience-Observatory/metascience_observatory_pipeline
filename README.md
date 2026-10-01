@@ -14,7 +14,7 @@ a former copy here was removed 2026-08-09).
 |---|---|
 | `mo_pipeline/config.py` | **The** unified config — every path and tunable. `python -m mo_pipeline.config` self-checks. |
 | `mo_pipeline/discover/` | Stages 1–5: search, deduplicate, prefilter, classify, download (direct/close/conceptual, skipping already-published papers). |
-| `mo_pipeline/extract/` | Stage 7: `extract.py` — agentic LLM extraction (Sonnet) + collation; `extract_core.py` — single-shot core-fields extractor (no statistics). |
+| `mo_pipeline/extract/` | Stage 7: `extract.py` — agentic LLM extraction + collation; `extract_core.py` — single-shot core-fields extractor (no statistics). |
 | `mo_pipeline/corpus/` | Corpus catalog (`corpus.sqlite`), renditions, inbox→papers adoption. |
 | `mo_pipeline/shared/` | DOI/title metadata fetchers used by extract. |
 | `prompts/` | Extraction prompts + `version.txt` (bump on any prompt edit). |

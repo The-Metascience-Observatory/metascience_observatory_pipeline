@@ -12,7 +12,6 @@ import argparse
 from collections import Counter, defaultdict
 import hashlib
 import json
-from pathlib import Path
 import re
 import harness
 
@@ -84,7 +83,6 @@ def main():
                 if path.name in ("manifest.json", "completion.json") or path.name.endswith(".error.json"):
                     continue
                 data = json.loads(path.read_text())
-                from ai_coder import validate_reply
                 validate_reply(data)
                 fresh[path.stem] = data
         frame = {r['paper_folder']: r for r in harness._frame(1)}

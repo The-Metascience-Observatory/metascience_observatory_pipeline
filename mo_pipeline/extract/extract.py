@@ -25,7 +25,6 @@ Usage:
 
 import argparse
 import csv
-import difflib
 import json
 import logging
 import re
@@ -42,7 +41,7 @@ from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, 
 from mo_pipeline.shared.fetch_metadata_from_title import (
     _title_similarity as _shared_title_similarity, fetch_metadata_from_title)
 from mo_pipeline import config as _cfg
-from mo_pipeline.corpus.models import folder_to_doi, folder_to_doi_url
+from mo_pipeline.corpus.models import RESULT_SUFFIXES, folder_to_doi, folder_to_doi_url
 from mo_pipeline.discover.screening_backend import parse_json_reply, primary_model
 
 logger = logging.getLogger(__name__)
@@ -76,8 +75,7 @@ class SkipPaper(Exception):
     """Raised when a paper should be skipped (e.g., already in dataset)."""
 
 
-# Prompt and website paths now come from the unified config. PROMPT_FILES drops
-# the dead "base"/"mid" entries (they pointed at nonexistent files).
+# Prompt and website paths come from the unified config.
 PROMPT_DIR = _cfg.PROMPTS_DIR
 PROMPT_FILES = _cfg.PROMPT_FILES
 # Shared content (schema, field reference, replication type definitions,
@@ -86,17 +84,14 @@ PROMPT_FILES = _cfg.PROMPT_FILES
 # This prevents drift — updates to shared rules happen in one place and
 # propagate to all modes automatically.
 PROMPT_SHARED_CORE = _cfg.PROMPT_SHARED_CORE
-DATA_DIR = _cfg.WEBSITE_DATA_DIR
 ONTOLOGY_PATH = _cfg.ONTOLOGY_PATH
-VERSION_FILE = _cfg.VERSION_HISTORY_PATH
-VERSION_NUMBER_FILE = _cfg.EXTRACTOR_VERSION_FILE
+PROMPT_VERSION_FILE = _cfg.EXTRACTOR_VERSION_FILE
 
 # --- Validation constants ---
 VALID_RESULTS = {"success", "failure", "inconclusive", "reversal"}
 VALID_REPLICATION_TYPES = {"direct", "close experiment", "close extension", "conceptual"}
 VALID_CONFIDENCE = {"low", "medium", "high"}
 VALID_P_VALUE_TYPES = {"<", "=", ">"}
-VALID_P_VALUE_TAILS = {"one-sided", "two-sided"}
 
 # The 14 statistical fields. The stat-free renderings (extract_core.py, and
 # --level base here) strip these from every entry; collate still emits their
@@ -108,13 +103,10 @@ STAT_FIELDS = (
     "replication_p_value", "replication_p_value_type", "replication_p_value_tails",
 )
 
-# Result-file suffixes in collate priority order (first match wins). The
-# single-shot core result sits last so a full extraction under the same tag
-# outranks it. Mirrored in benchmarking/harness.py RESULT_SUFFIXES.
-RESULT_SUFFIXES = (
-    "_result_xml.json", "_result_html.json", "_result_pdf_only.json",
-    "_result_full.json", "_result_mid.json", "_result.json", "_result_core.json",
-)
+# Result file each agentic prompt level writes (the core extractor writes
+# _result_core.json). Collate priority lives in corpus.models.RESULT_SUFFIXES.
+_RESULT_SUFFIX_FOR_LEVEL = {"base": "_result.json", "full": "_result_full.json",
+                            "html": "_result_html.json", "pdf_only": "_result_pdf_only.json"}
 def _load_ontology() -> dict[str, list[str]]:
     """Load the canonical topic ontology and flatten to discipline → subdisciplines.
 
@@ -460,12 +452,12 @@ def load_version_number() -> str:
     8.9) and "9.0" into 9. Returns "0" if the file is missing or malformed.
     """
     try:
-        raw = VERSION_NUMBER_FILE.read_text().strip()
+        raw = PROMPT_VERSION_FILE.read_text().strip()
     except FileNotFoundError as e:
-        logger.warning(f"Failed to load version number from {VERSION_NUMBER_FILE}: {e}")
+        logger.warning(f"Failed to load version number from {PROMPT_VERSION_FILE}: {e}")
         return "0"
     if not re.fullmatch(r"\d+(\.\d+)*", raw):
-        logger.warning(f"Malformed version number in {VERSION_NUMBER_FILE}: {raw!r}")
+        logger.warning(f"Malformed version number in {PROMPT_VERSION_FILE}: {raw!r}")
         return "0"
     return raw
 
@@ -480,41 +472,20 @@ def normalize_doi_url(url: str) -> str:
 
 
 def load_existing_replication_urls() -> set[str]:
-    """Load replication_url values from the latest dataset CSV.
+    """https://doi.org/ URLs of every replication in the published database.
 
-    Reads version_history.txt to find the latest filename, then extracts
-    all replication_url values, normalized for http/https comparison.
+    Lowercased, in the form normalize_doi_url gives a paper folder's DOI, so a
+    paper already in the database is skipped. Empty (with a warning) when no
+    database resolves -- then nothing is skipped.
     """
-    if not VERSION_FILE.exists():
-        print("Warning: version_history.txt not found, skipping duplicate check", file=sys.stderr)
+    from mo_pipeline.shared.production_db import published_dois
+    dois, path = published_dois()
+    if path is None:
+        print("Warning: no published replications database found, skipping duplicate check",
+              file=sys.stderr)
         return set()
-
-    # Get last non-empty, non-comment-only line
-    latest_file = None
-    for line in VERSION_FILE.read_text().strip().splitlines():
-        line = line.split("#")[0].strip()
-        if line:
-            latest_file = line
-
-    if not latest_file:
-        print("Warning: no valid entry in version_history.txt", file=sys.stderr)
-        return set()
-
-    csv_path = DATA_DIR / latest_file
-    if not csv_path.exists():
-        print(f"Warning: dataset {csv_path} not found, skipping duplicate check", file=sys.stderr)
-        return set()
-
-    urls = set()
-    with open(csv_path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            url = row.get("replication_url", "").strip()
-            if url:
-                urls.add(normalize_doi_url(url))
-
-    print(f"Loaded {len(urls)} existing replication URLs from {latest_file}", file=sys.stderr)
-    return urls
+    print(f"Loaded {len(dois)} existing replication DOIs from {path.name}", file=sys.stderr)
+    return {f"https://doi.org/{d}" for d in dois}
 
 
 def _extract_doi_from_url(url: str) -> str | None:
@@ -524,10 +495,6 @@ def _extract_doi_from_url(url: str) -> str | None:
     m = re.match(r'https?://(?:dx\.)?doi\.org/(10\..+)', url.strip())
     return m.group(1) if m else None
 
-
-def _normalize_title(title: str) -> str:
-    """Lowercase, strip punctuation/whitespace for fuzzy comparison."""
-    return re.sub(r'[^a-z0-9\s]', '', title.lower()).strip()
 
 
 def _title_similarity(a: str, b: str, threshold: float = 0.55) -> float:
@@ -1090,22 +1057,14 @@ def extract_paper(
     # a shorter ladder. --html and --onlypdf remain as explicit single-format
     # overrides for corpora that only ever had the one file.
 
-    # Check if output already exists for this level (enables resuming)
-    if html_mode:
-        suffixes = {"html": "_result_html.json"}
-        prompt_level = "html"
-    elif pdf_only:
-        suffixes = {"pdf_only": "_result_pdf_only.json"}
-        prompt_level = "pdf_only"
-    else:
-        suffixes = {"base": "_result.json", "mid": "_result_mid.json", "full": "_result_full.json"}
-        prompt_level = level
+    prompt_level = "html" if html_mode else "pdf_only" if pdf_only else level
 
-    final_path = output_dir / f"{paper_dir.name}{suffixes.get(prompt_level, suffixes.get(level))}"
-
-    # Check if ANY result file already exists (allows skipping regardless of mode)
-    all_suffixes = ["_result_xml.json", "_result_html.json", "_result_pdf_only.json", "_result_full.json", "_result_mid.json", "_result.json"]
-    for existing_suffix in all_suffixes:
+    # Skip if any agentic result already exists, whatever mode wrote it (this is
+    # what makes a re-run resume). A core result does not count: the agentic
+    # extractor is its benchmark control arm.
+    for existing_suffix in RESULT_SUFFIXES:
+        if existing_suffix == "_result_core.json":
+            continue
         existing_path = output_dir / f"{paper_dir.name}{existing_suffix}"
         if existing_path.exists():
             raise SkipPaper(f"Output already exists: {existing_path.name}")
@@ -1399,7 +1358,6 @@ def extract_paper(
             low_med_entries.append((i, conf, result_val, desc))
 
     needs_refinement = low_med_entries or doi_mismatches or citation_mismatches
-    session_id = cli_output.get("session_id", "")
 
     if needs_refinement and not use_codex and not _shutdown_requested:
         reasons = []
@@ -1538,7 +1496,7 @@ def extract_paper(
         except subprocess.TimeoutExpired:
             refine_process.kill()
             refine_stdout, refine_stderr = refine_process.communicate()
-            log_messages.append(f"  ⚠️  Review timed out")
+            log_messages.append("  ⚠️  Review timed out")
             refine_returncode = -1
         finally:
             _running_processes.pop(thread_id, None)
@@ -1607,7 +1565,7 @@ def extract_paper(
                     pass
 
             except (json.JSONDecodeError, FileNotFoundError):
-                log_messages.append(f"  ⚠️  Review produced invalid result, keeping original")
+                log_messages.append("  ⚠️  Review produced invalid result, keeping original")
         else:
             log_messages.append(f"  ⚠️  Review failed (exit {refine_returncode}), keeping original")
 
@@ -1638,19 +1596,10 @@ def extract_paper(
         except Exception as e:
             log_messages.append(f"  !  Metadata enrichment failed: {e}")
 
-    # Rename result.json to {folder_name}_result.json / _result_mid.json /
-    # _result_full.json / _result_pdf_only.json / _result_html.json.
-    # _result_xml.json is no longer produced -- the default multi-format path
-    # writes _result_full.json whatever tier it read -- but historical files with
-    # that name are still recognized by the skip check and by collate.
-    if html_mode:
-        suffix = "_result_html.json"
-    elif pdf_only:
-        suffix = "_result_pdf_only.json"
-    else:
-        suffixes = {"base": "_result.json", "mid": "_result_mid.json", "full": "_result_full.json"}
-        suffix = suffixes[level]
-    final_path = output_dir / f"{paper_dir.name}{suffix}"
+    # Rename result.json to {folder_name}{suffix}. _result_xml.json is no longer
+    # produced -- the default multi-format path writes _result_full.json whatever
+    # tier it read -- but historical files with that name are still recognized.
+    final_path = output_dir / f"{paper_dir.name}{_RESULT_SUFFIX_FOR_LEVEL[prompt_level]}"
     if prompt_level in STAT_FREE_LEVELS:
         for rep in data.get("replications", []):
             for field in STAT_FIELDS:
@@ -1879,17 +1828,17 @@ def extract_batch(
     while usage_limit_failures and retry_attempt <= max_retries and not _shutdown_requested:
         print(f"\n{'='*60}", file=sys.stderr)
         print(f"Session usage limit hit: {len(usage_limit_failures)} papers paused.", file=sys.stderr)
-        print(f"Probing every 30 minutes until session resets...", file=sys.stderr)
+        print("Probing every 30 minutes until session resets...", file=sys.stderr)
         print(f"{'='*60}\n", file=sys.stderr)
 
         # Probe until session available, checking every 30 minutes
         while not _shutdown_requested:
             time.sleep(1800)  # 30 minutes
-            print(f"[Probe] Checking if session limit has reset...", file=sys.stderr)
+            print("[Probe] Checking if session limit has reset...", file=sys.stderr)
             if use_codex or probe_session_available(model):
                 print(f"[Probe] Session available — resuming {len(usage_limit_failures)} papers", file=sys.stderr)
                 break
-            print(f"[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
+            print("[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
 
         # Retry the failed papers
         retry_papers = usage_limit_failures

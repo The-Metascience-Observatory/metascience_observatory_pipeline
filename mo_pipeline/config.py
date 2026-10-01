@@ -18,7 +18,6 @@ warns on anything that does not exist.
 """
 from __future__ import annotations
 
-import json
 import os
 from pathlib import Path
 
@@ -36,8 +35,6 @@ DATA_DIR = Path(os.environ.get("MO_DATA_DIR", REPO_ROOT / "data"))
 PROGRESS_DIR = Path(os.environ.get("MO_PROGRESS_DIR", REPO_ROOT / "progress"))
 PROMPTS_DIR = REPO_ROOT / "prompts"
 
-# Back-compat alias: the discover scripts historically imported BASE_DIR.
-BASE_DIR = REPO_ROOT
 
 # ── Corpus drive layout (see mo_pipeline.corpus) ─────────────────────────────
 CATALOG_PATH = MEDIA_ROOT / "corpus.sqlite"

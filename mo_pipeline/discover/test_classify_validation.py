@@ -1,5 +1,4 @@
 """Stage-4 verdicts: enum validation, Level-2 verdicts, and stale-row reuse."""
-import csv
 
 from mo_pipeline.discover import classify_candidates as cc
 

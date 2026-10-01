@@ -7,7 +7,7 @@ stage survives API restarts, and after a restart we re-attach to it by reading
 its PID file. No Redis / job queue — the filesystem is the source of truth.
 
 PID file (JSON) per stage id, at settings.PIDS_DIR/<stage_id>.json:
-    {pid, pgid, argv, cwd, log, exit_file, started_at, batch, tag, params}
+    {pid, pgid, argv, cwd, log, exit_file, started_at, tag, params}
 
 Liveness = the PID is alive AND /proc/<pid>/cmdline still matches the stage's
 launch marker (guards against PID reuse). A finished stage leaves its exit_file;
@@ -38,16 +38,6 @@ def _read_json(path: Path):
         return None
 
 
-def _pid_alive(pid: int) -> bool:
-    try:
-        os.kill(pid, 0)
-        return True
-    except (ProcessLookupError, PermissionError):
-        return isinstance(pid, int) and _proc_exists(pid)
-    except Exception:
-        return False
-
-
 def _proc_exists(pid: int) -> bool:
     return Path(f"/proc/{pid}").exists()
 
@@ -73,13 +63,13 @@ def is_running(stage_id: str) -> bool:
 
 
 def status(stage_id: str) -> dict:
-    """Return {state, pid, exit_code, log, started_at, batch, tag, params}."""
+    """Return {state, pid, exit_code, log, started_at, tag, params}."""
     rec = _read_json(_pid_file(stage_id))
     if not rec:
         return {"state": "idle"}
     if is_running(stage_id):
         return {"state": "running", "pid": rec.get("pid"), "log": rec.get("log"),
-                "started_at": rec.get("started_at"), "batch": rec.get("batch"),
+                "started_at": rec.get("started_at"),
                 "tag": rec.get("tag"), "params": rec.get("params", {})}
     # Not running — read exit code sentinel if present.
     exit_code = None
@@ -97,12 +87,12 @@ def status(stage_id: str) -> dict:
         state = "finished" if exit_code == 0 else "failed"
     return {"state": state,
             "exit_code": exit_code, "log": rec.get("log"),
-            "started_at": rec.get("started_at"), "batch": rec.get("batch"),
+            "started_at": rec.get("started_at"),
             "tag": rec.get("tag"), "params": rec.get("params", {})}
 
 
 def launch(stage_id: str, argv: list[str], *, cwd: str | None = None,
-           batch: str | None = None, tag: str | None = None,
+           tag: str | None = None,
            params: dict | None = None, env: dict | None = None) -> dict:
     """Launch a stage detached. Raises RuntimeError if already running."""
     ensure_dirs()
@@ -142,7 +132,7 @@ def launch(stage_id: str, argv: list[str], *, cwd: str | None = None,
         pgid = proc.pid
     rec = {"pid": proc.pid, "pgid": pgid, "argv": argv, "marker": marker,
            "cwd": cwd, "log": str(log), "exit_file": str(exit_file),
-           "started_at": ts, "batch": batch, "tag": tag, "params": params or {}}
+           "started_at": ts, "tag": tag, "params": params or {}}
     _pid_file(stage_id).write_text(json.dumps(rec, indent=2))
     return rec
 

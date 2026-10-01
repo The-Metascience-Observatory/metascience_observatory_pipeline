@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import json
 import sys
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
@@ -26,10 +25,6 @@ REPO = str(config.REPO_ROOT)
 
 
 # ── small probe helpers ──────────────────────────────────────────────────────
-def _mtime(path: Path):
-    return path.stat().st_mtime if path.exists() else None
-
-
 def _csv_rows(path: Path) -> int | None:
     if not path.exists():
         return None
@@ -85,7 +80,7 @@ def probe_dedup(_state) -> dict:
     if not out.exists():
         return _prog("idle", detail="no dedup output")
     n = _csv_rows(out)
-    return _prog("done", n, n, detail=f"{n} unique candidates", last_output_mtime=_mtime(out))
+    return _prog("done", n, n, detail=f"{n} unique candidates")
 
 
 def probe_prefilter(_state) -> dict:
@@ -93,7 +88,7 @@ def probe_prefilter(_state) -> dict:
     if not out.exists():
         return _prog("idle", detail="no prefilter output")
     n = _csv_rows(out)
-    return _prog("done", n, n, detail=f"{n} kept for classification", last_output_mtime=_mtime(out))
+    return _prog("done", n, n, detail=f"{n} kept for classification")
 
 
 def probe_classify(_state) -> dict:
@@ -145,13 +140,11 @@ def probe_convert(_state) -> dict:
     inbox = config.INBOX_DIR
     pending = _inbox_count(inbox, "*.pdf")
     mem = _mem_available_gb()
-    from .grobid import state as _grobid_state, ANSWERING
+    from .grobid import state as _grobid_state
     grobid_state = _grobid_state()
-    grobid = grobid_state == ANSWERING
     detail = (f"{pending} PDFs in inbox; MemAvailable {mem:.0f}GB; "
               f"GROBID {grobid_state.replace('_', ' ')}")
-    return _prog("partial" if pending else "idle", 0, pending, detail=detail,
-                 mem_available_gb=mem, grobid_up=grobid)
+    return _prog("partial" if pending else "idle", 0, pending, detail=detail)
 
 
 def probe_extract(state) -> dict:
@@ -326,7 +319,7 @@ STAGES: list[Stage] = [
     Stage("prefilter", 3, "Prefilter", "Keyword keep/exclude down to the classifier set",
           _module_argv("mo_pipeline.discover.prefilter_candidates"), [],
           ["self"], probe_prefilter),
-    Stage("classify", 4, "Classify", "LLM classify each candidate as a replication (Haiku)",
+    Stage("classify", 4, "Classify", "LLM screen each candidate abstract: replication or not, and its type",
           _classify_argv, [Param("workers", "int", 20, 1, 40, "concurrent claude calls"),
                            Param("limit", "int", None, help="only first N unclassified")],
           ["self", "claude_cli"], probe_classify),
@@ -351,7 +344,7 @@ STAGES: list[Stage] = [
     Stage("convert", 6, "Convert (pdf4llm)", "PDF -> abstract/body/refs into papers/",
           _convert_argv, [Param("workers", "int", 4, 1, 4, "capped at 4 (RAM)")],
           ["self", "heavy_ram", "inbox"], probe_convert),
-    Stage("extract", 7, "Extract", "LLM extract structured replication records (Sonnet)",
+    Stage("extract", 7, "Extract", "LLM extract structured replication records (agentic, or single-shot core)",
           _extract_argv, [Param("tag", "str", "", help="run tag (per-run resume)"),
                           Param("workers", "int", 4, 1, 8, "parallel papers"),
                           Param("include_list", "str", "", help="path to include-list file"),
@@ -383,7 +376,6 @@ def stage_dict(s: Stage) -> dict:
 
 if __name__ == "__main__":
     # Tiny CLI: print each stage's probe status.
-    state = _json(Path(config.MEDIA_ROOT / "..")) or {}
     for s in STAGES:
         try:
             pr = s.probe({}) if s.probe else {"state": "?"}

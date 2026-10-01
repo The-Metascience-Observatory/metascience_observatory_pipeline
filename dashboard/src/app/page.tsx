@@ -132,17 +132,16 @@ function SystemStrip({ sys, backendUp }: { sys: System | null; backendUp: boolea
 export default function Home() {
   const [stages, setStages] = useState<StageStatus[]>([]);
   const [sys, setSys] = useState<System | null>(null);
-  const [pstate, setPstate] = useState<PipelineState>({ batch: null, tag: null });
-  const [batches, setBatches] = useState<string[]>([]);
+  const [pstate, setPstate] = useState<PipelineState>({ tag: null });
   const [err, setErr] = useState<string | null>(null);
   const [backendUp, setBackendUp] = useState(true);
   const [arts, setArts] = useState<{ artifacts: ArtifactInfo[]; warnings: string[] }>({ artifacts: [], warnings: [] });
 
   const refresh = useCallback(async () => {
     try {
-      const [st, sy, ba, ar] = await Promise.all([api.stages(), api.system(), api.batch(), api.artifacts()]);
+      const [st, sy, ar] = await Promise.all([api.stages(), api.system(), api.artifacts()]);
       setStages(st.stages); setPstate(st.state); setSys(sy);
-      setBatches(ba.available_batches); setArts(ar); setErr(null); setBackendUp(true);
+      setArts(ar); setErr(null); setBackendUp(true);
     } catch (e) {
       setErr((e as Error).message); setBackendUp(false);
     }
@@ -154,7 +153,7 @@ export default function Home() {
     return () => clearInterval(t);
   }, [refresh]);
 
-  const setTag = async (tag: string) => { await api.setBatch({ tag }); refresh(); };
+  const setTag = async (tag: string) => { await api.setState({ tag }); refresh(); };
 
   return (
     <div className="space-y-5">
@@ -163,13 +162,6 @@ export default function Home() {
         <SystemStrip sys={sys} backendUp={backendUp} />
       </div>
       <div className="flex flex-wrap gap-3 items-center text-sm">
-        <label className="flex items-center gap-2">Batch
-          <select value={pstate.batch ?? ""} onChange={(e) => { api.setBatch({ batch: e.target.value }).then(refresh); }}
-            className="rounded border border-slate-300 dark:border-slate-700 bg-transparent px-2 py-1">
-            <option value="">—</option>
-            {batches.map((b) => <option key={b} value={b}>{b}</option>)}
-          </select>
-        </label>
         <label className="flex items-center gap-2">Tag
           <input defaultValue={pstate.tag ?? ""} onBlur={(e) => setTag(e.target.value)}
             placeholder="extraction tag" className="rounded border border-slate-300 dark:border-slate-700 bg-transparent px-2 py-1 w-44" />

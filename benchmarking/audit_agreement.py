@@ -1,5 +1,5 @@
 """Recompute transparent conditional agreement; never report this as accuracy."""
-from collections import Counter, defaultdict
+from collections import Counter
 import json
 import math
 import harness

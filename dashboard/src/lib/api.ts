@@ -1,11 +1,11 @@
 // Thin client for the FastAPI orchestrator. All calls go through the Next.js
 // /api/* rewrite to the backend, so the browser stays same-origin.
 
-export type ProbeState =
+type ProbeState =
   | "idle" | "partial" | "done" | "stale" | "failed" | "error" | "unknown";
-export type RunState = "idle" | "running" | "finished" | "failed" | "stopped" | "unknown";
+type RunState = "idle" | "running" | "finished" | "failed" | "stopped" | "unknown";
 
-export interface Param {
+interface Param {
   name: string; type: "int" | "str" | "bool";
   default: unknown; min: number | null; max: number | null; help: string;
 }
@@ -13,15 +13,14 @@ export interface StageStatus {
   id: string; num: number; label: string; description: string;
   mutex_groups: string[]; params: Param[];
   run: { state: RunState; pid?: number; exit_code?: number; log?: string; started_at?: string; tag?: string };
-  probe: { state: ProbeState; detail?: string; progress_done?: number; progress_total?: number;
-           mem_available_gb?: number; grobid_up?: boolean; latest_db?: string };
+  probe: { state: ProbeState; detail?: string; progress_done?: number; progress_total?: number };
 }
-export interface PipelineState { batch: string | null; tag: string | null; }
+export interface PipelineState { tag: string | null; }
 export interface System {
   mem_available_gb: number; grobid_up: boolean; media_mounted: boolean;
   media_disk: { free_gb: number; total_gb: number; pct_used: number } | null;
 }
-export interface DoiRunStatus {
+interface DoiRunStatus {
   n_dois: number; in_corpus: number; converted: number;
   extracted_with_tag: number; inbox_pending: number; missing: number;
   collated_csv: string | null;
@@ -63,9 +62,9 @@ export const api = {
   stop: (id: string, force = false) =>
     j(`/api/stages/${id}/stop?force=${force}`, { method: "POST" }),
   system: () => j<System>("/api/system"),
-  batch: () => j<{ state: PipelineState; available_batches: string[] }>("/api/batch"),
-  setBatch: (patch: Partial<PipelineState>) =>
-    j<{ state: PipelineState }>("/api/batch", { method: "PUT",
+  state: () => j<{ state: PipelineState }>("/api/state"),
+  setState: (patch: Partial<PipelineState>) =>
+    j<{ state: PipelineState }>("/api/state", { method: "PUT",
       headers: { "content-type": "application/json" }, body: JSON.stringify(patch) }),
   corpus: (q: Record<string, string> = {}) =>
     j<CorpusResponse>("/api/corpus?" + new URLSearchParams(q).toString()),
@@ -104,7 +103,7 @@ export interface KeywordApiStats {
   api: string; label: string; queriesExpected: number; queriesCompleted: number;
   raw: number; zeroYield: number; notSearched: number; queries: KeywordQueryStat[];
 }
-export interface KeywordStats {
+interface KeywordStats {
   version: number; generatedAt: string; computeSeconds: number;
   staleness: { notes: string[] };
   totals: { raw: number; filtered: number; classified: number; confirmed: number;

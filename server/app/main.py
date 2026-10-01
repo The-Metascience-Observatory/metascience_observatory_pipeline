@@ -11,7 +11,6 @@ from __future__ import annotations
 import os
 
 import shutil
-from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -37,8 +36,7 @@ class RunRequest(BaseModel):
     params: dict = {}
 
 
-class BatchPatch(BaseModel):
-    batch: str | None = None
+class StatePatch(BaseModel):
     tag: str | None = None
 
 
@@ -150,8 +148,7 @@ def run_stage(stage_id: str, req: RunRequest):
     except Exception as e:
         raise HTTPException(400, f"cannot build command: {e}")
 
-    rec = runner.launch(stage_id, argv, cwd=stage.cwd, batch=st.get("batch"),
-                        tag=tag, params=params)
+    rec = runner.launch(stage_id, argv, cwd=stage.cwd, tag=tag, params=params)
     return {"launched": True, "pid": rec["pid"], "argv": argv, "log": rec["log"]}
 
 
@@ -160,15 +157,6 @@ def stop_stage(stage_id: str, force: bool = False):
     if stage_id not in BY_ID:
         raise HTTPException(404, "unknown stage")
     return runner.stop(stage_id, force=force)
-
-
-@app.get("/pipeline")
-def pipeline():
-    """Ordered stage states for the DAG view."""
-    return {"stages": [{"id": s.id, "num": s.num, "label": s.label,
-                        "run": runner.status(s.id).get("state"),
-                        "probe": (s.probe(state.load()) if s.probe else {}).get("state")}
-                       for s in STAGES]}
 
 
 @app.get("/system")
@@ -184,25 +172,21 @@ def system():
     }
 
 
-@app.get("/batch")
-def get_batch():
-    batches = []
-    if config.MEDIA_ROOT.exists():
-        batches = sorted(p.name for p in config.MEDIA_ROOT.iterdir() if p.is_dir())
-    return {"state": state.load(), "available_batches": batches}
+@app.get("/state")
+def get_state():
+    return {"state": state.load()}
 
 
-@app.put("/batch")
-def put_batch(patch: BatchPatch):
-    return {"state": state.save({"batch": patch.batch, "tag": patch.tag})}
+@app.put("/state")
+def put_state(patch: StatePatch):
+    return {"state": state.save({"tag": patch.tag})}
 
 
 @app.get("/keywords")
 def get_keywords():
     """Effective stage-1 search keyword lists + metadata + which are overridden."""
-    # Importing the search module registers the code defaults with the overlay.
-    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
     from mo_pipeline.discover import keywords as kw
+    kw.ensure_defaults()  # registers the code defaults with the overlay
     eff = kw.effective()
     overridden = kw.is_overridden()
     return {"lists": [{**m, "items": eff.get(m["key"], []),
@@ -259,8 +243,8 @@ def artifacts():
 
 @app.put("/keywords/{key}")
 def put_keywords(key: str, edit: KeywordEdit):
-    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
     from mo_pipeline.discover import keywords as kw
+    kw.ensure_defaults()
     try:
         eff = kw.save_list(key, edit.items)
     except KeyError as e:
@@ -270,8 +254,8 @@ def put_keywords(key: str, edit: KeywordEdit):
 
 @app.post("/keywords/{key}/reset")
 def reset_keywords(key: str):
-    from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
     from mo_pipeline.discover import keywords as kw
+    kw.ensure_defaults()
     if key not in [m["key"] for m in kw.KEY_META]:
         raise HTTPException(404, "unknown keyword list")
     eff = kw.reset(key)
@@ -306,16 +290,6 @@ def doi_runs_create(req: DoiRunCreate):
     except ValueError as e:
         raise HTTPException(400, str(e))
     return {**meta, "status": doi_runs.run_status(meta["slug"])}
-
-
-@app.get("/doi-runs/{slug}")
-def doi_runs_get(slug: str):
-    from mo_pipeline.discover import doi_runs
-    try:
-        meta = doi_runs.get_run(slug)
-    except FileNotFoundError as e:
-        raise HTTPException(404, str(e))
-    return {**meta, "status": doi_runs.run_status(slug)}
 
 
 @app.delete("/doi-runs/{slug}")

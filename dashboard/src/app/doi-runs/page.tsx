@@ -171,7 +171,7 @@ export default function DoiRuns() {
         <label className="text-xs flex flex-col gap-1">
           <span className="text-slate-500">…or a CSV path on the server (used only if the box above is empty)</span>
           <input value={srcPath} onChange={(e) => setSrcPath(e.target.value)}
-            placeholder="/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/metascience_observatory_website/data/candidate_education_replications.csv"
+            placeholder="/absolute/path/to/candidates.csv"
             className="rounded border border-slate-300 dark:border-slate-700 bg-transparent px-2 py-1 font-mono" />
         </label>
         <button disabled={creating || !name.trim()} onClick={create}

@@ -20,7 +20,6 @@ import json
 import re
 import sys
 import time
-from pathlib import Path
 
 import requests
 from Bio import Entrez, Medline
@@ -32,7 +31,7 @@ sys.stdout.reconfigure(line_buffering=True)
 sys.stderr.reconfigure(line_buffering=True)
 
 from mo_pipeline.config import (
-    BASE_DIR, DATA_DIR, PROGRESS_DIR,
+    DATA_DIR, PROGRESS_DIR,
     ENTREZ_EMAIL, NCBI_DELAY, OPENALEX_DELAY, EUROPEPMC_DELAY,
     CROSSREF_DELAY, OSF_DELAY, S2_DELAY, S2_API_KEY,
     BIOMED_CONCEPT_IDS, CANDIDATES_RAW_CSV,
@@ -177,11 +176,6 @@ GENETICS_QUERIES = [
     "two-stage genome-wide association",
 ]
 
-# OpenAlex + Crossref search everything; OSF + Semantic Scholar get CORE only.
-# (Combined lists are (re)derived below after runtime overrides are applied.)
-OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # Europe PMC queries (supports full-text search)
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -248,7 +242,12 @@ REPLICATION_CORE = _eff["replication_core"]
 GENETICS_QUERIES = _eff["genetics_queries"]
 PUBMED_QUERIES = _eff["pubmed_queries"]
 EUROPEPMC_QUERIES = _eff["europepmc_queries"]
+
+# Per-source fan-out (mirrored by keywords.API_FANOUT): OpenAlex and Crossref
+# search everything; OSF and Semantic Scholar (social-sci / CS biased) get the
+# CORE block only, since the genetics/GWAS terms generate noise there.
 OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
+SOCIAL_SCI_QUERIES = REPLICATION_CORE
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -610,7 +609,7 @@ def search_europepmc(query, max_results=None):
         }
         data = _http_get_json(base_url, params=params, timeout=30)
         if data is None:
-            print(f"  Europe PMC: stopping query after network/HTTP error")
+            print("  Europe PMC: stopping query after network/HTTP error")
             break
         result_list = data.get("resultList", {}).get("result", [])
         if not result_list:
@@ -642,15 +641,6 @@ def search_europepmc(query, max_results=None):
 
 def run_europepmc_searches(progress):
     return _run_query_loop("europepmc", EUROPEPMC_QUERIES, search_europepmc, progress)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# Reduced query subset for social-sci / cross-discipline sources
-# ═══════════════════════════════════════════════════════════════════════════════
-# OSF / Semantic Scholar (social-sci / CS biased) get the full CORE block but not
-# the genetics/GWAS terms, which generate noise there. This is REPLICATION_CORE
-# directly, not a fragile positional slice.
-SOCIAL_SCI_QUERIES = REPLICATION_CORE
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

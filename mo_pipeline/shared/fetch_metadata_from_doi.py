@@ -167,7 +167,6 @@ def _new_authors_are_better(current, new):
         return False
     if new_total < cur_total * 0.7:
         # Quality override: accept a smaller but near-complete author list
-        cur_rate = cur_full / cur_total if cur_total > 0 else 0.0
         new_rate = new_full / new_total
         if new_total < cur_total * 0.5 or new_rate < 0.9:
             return False
@@ -581,7 +580,6 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
     # ---------- 🔟 Dimensions.ai ----------
     if DIMENSIONS_API_KEY:
         try:
-            import json as json_lib
             dim_headers = {**headers, "Authorization": f"Bearer {DIMENSIONS_API_KEY}"}
             query = f'search publications where doi="{doi}" return publications[doi+title+authors+journal+year+volume+issue+pages]'
             r = requests.post(

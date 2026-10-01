@@ -186,7 +186,7 @@ def _self_check() -> int:
         return 1
     if drift:
         print(f"  ! {len(drift)} file(s) changed since {m['prompt_version']} was recorded: {', '.join(drift)}")
-        print(f"  ! bump prompts/version.txt and add a CHANGELOG entry, or restore the files")
+        print("  ! bump prompts/version.txt and add a CHANGELOG entry, or restore the files")
         return 1
     print(f"  prompt {m['prompt_version']} matches the recorded hashes")
     return 0

@@ -22,19 +22,15 @@ Output: data/classified.csv, data/confirmed_replications.csv
 import argparse
 import csv
 import json
-import re
-import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from pathlib import Path
 
 from mo_pipeline.discover.screening_backend import BACKENDS, get_backend
 from mo_pipeline.config import (
     DATA_DIR, PROGRESS_DIR,
     CANDIDATES_FILTERED_CSV, CLASSIFIED_CSV, CONFIRMED_REPLICATIONS_CSV,
     PROCESSED_MANIFEST_CSV,
-    LLM_MODEL, LLM_TIMEOUT_SEC,
 )
 
 csv.field_size_limit(sys.maxsize)
@@ -93,33 +89,6 @@ def load_progress():
 
 def save_progress(progress):
     PROGRESS_FILE.write_text(json.dumps(progress, indent=2))
-
-
-def _strip_code_fences(text):
-    """Remove markdown code fences like ```json ... ``` if present."""
-    text = text.strip()
-    if text.startswith("```"):
-        parts = text.split("\n", 1)
-        text = parts[1] if len(parts) > 1 else ""
-        if "```" in text:
-            text = text.rsplit("```", 1)[0]
-    return text.strip()
-
-
-def _extract_json(text):
-    """Best-effort JSON extraction from LLM output."""
-    text = _strip_code_fences(text)
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if match:
-        try:
-            return json.loads(match.group(0))
-        except json.JSONDecodeError:
-            return None
-    return None
 
 
 def _norm_doi(doi):

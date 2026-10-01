@@ -216,10 +216,6 @@ def find_strong_positive(text):
     return None
 
 
-def has_strong_positive(text):
-    return find_strong_positive(text) is not None
-
-
 def find_weak_positive(text):
     """Return the first weak-positive pattern string that matches, or None."""
     for pattern, compiled in zip(WEAK_POSITIVE_PATTERNS, _weak_pos_re):
@@ -345,7 +341,7 @@ def main():
                   f"{len(kept):,} kept so far ({now - start:.0f}s)", flush=True)
             last_heartbeat = now
 
-    print(f"\nFilter results:", flush=True)
+    print("\nFilter results:", flush=True)
     for reason, count in sorted(reasons.items(), key=lambda x: -x[1]):
         tag = "KEEP" if reason in KEEP_REASONS else "EXCLUDE"
         print(f"  {tag:7s} {reason}: {count}", flush=True)

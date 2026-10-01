@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import re
 import tomllib
-from pathlib import Path
 
 import mo_pipeline
 from mo_pipeline import config, version as v

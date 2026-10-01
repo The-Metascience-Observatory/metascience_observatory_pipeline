@@ -45,15 +45,19 @@ _PASSPORT_FILE = "paper.json"
 # `_result.json` is `extract.py --level base`. Both count as extracted: they carry
 # result + replication_type, which is all the catalog reads.
 #
+# Extraction result files, in priority order (first match wins) -- the one list
+# that the catalog, collate (extract.py / extract_core.py) and the benchmark
+# harness all read. The single-shot core result sits last so a full extraction
+# under the same tag outranks it; _result_xml.json is historical only.
+#
 # Matched as `{paper folder stem}{suffix}`, never as a bare `*` glob. Both
 # extractors name their output after the paper folder, so anchoring costs
 # nothing -- and an unanchored `*_result.json` also matched the claim-centrality
 # pilot's `centrality_result.json`, which made the catalog read a centrality run
 # as an extraction and blank out the paper's real verdict. Every one of the 163
 # unanchored result files on the drive was a centrality file.
-_RESULT_SUFFIXES = ("_result_full.json", "_result_pdf_only.json",
-                    "_result_html.json", "_result_xml.json",
-                    "_result_core.json", "_result.json")
+RESULT_SUFFIXES = ("_result_xml.json", "_result_html.json", "_result_pdf_only.json",
+                   "_result_full.json", "_result.json", "_result_core.json")
 
 
 # Characters NTFS/exFAT forbid in filenames, other than '/' (encoded as '--')
@@ -180,7 +184,7 @@ def _tag_findings(tag_dir: Path, stem: str) -> TagFindings | None:
     `stem` is the paper folder's name; result files are named after it.
     """
     result_path = None
-    for suffix in _RESULT_SUFFIXES:
+    for suffix in RESULT_SUFFIXES:
         candidate = tag_dir / f"{stem}{suffix}"
         if candidate.exists():
             result_path = candidate

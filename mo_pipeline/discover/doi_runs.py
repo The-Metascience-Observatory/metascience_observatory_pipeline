@@ -167,13 +167,6 @@ def list_runs() -> list[dict]:
     return runs
 
 
-def get_run(slug: str) -> dict:
-    meta = _run_dir(slug) / "meta.json"
-    if not meta.exists():
-        raise FileNotFoundError(f"no such run: {slug}")
-    return json.loads(meta.read_text())
-
-
 def load_dois(slug: str) -> list[str]:
     path = _run_dir(slug) / "dois.csv"
     with open(path, newline="") as f:

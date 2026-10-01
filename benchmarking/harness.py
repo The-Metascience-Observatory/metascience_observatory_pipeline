@@ -41,10 +41,8 @@ import json
 import urllib.error
 import urllib.request
 import math
-import os
 import random
 import re
-import shutil
 import sqlite3
 import subprocess
 import sys
@@ -58,7 +56,7 @@ sys.path.insert(0, str(BENCH_DIR.parent))
 sys.path.insert(1, str(BENCH_DIR))
 
 from mo_pipeline import config  # noqa: E402
-from mo_pipeline.corpus.models import doi_to_folder  # noqa: E402
+from mo_pipeline.corpus.models import RESULT_SUFFIXES, doi_to_folder  # noqa: E402
 from mo_pipeline.discover.doi_runs import (create_run, delete_run, load_dois,  # noqa: E402
                                            normalize_doi, run_status)
 from mo_pipeline.label_centrality.collate import cohen_kappa  # noqa: E402
@@ -114,9 +112,6 @@ NUMERIC_STATS = ("original_n", "original_es", "original_p_value",
 CODED_FIELDS = ["result", "replication_type", "original_url", "original_title",
                 "original_authors", "original_year", "original_journal", "description",
                 "citation_sentence"] + STAT_FIELDS
-RESULT_SUFFIXES = ("_result_xml.json", "_result_html.json", "_result_pdf_only.json",
-                   "_result_full.json", "_result_mid.json", "_result.json",
-                   "_result_core.json")   # stat-free core extractor (--level core)
 
 DISCIPLINE_GROUPS = {
     "psych": {"psychology"},
@@ -219,16 +214,6 @@ def git(*args: str) -> str:
                               text=True, timeout=20).stdout.strip()
     except Exception:
         return ""
-
-
-def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
-    if n == 0:
-        return (float("nan"), float("nan"))
-    p = k / n
-    d = 1 + z * z / n
-    c = p + z * z / (2 * n)
-    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
-    return ((c - h) / d, (c + h) / d)
 
 
 # ── ground-truth loading ─────────────────────────────────────────────────────

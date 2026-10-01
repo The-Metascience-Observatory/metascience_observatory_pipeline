@@ -1,6 +1,6 @@
 """Server settings: where runtime state lives, ports, and resource guards.
 
-Stage run-state (logs, pid files, exit codes, batch/tag) lives OUTSIDE Dropbox
+Stage run-state (logs, pid files, exit codes, tag) lives OUTSIDE Dropbox
 at ~/.local/state/mo_pipeline/ so Dropbox never syncs churning log files and
 stages survive across API restarts.
 """
@@ -13,9 +13,7 @@ STATE_DIR = Path(os.environ.get(
     "MO_STATE_DIR", Path.home() / ".local" / "state" / "mo_pipeline"))
 LOGS_DIR = STATE_DIR / "logs"
 PIDS_DIR = STATE_DIR / "pids"
-STATE_FILE = STATE_DIR / "state.json"     # current batch + tag
-
-API_PORT = int(os.environ.get("MO_API_PORT", "8090"))
+STATE_FILE = STATE_DIR / "state.json"     # current extraction tag
 
 # Resource guards (64 GB box, no swap).
 CONVERT_MIN_MEM_GB = 20.0     # refuse pdf4llm convert below this MemAvailable

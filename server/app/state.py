@@ -1,4 +1,4 @@
-"""Shared pipeline state: the current batch + extraction tag, persisted to disk."""
+"""Shared pipeline state: the current extraction tag, persisted to disk."""
 from __future__ import annotations
 
 import json
@@ -10,7 +10,7 @@ def load() -> dict:
     try:
         return json.loads(STATE_FILE.read_text())
     except Exception:
-        return {"batch": None, "tag": None}
+        return {"tag": None}
 
 
 def save(patch: dict) -> dict:

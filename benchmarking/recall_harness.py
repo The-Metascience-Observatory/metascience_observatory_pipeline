@@ -230,7 +230,7 @@ def render(result: dict, truth: dict, list_missing: int) -> str:
         for k, v in items:
             L.append(f"      {v:>5}  {k}")
     if list_missing:
-        L.append(f"\n    sample of never-found titles:")
+        L.append("\n    sample of never-found titles:")
         for d in nf[:list_missing]:
             t = str((truth.get(d) or {}).get("replication_title") or "")[:82]
             L.append(f"      - {t}")
