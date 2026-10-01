@@ -18,8 +18,8 @@ from pydantic import BaseModel
 
 from mo_pipeline import config
 from . import runner, state
-from .registry import STAGES, BY_ID, stage_dict, _mem_available_gb, _grobid_up, _catalog_stats
-from .settings import CONVERT_MIN_MEM_GB
+from . import grobid
+from .registry import STAGES, BY_ID, StageBlocked, catalog_stats, mem_available_gb, stage_dict
 
 app = FastAPI(title="MO Pipeline Orchestrator", version="0.1.0")
 # The dashboard reaches the API through Next's /api rewrite (same origin), so
@@ -121,27 +121,13 @@ def run_stage(stage_id: str, req: RunRequest):
     if runner.is_running(stage_id):
         raise HTTPException(409, f"stage '{stage_id}' already running")
 
-    # Convert RAM guard.
-    if stage_id == "convert":
-        mem = _mem_available_gb()
-        if mem < CONVERT_MIN_MEM_GB:
-            raise HTTPException(409, f"blocked: MemAvailable {mem:.0f}GB < {CONVERT_MIN_MEM_GB}GB")
+    if stage.preflight:
+        try:
+            stage.preflight()
+        except StageBlocked as e:
+            raise HTTPException(409, f"blocked: {e}")
 
-        # Convert GROBID guard. pdf4llm needs it at :8070 and nothing else
-        # starts it, so this both brings it up and refuses to launch without
-        # it -- otherwise the batch runs and fails per-PDF, thousands of times,
-        # for a reason that is only visible in the log. `start()` is a no-op
-        # when it is already answering and never touches a running container.
-        from .grobid import start as _grobid_start, ANSWERING, RUNNING_NOT_ANSWERING
-        grobid_state = _grobid_start()
-        if grobid_state != ANSWERING:
-            detail = ("container is up but unreachable — this host's docker port "
-                      "publishing is broken; recreate it on --network host"
-                      if grobid_state == RUNNING_NOT_ANSWERING else
-                      "could not be started")
-            raise HTTPException(409, f"blocked: GROBID {grobid_state} — {detail}")
-
-    # Extract needs a tag (from params or state).
+    # The run record carries the extraction tag (from params, else the saved state).
     tag = params.get("tag") or st.get("tag")
     try:
         argv = stage.build_argv(params, st)
@@ -163,8 +149,8 @@ def stop_stage(stage_id: str, force: bool = False):
 def system():
     du = shutil.disk_usage(config.MEDIA_ROOT) if config.MEDIA_ROOT.exists() else None
     return {
-        "mem_available_gb": round(_mem_available_gb(), 1),
-        "grobid_up": _grobid_up(),
+        "mem_available_gb": round(mem_available_gb(), 1),
+        "grobid_up": grobid.is_up(),
         "media_disk": ({"free_gb": round(du.free / 1e9, 1),
                         "total_gb": round(du.total / 1e9, 1),
                         "pct_used": round(100 * du.used / du.total, 1)} if du else None),
@@ -329,7 +315,7 @@ def corpus_download_zip(types: str = "all"):
 @app.get("/corpus")
 def corpus(source_batch: str | None = None, status_filter: str | None = None,
            contains_replications: bool | None = None, limit: int = Query(200, le=2000)):
-    stats = _catalog_stats()
+    stats = catalog_stats()
     if stats is None:
         return {"available": False, "detail": "no catalog yet"}
     from mo_pipeline.corpus import catalog

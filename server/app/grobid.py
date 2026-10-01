@@ -1,7 +1,7 @@
 """GROBID's lifecycle, in one place.
 
 Stage 6 cannot run without GROBID at :8070, and until now nothing in this repo
-started it or told you honestly whether it was working -- `registry._grobid_up`
+started it or told you honestly whether it was working -- a bare is-it-up check
 reported a bool and the container was left to a human. On 2026-09-03 that cost
 hours: the container sat "Up" for an hour while every host-side request timed
 out, and two separate sessions independently concluded GROBID had wedged.

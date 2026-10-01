@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Callable
 
 from mo_pipeline import config
+from .settings import CONVERT_MAX_WORKERS, CONVERT_MIN_MEM_GB
 
 PY = sys.executable
 REPO = str(config.REPO_ROOT)
@@ -138,7 +139,7 @@ def probe_download(_state) -> dict:
 def probe_convert(_state) -> dict:
     inbox = config.INBOX_DIR
     pending = _inbox_count(inbox, "*.pdf")
-    mem = _mem_available_gb()
+    mem = mem_available_gb()
     from .grobid import state as _grobid_state
     grobid_state = _grobid_state()
     detail = (f"{pending} PDFs in inbox; MemAvailable {mem:.0f}GB; "
@@ -148,7 +149,7 @@ def probe_convert(_state) -> dict:
 
 def probe_extract(state) -> dict:
     tag = (state or {}).get("tag")
-    cat = _catalog_stats()
+    cat = catalog_stats()
     if cat is None:
         return _prog("idle", detail="no catalog")
     total = cat["total"]
@@ -163,7 +164,7 @@ def probe_extract(state) -> dict:
 
 
 # ── system helpers ───────────────────────────────────────────────────────────
-def _mem_available_gb() -> float:
+def mem_available_gb() -> float:
     try:
         for line in Path("/proc/meminfo").read_text().splitlines():
             if line.startswith("MemAvailable:"):
@@ -173,13 +174,7 @@ def _mem_available_gb() -> float:
     return 0.0
 
 
-def _grobid_up() -> bool:
-    """Kept as the name main.py imports; the implementation lives in grobid.py."""
-    from .grobid import is_up
-    return is_up()
-
-
-def _catalog_stats():
+def catalog_stats():
     if not config.CATALOG_PATH.exists():
         return None
     try:
@@ -218,6 +213,30 @@ class Param:
     help: str = ""
 
 
+class StageBlocked(Exception):
+    """A stage's preflight refused to launch it; the message says why."""
+
+
+def _convert_preflight() -> None:
+    """Convert needs RAM headroom and a GROBID that answers."""
+    mem = mem_available_gb()
+    if mem < CONVERT_MIN_MEM_GB:
+        raise StageBlocked(f"MemAvailable {mem:.0f}GB < {CONVERT_MIN_MEM_GB}GB")
+    # pdf4llm needs GROBID at :8070 and nothing else starts it, so this both
+    # brings it up and refuses to launch without it -- otherwise the batch runs
+    # and fails per-PDF, thousands of times, for a reason only visible in the
+    # log. `start()` is a no-op when it is already answering and never touches
+    # a running container.
+    from .grobid import start, ANSWERING, RUNNING_NOT_ANSWERING
+    grobid_state = start()
+    if grobid_state != ANSWERING:
+        detail = ("container is up but unreachable — this host's docker port "
+                  "publishing is broken; recreate it on --network host"
+                  if grobid_state == RUNNING_NOT_ANSWERING else
+                  "could not be started")
+        raise StageBlocked(f"GROBID {grobid_state} — {detail}")
+
+
 @dataclass
 class Stage:
     id: str
@@ -228,6 +247,7 @@ class Stage:
     params: list = field(default_factory=list)
     mutex_groups: list = field(default_factory=lambda: ["self"])
     probe: Callable = None
+    preflight: Callable | None = None   # () -> None; raises StageBlocked to refuse
     cwd: str = REPO
 
 
@@ -276,7 +296,7 @@ def _download_argv(params, state):
 
 
 def _convert_argv(params, state):
-    workers = min(int(params.get("workers", 4)), 4)
+    workers = min(int(params.get("workers", 4)), CONVERT_MAX_WORKERS)
     return ["pdf4llm", "batch", str(config.INBOX_DIR), "-o", str(config.PAPERS_DIR),
             "--mode", "full-grobid", "--workers", str(workers), "--movepdf", "--resume"]
 
@@ -341,8 +361,9 @@ STAGES: list[Stage] = [
           # writes into it; the two must never overlap.
           ["self", "inbox"], probe_download),
     Stage("convert", 6, "Convert (pdf4llm)", "PDF -> abstract/body/refs into papers/",
-          _convert_argv, [Param("workers", "int", 4, 1, 4, "capped at 4 (RAM)")],
-          ["self", "heavy_ram", "inbox"], probe_convert),
+          _convert_argv, [Param("workers", "int", 4, 1, CONVERT_MAX_WORKERS,
+                                f"capped at {CONVERT_MAX_WORKERS} (RAM)")],
+          ["self", "heavy_ram", "inbox"], probe_convert, preflight=_convert_preflight),
     Stage("extract", 7, "Extract", "LLM extract structured replication records (agentic, or single-shot core)",
           _extract_argv, [Param("tag", "str", "", help="run tag (per-run resume)"),
                           Param("workers", "int", 4, 1, 8, "parallel papers"),
