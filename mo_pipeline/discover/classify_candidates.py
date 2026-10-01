@@ -168,8 +168,8 @@ def _as_bool(val):
 def _validated(result):
     """The model's verdict with enums checked, or None (a failure, retried next run).
 
-    255 rows once carried the replication type in `confidence`; stage 5 gates on
-    confidence == "high", so a wrong value there silently changes the confirmed set.
+    255 rows once carried the replication type in `confidence`, and anything that
+    filters on confidence or type then silently changes the confirmed set.
     """
     is_rep = _as_bool(result.get("is_replication"))
     conf = str(result.get("confidence") or "").strip().lower()

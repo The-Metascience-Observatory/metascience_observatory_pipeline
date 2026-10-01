@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """
-Phase 3: Download full text for all confirmed replications that are:
-  (a) not already ingested
-  (b) not already downloaded anywhere
+Stage 5: Download full text for confirmed replications that are:
+  (a) of a selected replication type (config.DOWNLOAD_REPLICATION_TYPES:
+      direct, close, conceptual; --type overrides, --type all disables)
+  (b) not already in the published replications database (--include-published)
+  (c) not already on the drive (corpus papers/, inbox/, config.PDF_SEARCH_DIRS)
 
 Uses the public `fetchpdf` library (../fetchpdf_public; OSF, SSRN, Figshare,
 PsychArchives, PMC, Unpaywall, Crossref, EuropePMC, Semantic Scholar, OpenAlex,
@@ -12,7 +14,7 @@ CORE, Elsevier TDM, ...) plus the grey last resorts from `fetchpdf_grey`
 Layout: one folder per record, `inbox/{stem}/{stem}.*` (fetchpdf's
 --make-subfolder), named exactly as the record's future papers/{stem}/ folder --
 fetchpdf's doi_to_safe_filename and corpus.models.doi_to_folder are one
-encoding. Stage 7 moves the PDF across by stem and `corpus adopt-structured`
+encoding. Stage 6 moves the PDF across by stem and `corpus adopt-structured`
 moves the rest. Run-level files (failed_dois.csv, missing_pdfs.html) stay at the
 inbox root. Records downloaded flat before this layout are moved into place by
 `python -m mo_pipeline.corpus inbox-subfolders --execute`.
@@ -26,11 +28,11 @@ class that broken PDF ToUnicode CMaps cause does not exist in markup); the PDF
 is still always attempted, since figures, supplements and the rendered page
 only come from it. `--no-download-xml` restores the old PDF-only chain.
 
-Renditions: what stage 8 actually reads is the Markdown rendition
+Renditions: what stage 7 actually reads is the Markdown rendition
 {stem}_from_xml.md / {stem}_from_html.md. After each batch this script renders
 the records it touched through the corpus prose gate (`corpus.render.render_dirs`:
 fetchpdf's converter, behind render.MIN_PROSE_LINE) -- never through fetchpdf's
-own --to-markdown, which writes unconditionally while stage 8 trusts any
+own --to-markdown, which writes unconditionally while stage 7 trusts any
 rendition it finds. `--no-to-markdown` skips the pass; `python -m
 mo_pipeline.corpus render-markdown --execute` does the same over everything
 already on the drive.
@@ -48,9 +50,9 @@ Downloads are prioritized by replication type:
   direct > close > conceptual > systematic > multi-site > other
 
 Usage (run from the repo root):
-  python -m mo_pipeline.discover.download_all_confirmed              # all types
+  python -m mo_pipeline.discover.download_all_confirmed              # direct,close,conceptual
   python -m mo_pipeline.discover.download_all_confirmed --type direct
-  python -m mo_pipeline.discover.download_all_confirmed --type direct,close
+  python -m mo_pipeline.discover.download_all_confirmed --type all
   python -m mo_pipeline.discover.download_all_confirmed --limit 100
   python -m mo_pipeline.discover.download_all_confirmed --workers 8
   python -m mo_pipeline.discover.download_all_confirmed --download-si
@@ -72,16 +74,18 @@ from mo_pipeline.shared.fetch import batch_fetch_pdfs, disable_last_resorts
 
 from mo_pipeline.config import (
     CONFIRMED_REPLICATIONS_CSV as CONFIRMED_CSV,
-    INGESTED_ROOT as INGESTED_DIR,
+    DOWNLOAD_REPLICATION_TYPES,
     INBOX_DIR as OUTPUT_DIR,
     PAPERS_DIR,
     PDF_SEARCH_DIRS as _BASE_PDF_SEARCH_DIRS,
+    VERSION_HISTORY_PATH,
 )
 from mo_pipeline.corpus.models import doi_to_folder, folder_to_doi, is_doi_folder
+from mo_pipeline.shared.production_db import published_dois
 
 # ── Configuration ────────────────────────────────────────────────────────────
 
-# New PDFs land in inbox/ awaiting conversion (stage 7 moves them into papers/).
+# New PDFs land in inbox/ awaiting conversion (stage 6 moves them into papers/).
 # Include the inbox in the search dirs so restarts skip already-downloaded files.
 PDF_SEARCH_DIRS = list(_BASE_PDF_SEARCH_DIRS) + [OUTPUT_DIR]
 
@@ -200,10 +204,9 @@ def build_existing_stems():
     n = _seed_stems_from_catalog(stems)
     if n:
         print(f"    ✓ {n} DOIs from catalog ({_time.time()-t0:.1f}s)", flush=True)
-    elif INGESTED_DIR.exists():
-        # Pre-reorg fallback: walk the legacy ingested/ tree.
-        print(f"  no catalog; scanning {INGESTED_DIR}...", flush=True)
-        _scan_artifacts_into(INGESTED_DIR, stems, structured)
+    else:
+        print(f"  no catalog; scanning {PAPERS_DIR}...", flush=True)
+        _scan_artifacts_into(PAPERS_DIR, stems, structured)
     print(f"    ✓ {len(stems)} total after corpus ({_time.time()-t0:.1f}s)", flush=True)
 
     for d in PDF_SEARCH_DIRS:
@@ -217,6 +220,29 @@ def build_existing_stems():
         print(f"    ✓ +{len(stems)-before} new (total {len(stems)}, {_time.time()-t0:.1f}s)", flush=True)
 
     return stems, structured
+
+
+def _drop_published(to_download):
+    """Remove DOIs already in the published replications database.
+
+    Loud when the database cannot be resolved: this exclusion once sat behind a
+    bare `exists()` check on a pinned snapshot that had been deleted, and for
+    months every already-published paper was re-downloaded without a word.
+    """
+    db_dois, db_path = published_dois()
+    if db_path is None:
+        print(
+            f"WARNING: no replications database resolved from {VERSION_HISTORY_PATH}.\n"
+            "         NOT excluding already-published papers.\n"
+            "         Check that version_history.txt exists and its last entry "
+            "names a CSV that is present.",
+            file=sys.stderr,
+        )
+        return to_download
+    kept = [t for t in to_download if t[0] not in db_dois]
+    print(f"Excluded {len(to_download) - len(kept)} already in the published database "
+          f"({len(db_dois)} DOIs from {db_path.name}); --include-published keeps them")
+    return kept
 
 
 def _fetch_kwargs(args):
@@ -324,7 +350,7 @@ def _render_records(results, args):
     """Write the prose-gated Markdown rendition for every record a batch touched.
 
     Goes through corpus.render rather than fetchpdf's to_markdown= so that a
-    rendition failing render.MIN_PROSE_LINE never lands on disk: stage 8 reads
+    rendition failing render.MIN_PROSE_LINE never lands on disk: stage 7 reads
     any {stem}_from_xml.md it finds as the primary full text, unchecked. The
     record folders come from the result paths, not from re-encoding the DOIs,
     so this cannot disagree with where fetchpdf actually wrote.
@@ -426,9 +452,14 @@ def run_backfill(args):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--type",
-        help="Filter by replication type. Single value or comma-separated list "
-             "(e.g. 'direct', 'direct,close', 'direct,close,conceptual')",
+        "--type", default=",".join(DOWNLOAD_REPLICATION_TYPES),
+        help="Classifier replication types to download, comma-separated "
+             f"(default: {','.join(DOWNLOAD_REPLICATION_TYPES)}); 'all' disables the filter.",
+    )
+    parser.add_argument(
+        "--include-published", action="store_true",
+        help="Also download papers already in the published replications database "
+             "(skipped by default; --doi-csv lists are never filtered this way).",
     )
     parser.add_argument(
         "--doi-csv",
@@ -541,7 +572,7 @@ def main():
         return
 
     type_filter = None
-    if args.type:
+    if args.type and args.type.strip().lower() != "all":
         type_filter = {t.strip() for t in args.type.split(",") if t.strip()}
         print(f"Filtering to replication types: {sorted(type_filter)}")
 
@@ -584,6 +615,9 @@ def main():
             if type_filter and rtype not in type_filter:
                 continue
             to_download.append((doi, rtype, row.get("title", "")[:80]))
+
+        if not args.include_published:
+            to_download = _drop_published(to_download)
 
     # Sort by type priority
     def sort_key(item):

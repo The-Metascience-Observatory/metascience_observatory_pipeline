@@ -1,8 +1,8 @@
-"""Move what stage 7 left behind in inbox/{doi}/ into papers/{doi}/.
+"""Move what stage 6 left behind in inbox/{doi}/ into papers/{doi}/.
 
-Stage 6 writes each record into its own inbox folder -- {stem}.pdf plus the
+Stage 5 writes each record into its own inbox folder -- {stem}.pdf plus the
 structured copy ({stem}.xml, else {stem}.fulltext.html), its Markdown rendition
-and fetchpdf's sidecars. Stage 7 moves only the PDF: pdf4llm's --movepdf takes
+and fetchpdf's sidecars. Stage 6 moves only the PDF: pdf4llm's --movepdf takes
 the file it converted and nothing else. Without this pass the XML that made the
 trip stays behind in the inbox while its paper lives in papers/, which is both a
 lost artifact and a growing inbox that looks like unconverted work.
@@ -12,7 +12,7 @@ PDF means conversion has not run yet, and the artifacts must stay together for
 it.
 
 Where papers/{stem}/ does not exist the record is adopted anyway, provided it
-holds full text of its own. That folder is normally created by stage 7 moving
+holds full text of its own. That folder is normally created by stage 6 moving
 the PDF across -- so a record that arrived as XML or HTML with no PDF at all had
 no route into the corpus and sat in the inbox unreachable by extraction: 358 of
 them on 2026-09-03. A record with no full text is still left where it is; an
@@ -49,7 +49,7 @@ def adopt_structured(execute: bool = False, inbox: Path | None = None,
             continue
         stem = record.name
         if (record / f"{stem}.pdf").exists():
-            # Not converted yet: stage 7 still needs this record intact.
+            # Not converted yet: stage 6 still needs this record intact.
             summary["awaiting_conversion"] += 1
             continue
         files = sorted(record.iterdir())

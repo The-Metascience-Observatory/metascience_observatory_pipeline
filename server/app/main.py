@@ -237,8 +237,6 @@ def artifacts():
         ("candidates_filtered.csv", "prefilter", config.CANDIDATES_FILTERED_CSV, "candidates_dedup.csv"),
         ("classified.csv", "classify", config.CLASSIFIED_CSV, "candidates_filtered.csv"),
         ("confirmed_replications.csv", "classify", config.CONFIRMED_REPLICATIONS_CSV, "classified.csv"),
-        ("direct_replications.csv", "filter_direct", config.DIRECT_REPLICATIONS_CSV, "confirmed_replications.csv"),
-        ("download_status.csv", "download", config.DOWNLOAD_STATUS_CSV, "confirmed_replications.csv"),
         ("search_progress.json", "search", config.SEARCH_PROGRESS_FILE, None),
         ("classify_progress.json", "classify", config.CLASSIFY_PROGRESS_FILE, None),
     ]

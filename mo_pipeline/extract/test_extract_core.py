@@ -426,7 +426,7 @@ def test_citation_check_corroborates_a_first_last_author():
 
 
 def test_batch_is_detected_by_structure_not_by_a_stray_pdf(tmp_path):
-    """The corpus root holds a few loose stage-7 leftovers. Deciding "is this one
+    """The corpus root holds a few loose stage-6 leftovers. Deciding "is this one
     paper?" by whether a PDF sits in the directory therefore ran the whole corpus
     as a single paper and silently ignored --include-list."""
     root = tmp_path / "papers"

@@ -1,6 +1,6 @@
 """Move flat inbox artifacts into one folder per record: inbox/{stem}/{stem}.*
 
-Stage 6 writes each record into its own folder (fetchpdf's --make-subfolder),
+Stage 5 writes each record into its own folder (fetchpdf's --make-subfolder),
 named exactly as its future papers/{stem}/ folder. Records downloaded before that
 sit flat at the inbox root, and a subfolder run cannot see them: fetchpdf fills
 its goals from `{output_dir}/{stem}/{stem}.xml` and friends, so a flat

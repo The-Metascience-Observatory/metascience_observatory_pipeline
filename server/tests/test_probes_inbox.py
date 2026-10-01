@@ -1,4 +1,4 @@
-"""Stage 6/7 probes count records in the per-DOI inbox layout, plus flat leftovers."""
+"""Stage 5/7 probes count records in the per-DOI inbox layout, plus flat leftovers."""
 from mo_pipeline import config
 from server.app import registry
 

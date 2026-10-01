@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Single-shot core-fields extractor: stage 8 without statistics.
+"""Single-shot core-fields extractor: stage 7 without statistics.
 
 One no-tools model call per paper. Python assembles the input (abstract + full
 text + reference list, from the same tier ladder extract.py uses), the model
@@ -437,7 +437,7 @@ def looks_like_batch(path: Path) -> bool:
     """Is this a directory OF paper folders, rather than one paper?
 
     Decided by what the subdirectories are, never by whether a PDF happens to
-    sit in this directory. The corpus root holds a few loose stage-7 leftovers,
+    sit in this directory. The corpus root holds a few loose stage-6 leftovers,
     so "contains a PDF" reported the whole corpus as a single paper: one doomed
     extraction, and --include-list silently ignored. Returns on the first paper
     folder it sees, so it costs one readdir on a slow drive.

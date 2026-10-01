@@ -8,7 +8,6 @@ import { api, type KeywordStatsEnvelope, type KeywordApiStats, type KeywordQuery
 // prefilter. Steps chosen to pass ordinal-ramp validation (monotone lightness,
 // ΔL ≥ 0.06 between neighbors, ≥2:1 light-end contrast) on slate-50/slate-950.
 const SEGMENTS = [
-  { label: "Direct", cls: "bg-sky-950 dark:bg-sky-200" },
   { label: "Confirmed", cls: "bg-sky-800 dark:bg-sky-400" },
   { label: "Classified", cls: "bg-sky-600 dark:bg-sky-600" },
   { label: "Filtered", cls: "bg-sky-400 dark:bg-sky-800" },
@@ -35,10 +34,9 @@ function FunnelBar({ q, max }: { q: KeywordQueryStat; max: number }) {
   const f = Math.min(q.filtered, q.raw);
   const c = Math.min(q.classified, f);
   const co = Math.min(q.confirmed, c);
-  const d = Math.min(q.direct, co);
-  const parts = [d, co - d, c - co, f - c, q.raw - f].map((n, i) => ({
+  const parts = [co, c - co, f - c, q.raw - f].map((n, i) => ({
     n, ...SEGMENTS[i],
-    count: [q.direct, q.confirmed, q.classified, q.filtered, q.raw - f][i],
+    count: [q.confirmed, q.classified, q.filtered, q.raw - f][i],
   })).filter((s) => s.n > 0);
   return (
     <div className="h-2 w-full min-w-[6rem] rounded bg-slate-200 dark:bg-slate-800">
@@ -84,7 +82,6 @@ function ApiSection({ sec }: { sec: KeywordApiStats }) {
               <th className="py-1.5 px-2 font-normal text-right" title="Rows surviving the prefilter (per query string, shared across APIs)">Filtered</th>
               <th className="py-1.5 px-2 font-normal text-right" title="Rows reaching the LLM classifier">Classified</th>
               <th className="py-1.5 px-2 font-normal text-right" title="Confirmed replications (% of classified)">Confirmed</th>
-              <th className="py-1.5 px-2 font-normal text-right" title="High-confidence direct replications">Direct</th>
               <th className="py-1.5 pl-2 font-normal w-32"></th>
             </tr>
           </thead>
@@ -107,7 +104,6 @@ function ApiSection({ sec }: { sec: KeywordApiStats }) {
                     <span className="ml-1 text-emerald-600 dark:text-emerald-400">{Math.round(q.confirmRate * 100)}%</span>
                   )}
                 </td>
-                <td className="py-1 px-2 text-right tabular-nums">{q.notSearched ? "—" : num(q.direct)}</td>
                 <td className="py-1 pl-2"><FunnelBar q={q} max={max} /></td>
               </tr>
             ))}
@@ -208,8 +204,7 @@ export default function KeywordStatsPage() {
         <>
           <p className="text-sm text-slate-600 dark:text-slate-400">
             {num(stats.totals.raw)} raw → {num(stats.totals.filtered)} filtered →{" "}
-            {num(stats.totals.classified)} classified → {num(stats.totals.confirmed)} confirmed →{" "}
-            {num(stats.totals.direct)} direct ·{" "}
+            {num(stats.totals.classified)} classified → {num(stats.totals.confirmed)} confirmed ·{" "}
             {stats.totals.queriesCompleted}/{stats.totals.queriesExpected} queries searched,{" "}
             {stats.totals.zeroYield} zero-yield
           </p>

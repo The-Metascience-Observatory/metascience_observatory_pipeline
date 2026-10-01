@@ -51,24 +51,13 @@ def _rows_from_catalog():
     return rows
 
 
-_DOI_RE = re.compile(r"10\.\d{4,9}/\S+", re.I)
-
-
 def _dois_in_production_db():
-    """Replication-paper DOIs in the newest ingested database CSV ({} if none)."""
-    from mo_pipeline.config import latest_replications_db
-    path = latest_replications_db()
-    if not path or not path.exists():
+    """Replication-paper DOIs in the newest ingested database CSV (empty if none)."""
+    from mo_pipeline.shared.production_db import published_dois
+    dois, path = published_dois()
+    if path is None:
         print("WARNING: no production replications database found; using the catalog only",
               file=sys.stderr)
-        return set(), None
-    csv.field_size_limit(sys.maxsize)
-    dois = set()
-    with open(path, newline="", encoding="utf-8") as f:
-        for row in csv.DictReader(f):
-            m = _DOI_RE.search(row.get("replication_url") or "")
-            if m:
-                dois.add(m.group(0).rstrip(".,;").lower())
     return dois, path
 
 

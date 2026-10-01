@@ -3,7 +3,7 @@ Per-keyword yield stats, derived from the discover-stage CSVs.
 
 For every effective search query (see keywords.API_FANOUT) this computes how many
 raw candidates it discovered and how many of its papers survived each downstream
-stage (filtered → classified → confirmed → direct), plus zero-yield / not-yet-
+stage (filtered → classified → confirmed), plus zero-yield / not-yet-
 searched detection and orphaned queries (results recorded for a query no longer
 in the effective lists).
 
@@ -56,7 +56,6 @@ DOWNSTREAM_STAGES = [
     ("filtered", config.CANDIDATES_FILTERED_CSV),
     ("classified", config.CLASSIFIED_CSV),
     ("confirmed", config.CONFIRMED_REPLICATIONS_CSV),
-    ("direct", config.DIRECT_REPLICATIONS_CSV),
 ]
 
 _INPUT_PATHS = {
@@ -64,7 +63,6 @@ _INPUT_PATHS = {
     "candidates_filtered.csv": config.CANDIDATES_FILTERED_CSV,
     "classified.csv": config.CLASSIFIED_CSV,
     "confirmed_replications.csv": config.CONFIRMED_REPLICATIONS_CSV,
-    "direct_replications.csv": config.DIRECT_REPLICATIONS_CSV,
     "search_progress.json": config.SEARCH_PROGRESS_FILE,
 }
 
@@ -194,7 +192,6 @@ def compute() -> dict:
                 "filtered": stage_counts["filtered"].get(q, 0),
                 "classified": classified_n,
                 "confirmed": confirmed_n,
-                "direct": stage_counts["direct"].get(q, 0),
                 "confirmRate": (confirmed_n / classified_n) if classified_n else None,
                 "zeroYield": zero,
                 "notSearched": not completed,
@@ -228,7 +225,7 @@ def compute() -> dict:
     notes = []
     raw_m = inputs["candidates_raw.csv"]["mtime"]
     for name in ("candidates_filtered.csv", "classified.csv",
-                 "confirmed_replications.csv", "direct_replications.csv"):
+                 "confirmed_replications.csv"):
         m = inputs[name]["mtime"]
         if raw_m and m and m < raw_m:
             fmt = "%Y-%m-%d %H:%M" if _day(m) == _day(raw_m) else "%Y-%m-%d"
@@ -243,7 +240,7 @@ def compute() -> dict:
                 f"miscount downstream: {q[:80]}")
 
     return {
-        "version": 1,
+        "version": 2,  # 2: the "direct" stage is gone with stage 5
         "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "computeSeconds": round(time.time() - t0, 1),
         "inputs": inputs,
@@ -271,14 +268,14 @@ def _history_line(stats: dict) -> dict:
         for row in sec["queries"]:
             if row["raw"]:
                 raw[f"{sec['api']}:{row['query']}"] = row["raw"]
-            vals = [row["filtered"], row["classified"], row["confirmed"], row["direct"]]
+            vals = [row["filtered"], row["classified"], row["confirmed"]]
             if any(vals):
                 downstream[row["query"]] = vals  # identical across APIs — one entry
     t = stats["totals"]
     return {
         "ts": stats["generatedAt"],
         "fp": _fp_hash(stats["inputs"]),
-        "totals": {k: t[k] for k in ("raw", "filtered", "classified", "confirmed", "direct")},
+        "totals": {k: t[k] for k in ("raw", "filtered", "classified", "confirmed")},
         "raw": raw,
         "downstream": downstream,
     }
@@ -373,7 +370,7 @@ def _print_summary(stats: dict) -> None:
         print(f"{sec['api']:<18}{sec['queriesExpected']:>9}{sec['queriesCompleted']:>6}"
               f"{sec['raw']:>9}{sec['zeroYield']:>6}{sec['notSearched']:>11}")
     print(f"\ntotals: raw {t['raw']:,} → filtered {t['filtered']:,} → classified "
-          f"{t['classified']:,} → confirmed {t['confirmed']:,} → direct {t['direct']:,}")
+          f"{t['classified']:,} → confirmed {t['confirmed']:,}")
     print(f"queries: {t['queriesCompleted']}/{t['queriesExpected']} completed, "
           f"{t['zeroYield']} zero-yield, {t['notSearched']} not searched, "
           f"{len(stats['orphans'])} orphaned")

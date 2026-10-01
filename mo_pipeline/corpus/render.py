@@ -1,8 +1,8 @@
 """Render structured full text on the drive to Markdown, behind a prose gate.
 
-Stage 8 reads `{stem}_from_xml.md` / `{stem}_from_html.md` as its primary full
+Stage 7 reads `{stem}_from_xml.md` / `{stem}_from_html.md` as its primary full
 text, unchecked -- any such file in a paper folder outranks GROBID's body.md. So
-every rendition goes through one gate before it is written: stage 6 calls
+every rendition goes through one gate before it is written: stage 5 calls
 `render_dirs` on the record folders it just filled, and the `render-markdown`
 corpus command calls it over everything already on the drive. Nothing else
 writes these files; fetchpdf's own `--to-markdown` is never passed because it

@@ -38,8 +38,7 @@ REPAIR_LOG = config.MEDIA_ROOT / "repair_log.csv"
 # Every pipeline CSV that carries authoritative DOIs (any column with 'doi'
 # in its name, plus replication/original URL columns holding doi.org links).
 _KNOWN_DOI_CSVS = ("confirmed_replications.csv", "classified.csv",
-                   "candidates_dedup.csv", "download_status.csv",
-                   "direct_replications.csv")
+                   "candidates_dedup.csv")
 
 _DOI_URL_RE = re.compile(r"^https?://(?:dx\.)?doi\.org/", re.I)
 

@@ -213,7 +213,7 @@ def mark_ingested(conn: sqlite3.Connection, dois, db_version: str,
     """Stamp `status='ingested'` + db_version on matching catalog rows, and
     (optionally) write the ingested record into each paper's paper.json.
 
-    Returns {'matched': n, 'unmatched': [dois...]}. Called after stage 9 with the
+    Returns {'matched': n, 'unmatched': [dois...]}. Called after a manual ingest with the
     replication_url DOIs from the collated CSV that was ingested."""
     from mo_pipeline.corpus.models import write_passport as _wp
     matched, unmatched = 0, []

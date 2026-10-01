@@ -46,7 +46,7 @@ def main(argv=None):
 
     ib = sub.add_parser("inbox-subfolders",
                         help="move flat inbox/{doi}.* files into inbox/{doi}/ (one folder "
-                             "per record, as stage 6 now writes; dry-run unless --execute)")
+                             "per record, as stage 5 now writes; dry-run unless --execute)")
     ib.add_argument("--execute", action="store_true", help="actually move the files")
 
     rm = sub.add_parser("render-markdown",
@@ -65,7 +65,7 @@ def main(argv=None):
     sub.add_parser("coverage", help="database->corpus markdown coverage")
 
     mi = sub.add_parser("mark-ingested",
-                        help="stamp catalog+paper.json ingested from a collated CSV (post stage 9)")
+                        help="stamp catalog+paper.json ingested from a collated CSV (after the manual ingest)")
     mi.add_argument("csv", help="collated CSV whose replication_url DOIs were ingested")
     mi.add_argument("--db-version", required=True, help="replications_database_*.csv filename")
 

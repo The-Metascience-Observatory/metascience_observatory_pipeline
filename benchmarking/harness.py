@@ -498,7 +498,7 @@ def _distinctive(text: str) -> set:
 def _document_identity(paper_dir: Path, data: dict, gt_title: str = "") -> str:
     """Why the document on disk is not the paper it is filed under, or "".
 
-    Stage 6 has occasionally stored the wrong file under a DOI -- a citing PhD
+    Stage 5 has occasionally stored the wrong file under a DOI -- a citing PhD
     thesis, a publisher advertisement. Conversion faithfully converts whatever it
     is handed, extraction reads it and honestly reports no replications, and the
     paper is then charged to the extractor as a false negative. This is consulted

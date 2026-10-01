@@ -1,17 +1,17 @@
 """
 Unified configuration for the Metascience Observatory replication pipeline.
 
-Single source of truth for every path and tunable used by the discover (stages
-1-6), extract (stage 8), and ingest (stage 9) modules. Consolidates the three
-previously-independent config surfaces:
-  - pull_replication_studies/config.py          (discover stages)
-  - claude_code_replications/extract.py globals  (extract stage)
-  - data_ingestor.py SCRIPT_DIR-relative paths   (ingest stage)
+Single source of truth for every path and tunable used by the discover/download
+(stages 1-5), convert (stage 6) and extract (stage 7) modules. Ingestion into the
+website database is not a stage here: it runs manually from
+metascience_observatory_website/data_ingestor/, and this repo only reads the
+website data dir (WEBSITE_DATA_DIR).
 
 Environment overrides (for scratch-dir smoke tests without touching live data):
   MO_DATA_DIR      -> DATA_DIR      (candidate CSVs, in-repo)
   MO_PROGRESS_DIR  -> PROGRESS_DIR  (search/classify checkpoints, in-repo)
   MO_MEDIA_ROOT    -> MEDIA_ROOT    (corpus drive, /media/dan/data)
+  MO_WEBSITE_DATA_DIR -> WEBSITE_DATA_DIR (website data, read-only here)
 
 Run `python -m mo_pipeline.config` for a self-check that prints every path and
 warns on anything that does not exist.
@@ -41,7 +41,7 @@ BASE_DIR = REPO_ROOT
 
 # ── Corpus drive layout (see mo_pipeline.corpus) ─────────────────────────────
 CATALOG_PATH = MEDIA_ROOT / "corpus.sqlite"
-INBOX_DIR = MEDIA_ROOT / "inbox"          # stage-6 output: inbox/{doi}/{doi}.* awaiting conversion
+INBOX_DIR = MEDIA_ROOT / "inbox"          # stage-5 output: inbox/{doi}/{doi}.* awaiting conversion
 PAPERS_DIR = MEDIA_ROOT / "papers"        # the corpus: one folder per DOI
 SPECIAL_DIR = MEDIA_ROOT / "special"      # pre-pipeline corpora (acm_AIS, questionable)
 LEGACY_DIR = MEDIA_ROOT / "legacy"        # dup losers / oddities from migration
@@ -52,7 +52,7 @@ LEGACY_DIR = MEDIA_ROOT / "legacy"        # dup losers / oddities from migration
 # and correctly shrinks the download queue.
 INGESTED_ROOT = MEDIA_ROOT / "ingested"
 
-# The batch dir stage-6 downloads write to today (pre-reorg). Post-reorg this
+# The batch dir stage-5 downloads write to today (pre-reorg). Post-reorg this
 # becomes INBOX_DIR; kept for the transition.
 CURRENT_BATCH_DIR = MEDIA_ROOT / "8th_batch"
 
@@ -90,7 +90,7 @@ LLM_TIMEOUT_SEC = 120
 SCREENING_PROVIDER = "openrouter"          # "claude_cli" | "openrouter"
 SCREENING_MODEL = "inclusionai/ling-2.6-flash"
 
-# ── Stage-8 core-fields extractor (extract/extract_core.py) ─────────────────
+# ── Stage-7 core-fields extractor (extract/extract_core.py) ─────────────────
 # Single-shot, no-tools sibling of extract.py that records NO statistics. One
 # model call per paper: Python assembles abstract + full text + reference list
 # and parses the JSON reply. Defaults to the Claude CLI on the Max plan (free,
@@ -124,9 +124,7 @@ CANDIDATES_DEDUP_CSV = DATA_DIR / "candidates_dedup.csv"
 CANDIDATES_FILTERED_CSV = DATA_DIR / "candidates_filtered.csv"
 CLASSIFIED_CSV = DATA_DIR / "classified.csv"
 CONFIRMED_REPLICATIONS_CSV = DATA_DIR / "confirmed_replications.csv"
-DOWNLOAD_STATUS_CSV = DATA_DIR / "download_status.csv"
 PROCESSED_MANIFEST_CSV = DATA_DIR / "processed_manifest.csv"
-DIRECT_REPLICATIONS_CSV = DATA_DIR / "direct_replications.csv"
 CITATION_MINED_CSV = DATA_DIR / "citation_mined_candidates.csv"
 
 # ── Keyword yield stats (derived, cached — see discover/keyword_stats.py) ────
@@ -143,22 +141,16 @@ SEARCH_PROGRESS_FILE = PROGRESS_DIR / "search_progress.json"
 CLASSIFY_PROGRESS_FILE = PROGRESS_DIR / "classify_progress.json"
 CITATION_MINE_PROGRESS_FILE = PROGRESS_DIR / "citation_mine_progress.json"
 
-# ── PDF cache locations ──────────────────────────────────────────────────────
-# Local scratch cache of downloaded PDFs (referenced by absolute path; stays in
-# pull_replication_studies/ even after code consolidation).
-PDF_DIR = Path("/home/dan/downloaded_pdfs")
-DIRECT_REPLICATIONS_PDF_DIR = PDF_DIR / "very_likely_direct_replications"
+# ── Stage-5 download selection ───────────────────────────────────────────────
+# Classifier replication_type values stage 5 queues by default (--type overrides,
+# `--type all` disables the filter). The classifier's own vocabulary, not the
+# extraction taxonomy: it also emits systematic / multi-site / blank.
+DOWNLOAD_REPLICATION_TYPES = ("direct", "close", "conceptual")
 
-# ONE canonical search list, replacing 4 divergent copies. Dead entries dropped
-# (7th_batch, pdfgrep_batch no longer exist at MEDIA_ROOT; pull_replication_studies/
-# downloaded_pdfs + manually_classified_PDFs archived — redundant with the corpus).
-# Order = priority.
+# Folders outside the corpus whose PDFs also count as "already have it", so
+# stage 5 does not fetch them again. Order = priority.
 PDF_SEARCH_DIRS = [
-    PDF_DIR,
     OBSERVATORY_ROOT / "PDFs",
-    OBSERVATORY_ROOT / "agent_for_replications" / "ground_truth_dataset_PDFs",
-    OBSERVATORY_ROOT / "pull_long_covid_papers" / "pdfs",
-    CURRENT_BATCH_DIR,
 ]
 
 # ── Website integration (extract reads the ontology; the DB lives here) ──────

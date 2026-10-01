@@ -1,6 +1,6 @@
 """GROBID's lifecycle, in one place.
 
-Stage 7 cannot run without GROBID at :8070, and until now nothing in this repo
+Stage 6 cannot run without GROBID at :8070, and until now nothing in this repo
 started it or told you honestly whether it was working -- `registry._grobid_up`
 reported a bool and the container was left to a human. On 2026-09-03 that cost
 hours: the container sat "Up" for an hour while every host-side request timed
@@ -116,7 +116,7 @@ def start(timeout: float | None = None) -> str:
         #   host produces a container that is reachable from nowhere.
         # --restart unless-stopped: the container this replaced had policy `no`,
         #   so an unrelated `systemctl restart docker` silently killed it and
-        #   stage 7 failed hours later for no visible reason.
+        #   stage 6 failed hours later for no visible reason.
         # --ulimit core=0: GROBID's own advice; its C++ PDF parser can crash and
         #   dump core inside the container.
         _docker("run", "-d", "--name", GROBID_CONTAINER,

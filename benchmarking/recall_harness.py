@@ -61,7 +61,6 @@ FUNNEL = [
     ("candidates_filtered", config.CANDIDATES_FILTERED_CSV, "doi"),
     ("classified", config.CLASSIFIED_CSV, "doi"),
     ("confirmed", config.CONFIRMED_REPLICATIONS_CSV, "doi"),
-    ("direct", config.DIRECT_REPLICATIONS_CSV, "doi"),
 ]
 
 

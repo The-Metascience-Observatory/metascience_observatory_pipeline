@@ -3,7 +3,7 @@
 fetchpdf reads ELSEVIER_TDM_API_KEY once, when it is first imported, and the key
 lives in fetchpdf_grey's .env.local, which only `import fetchpdf_grey` loads. A
 module that imported fetchpdf directly therefore fetched without the key (Elsevier
-supplies most corpus XML), and silently: corpus backfill and stage 5 both did.
+supplies most corpus XML), and silently: corpus backfill and the old direct-replication filter both did.
 Import fetchpdf through here and the order is always right.
 
 Importing fetchpdf_grey also installs its last-resort sources. Callers that must

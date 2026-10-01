@@ -97,7 +97,7 @@ export interface KeywordList {
 
 export interface KeywordQueryStat {
   query: string; raw: number; completed: boolean; apiCount: number;
-  filtered: number; classified: number; confirmed: number; direct: number;
+  filtered: number; classified: number; confirmed: number;
   confirmRate: number | null; zeroYield: boolean; notSearched: boolean;
 }
 export interface KeywordApiStats {
@@ -108,7 +108,7 @@ export interface KeywordStats {
   version: number; generatedAt: string; computeSeconds: number;
   staleness: { notes: string[] };
   totals: { raw: number; filtered: number; classified: number; confirmed: number;
-            direct: number; queriesExpected: number; queriesCompleted: number;
+            queriesExpected: number; queriesCompleted: number;
             zeroYield: number; notSearched: number };
   apis: KeywordApiStats[];
   orphans: Array<{ api: string; query: string; raw: number; inProgress: boolean }>;

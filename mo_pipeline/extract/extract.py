@@ -323,7 +323,7 @@ _HUSK_NO_PDF_CHARS = 500
 def _husk_reason(paper_dir: Path, art: dict) -> str:
     """Why this folder holds no article, or "" when it plausibly does.
 
-    Stage 6 has occasionally stored the wrong file under a DOI (a publisher
+    Stage 5 has occasionally stored the wrong file under a DOI (a publisher
     advertisement, a cover page). Conversion converts whatever it is handed, so
     the folder looks extractable. Deliberately conservative, because refusing a
     real paper costs more than one bad negative: it fires only when the

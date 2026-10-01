@@ -1,4 +1,4 @@
-"""adopt-structured: what stage 7 left in inbox/{doi}/ moves into papers/{doi}/."""
+"""adopt-structured: what stage 6 left in inbox/{doi}/ moves into papers/{doi}/."""
 from pathlib import Path
 
 from mo_pipeline.corpus import adopt
@@ -60,7 +60,7 @@ def test_a_record_with_no_full_text_is_left_alone(tmp_path):
 
 
 def test_an_xml_only_record_gets_the_paper_folder_stage_7_never_made(tmp_path):
-    """No PDF means stage 7 never created papers/{stem}/, so adoption must."""
+    """No PDF means stage 6 never created papers/{stem}/, so adoption must."""
     inbox, papers = _drive(tmp_path)
     _touch(inbox / STEM / f"{STEM}.xml")
     _touch(inbox / STEM / f"{STEM}_from_xml.md")

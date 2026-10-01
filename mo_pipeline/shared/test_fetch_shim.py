@@ -18,7 +18,6 @@ def _has_key_line():
 
 @pytest.mark.skipif(not _has_key_line(), reason="no Elsevier key configured in fetchpdf-grey/.env.local")
 @pytest.mark.parametrize("module", ["mo_pipeline.shared.fetch",
-                                    "mo_pipeline.discover.filter_direct_replications",
                                     "mo_pipeline.discover.download_all_confirmed"])
 def test_entry_point_sees_the_elsevier_key(module):
     env = {k: v for k, v in os.environ.items() if k != "ELSEVIER_TDM_API_KEY"}

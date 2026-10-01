@@ -1,6 +1,6 @@
 # Benchmarking the extraction pipeline
 
-How the Metascience Observatory measures its extraction pipeline (stage 8) and,
+How the Metascience Observatory measures its extraction pipeline (stage 7) and,
 separately, its discovery stages (1 to 5). Everything here was rebuilt on
 2026-09-02 after an audit found the February 2026 numbers unusable; that audit
 and the superseded artifacts are in `archive/legacy_feb2026/README.md`.
@@ -395,7 +395,7 @@ block first, then metrics, 95% CIs, breakdowns, matcher stats), `report.md`,
 - Coverage funnel: papers not converted / not extracted under the tags / bad JSON /
   pipeline said no replications / **wrong document on disk** / scored. The last is a
   paper that reported no replications and whose folder does not hold the article it
-  is filed under (a citing thesis, a publisher advert): stage 6 fetched the wrong
+  is filed under (a citing thesis, a publisher advert): stage 5 fetched the wrong
   file, so it is a coverage gap, not an extractor false negative. Checked only for a
   negative extraction, so a real paper's positive result is never overridden.
 - Entry level (effect-level GT): TP = matched rows, FN = unmatched GT rows, FP =

@@ -25,9 +25,9 @@ Read [README.md](README.md) first.
 
 ## Stage CLIs
 
-All 8 stages are CLI-runnable. There are no console-script entrypoints (`pyproject.toml`
+All 7 stages are CLI-runnable. There are no console-script entrypoints (`pyproject.toml`
 defines no `[project.scripts]`), so it's always `python -m ...`; run from the repo root.
-Stage 7 is the external `pdf4llm` binary, not part of this package. The argv builders in
+Stage 6 is the external `pdf4llm` binary, not part of this package. The argv builders in
 `server/app/registry.py` are the source of truth for the flags the dashboard passes.
 
 | # | Stage | Command |
@@ -36,20 +36,19 @@ Stage 7 is the external `pdf4llm` binary, not part of this package. The argv bui
 | 2 | Dedup | `python -m mo_pipeline.discover.deduplicate_candidates` (no args) |
 | 3 | Prefilter | `python -m mo_pipeline.discover.prefilter_candidates` |
 | 4 | Classify | `python -m mo_pipeline.discover.classify_candidates [--workers N] [--limit N]` |
-| 5 | Filter direct | `python -m mo_pipeline.discover.filter_direct_replications` (no args) |
-| 6 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf] [--cookies F] [--no-cookies] [--cookies-only] [--cookies-max N]` |
-| 7 | Convert | `pdf4llm batch <inbox> -o <papers> --mode full-grobid --workers 4 --movepdf --resume` |
-| 8 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--collate-only]` |
-| 8b | Extract (core, no statistics) | `python -m mo_pipeline.extract.extract_core <papers_dir> [--tag T] [--workers N] [--include-list F] [--provider claude_cli\|openrouter] [--model M] [--dontcheck] [--collate-only] [--show-prompt]` |
+| 5 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--include-published] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf] [--cookies F] [--no-cookies] [--cookies-only] [--cookies-max N]` |
+| 6 | Convert | `pdf4llm batch <inbox> -o <papers> --mode full-grobid --workers 4 --movepdf --resume` |
+| 7 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--collate-only]` |
+| 7b | Extract (core, no statistics) | `python -m mo_pipeline.extract.extract_core <papers_dir> [--tag T] [--workers N] [--include-list F] [--provider claude_cli\|openrouter] [--model M] [--dontcheck] [--collate-only] [--show-prompt]` |
 
-After stage 8's collate, ingest the collated CSV manually:
+After stage 7's collate, ingest the collated CSV manually:
 `cd ../metascience_observatory_website/data_ingestor && python data_ingestor.py <collated.csv> --no-gui`,
 then stamp the corpus with `python -m mo_pipeline.corpus mark-ingested <collated.csv> --db-version ...`.
 
 Running by hand **bypasses the runner's mutex groups** (see invariant 6) — a manual
 launch will happily collide with a detached stage. Check `./dev.sh status` first.
-Stage 7 also needs GROBID up at `localhost:8070`; the CLI won't start it (the dashboard
-probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeline.corpus
+Stage 6 also needs GROBID up at `localhost:8070`; the CLI won't start it (the dashboard
+probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeline.corpus
 <cmd>`, `mo_pipeline/discover/doi_runs.py`, and the `label_centrality/` pilot modules.
 
 ## Invariants that matter
@@ -95,7 +94,11 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    They survive API restarts; `dev.sh down` never kills them. Mutex groups: `claude_cli`
    (classify+extract share Max rate limits), `heavy_ram` (dedup+convert), `self` (per-stage
    singleton, NOT cross-blocking).
-7. **Stage 6 fetches structured full text AND the PDF, one folder per record.**
+7. **Stage 5 fetches structured full text AND the PDF, one folder per record.**
+   It queues confirmed replications of `config.DOWNLOAD_REPLICATION_TYPES`
+   (direct, close, conceptual; `--type all` lifts it) minus DOIs already in the
+   published database (`shared/production_db.published_dois`; `--include-published`
+   keeps them). The old direct-only "filter_direct" stage was removed 2026-10-01.
    fetchpdf's `--get-xml-or-html` (on by default; `--no-download-xml` opts out)
    fills two goals per record — `{stem}.xml`, else publisher
    `{stem}.fulltext.html`, plus `{stem}.pdf` — written to `inbox/{stem}/`
@@ -105,7 +108,7 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    Goals are filled per goal from disk, so the same walk backfills:
    `--backfill-structured` fetches only the missing XML/HTML half and
    `--backfill-pdf` only the missing PDF half for records already on the drive
-   (`papers/` and `inbox/`, same shape), re-downloading nothing. Stage 7 moves
+   (`papers/` and `inbox/`, same shape), re-downloading nothing. Stage 6 moves
    only the PDF into `papers/{doi}/` (pdf4llm globs `**/*.pdf` and names the
    output by PDF stem), so run `python -m mo_pipeline.corpus adopt-structured
    --execute` after a convert to bring the rest of the folder across. The library
@@ -117,22 +120,22 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    Institutional access (fetchpdf's cookie route, Wiley/T&F/SAGE/Springer/
    Royal Society/Hogrefe/INFORMS) is OFF until `get-cookies setup` has been run;
    after that every fetch tries it right after Unpaywall, reading the cookies
-   live from the configured browser (`~/.config/fetchpdf/access.json`). Stage 6:
+   live from the configured browser (`~/.config/fetchpdf/access.json`). Stage 5:
    `--cookies F` overrides the source, `--no-cookies` skips it, `--cookies-only`
    runs it alone (no grey, PDF-only) for DOIs whose chain already failed, and
    `--cookies-max` caps it (default 5000).
    Every run ends with fetchpdf's per-source cost table (calls/hits/seconds) and
    leaves `source_counts.json` at the inbox root — read it before cutting a source.
 9. **Extraction reads a tier ladder, and a rendition must pass a prose gate.**
-   Stage 8's default mode inventories the folder (`extract.paper_artifacts`) and
+   Stage 7's default mode inventories the folder (`extract.paper_artifacts`) and
    names one PRIMARY: `{stem}_from_xml.md` > `{stem}_from_html.md` > `body.md`,
    with the PDF always last. Lower tiers stay available as *gated* fallbacks —
    image-tables, and a bibliography the higher tiers lack. Renditions are written
-   by exactly one writer, `corpus.render.render_dirs` — called by stage 6 on the
+   by exactly one writer, `corpus.render.render_dirs` — called by stage 5 on the
    record folders it just filled (default; `--no-to-markdown` skips it) and by
    `python -m mo_pipeline.corpus render-markdown --execute` over the drive —
    and never by fetchpdf's own `--to-markdown`, which converts unconditionally
-   while stage 8 trusts any rendition it finds. The conversion is a **two-rung
+   while stage 7 trusts any rendition it finds. The conversion is a **two-rung
    ladder**: fetchpdf first (prose → Markdown, every table → canonical HTML so
    colspan/rowspan survive; Elsevier `ce:`/CALS documents included since
    2026-09-02), and where the prose gate refuses that output,
@@ -179,7 +182,7 @@ malformed-name leftovers, reviewable), `corpus.sqlite`, and `migration_{plan,log
 Status is derived from files present: downloaded → converted → screened → extracted →
 ingested. Corpus CLI (`python -m mo_pipeline.corpus <cmd>`): `scan`, `stats`, `coverage`,
 `include-list` (feeds `extract --include-list`), `mark-ingested` (stamp after a
-manual ingest run), `adopt-structured` (move what stage 7 left in `inbox/{doi}/`
+manual ingest run), `adopt-structured` (move what stage 6 left in `inbox/{doi}/`
 into `papers/{doi}/` — dry-run unless `--execute`), `inbox-subfolders` (one-time:
 move flat pre-layout inbox files into `inbox/{doi}/` — dry-run unless `--execute`),
 `render-markdown` (write the missing `_from_xml.md`/`_from_html.md` for XML/HTML
@@ -195,9 +198,9 @@ so an XML-only paper is visible to `include-list --status converted`.
 (view/edit the four search-keyword lists), `/doi-runs` (run download→convert→extract→
 collate on an explicit DOI list — paste/upload/point at a CSV, DOI column
 auto-detected; runs live at `data/doi_runs/<slug>/`, extraction tag = slug; backed by
-`discover/doi_runs.py` + `--doi-csv` on stage 6; the resulting collated CSV is ingested
+`discover/doi_runs.py` + `--doi-csv` on stage 5; the resulting collated CSV is ingested
 manually). Frontend proxies `/api/*` to the FastAPI
-app (`server/app/main.py`); the 8-stage registry + probes are in `server/app/registry.py`.
+app (`server/app/main.py`); the 7-stage registry + probes are in `server/app/registry.py`.
 
 ## Taxonomy (authoritative in `prompts/prompt_shared_core.md`)
 
@@ -214,7 +217,7 @@ Do not duplicate these definitions elsewhere.
   every converter (Wiley's `<component>` schema does), and 429 folders on
   2026-09-03 held markup and nothing else, so the alternative was no full text
   at all. Raw markup is ~3.7x the tokens of its rendition, so it is offered only
-  when nothing else exists, and never under `--force-tier`. Stage 7 (`pdf4llm batch`) still converts PDFs only.
+  when nothing else exists, and never under `--force-tier`. Stage 6 (`pdf4llm batch`) still converts PDFs only.
   The raw `{stem}.xml` stays addressable for exactly one job: **it holds the
   reference list and the rendition does not**. fetchpdf's converter walks JATS
   `<body>`, and a JATS bibliography lives in `<back><ref-list>` — so a
@@ -226,7 +229,7 @@ Do not duplicate these definitions elsewhere.
   Elsevier tables live) are emitted at their `float-anchor`. Renditions written
   before that date for these files do not exist (the gate refused them), so
   `render-markdown --execute` fills them in; nothing needs `--overwrite`.
-- **Stat-free extraction has two shapes.** `extract_core.py` (stage 8b) is single-shot:
+- **Stat-free extraction has two shapes.** `extract_core.py` (stage 7b) is single-shot:
   Python assembles abstract + full text + reference list (references.json →
   references.md → raw XML bibliography → PDF tail pages) and makes ONE no-tools call
   via `discover/screening_backend.py` (`claude_cli` default, `openrouter` optional), then
@@ -279,4 +282,4 @@ gold-set toolchain), `matching.py` (DOI -> Haiku judge -> one-to-one assignment)
 skip would silently drop them); `harness.py run` does this for you.
 `mo_pipeline/label_centrality/` is an emerging pilot (claude-vs-human agreement on whether
 a database row's claim is central to its original paper; rubric in
-`prompts/prompt_centrality.md`) — not yet part of the main 8-stage flow.
+`prompts/prompt_centrality.md`) — not yet part of the main 7-stage flow.

@@ -1,5 +1,5 @@
 """
-The 8-stage pipeline registry + per-stage progress probes.
+The 7-stage pipeline registry + per-stage progress probes.
 
 Ingestion into the website database is no longer a stage; it is run manually
 from metascience_observatory_website/data_ingestor/ against the collated CSV.
@@ -114,16 +114,6 @@ def probe_classify(_state) -> dict:
                  detail=f"{done}/{tot} classified, {confirmed or 0} confirmed replications")
 
 
-def probe_filter_direct(_state) -> dict:
-    out = config.DIRECT_REPLICATIONS_CSV
-    n = _csv_rows(out)
-    if n is None:
-        return _prog("idle", detail="not run")
-    pdfs = len(list(config.DIRECT_REPLICATIONS_PDF_DIR.glob("*.pdf"))) \
-        if config.DIRECT_REPLICATIONS_PDF_DIR.exists() else 0
-    return _prog("done", n, n, detail=f"{n} direct replications, {pdfs} PDFs")
-
-
 def _inbox_count(inbox, pattern: str) -> int:
     """Files matching `pattern` in the inbox: one folder per record, plus the
     root for flat leftovers from before `corpus inbox-subfolders`."""
@@ -135,10 +125,10 @@ def _inbox_count(inbox, pattern: str) -> int:
 def probe_download(_state) -> dict:
     inbox = config.INBOX_DIR
     have = _inbox_count(inbox, "*.pdf")
-    # Stage 6 also retrieves a structured copy per record; only the PDFs are
-    # what stage 7 converts, so they alone drive the count and the status.
+    # Stage 5 also retrieves a structured copy per record; only the PDFs are
+    # what stage 6 converts, so they alone drive the count and the status.
     structured = _inbox_count(inbox, "*.xml") + _inbox_count(inbox, "*.fulltext.html")
-    # The markdown renditions of that structured half are what stage 8 reads as
+    # The markdown renditions of that structured half are what stage 7 reads as
     # its primary full text, so a structured count without them overstates what
     # extraction can actually use.
     rendered = _inbox_count(inbox, "*_from_xml.md") + _inbox_count(inbox, "*_from_html.md")
@@ -282,6 +272,8 @@ def _download_argv(params, state):
     argv += ["--workers", str(params.get("workers", 4))]
     if params.get("legalonly"):
         argv += ["--legalonly"]
+    if params.get("include_published"):
+        argv += ["--include-published"]
     if params.get("cookies"):
         argv += ["--cookies", str(Path(str(params["cookies"])).expanduser())]
     if params.get("no_cookies"):
@@ -338,11 +330,11 @@ STAGES: list[Stage] = [
           _classify_argv, [Param("workers", "int", 20, 1, 40, "concurrent claude calls"),
                            Param("limit", "int", None, help="only first N unclassified")],
           ["self", "claude_cli"], probe_classify),
-    Stage("filter_direct", 5, "Filter direct", "Isolate high-confidence direct replications",
-          _module_argv("mo_pipeline.discover.filter_direct_replications"), [],
-          ["self"], probe_filter_direct),
-    Stage("download", 6, "Download PDFs", "Fetch PDFs for confirmed replications into inbox/",
-          _download_argv, [Param("type", "str", "", help="filter by replication type"),
+    Stage("download", 5, "Download", "Fetch full text for confirmed replications into inbox/",
+          _download_argv, [Param("type", "str", ",".join(config.DOWNLOAD_REPLICATION_TYPES),
+                                 help="replication types, comma-separated ('all' = no filter)"),
+                           Param("include_published", "bool", False,
+                                 help="also fetch papers already in the published database"),
                            Param("limit", "int", None, help="max DOIs to attempt"),
                            Param("workers", "int", 4, 1, 8, "parallel downloads"),
                            Param("legalonly", "bool", False, help="skip Sci-Hub"),
@@ -356,10 +348,10 @@ STAGES: list[Stage] = [
           # `inbox`: convert moves PDFs out of inbox/ (--movepdf) while download
           # writes into it; the two must never overlap.
           ["self", "inbox"], probe_download),
-    Stage("convert", 7, "Convert (pdf4llm)", "PDF -> abstract/body/refs into papers/",
+    Stage("convert", 6, "Convert (pdf4llm)", "PDF -> abstract/body/refs into papers/",
           _convert_argv, [Param("workers", "int", 4, 1, 4, "capped at 4 (RAM)")],
           ["self", "heavy_ram", "inbox"], probe_convert),
-    Stage("extract", 8, "Extract", "LLM extract structured replication records (Sonnet)",
+    Stage("extract", 7, "Extract", "LLM extract structured replication records (Sonnet)",
           _extract_argv, [Param("tag", "str", "", help="run tag (per-run resume)"),
                           Param("workers", "int", 4, 1, 8, "parallel papers"),
                           Param("include_list", "str", "", help="path to include-list file"),
