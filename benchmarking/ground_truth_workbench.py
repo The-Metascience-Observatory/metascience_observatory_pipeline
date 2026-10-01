@@ -5,7 +5,6 @@ effect agreement. Human decisions live separately and are never regenerated.
 """
 import argparse
 from collections import Counter, defaultdict
-import csv
 import hashlib
 import json
 from pathlib import Path
@@ -22,11 +21,7 @@ NOTICE = '10.31234/osf.io/esu9z'
 # ai_adjudicated:<model> provenance and never mixed with human:* rows.
 REVIEWER_KINDS = ('human', 'ai_adjudicator')
 SCARCITY = '10.1073/pnas.2103313118'
-
-
-def read_csv(path):
-    with path.open(newline='') as stream:
-        return list(csv.DictReader(stream))
+read_csv = harness.read_csv   # module attribute so tests can stub it
 
 
 def digest(value):

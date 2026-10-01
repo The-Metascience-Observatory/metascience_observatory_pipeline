@@ -39,15 +39,12 @@ BENCH_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BENCH_DIR.parent))
 sys.path.insert(1, str(BENCH_DIR))
 
-from harness import _load_xlsx as load_ground_truth_xlsx  # noqa: E402
+from harness import FLORA_XLSX, FRED_XLSX, _load_xlsx as load_ground_truth_xlsx  # noqa: E402
 
 from mo_pipeline import config  # noqa: E402
 from mo_pipeline.corpus.models import normalize_doi  # noqa: E402
 
 csv.field_size_limit(sys.maxsize)
-
-FLORA_XLSX = BENCH_DIR.parent / "flora_replications_for_extraction_testing.xlsx"
-FRED_XLSX = BENCH_DIR.parent / "fred_v2_4_2_replications_for_extraction_testing.xlsx"
 
 # Rows whose `source` marks them as bulk-imported rather than discovered. Counting
 # these reports ~100% coverage instead of the real ~7%, because the DB simply

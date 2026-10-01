@@ -43,7 +43,6 @@ import urllib.request
 import math
 import random
 import re
-import sqlite3
 import subprocess
 import sys
 import time
@@ -94,8 +93,8 @@ RESULTS_DIR = config.BENCH_RESULTS_DIR
 CODING_DIR = GOLD_DIR / "coding"
 CODEBOOK = BENCH_DIR / "codebook.md"
 TEST_LEDGER = RESULTS_DIR / "test_ledger.jsonl"
-FLORA_XLSX = BENCH_DIR.parent / "flora_replications_for_extraction_testing.xlsx"
-FRED_XLSX = BENCH_DIR.parent / "fred_v2_4_2_replications_for_extraction_testing.xlsx"
+FLORA_XLSX = BENCH_DIR / "flora_replications_for_extraction_testing.xlsx"
+FRED_XLSX = BENCH_DIR / "fred_v2_4_2_replications_for_extraction_testing.xlsx"
 
 RESULT_VALUES = ("success", "failure", "inconclusive", "reversal")
 TYPE_VALUES = ("direct", "close experiment", "close extension", "conceptual")
@@ -1511,10 +1510,10 @@ def cmd_import_fred(args) -> None:
 
 # ── sampling frame (Phase 2b) ────────────────────────────────────────────────
 def _catalog() -> dict[str, dict]:
-    con = sqlite3.connect(config.CATALOG_PATH)
+    from mo_pipeline.corpus import catalog   # connect() sets busy_timeout: a scan may be writing
+    con = catalog.connect()
     try:
-        cols = [r[1] for r in con.execute("pragma table_info(papers)")]
-        return {r[cols.index("doi")].lower(): dict(zip(cols, r)) for r in con.execute("select * from papers")}
+        return {r["doi"].lower(): dict(r) for r in con.execute("select * from papers")}
     finally:
         con.close()
 
