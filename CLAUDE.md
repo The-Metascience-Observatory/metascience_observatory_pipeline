@@ -37,7 +37,7 @@ Stage 7 is the external `pdf4llm` binary, not part of this package. The argv bui
 | 3 | Prefilter | `python -m mo_pipeline.discover.prefilter_candidates` |
 | 4 | Classify | `python -m mo_pipeline.discover.classify_candidates [--workers N] [--limit N]` |
 | 5 | Filter direct | `python -m mo_pipeline.discover.filter_direct_replications` (no args) |
-| 6 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf]` |
+| 6 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf] [--cookies F] [--no-cookies] [--cookies-only] [--cookies-max N]` |
 | 7 | Convert | `pdf4llm batch <inbox> -o <papers> --mode full-grobid --workers 4 --movepdf --resume` |
 | 8 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--collate-only]` |
 | 8b | Extract (core, no statistics) | `python -m mo_pipeline.extract.extract_core <papers_dir> [--tag T] [--workers N] [--include-list F] [--provider claude_cli\|openrouter] [--model M] [--dontcheck] [--collate-only] [--show-prompt]` |
@@ -114,6 +114,13 @@ probe only reports it). Adjacent CLIs outside the 8 stages: `python -m mo_pipeli
    Fetch through `mo_pipeline/shared/fetch.py`, never `from fetchpdf import` directly:
    fetchpdf reads the Elsevier key at first import, and only fetchpdf_grey loads it.
    Records downloaded flat before this layout: `corpus inbox-subfolders`.
+   Institutional access (fetchpdf's cookie route, Wiley/T&F/SAGE/Springer/
+   Royal Society/Hogrefe/INFORMS) is OFF until `get-cookies setup` has been run;
+   after that every fetch tries it right after Unpaywall, reading the cookies
+   live from the configured browser (`~/.config/fetchpdf/access.json`). Stage 6:
+   `--cookies F` overrides the source, `--no-cookies` skips it, `--cookies-only`
+   runs it alone (no grey, PDF-only) for DOIs whose chain already failed, and
+   `--cookies-max` caps it (default 5000).
    Every run ends with fetchpdf's per-source cost table (calls/hits/seconds) and
    leaves `source_counts.json` at the inbox root — read it before cutting a source.
 9. **Extraction reads a tier ladder, and a rendition must pass a prose gate.**

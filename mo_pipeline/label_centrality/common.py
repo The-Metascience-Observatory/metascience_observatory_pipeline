@@ -17,11 +17,38 @@ from pathlib import Path
 from mo_pipeline import config
 
 OUT_DIR = config.DATA_DIR / "label_centrality"
-MANIFEST_PATH = OUT_DIR / "pilot_manifest.json"
-ROWS_CSV_PATH = OUT_DIR / "pilot_rows_UNBLINDED_do_not_show_labelers.csv"
+
+
+class Paths:
+    """File paths for one labeling run. run='pilot' is the original 150-row
+    stratified sample; run='enriched' is the all-rows-from-multi-finding-papers
+    sample. The abstracts cache is shared across runs (same OpenAlex data)."""
+
+    def __init__(self, run: str = "pilot"):
+        self.run = run
+        self.manifest = OUT_DIR / f"{run}_manifest.json"
+        self.rows_csv = OUT_DIR / f"{run}_rows_UNBLINDED_do_not_show_labelers.csv"
+        if run == "pilot":
+            # preserve the filenames already delivered to Dan
+            self.labels_csv = OUT_DIR / "centrality_labels_pilot.csv"
+            self.validation_sheet = OUT_DIR / "validation_sheet.csv"
+        else:
+            self.labels_csv = OUT_DIR / f"{run}_centrality_labels.csv"
+            self.validation_sheet = OUT_DIR / f"{run}_validation_sheet.csv"
+
+    def load_manifest(self) -> dict:
+        manifest = json.loads(self.manifest.read_text())
+        assert_manifest_blinded(manifest)
+        return manifest
+
+
 ABSTRACTS_PATH = OUT_DIR / "abstracts_cache.json"
-LABELS_CSV_PATH = OUT_DIR / "centrality_labels_pilot.csv"
-VALIDATION_SHEET_PATH = OUT_DIR / "validation_sheet.csv"
+
+# Back-compat constants for the original pilot run.
+MANIFEST_PATH = Paths("pilot").manifest
+ROWS_CSV_PATH = Paths("pilot").rows_csv
+LABELS_CSV_PATH = OUT_DIR / "centrality_labels_pilot.csv"  # original filename
+VALIDATION_SHEET_PATH = OUT_DIR / "validation_sheet.csv"   # original filename
 
 # The only keys allowed anywhere in the blinded manifest. Everything a labeler
 # sees is built from the manifest, so this whitelist IS the blinding guarantee.

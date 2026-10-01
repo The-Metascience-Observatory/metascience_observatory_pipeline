@@ -12,10 +12,6 @@ const STEPS = (r: DoiRun) => [
     params: { include_list: r.status.paths.include_list, tag: r.slug } },
   { label: "4. Collate", stage: "extract",
     params: { collate_only: true, tag: r.slug } },
-  { label: "5. Ingest", stage: "ingest",
-    params: { input_csv: r.status.collated_csv ?? "" },
-    disabled: !r.status.collated_csv,
-    title: r.status.collated_csv ? undefined : "run Collate first" },
 ];
 
 function Stat({ label, value, tone = "" }: { label: string; value: number | string; tone?: string }) {
@@ -67,8 +63,8 @@ function RunCard({ r, runningStages, onAction }:
         {STEPS(r).map((step) => {
           const running = runningStages[step.stage];
           return (
-            <button key={step.label} disabled={busy || running || step.disabled}
-              title={step.title ?? (running ? `stage '${step.stage}' is already running` : undefined)}
+            <button key={step.label} disabled={busy || running}
+              title={running ? `stage '${step.stage}' is already running` : undefined}
               onClick={() => act(() => api.run(step.stage, step.params))}
               className="text-xs rounded border border-emerald-300 text-emerald-700 px-2 py-1 hover:bg-emerald-50 dark:hover:bg-emerald-950 disabled:opacity-40">
               {step.label}{running ? " (running…)" : ""}
@@ -78,10 +74,10 @@ function RunCard({ r, runningStages, onAction }:
       </div>
       <p className="text-xs text-slate-500">
         Logs on the stage pages:{" "}
-        {["download", "convert", "extract", "ingest"].map((id, i) => (
+        {["download", "convert", "extract"].map((id, i) => (
           <span key={id}>{i > 0 && " · "}<Link className="hover:underline" href={`/stages/${id}`}>{id}</Link></span>
         ))}
-        {s.collated_csv && <> · collated CSV: <code className="font-mono">{s.collated_csv}</code></>}
+        {s.collated_csv && <> · collated CSV (ready for manual ingest): <code className="font-mono">{s.collated_csv}</code></>}
       </p>
     </div>
   );
@@ -145,7 +141,8 @@ export default function DoiRuns() {
         <h1 className="text-lg font-semibold">DOI runs</h1>
         <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
           Run the pipeline on an explicit set of DOIs (e.g. a candidate CSV), bypassing
-          search/classify. Download → convert → extract (tagged with the run name) → collate → ingest.
+          search/classify. Download → convert → extract (tagged with the run name) → collate.
+          Ingest the collated CSV manually with metascience_observatory_website/data_ingestor/data_ingestor.py.
         </p>
       </div>
       {err && <p className="text-sm text-rose-500">Can&apos;t reach backend: {err}</p>}

@@ -54,7 +54,7 @@ def main(argv=None):
                              "XML/HTML already on the drive (dry-run unless --execute)")
     rm.add_argument("--execute", action="store_true", help="actually write the markdown")
     rm.add_argument("--limit", type=int, default=None,
-                    help="convert at most N records (the drive is slow; start small)")
+                    help="convert at most N records (start small)")
     rm.add_argument("--overwrite", action="store_true",
                     help="re-render artifacts that already have a rendition")
     rm.add_argument("-v", "--verbose", action="store_true",

@@ -96,3 +96,44 @@ def reset(key: str | None = None) -> dict[str, list[str]]:
     KEYWORDS_PATH.parent.mkdir(parents=True, exist_ok=True)
     KEYWORDS_PATH.write_text(json.dumps(overlay, indent=2))
     return effective()
+
+
+# ── Per-API query fan-out ────────────────────────────────────────────────────
+# MUST mirror the derivations in search_for_replication_studies.py
+# (OPENALEX_TITLE_SEARCHES = replication_core + genetics_queries, reused by
+# openalex_broad and crossref; SOCIAL_SCI_QUERIES = replication_core, feeding
+# osf and semantic_scholar). Keep in sync if a source is added there.
+API_FANOUT: list[tuple[str, str, list[str]]] = [
+    ("pubmed",           "PubMed",           ["pubmed_queries"]),
+    ("openalex",         "OpenAlex",         ["replication_core", "genetics_queries"]),
+    ("openalex_broad",   "OpenAlex (broad)", ["replication_core", "genetics_queries"]),
+    ("europepmc",        "Europe PMC",       ["europepmc_queries"]),
+    ("crossref",         "Crossref",         ["replication_core", "genetics_queries"]),
+    ("osf",              "OSF",              ["replication_core"]),
+    ("semantic_scholar", "Semantic Scholar", ["replication_core"]),
+]
+
+
+def ensure_defaults() -> bool:
+    """Make sure the code defaults are registered, importing the search module
+    if needed (heavy: requests + Bio, ~0.5 s once). Function-level import so
+    there is no cycle and callers like the API registry stay light to import."""
+    if not _DEFAULTS:
+        try:
+            from mo_pipeline.discover import search_for_replication_studies  # noqa: F401
+        except Exception:
+            return False
+    return bool(_DEFAULTS)
+
+
+def expected_queries() -> dict[str, list[str]]:
+    """api name -> ordered effective query list (the real per-API fan-out).
+    Reads the overlay fresh, so dashboard edits are reflected immediately."""
+    ensure_defaults()
+    eff = effective()
+    return {api: [q for k in keys for q in eff.get(k, [])]
+            for api, _label, keys in API_FANOUT}
+
+
+def total_effective_queries() -> int:
+    return sum(len(v) for v in expected_queries().values())

@@ -1,7 +1,68 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { api, PROBE_COLOR, type StageStatus, type System, type PipelineState } from "@/lib/api";
+import { api, PROBE_COLOR, type StageStatus, type System, type PipelineState, type ArtifactInfo } from "@/lib/api";
+
+function fmtBytes(n: number | null) {
+  if (n == null) return "—";
+  if (n >= 1e9) return `${(n / 1e9).toFixed(1)} GB`;
+  if (n >= 1e6) return `${(n / 1e6).toFixed(1)} MB`;
+  if (n >= 1e3) return `${(n / 1e3).toFixed(1)} KB`;
+  return `${n} B`;
+}
+
+function AgeBadge({ mtime }: { mtime: number | null }) {
+  if (mtime == null) {
+    return <span className="text-[10px] rounded px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500">missing</span>;
+  }
+  const days = (Date.now() / 1000 - mtime) / 86400;
+  const label = days < 1 ? "today" : `${Math.floor(days)}d ago`;
+  const cls = days < 7
+    ? "bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300"
+    : days < 30
+      ? "bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300"
+      : "bg-rose-100 dark:bg-rose-900 text-rose-700 dark:text-rose-300";
+  return <span className={`text-[10px] rounded px-1.5 py-0.5 whitespace-nowrap ${cls}`}>{label}</span>;
+}
+
+function ArtifactsPanel({ artifacts, warnings }: { artifacts: ArtifactInfo[]; warnings: string[] }) {
+  if (!artifacts.length) return null;
+  return (
+    <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-4">
+      <h2 className="text-sm font-medium">Data artifacts</h2>
+      {warnings.length > 0 && (
+        <div className="mt-2 rounded border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 px-3 py-2 text-xs text-amber-800 dark:text-amber-300 space-y-0.5">
+          {warnings.map((w) => <p key={w}>{w}</p>)}
+        </div>
+      )}
+      <table className="mt-2 w-full text-xs">
+        <thead>
+          <tr className="text-left text-slate-500 border-b border-slate-200 dark:border-slate-800">
+            <th className="py-1 pr-2 font-normal">File</th>
+            <th className="py-1 px-2 font-normal">Stage</th>
+            <th className="py-1 px-2 font-normal text-right">Size</th>
+            <th className="py-1 pl-2 font-normal">Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          {artifacts.map((a) => (
+            <tr key={a.name} className="border-b border-slate-100 dark:border-slate-800/60">
+              <td className="py-1 pr-2 font-mono">{a.name}</td>
+              <td className="py-1 px-2 text-slate-500">{a.stage}</td>
+              <td className="py-1 px-2 text-right tabular-nums">{fmtBytes(a.size)}</td>
+              <td className="py-1 pl-2">
+                <AgeBadge mtime={a.mtime} />
+                {a.mtime != null && (
+                  <span className="ml-1.5 text-slate-400">{new Date(a.mtime * 1000).toISOString().slice(0, 10)}</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 function ProgressBar({ done, total }: { done?: number; total?: number }) {
   if (done == null || !total) return null;
@@ -75,12 +136,13 @@ export default function Home() {
   const [batches, setBatches] = useState<string[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [backendUp, setBackendUp] = useState(true);
+  const [arts, setArts] = useState<{ artifacts: ArtifactInfo[]; warnings: string[] }>({ artifacts: [], warnings: [] });
 
   const refresh = useCallback(async () => {
     try {
-      const [st, sy, ba] = await Promise.all([api.stages(), api.system(), api.batch()]);
+      const [st, sy, ba, ar] = await Promise.all([api.stages(), api.system(), api.batch(), api.artifacts()]);
       setStages(st.stages); setPstate(st.state); setSys(sy);
-      setBatches(ba.available_batches); setErr(null); setBackendUp(true);
+      setBatches(ba.available_batches); setArts(ar); setErr(null); setBackendUp(true);
     } catch (e) {
       setErr((e as Error).message); setBackendUp(false);
     }
@@ -129,6 +191,7 @@ export default function Home() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {stages.map((s) => <StageCard key={s.id} s={s} onAction={refresh} />)}
       </div>
+      <ArtifactsPanel artifacts={arts.artifacts} warnings={arts.warnings} />
     </div>
   );
 }

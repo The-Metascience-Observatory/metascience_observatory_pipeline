@@ -17,7 +17,11 @@ def _get_openalex_api_key():
     if not api_key:
         # Try to load from .env.local in parent directory
         try:
-            env_path = Path(__file__).parent.parent / '.env.local'
+            # parents[2] is the repo root. `.parent.parent` was the package
+            # directory, so the key was never found and every OpenAlex call ran
+            # anonymous -- which stopped working outright once OpenAlex moved to
+            # a daily budget ($0 for anonymous: "Insufficient budget", HTTP 429).
+            env_path = Path(__file__).resolve().parents[2] / '.env.local'
             if env_path.exists():
                 with open(env_path) as f:
                     for line in f:
@@ -36,7 +40,11 @@ def _get_env_key(key_name):
     val = os.getenv(key_name)
     if not val:
         try:
-            env_path = Path(__file__).parent.parent / '.env.local'
+            # parents[2] is the repo root. `.parent.parent` was the package
+            # directory, so the key was never found and every OpenAlex call ran
+            # anonymous -- which stopped working outright once OpenAlex moved to
+            # a daily budget ($0 for anonymous: "Insufficient budget", HTTP 429).
+            env_path = Path(__file__).resolve().parents[2] / '.env.local'
             if env_path.exists():
                 with open(env_path) as f:
                     for line in f:

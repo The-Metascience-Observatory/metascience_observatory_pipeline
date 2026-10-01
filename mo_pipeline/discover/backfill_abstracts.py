@@ -34,6 +34,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+from mo_pipeline import config
+
 try:
     from fetchpdf.fetch_abstract_from_doi import fetch_abstract_from_doi
 except ImportError:  # fail here, not inside a worker thread where it cannot exit cleanly
@@ -55,7 +57,7 @@ _print_lock = threading.Lock()
 def _load_cache(path: Path) -> list[dict]:
     if not path.exists():
         sys.exit(f"cache not found: {path}\nRun the search stages first, or restore the mirror "
-                 f"from /media/dan/500Gb/metascience_observatory_pdfs/cache/")
+                 f"from {config.MEDIA_ROOT / 'cache'}/")
     with gzip.open(path, "rt", encoding="utf-8") as fh:
         return [json.loads(line) for line in fh]
 

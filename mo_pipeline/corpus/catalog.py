@@ -5,8 +5,8 @@ The catalog is an INDEX, never the source of truth: `scan()` rebuilds it from
 the on-disk paper folders (reading each folder's status + findings via
 `models.scan_folder`). Stages update rows incrementally as they process papers;
 `scan()` reconciles from scratch. After a scan, a flat CSV snapshot is exported
-into the Dropbox-backed repo so the corpus stays visible even when the 99%-full
-external drive is unmounted.
+into the Dropbox-backed repo so the corpus stays visible even when the corpus
+drive is unmounted.
 """
 from __future__ import annotations
 
@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS papers (
     ingested_db_version TEXT,
     tags                TEXT,
     has_pdf             INTEGER DEFAULT 0,
+    has_structured      INTEGER DEFAULT 0,
+    has_rendition       INTEGER DEFAULT 0,
     updated_at          TEXT DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_status ON papers(status);
@@ -43,7 +45,17 @@ CREATE INDEX IF NOT EXISTS idx_source_batch ON papers(source_batch);
 
 _COLUMNS = ["doi", "folder", "status", "contains_replications", "n_replications",
             "latest_tag", "ai_version", "source_batch", "screened_confidence",
-            "ingested_db_version", "tags", "has_pdf"]
+            "ingested_db_version", "tags", "has_pdf", "has_structured",
+            "has_rendition"]
+
+#: Columns added after the first schema shipped. CREATE TABLE IF NOT EXISTS is a
+#: no-op on an existing corpus.sqlite, so a new column has to be ALTERed in or
+#: every write fails with "no such column". Values are backfilled by the next
+#: `corpus scan`; the catalog is an index, never truth (see CLAUDE.md).
+_ADDED_COLUMNS = (
+    ("has_structured", "INTEGER DEFAULT 0"),
+    ("has_rendition", "INTEGER DEFAULT 0"),
+)
 
 SNAPSHOT_CSV = config.DATA_DIR / "corpus_snapshot.csv"
 
@@ -53,10 +65,15 @@ def connect(path: Path | None = None) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path, timeout=30)
     conn.row_factory = sqlite3.Row
-    # A long scan-write contends with the dashboard's /corpus reads on the slow
-    # USB drive; wait for the lock instead of failing with "database is locked".
+    # A long scan-write contends with the dashboard's /corpus reads; wait for
+    # the lock instead of failing with "database is locked".
     conn.execute("PRAGMA busy_timeout=30000")
     conn.executescript(_SCHEMA)
+    existing = {r["name"] for r in conn.execute("PRAGMA table_info(papers)")}
+    for name, decl in _ADDED_COLUMNS:
+        if name not in existing:
+            conn.execute(f"ALTER TABLE papers ADD COLUMN {name} {decl}")
+    conn.commit()
     return conn
 
 
@@ -64,7 +81,8 @@ def _to_row(p: Paper) -> tuple:
     cr = None if p.contains_replications is None else int(bool(p.contains_replications))
     return (p.doi, p.folder, p.status, cr, p.n_replications, p.latest_tag,
             p.ai_version, p.source_batch, p.screened_confidence,
-            p.ingested_db_version, ",".join(p.tags), int(p.has_pdf))
+            p.ingested_db_version, ",".join(p.tags), int(p.has_pdf),
+            int(p.has_structured), int(p.has_rendition))
 
 
 def upsert(conn: sqlite3.Connection, p: Paper) -> None:
@@ -133,6 +151,10 @@ def stats(conn: sqlite3.Connection) -> dict:
         "without_replications": one("SELECT COUNT(*) FROM papers WHERE contains_replications=0"),
         "total_replication_entries": one("SELECT COALESCE(SUM(n_replications),0) FROM papers"),
         "ingested": one("SELECT COUNT(*) FROM papers WHERE ingested_db_version IS NOT NULL"),
+        # Extraction's tier ladder: a rendition is the primary full text, so the
+        # gap between these two is the backlog for `corpus render-markdown`.
+        "with_structured": one("SELECT COUNT(*) FROM papers WHERE has_structured=1"),
+        "with_rendition": one("SELECT COUNT(*) FROM papers WHERE has_rendition=1"),
     }
 
 

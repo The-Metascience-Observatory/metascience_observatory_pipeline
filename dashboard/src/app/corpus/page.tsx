@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { api, type CorpusResponse } from "@/lib/api";
+import { api, type CorpusResponse, type PaperTypeOption } from "@/lib/api";
 
 const STATUSES = ["", "downloaded", "converted", "screened", "extracted", "ingested"];
 
@@ -9,6 +9,8 @@ export default function Corpus() {
   const [status, setStatus] = useState("");
   const [reps, setReps] = useState("");
   const [err, setErr] = useState<string | null>(null);
+  const [types, setTypes] = useState<PaperTypeOption[]>([]);
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   const refresh = useCallback(async () => {
     try {
@@ -20,6 +22,14 @@ export default function Corpus() {
   }, [status, reps]);
 
   useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => {
+    api.corpusDownloadOptions().then((r) => setTypes(r.types)).catch(() => setTypes([]));
+  }, []);
+
+  const selected = types.filter((t) => checked[t.type]);
+  const selectedCount = selected.reduce((n, t) => n + t.count, 0);
+  const selectedUrl = "/api/corpus/download?types=" +
+    encodeURIComponent(selected.map((t) => t.type).join(","));
 
   const stats = data?.stats;
   const Stat = ({ label, val }: { label: string; val: number | string }) => (
@@ -43,6 +53,40 @@ export default function Corpus() {
           <Stat label="ingested" val={stats.ingested} />
         </div>
       )}
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 p-4 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="text-sm font-medium">Download papers</div>
+          <a href="/api/corpus/download?types=all"
+            className="rounded bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-3 py-1.5 text-sm font-medium hover:opacity-90">
+            Download entire corpus ({stats?.total ?? "…"} papers)
+          </a>
+        </div>
+        <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {types.map((t) => (
+            <label key={t.type} className="flex items-center gap-1.5">
+              <input type="checkbox" checked={!!checked[t.type]}
+                onChange={(e) => setChecked({ ...checked, [t.type]: e.target.checked })} />
+              {t.type} <span className="text-xs text-slate-500 tabular-nums">({t.count})</span>
+            </label>
+          ))}
+        </div>
+        <div className="flex items-center gap-3">
+          {selected.length > 0 ? (
+            <a href={selectedUrl}
+              className="rounded border border-slate-300 dark:border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-50 dark:hover:bg-slate-900">
+              Download selected ({selectedCount} papers)
+            </a>
+          ) : (
+            <span className="rounded border border-slate-200 dark:border-slate-800 px-3 py-1.5 text-sm text-slate-400 cursor-not-allowed">
+              Download selected (pick a type)
+            </span>
+          )}
+          <span className="text-xs text-slate-500">
+            Zip keeps the papers/&lt;doi&gt;/ folder structure. Streams from the corpus
+            drive — the full corpus is tens of GB and takes a while.
+          </span>
+        </div>
+      </div>
       <div className="flex flex-wrap gap-3 text-sm items-center">
         <label className="flex items-center gap-2">Status
           <select value={status} onChange={(e) => setStatus(e.target.value)}

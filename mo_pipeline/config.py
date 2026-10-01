@@ -11,7 +11,7 @@ previously-independent config surfaces:
 Environment overrides (for scratch-dir smoke tests without touching live data):
   MO_DATA_DIR      -> DATA_DIR      (candidate CSVs, in-repo)
   MO_PROGRESS_DIR  -> PROGRESS_DIR  (search/classify checkpoints, in-repo)
-  MO_MEDIA_ROOT    -> MEDIA_ROOT    (external PDF drive)
+  MO_MEDIA_ROOT    -> MEDIA_ROOT    (corpus drive, /media/dan/data)
 
 Run `python -m mo_pipeline.config` for a self-check that prints every path and
 warns on anything that does not exist.
@@ -27,8 +27,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OBSERVATORY_ROOT = REPO_ROOT.parent  # /home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY
 
+# Moved 2026-09-05 from /media/dan/500Gb (a failing USB HDD, now read-only
+# salvage) to the internal NVMe at /media/dan/data (xfs). Never point this at
+# the old drive again.
 MEDIA_ROOT = Path(os.environ.get(
-    "MO_MEDIA_ROOT", "/media/dan/500Gb/metascience_observatory_pdfs"))
+    "MO_MEDIA_ROOT", "/media/dan/data/metascience_observatory_pdfs"))
 DATA_DIR = Path(os.environ.get("MO_DATA_DIR", REPO_ROOT / "data"))
 PROGRESS_DIR = Path(os.environ.get("MO_PROGRESS_DIR", REPO_ROOT / "progress"))
 PROMPTS_DIR = REPO_ROOT / "prompts"
@@ -36,7 +39,7 @@ PROMPTS_DIR = REPO_ROOT / "prompts"
 # Back-compat alias: the discover scripts historically imported BASE_DIR.
 BASE_DIR = REPO_ROOT
 
-# ── External PDF drive layout (new corpus organization — see mo_pipeline.corpus) ─
+# ── Corpus drive layout (see mo_pipeline.corpus) ─────────────────────────────
 CATALOG_PATH = MEDIA_ROOT / "corpus.sqlite"
 INBOX_DIR = MEDIA_ROOT / "inbox"          # stage-6 output: inbox/{doi}/{doi}.* awaiting conversion
 PAPERS_DIR = MEDIA_ROOT / "papers"        # the corpus: one folder per DOI

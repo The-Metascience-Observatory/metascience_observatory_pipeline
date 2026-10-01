@@ -59,11 +59,17 @@ case "${1:-status}" in
       pid="$(cat "$RUN/$s.pid" 2>/dev/null || true)"
       if _pid_alive "$pid"; then echo "$s: UP (pid $pid)"; else echo "$s: down"; fi
     done
+    ( cd "$ROOT" && python -m server.app.grobid status 2>/dev/null ) || true
     echo "--- running pipeline stages ---"
     ls "$HOME/.local/state/mo_pipeline/pids/" 2>/dev/null | sed 's/\.json$//' | while read -r sid; do
       [ -n "$sid" ] && ( cd "$ROOT" && python -c "from server.app import runner; \
         print('  ', '$sid', runner.status('$sid')['state'])" 2>/dev/null )
     done ;;
+  grobid)
+    # Lifecycle lives in server/app/grobid.py, not here: bash cannot express the
+    # three states that matter (answering / running but unreachable / stopped),
+    # and duplicating the docker flags would let the two drift.
+    ( cd "$ROOT" && python -m server.app.grobid "${2:-status}" ) ;;
   logs)    tail -f "$RUN/${2:-api}.log" ;;
-  *) echo "usage: $0 {up|down|restart|status|logs [api|dashboard]}"; exit 1 ;;
+  *) echo "usage: $0 {up|down|restart|status|grobid [up|down|status]|logs [api|dashboard]}"; exit 1 ;;
 esac

@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import csv
 import os
+import re
 import shutil
 import sys
 from collections import defaultdict
@@ -125,7 +126,7 @@ def _entry(p, folder: Path, source_batch: str) -> dict:
         }
     return {
         "doi": p.doi, "src": str(folder), "dest_kind": "papers",
-        "dest": str(config.PAPERS_DIR / folder.name.split(" (")[0]),
+        "dest": str(config.PAPERS_DIR / re.sub(r"\s*\(\d+\)$", "", folder.name)),
         "role": "paper", "status": p.status, "source_batch": source_batch,
         "ai_version": p.ai_version or "", "n_replications": p.n_replications, "note": "",
     }

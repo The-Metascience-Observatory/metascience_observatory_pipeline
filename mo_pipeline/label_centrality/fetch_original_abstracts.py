@@ -72,7 +72,12 @@ def get(params: dict, api_key: str | None, mailto: str | None) -> dict:
 
 
 def main() -> int:
-    manifest = common.load_manifest()
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--run", default="pilot")
+    args = ap.parse_args()
+
+    manifest = common.Paths(args.run).load_manifest()
     dois = sorted({u["original_doi"] for u in manifest["units"] if u["original_doi"]})
     print(f"{len(dois)} unique original DOIs")
 

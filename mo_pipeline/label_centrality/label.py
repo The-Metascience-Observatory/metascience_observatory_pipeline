@@ -126,13 +126,14 @@ def run_unit(unit: dict, abstracts: dict, tag: str, model: str, show_prompt: boo
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--tag", required=True)
+    ap.add_argument("--run", default="pilot")
     ap.add_argument("--model", default="sonnet")
     ap.add_argument("--workers", type=int, default=2)
     ap.add_argument("--limit", type=int, default=None, help="only first N units")
     ap.add_argument("--show-prompt", action="store_true")
     args = ap.parse_args()
 
-    manifest = common.load_manifest()  # re-asserts the blinding whitelist
+    manifest = common.Paths(args.run).load_manifest()  # re-asserts the blinding whitelist
     abstracts = json.loads(common.ABSTRACTS_PATH.read_text())
     units = manifest["units"][: args.limit] if args.limit else manifest["units"]
     print(f"{len(units)} units, tag={args.tag}, model={args.model}, workers={args.workers}")

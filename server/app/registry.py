@@ -282,6 +282,12 @@ def _download_argv(params, state):
     argv += ["--workers", str(params.get("workers", 4))]
     if params.get("legalonly"):
         argv += ["--legalonly"]
+    if params.get("cookies"):
+        argv += ["--cookies", str(Path(str(params["cookies"])).expanduser())]
+    if params.get("no_cookies"):
+        argv += ["--no-cookies"]
+    if params.get("cookies_only"):
+        argv += ["--cookies-only"]
     return argv
 
 
@@ -341,7 +347,12 @@ STAGES: list[Stage] = [
                            Param("workers", "int", 4, 1, 8, "parallel downloads"),
                            Param("legalonly", "bool", False, help="skip Sci-Hub"),
                            Param("doi_csv", "str", "", help="CSV of DOIs to fetch instead "
-                                 "of confirmed set (see DOI runs page)")],
+                                 "of confirmed set (see DOI runs page)"),
+                           Param("cookies", "str", "", help="cookie file instead of the "
+                                 "`get-cookies setup` access"),
+                           Param("no_cookies", "bool", False, help="skip institutional access"),
+                           Param("cookies_only", "bool", False, help="institutional access "
+                                 "only, for DOIs that already failed")],
           # `inbox`: convert moves PDFs out of inbox/ (--movepdf) while download
           # writes into it; the two must never overlap.
           ["self", "inbox"], probe_download),

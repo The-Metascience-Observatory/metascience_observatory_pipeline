@@ -5,7 +5,7 @@ data/*
 progress/
 
 # Secrets
-.env.local
+.env.local*
 
 # Benchmarking ground-truth corpora (PDFs, large)
 benchmarking/ground_truth_data_filtered_PDFs/

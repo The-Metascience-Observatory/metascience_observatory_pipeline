@@ -51,9 +51,11 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--tag-a", default="centrality_pilot_a")
     ap.add_argument("--tag-b", default="centrality_pilot_b")
+    ap.add_argument("--run", default="pilot")
     args = ap.parse_args()
 
-    manifest = common.load_manifest()
+    paths = common.Paths(args.run)
+    manifest = paths.load_manifest()
     abstracts = json.loads(common.ABSTRACTS_PATH.read_text())
     units = manifest["units"]
     pass_a = read_pass(units, args.tag_a)
@@ -79,11 +81,11 @@ def main() -> int:
                 "ai_agree": int(bool(a and b and a["label"] == b["label"])),
             })
 
-    with open(common.LABELS_CSV_PATH, "w", newline="") as f:
+    with open(paths.labels_csv, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows_out[0]), lineterminator="\n")
         w.writeheader()
         w.writerows(rows_out)
-    print(f"wrote {common.LABELS_CSV_PATH} ({len(rows_out)} rows)")
+    print(f"wrote {paths.labels_csv} ({len(rows_out)} rows)")
 
     pairs = [(r["label_a"], r["label_b"]) for r in rows_out if r["label_a"] and r["label_b"]]
     if pairs:
@@ -94,7 +96,7 @@ def main() -> int:
         print("pass B labels:", Counter(b for _, b in pairs).most_common())
 
     # Validation sheet: blinded fields only, no AI labels.
-    with open(common.VALIDATION_SHEET_PATH, "w", newline="") as f:
+    with open(paths.validation_sheet, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=[
             "row_id", "original_title", "original_journal", "original_year",
             "original_abstract_snippet", "claim_description", "dan_label"],
@@ -112,7 +114,7 @@ def main() -> int:
                     "claim_description": r["claim_description"],
                     "dan_label": "",
                 })
-    print(f"wrote {common.VALIDATION_SHEET_PATH} — fill dan_label with "
+    print(f"wrote {paths.validation_sheet} — fill dan_label with "
           f"central / secondary / cannot_determine")
     return 0
 

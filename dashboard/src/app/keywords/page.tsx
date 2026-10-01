@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { api, type KeywordList } from "@/lib/api";
 
 function ListEditor({ list, onSaved }: { list: KeywordList; onSaved: () => void }) {
@@ -83,7 +84,8 @@ export default function Keywords() {
         <p className="text-sm text-slate-500 mt-1">
           Stage-1 query terms. Edits are saved to a runtime overlay (<code className="font-mono">data/keywords.json</code>)
           and take effect on the next search run — the code defaults are untouched and restorable per list.
-          One term per line.
+          One term per line. See how each query performs on the{" "}
+          <Link href="/keywords/stats" className="underline hover:text-slate-900 dark:hover:text-slate-100">Keyword yield</Link> page.
         </p>
       </div>
       {err && (
