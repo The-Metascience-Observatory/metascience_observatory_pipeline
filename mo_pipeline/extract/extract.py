@@ -1019,6 +1019,383 @@ def _write_provenance(output_dir: Path, *, model_id: str, prompt_level: str, art
         logger.warning(f"could not write provenance.json: {e}")
 
 
+def _run_cli(cmd: list[str], timeout: int) -> tuple[int, str, str]:
+    """Run an agent CLI to completion: (returncode, stdout, stderr).
+
+    The process is registered in _running_processes for the duration, so a
+    Ctrl+C can forward the signal to it. On timeout it is killed and
+    subprocess.TimeoutExpired propagates.
+    """
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    thread_id = threading.current_thread().ident
+    _running_processes[thread_id] = process
+    try:
+        try:
+            stdout, stderr = process.communicate(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.communicate()
+            raise
+        return process.returncode, stdout, stderr
+    finally:
+        _running_processes.pop(thread_id, None)
+
+
+def _first_pass_prompt(paper_dir: Path, output_dir: Path, *, html_mode: bool, pdf_only: bool,
+                       force_tier: str | None) -> tuple[str, dict | None]:
+    """(user prompt, artifact inventory) for the first pass; raises FileNotFoundError
+    when the folder holds nothing the selected mode can read.
+
+    There is no XML auto-detect: the default path reads every tier present in
+    the folder, so an XML-only paper is an ordinary paper with a shorter
+    ladder. --html and --onlypdf remain as explicit single-format overrides for
+    corpora that only ever had the one file. The inventory is None for those.
+    """
+    save = f"Save your result to {output_dir}/result.json"
+    if html_mode:
+        html_files = list(paper_dir.glob("*.html"))
+        if not html_files:
+            raise FileNotFoundError(f"Missing HTML file in {paper_dir}")
+        html_file = html_files[0]
+        image_files = sorted(list(paper_dir.glob("*.png")) + list(paper_dir.glob("*.jpg"))
+                             + list(paper_dir.glob("*.jpeg")))
+        if not image_files:
+            return (f"Extract replication data from the paper in: {paper_dir}\n"
+                    f"The paper is available as an HTML file: {html_file.name}\n"
+                    f"Read {paper_dir}/{html_file.name} and extract all replication data.\n"
+                    f"{save}"), None
+        image_list = "\n".join(f"  - {img.name}" for img in image_files)
+        return (f"Extract replication data from the paper in: {paper_dir}\n"
+                f"The paper is available as an HTML file: {html_file.name}\n"
+                f"The following image files contain figures, tables, and diagrams:\n{image_list}\n\n"
+                f"Read {paper_dir}/{html_file.name} and ALL the image files above to extract complete replication data.\n"
+                f"The images often contain critical statistical information (effect sizes, p-values, sample sizes, graphs).\n"
+                f"{save}"), None
+
+    if pdf_only:
+        pdf_files = list(paper_dir.glob("*.pdf"))
+        if not pdf_files:
+            raise FileNotFoundError(f"Missing PDF file in {paper_dir}")
+        return (f"Extract replication data from the paper in: {paper_dir}\n"
+                f"The paper is available as a PDF file: {pdf_files[0].name}\n"
+                f"Start by reading the first few pages (1-3) of {paper_dir}/{pdf_files[0].name} using the Read tool with the pages parameter.\n"
+                f"{save}"), None
+
+    # Default mode: whatever tiers this folder has; the only hard requirement
+    # is that SOMETHING readable is present.
+    artifacts = paper_artifacts(paper_dir, force_tier=force_tier)
+    if not artifacts["has_fulltext"]:
+        raise FileNotFoundError(
+            f"No readable full text in {paper_dir} "
+            f"(expected a *_from_xml.md / *_from_html.md rendition, a body.md, or a PDF)")
+    husk = _husk_reason(paper_dir, artifacts)
+    if husk:
+        # Refusing beats extracting: the agent would read the husk, find no
+        # replications, and that confident negative is indistinguishable
+        # downstream from a real paper that has none.
+        raise FileNotFoundError(f"No article text in {paper_dir}: {husk}")
+    # The folder holds up to three renditions of the same paper. Naming one
+    # primary and gating the rest is what keeps the agent from reading all of
+    # them; the prompt file explains the ladder, this says which rungs THIS
+    # paper actually has.
+    return (f"Extract replication data from the paper in: {paper_dir}\n"
+            f"{_describe_artifacts(paper_dir, artifacts)}\n"
+            f"{save}"), artifacts
+
+
+def _agent_command(paper_dir: Path, model: str, system_prompt: str, user_prompt: str,
+                   use_codex: bool) -> tuple[list[str], str]:
+    """(argv, cli name) for the first-pass agent."""
+    if use_codex:
+        from mo_pipeline.extract.codex_backend import build_command
+        return build_command(paper_dir, model, system_prompt, user_prompt), "codex"
+    return [
+        "claude",
+        "--print",
+        "--output-format", "json",
+        "--model", model,
+        "--max-turns", "40",
+        "--system-prompt", system_prompt,
+        "--allowedTools", "Read", "Grep", "Glob", "Write",
+        "--add-dir", str(paper_dir),
+        "--dangerously-skip-permissions",
+        user_prompt,
+    ], "claude"
+
+
+def _usage(cli_output: dict, model_id: str, wall_time_ms: int) -> dict:
+    """Token, cost and timing figures from a CLI JSON envelope."""
+    u = cli_output.get("usage", {})
+    return {
+        "model": model_id,
+        "input_tokens": u.get("input_tokens", 0),
+        "output_tokens": u.get("output_tokens", 0),
+        "cache_creation_tokens": u.get("cache_creation_input_tokens", 0),
+        "cache_read_tokens": u.get("cache_read_input_tokens", 0),
+        "cost_usd": cli_output.get("total_cost_usd", 0),
+        "duration_ms": cli_output.get("duration_ms", 0),
+        "wall_time_ms": wall_time_ms,
+        "num_turns": cli_output.get("num_turns", 0),
+    }
+
+
+def _read_result_json(result_path: Path, cli_output: dict, paper_dir: Path,
+                      log_messages: list[str]) -> dict:
+    """The result.json the agent wrote, salvaged from its reply if it answered
+    inline instead (that is not a lost paper)."""
+    if not result_path.exists():
+        salvaged = salvage_inline_result(cli_output.get("result", ""))
+        if salvaged is None:
+            raise RuntimeError(
+                f"Agent did not write result.json for {paper_dir}.\n"
+                f"Agent output: {cli_output.get('result', '')[:500]}")
+        result_path.write_text(json.dumps(salvaged, indent=2))
+        log_messages.append("  ⚠️  agent replied inline instead of writing result.json — salvaged from the reply")
+    # Retry the parse briefly: the file can be read before the agent's write is flushed.
+    for attempt in range(3):
+        try:
+            return json.loads(result_path.read_text())
+        except json.JSONDecodeError:
+            if attempt < 2:
+                time.sleep(1)
+    raise RuntimeError(f"Agent wrote invalid JSON to {result_path}:\n{result_path.read_text()[:500]}")
+
+
+def _stamp(data: dict, replication_url: str, ai_version: str) -> None:
+    """Set this paper's DOI URL and the extractor version on every entry."""
+    for rep in data.get("replications", []):
+        rep["replication_url"] = replication_url
+        rep["ai_version"] = ai_version
+
+
+def _load_references(paper_dir: Path):
+    try:
+        return json.loads((paper_dir / "references.json").read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def _check_entries(data: dict, paper_dir: Path, log_messages: list[str]):
+    """Run the post-extraction validators.
+
+    Returns (data, low/medium-confidence entries, DOI mismatches, citation
+    mismatches, original-DOI metadata cache). Anything flagged is what the
+    review round re-examines.
+    """
+    data, sanity_msgs = validate_extraction(data)
+    log_messages.extend(sanity_msgs)
+
+    doi_mismatches, original_doi_cache = [], {}
+    if not _shutdown_requested:
+        doi_mismatches, original_doi_cache = validate_original_dois(data)
+        for mm in doi_mismatches:
+            log_messages.append(
+                f"  ❌  DOI mismatch entry {mm['entry_idx']} (similarity={mm['similarity']}) "
+                f"— agent: \"{mm['agent_title'][:60]}\" vs API: \"{mm['api_title'][:60]}\"")
+
+    # references.json lets the validator corroborate authors/year through the
+    # bibliography, so a narrative citation_sentence is not a false positive.
+    citation_mismatches = validate_citation_sentences(data, _load_references(paper_dir))
+    for cm in citation_mismatches:
+        parts = []
+        if not cm["author_found"]:
+            parts.append("author not found in citation")
+        if not cm["year_found"]:
+            parts.append("year not found in citation")
+        log_messages.append(
+            f"  ❌  Citation mismatch entry {cm['entry_idx']} ({', '.join(parts)}) "
+            f"— citation: \"{cm['citation'][:80]}\" vs extracted: "
+            f"\"{cm['extracted_authors'][:40]}\" ({cm['extracted_year']})")
+
+    low_med_entries = [
+        (i, rep.get("confidence", "").lower(), rep.get("result", "unknown"),
+         rep.get("description", "")[:80])
+        for i, rep in enumerate(data.get("replications", []))
+        if rep.get("confidence", "").lower() in ("low", "medium")
+    ]
+    return data, low_med_entries, doi_mismatches, citation_mismatches, original_doi_cache
+
+
+def _review_prompt(paper_dir: Path, output_dir: Path, low_med_entries, doi_mismatches,
+                   citation_mismatches) -> str:
+    """Instructions for the independent reviewer that re-examines flagged entries."""
+    pdf_files = list(paper_dir.glob("*.pdf"))
+    pdf_name = pdf_files[0].name if pdf_files else "the PDF"
+    files_list = ", ".join(sorted(f.name for f in paper_dir.iterdir()
+                                  if f.is_file() and f.suffix in (".md", ".json", ".pdf")))
+    prompt_parts = [
+        f"You are an independent reviewer for The Metascience Observatory. "
+        f"A previous agent extracted replication data from a paper and saved it to {output_dir}/result.json. "
+        f"Your job is to critically review flagged entries — NOT to rubber-stamp them.\n",
+        f"The paper directory is: {paper_dir}\n"
+        f"Available files: {files_list}\n",
+    ]
+
+    if low_med_entries:
+        entry_details = "\n".join(
+            f"  - Entry {idx} (confidence: {conf}, result: {res}): {desc}"
+            for idx, conf, res, desc in low_med_entries
+        )
+        prompt_parts.append(
+            f"ENTRIES TO REVIEW (flagged as low/medium confidence):\n{entry_details}\n\n"
+            f"For each flagged entry:\n"
+            f"1. Read {output_dir}/result.json to see the full entry including the explanation\n"
+            f"2. Read the paper's body.md Discussion/Conclusion sections and the PDF ({paper_dir}/{pdf_name}) "
+            f"to independently verify the result classification and other fields\n"
+            f"3. Make your own determination:\n"
+            f"   - If you find clear evidence that resolves the ambiguity, update the entry and set confidence to 'high'\n"
+            f"   - If the ambiguity is GENUINE (the paper itself is unclear, the authors don't state a clear conclusion, "
+            f"or reasonable people could disagree), KEEP confidence as 'medium' or 'low' — this is the honest answer\n"
+            f"   - Update the explanation field to describe what you found in your review\n"
+            f"   - If you disagree with the result classification, change it\n\n"
+            f"Result rules you must apply when reconsidering a label (they are the same "
+            f"rules the first pass was given):\n"
+            f"   - A global claim of support (\"supports\", \"largely verified\", \"bolstered\") does NOT "
+            f"override an abstract or conclusion that also reports \"differing results\", \"some "
+            f"differences\", \"partially\", \"mixed\": that combination is inconclusive.\n"
+            f"   - Change 'inconclusive' to 'success' only if EVERY sub-measure named in the entry's "
+            f"description replicated. If only some did, narrow the description instead of widening "
+            f"the label.\n"
+            f"   - Partial support is inconclusive, not success. A single significant result does not "
+            f"settle a multi-measure entry.\n"
+            f"   - If you change a result label, leave confidence at 'medium': a changed label is by "
+            f"definition a case the evidence did not make obvious.\n\n"
+            f"IMPORTANT: Upgrading to 'high' requires finding specific new evidence. "
+            f"Simply re-reading and agreeing is NOT sufficient grounds for upgrading. "
+            f"Keeping medium/low is a valid and expected outcome when ambiguity is real.\n"
+        )
+
+    if doi_mismatches:
+        mismatch_details = "\n".join(
+            f"  - Entry {mm['entry_idx']}: DOI {mm['doi']} — "
+            f"extracted title: \"{mm['agent_title']}\" but the DOI resolves to "
+            f"title: \"{mm['api_title']}\" by {mm['api_authors'] or 'unknown authors'} ({mm['api_year'] or '?'}). "
+            f"Title similarity: {mm['similarity']}"
+            for mm in doi_mismatches
+        )
+        prompt_parts.append(
+            f"DOI MISMATCHES — the original_url DOI does not match the original_title:\n"
+            f"{mismatch_details}\n"
+            f"For each mismatch, check references.json and the PDF to determine:\n"
+            f"  a) The DOI is wrong — find the correct DOI or clear original_url to \"\"\n"
+            f"  b) The title is wrong — update original_title to match what the DOI points to\n"
+            f"  c) The API returned wrong metadata (false positive) — keep as-is if you verify the DOI is correct\n"
+        )
+
+    if citation_mismatches:
+        citation_details = "\n".join(
+            f"  - Entry {cm['entry_idx']}: citation_sentence says \"{cm['citation']}\" "
+            f"but extracted original is \"{cm['extracted_authors']}\" ({cm['extracted_year']}). "
+            f"{'Author not found in citation. ' if not cm['author_found'] else ''}"
+            f"{'Year not found in citation.' if not cm['year_found'] else ''}"
+            for cm in citation_mismatches
+        )
+        prompt_parts.append(
+            f"CITATION MISMATCHES — the citation_sentence does not mention the extracted original author/year:\n"
+            f"{citation_details}\n"
+            f"For each mismatch, re-read the Introduction to find the correct replication target, "
+            f"search references.json for the matching reference, and update original_title/authors/year/url "
+            f"to match the study actually named in the citation sentence.\n"
+        )
+
+    prompt_parts.append(
+        f"After your review, write the updated result to {output_dir}/result.json (preserving all fields)."
+    )
+    return "\n".join(prompt_parts)
+
+
+def _review_round(*, paper_dir: Path, output_dir: Path, result_path: Path, model: str,
+                  data: dict, usage: dict, debug_log: dict, debug_path: Path,
+                  low_med_entries, doi_mismatches, citation_mismatches,
+                  replication_url: str, ai_version: str, log_messages: list[str]) -> dict:
+    """A fresh agent re-examines the flagged entries and rewrites result.json.
+
+    Returns the reviewed data, or `data` unchanged when the review fails or
+    times out. Adds the reviewer's cost to `usage` and its narration to the
+    debug log, so a label flipped in review stays visible afterwards.
+    """
+    reasons = []
+    if low_med_entries:
+        reasons.append(f"{len(low_med_entries)} low/medium confidence")
+    if doi_mismatches:
+        reasons.append(f"{len(doi_mismatches)} DOI mismatches")
+    if citation_mismatches:
+        reasons.append(f"{len(citation_mismatches)} citation mismatches")
+    log_messages.append(f"  ⚠️  {', '.join(reasons)} — starting review round")
+    for idx, conf, res, desc in low_med_entries:
+        log_messages.append(f"      Entry {idx}: [{conf}] result={res} — {desc}")
+
+    refine_cmd = [
+        "claude",
+        "--print",
+        "--output-format", "json",
+        # Same model as the first pass: without this the reviewer ran on the
+        # CLI default, so a run's provenance did not describe what reviewed it.
+        "--model", model,
+        "--max-turns", "20",
+        "--allowedTools", "Read", "Grep", "Glob", "Write",
+        "--dangerously-skip-permissions",
+        "-p", _review_prompt(paper_dir, output_dir, low_med_entries, doi_mismatches,
+                             citation_mismatches),
+    ]
+    refine_start = time.monotonic()
+    try:
+        refine_returncode, refine_stdout, _ = _run_cli(refine_cmd, timeout=300)
+    except subprocess.TimeoutExpired:
+        log_messages.append("  ⚠️  Review timed out")
+        refine_returncode, refine_stdout = -1, ""
+    refine_wall = time.monotonic() - refine_start
+
+    if refine_returncode != 0:
+        log_messages.append(f"  ⚠️  Review failed (exit {refine_returncode}), keeping original")
+        return data
+    try:
+        refined = json.loads(result_path.read_text())
+    except (json.JSONDecodeError, FileNotFoundError):
+        log_messages.append("  ⚠️  Review produced invalid result, keeping original")
+        return data
+
+    flagged = {idx for idx, _, _, _ in low_med_entries}
+    upgraded = sum(1 for i, rep in enumerate(refined.get("replications", []))
+                   if rep.get("confidence", "").lower() == "high" and i in flagged)
+    _stamp(refined, replication_url, ai_version)
+    refined, post_review_msgs = validate_extraction(refined)
+    log_messages.extend(post_review_msgs)
+
+    kept = len(low_med_entries) - upgraded
+    parts = []
+    if low_med_entries:
+        parts.append(f"{upgraded} upgraded, {kept} kept" if kept else f"{upgraded} upgraded")
+    if doi_mismatches:
+        parts.append(f"{len(doi_mismatches)} DOI(s) reviewed")
+    log_messages.append(f"  ✅  Review done: {', '.join(parts)} ({refine_wall:.1f}s)")
+
+    try:
+        refine_output = json.loads(refine_stdout)
+    except json.JSONDecodeError:
+        return refined
+    debug_log["review"] = {
+        "model": model,
+        "reasons": {"low_medium": len(low_med_entries),
+                    "doi_mismatches": len(doi_mismatches),
+                    "citation_mismatches": len(citation_mismatches)},
+        "entries_reviewed": [{"index": idx, "confidence_before": conf,
+                              "result_before": res, "description": desc}
+                             for idx, conf, res, desc in low_med_entries],
+        "upgraded_to_high": upgraded,
+        "assistant_text": refine_output.get("result", "")[:20000],
+        "wall_sec": round(refine_wall, 1),
+    }
+    debug_path.write_text(json.dumps(debug_log, indent=2))
+    usage["input_tokens"] += refine_output.get("usage", {}).get("input_tokens", 0)
+    usage["output_tokens"] += refine_output.get("usage", {}).get("output_tokens", 0)
+    usage["cost_usd"] += refine_output.get("total_cost_usd", 0)
+    usage["num_turns"] += refine_output.get("num_turns", 0)
+    usage["wall_time_ms"] += int(refine_wall * 1000)
+    usage["refinement_round"] = True
+    return refined
+
+
 def extract_paper(
     paper_dir: Path,
     model: str = "sonnet",
@@ -1032,25 +1409,15 @@ def extract_paper(
 ) -> tuple[dict, dict, list[str]]:
     """Run the selected agent CLI against a single paper directory.
 
-    The agent writes result.json into paper_dir (or paper_dir/tag if tag is provided).
-    Returns (result_dict, usage_dict, log_messages).
-    Raises SkipPaper if already in the dataset.
+    The agent writes result.json into paper_dir (or paper_dir/tag if tag is
+    provided); the validated result is saved as {folder}{suffix} beside it.
+    Returns (result_dict, usage_dict, log_messages). Raises SkipPaper if the
+    paper already has a result or is already in the dataset.
     """
     paper_dir = paper_dir.resolve()
     log_messages = []  # Collected for caller to print with batch prefix
-
-    # Determine output directory based on tag
-    if tag:
-        output_dir = paper_dir / tag
-        output_dir.mkdir(exist_ok=True)
-    else:
-        output_dir = paper_dir
-
-    # There is no XML auto-detect any more: the default path below reads every
-    # tier present in the folder, so an XML-only paper is an ordinary paper with
-    # a shorter ladder. --html and --onlypdf remain as explicit single-format
-    # overrides for corpora that only ever had the one file.
-
+    output_dir = paper_dir / tag if tag else paper_dir
+    output_dir.mkdir(exist_ok=True)
     prompt_level = "html" if html_mode else "pdf_only" if pdf_only else level
 
     # Skip if any agentic result already exists, whatever mode wrote it (this is
@@ -1062,189 +1429,47 @@ def extract_paper(
         existing_path = output_dir / f"{paper_dir.name}{existing_suffix}"
         if existing_path.exists():
             raise SkipPaper(f"Output already exists: {existing_path.name}")
-
-    # Check if this paper is already in the dataset
     doi_url = normalize_doi_url(folder_to_doi_url(paper_dir.name))
     if existing_urls and doi_url in existing_urls:
         raise SkipPaper(f"Already in dataset: {doi_url}")
 
-    # Validate expected files exist
-    artifacts = None
-    if html_mode:
-        # For HTML mode, find the HTML file
-        html_files = list(paper_dir.glob("*.html"))
-        if not html_files:
-            raise FileNotFoundError(f"Missing HTML file in {paper_dir}")
-        html_file = html_files[0]  # Use first HTML if multiple exist
-        pdf_file = None
-    elif pdf_only:
-        pdf_files = list(paper_dir.glob("*.pdf"))
-        if not pdf_files:
-            raise FileNotFoundError(f"Missing PDF file in {paper_dir}")
-        pdf_file = pdf_files[0]  # Use first PDF if multiple exist
-        html_file = None
-    else:
-        # Default mode: whatever tiers this folder has. The old rule demanded
-        # both a PDF and an abstract.md and refused everything else; now the
-        # only hard requirement is that SOMETHING readable is present.
-        artifacts = paper_artifacts(paper_dir, force_tier=force_tier)
-        if not artifacts["has_fulltext"]:
-            raise FileNotFoundError(
-                f"No readable full text in {paper_dir} "
-                f"(expected a *_from_xml.md / *_from_html.md rendition, a "
-                f"body.md, or a PDF)"
-            )
-        husk = _husk_reason(paper_dir, artifacts)
-        if husk:
-            # Refusing beats extracting: the agent would read the husk, find no
-            # replications, and that confident negative is indistinguishable
-            # downstream from a real paper that has none.
-            raise FileNotFoundError(f"No article text in {paper_dir}: {husk}")
-        pdf_file = artifacts["pdf"]
-        html_file = None
-
-    system_prompt = load_system_prompt(level=prompt_level)
-
-    if html_mode:
-        # Find all image files (figures, tables, diagrams)
-        image_files = sorted(
-            list(paper_dir.glob("*.png")) +
-            list(paper_dir.glob("*.jpg")) +
-            list(paper_dir.glob("*.jpeg"))
-        )
-
-        if image_files:
-            image_list = "\n".join([f"  - {img.name}" for img in image_files])
-            user_prompt = (
-                f"Extract replication data from the paper in: {paper_dir}\n"
-                f"The paper is available as an HTML file: {html_file.name}\n"
-                f"The following image files contain figures, tables, and diagrams:\n{image_list}\n\n"
-                f"Read {paper_dir}/{html_file.name} and ALL the image files above to extract complete replication data.\n"
-                f"The images often contain critical statistical information (effect sizes, p-values, sample sizes, graphs).\n"
-                f"Save your result to {output_dir}/result.json"
-            )
-        else:
-            user_prompt = (
-                f"Extract replication data from the paper in: {paper_dir}\n"
-                f"The paper is available as an HTML file: {html_file.name}\n"
-                f"Read {paper_dir}/{html_file.name} and extract all replication data.\n"
-                f"Save your result to {output_dir}/result.json"
-            )
-    elif pdf_only:
-        user_prompt = (
-            f"Extract replication data from the paper in: {paper_dir}\n"
-            f"The paper is available as a PDF file: {pdf_file.name}\n"
-            f"Start by reading the first few pages (1-3) of {paper_dir}/{pdf_file.name} using the Read tool with the pages parameter.\n"
-            f"Save your result to {output_dir}/result.json"
-        )
-    else:
-        # The folder holds up to three renditions of the same paper. Naming one
-        # primary and gating the rest is what keeps the agent from reading all
-        # of them; the prompt file explains the ladder, this says which rungs
-        # THIS paper actually has.
-        user_prompt = (
-            f"Extract replication data from the paper in: {paper_dir}\n"
-            f"{_describe_artifacts(paper_dir, artifacts)}\n"
-            f"Save your result to {output_dir}/result.json"
-        )
+    # ---- first pass ----
+    user_prompt, artifacts = _first_pass_prompt(paper_dir, output_dir, html_mode=html_mode,
+                                                pdf_only=pdf_only, force_tier=force_tier)
+    if artifacts is not None:
         log_messages.append(f"  tier: {artifacts['primary_tier'] or 'pdf'}")
-
-    if use_codex:
-        from mo_pipeline.extract.codex_backend import build_command
-        cmd = build_command(paper_dir, model, system_prompt, user_prompt)
-        cli_name = "codex"
-    else:
-        cmd = [
-            "claude",
-            "--print",
-            "--output-format", "json",
-            "--model", model,
-            "--max-turns", "40",
-            "--system-prompt", system_prompt,
-            "--allowedTools", "Read", "Grep", "Glob", "Write",
-            "--add-dir", str(paper_dir),
-            "--dangerously-skip-permissions",
-            user_prompt,
-        ]
-        cli_name = "claude"
+    system_prompt = load_system_prompt(level=prompt_level)
+    cmd, cli_name = _agent_command(paper_dir, model, system_prompt, user_prompt, use_codex)
 
     # A killed earlier run can leave result.json behind; if this agent then
     # exits 0 without writing, the stale file would be read as its output.
-    (output_dir / "result.json").unlink(missing_ok=True)
+    result_path = output_dir / "result.json"
+    result_path.unlink(missing_ok=True)
 
     start = time.monotonic()
-
-    # Use Popen instead of run to allow signal forwarding
-    process = subprocess.Popen(
-        cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-
-    # Register process for graceful shutdown
-    thread_id = threading.current_thread().ident
-    _running_processes[thread_id] = process
-
     try:
-        stdout, stderr = process.communicate(timeout=600)  # 10 minute timeout per paper
-        returncode = process.returncode
+        returncode, stdout, stderr = _run_cli(cmd, timeout=600)
     except subprocess.TimeoutExpired:
-        process.kill()
-        stdout, stderr = process.communicate()
         raise RuntimeError(f"Timeout after 10 minutes processing {paper_dir}")
-    finally:
-        # Unregister process
-        _running_processes.pop(thread_id, None)
-
     wall_time_ms = int((time.monotonic() - start) * 1000)
+    if returncode != 0:
+        combined = ((stderr or "") + (stdout or "")).strip()
+        raise RuntimeError(f"{cli_name} CLI failed for {paper_dir}:\n{combined}")
 
-    # Create result object compatible with subprocess.run
-    class Result:
-        def __init__(self, returncode, stdout, stderr):
-            self.returncode = returncode
-            self.stdout = stdout
-            self.stderr = stderr
-
-    result = Result(returncode, stdout, stderr)
-
-    if result.returncode != 0:
-        combined = ((result.stderr or "") + (result.stdout or "")).strip()
-        raise RuntimeError(
-            f"{cli_name} CLI failed for {paper_dir}:\n{combined}"
-        )
-
-    # Parse the selected CLI JSON envelope
     try:
         if use_codex:
             from mo_pipeline.extract.codex_backend import parse_events
-            cli_output = parse_events(result.stdout)
+            cli_output = parse_events(stdout)
         else:
-            cli_output = json.loads(result.stdout)
+            cli_output = json.loads(stdout)
     except json.JSONDecodeError:
-        raise RuntimeError(
-            f"Failed to parse {cli_name} CLI output for {paper_dir}:\n"
-            f"{result.stdout[:500]}"
-        )
+        raise RuntimeError(f"Failed to parse {cli_name} CLI output for {paper_dir}:\n{stdout[:500]}")
 
-    # Get the actual model ID from modelUsage keys
     model_usage = cli_output.get("modelUsage", {})
     model_id = primary_model(model_usage, model)
+    usage = _usage(cli_output, model_id, wall_time_ms)
 
-    # Extract usage info
-    usage = {
-        "model": model_id,
-        "input_tokens": cli_output.get("usage", {}).get("input_tokens", 0),
-        "output_tokens": cli_output.get("usage", {}).get("output_tokens", 0),
-        "cache_creation_tokens": cli_output.get("usage", {}).get("cache_creation_input_tokens", 0),
-        "cache_read_tokens": cli_output.get("usage", {}).get("cache_read_input_tokens", 0),
-        "cost_usd": cli_output.get("total_cost_usd", 0),
-        "duration_ms": cli_output.get("duration_ms", 0),
-        "wall_time_ms": wall_time_ms,
-        "num_turns": cli_output.get("num_turns", 0),
-    }
-
-    # Save full output as debug log (includes reasoning text)
+    # Full output, reasoning included, as a debug log.
     debug_log = {
         "model": model_id,
         "modelUsage": model_usage,
@@ -1263,327 +1488,41 @@ def extract_paper(
                       artifacts=artifacts, html_mode=html_mode, pdf_only=pdf_only,
                       force_tier=force_tier, dontcheck=existing_urls is None, cli_name=cli_name)
 
-    # Read the result.json the agent should have written. An agent that
-    # replied with the JSON inline instead of using the Write tool is not a
-    # lost paper: salvage the envelope from its reply.
-    result_path = output_dir / "result.json"
-    if not result_path.exists():
-        salvaged = salvage_inline_result(cli_output.get("result", ""))
-        if salvaged is None:
-            raise RuntimeError(
-                f"Agent did not write result.json for {paper_dir}.\n"
-                f"Agent output: {cli_output.get('result', '')[:500]}"
-            )
-        result_path.write_text(json.dumps(salvaged, indent=2))
-        log_messages.append("  ⚠️  agent replied inline instead of writing result.json — salvaged from the reply")
-
-    # Retry JSON parse with short delay to handle filesystem flush race condition
-    for attempt in range(3):
-        try:
-            data = json.loads(result_path.read_text())
-            break
-        except json.JSONDecodeError:
-            if attempt < 2:
-                time.sleep(1)
-            else:
-                raise RuntimeError(
-                    f"Agent wrote invalid JSON to {result_path}:\n"
-                    f"{result_path.read_text()[:500]}"
-                )
-
-    # Inject replication_url (this paper's DOI URL) and ai_version into each replication entry
+    data = _read_result_json(result_path, cli_output, paper_dir, log_messages)
     replication_url = folder_to_doi_url(paper_dir.name)
     ai_version = load_version_number()
     if prompt_level in STAT_FREE_LEVELS:
         # Stat-free rendering of the same prompt family: keep its rows
         # distinguishable in the database ("8.7-base").
         ai_version = f"{ai_version}-{prompt_level}"
-    for rep in data.get("replications", []):
-        rep["replication_url"] = replication_url
-        rep["ai_version"] = ai_version
+    _stamp(data, replication_url, ai_version)
 
-    # Sanity-check extracted data (auto-correct known issues, warn on others)
-    data, sanity_msgs = validate_extraction(data)
-    log_messages.extend(sanity_msgs)
-
-    # Validate original DOIs against external APIs
-    doi_mismatches = []
-    original_doi_cache = {}
-    if not _shutdown_requested:
-        doi_mismatches, original_doi_cache = validate_original_dois(data)
-        for mm in doi_mismatches:
-            log_messages.append(
-                f"  ❌  DOI mismatch entry {mm['entry_idx']} (similarity={mm['similarity']}) "
-                f"— agent: \"{mm['agent_title'][:60]}\" vs API: \"{mm['api_title'][:60]}\""
-            )
-
-    # Validate citation sentences against extracted original authors/year.
-    # Pass references.json (when available) so the validator can corroborate
-    # authors/year via the bibliography, avoiding false positives when the
-    # citation_sentence is narrative prose rather than a formal citation.
-    references_path = paper_dir / "references.json"
-    references_data = None
-    if references_path.exists():
-        try:
-            with open(references_path) as f:
-                references_data = json.load(f)
-        except (json.JSONDecodeError, OSError):
-            references_data = None
-    citation_mismatches = validate_citation_sentences(data, references_data)
-    for cm in citation_mismatches:
-        parts = []
-        if not cm["author_found"]:
-            parts.append("author not found in citation")
-        if not cm["year_found"]:
-            parts.append("year not found in citation")
-        log_messages.append(
-            f"  ❌  Citation mismatch entry {cm['entry_idx']} ({', '.join(parts)}) "
-            f"— citation: \"{cm['citation'][:80]}\" vs extracted: "
-            f"\"{cm['extracted_authors'][:40]}\" ({cm['extracted_year']})"
-        )
-
-    # Check for low/medium confidence entries and trigger refinement round
-    low_med_entries = []
-    for i, rep in enumerate(data.get("replications", [])):
-        conf = rep.get("confidence", "").lower()
-        if conf in ["low", "medium"]:
-            desc = rep.get("description", "")[:80]
-            result_val = rep.get("result", "unknown")
-            low_med_entries.append((i, conf, result_val, desc))
-
-    needs_refinement = low_med_entries or doi_mismatches or citation_mismatches
-
-    if needs_refinement and not use_codex and not _shutdown_requested:
-        reasons = []
+    # ---- validation, then a review round for anything flagged ----
+    data, low_med_entries, doi_mismatches, citation_mismatches, original_doi_cache = \
+        _check_entries(data, paper_dir, log_messages)
+    needs_review = low_med_entries or doi_mismatches or citation_mismatches
+    if needs_review and not use_codex and not _shutdown_requested:
+        data = _review_round(
+            paper_dir=paper_dir, output_dir=output_dir, result_path=result_path, model=model,
+            data=data, usage=usage, debug_log=debug_log, debug_path=debug_path,
+            low_med_entries=low_med_entries, doi_mismatches=doi_mismatches,
+            citation_mismatches=citation_mismatches, replication_url=replication_url,
+            ai_version=ai_version, log_messages=log_messages)
+    elif needs_review:
+        # Logged without review (Codex has no review round; or a shutdown is pending).
         if low_med_entries:
-            reasons.append(f"{len(low_med_entries)} low/medium confidence")
-        if doi_mismatches:
-            reasons.append(f"{len(doi_mismatches)} DOI mismatches")
-        if citation_mismatches:
-            reasons.append(f"{len(citation_mismatches)} citation mismatches")
-        log_messages.append(
-            f"  ⚠️  {', '.join(reasons)} — starting review round"
-        )
-        for idx, conf, res, desc in low_med_entries:
-            log_messages.append(f"      Entry {idx}: [{conf}] result={res} — {desc}")
-
-        # Build reviewer prompt for a fresh agent
-        pdf_files = list(paper_dir.glob("*.pdf"))
-        pdf_name = pdf_files[0].name if pdf_files else "the PDF"
-
-        # List available paper files for the reviewer
-        paper_files = []
-        for f in paper_dir.iterdir():
-            if f.is_file() and f.suffix in ('.md', '.json', '.pdf'):
-                paper_files.append(f.name)
-        files_list = ", ".join(sorted(paper_files))
-
-        prompt_parts = [
-            f"You are an independent reviewer for The Metascience Observatory. "
-            f"A previous agent extracted replication data from a paper and saved it to {output_dir}/result.json. "
-            f"Your job is to critically review flagged entries — NOT to rubber-stamp them.\n",
-            f"The paper directory is: {paper_dir}\n"
-            f"Available files: {files_list}\n",
-        ]
-
-        if low_med_entries:
-            entry_details = "\n".join(
-                f"  - Entry {idx} (confidence: {conf}, result: {res}): {desc}"
-                for idx, conf, res, desc in low_med_entries
-            )
-            prompt_parts.append(
-                f"ENTRIES TO REVIEW (flagged as low/medium confidence):\n{entry_details}\n\n"
-                f"For each flagged entry:\n"
-                f"1. Read {output_dir}/result.json to see the full entry including the explanation\n"
-                f"2. Read the paper's body.md Discussion/Conclusion sections and the PDF ({paper_dir}/{pdf_name}) "
-                f"to independently verify the result classification and other fields\n"
-                f"3. Make your own determination:\n"
-                f"   - If you find clear evidence that resolves the ambiguity, update the entry and set confidence to 'high'\n"
-                f"   - If the ambiguity is GENUINE (the paper itself is unclear, the authors don't state a clear conclusion, "
-                f"or reasonable people could disagree), KEEP confidence as 'medium' or 'low' — this is the honest answer\n"
-                f"   - Update the explanation field to describe what you found in your review\n"
-                f"   - If you disagree with the result classification, change it\n\n"
-                f"Result rules you must apply when reconsidering a label (they are the same "
-                f"rules the first pass was given):\n"
-                f"   - A global claim of support (\"supports\", \"largely verified\", \"bolstered\") does NOT "
-                f"override an abstract or conclusion that also reports \"differing results\", \"some "
-                f"differences\", \"partially\", \"mixed\": that combination is inconclusive.\n"
-                f"   - Change 'inconclusive' to 'success' only if EVERY sub-measure named in the entry's "
-                f"description replicated. If only some did, narrow the description instead of widening "
-                f"the label.\n"
-                f"   - Partial support is inconclusive, not success. A single significant result does not "
-                f"settle a multi-measure entry.\n"
-                f"   - If you change a result label, leave confidence at 'medium': a changed label is by "
-                f"definition a case the evidence did not make obvious.\n\n"
-                f"IMPORTANT: Upgrading to 'high' requires finding specific new evidence. "
-                f"Simply re-reading and agreeing is NOT sufficient grounds for upgrading. "
-                f"Keeping medium/low is a valid and expected outcome when ambiguity is real.\n"
-            )
-
-        if doi_mismatches:
-            mismatch_details = "\n".join(
-                f"  - Entry {mm['entry_idx']}: DOI {mm['doi']} — "
-                f"extracted title: \"{mm['agent_title']}\" but the DOI resolves to "
-                f"title: \"{mm['api_title']}\" by {mm['api_authors'] or 'unknown authors'} ({mm['api_year'] or '?'}). "
-                f"Title similarity: {mm['similarity']}"
-                for mm in doi_mismatches
-            )
-            prompt_parts.append(
-                f"DOI MISMATCHES — the original_url DOI does not match the original_title:\n"
-                f"{mismatch_details}\n"
-                f"For each mismatch, check references.json and the PDF to determine:\n"
-                f"  a) The DOI is wrong — find the correct DOI or clear original_url to \"\"\n"
-                f"  b) The title is wrong — update original_title to match what the DOI points to\n"
-                f"  c) The API returned wrong metadata (false positive) — keep as-is if you verify the DOI is correct\n"
-            )
-
-        if citation_mismatches:
-            citation_details = "\n".join(
-                f"  - Entry {cm['entry_idx']}: citation_sentence says \"{cm['citation']}\" "
-                f"but extracted original is \"{cm['extracted_authors']}\" ({cm['extracted_year']}). "
-                f"{'Author not found in citation. ' if not cm['author_found'] else ''}"
-                f"{'Year not found in citation.' if not cm['year_found'] else ''}"
-                for cm in citation_mismatches
-            )
-            prompt_parts.append(
-                f"CITATION MISMATCHES — the citation_sentence does not mention the extracted original author/year:\n"
-                f"{citation_details}\n"
-                f"For each mismatch, re-read the Introduction to find the correct replication target, "
-                f"search references.json for the matching reference, and update original_title/authors/year/url "
-                f"to match the study actually named in the citation sentence.\n"
-            )
-
-        prompt_parts.append(
-            f"After your review, write the updated result to {output_dir}/result.json (preserving all fields)."
-        )
-
-        refinement_prompt = "\n".join(prompt_parts)
-
-        refine_cmd = [
-            "claude",
-            "--print",
-            "--output-format", "json",
-            # Same model as the first pass: without this the reviewer ran on the
-            # CLI default, so a run's provenance did not describe what reviewed it.
-            "--model", model,
-            "--max-turns", "20",
-            "--allowedTools", "Read", "Grep", "Glob", "Write",
-            "--dangerously-skip-permissions",
-            "-p", refinement_prompt,
-        ]
-
-        refine_start = time.monotonic()
-
-        refine_process = subprocess.Popen(
-            refine_cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
-
-        thread_id = threading.current_thread().ident
-        _running_processes[thread_id] = refine_process
-
-        try:
-            refine_stdout, refine_stderr = refine_process.communicate(timeout=300)  # 5 min for refinement
-            refine_returncode = refine_process.returncode
-        except subprocess.TimeoutExpired:
-            refine_process.kill()
-            refine_stdout, refine_stderr = refine_process.communicate()
-            log_messages.append("  ⚠️  Review timed out")
-            refine_returncode = -1
-        finally:
-            _running_processes.pop(thread_id, None)
-
-        refine_wall = time.monotonic() - refine_start
-
-        if refine_returncode == 0:
-            # Re-read result.json which the agent should have updated
-            try:
-                refined_data = json.loads(result_path.read_text())
-
-                # Count how many entries were upgraded
-                upgraded = 0
-                for i, rep in enumerate(refined_data.get("replications", [])):
-                    if rep.get("confidence", "").lower() == "high":
-                        # Check if this was previously low/medium
-                        if any(idx == i for idx, _, _, _ in low_med_entries):
-                            upgraded += 1
-
-                # Re-inject replication_url and ai_version
-                for rep in refined_data.get("replications", []):
-                    rep["replication_url"] = replication_url
-                    rep["ai_version"] = ai_version
-
-                data = refined_data
-
-                # Re-validate after review round
-                data, post_review_msgs = validate_extraction(data)
-                log_messages.extend(post_review_msgs)
-
-                kept = len(low_med_entries) - upgraded
-                parts = []
-                if low_med_entries:
-                    parts.append(f"{upgraded} upgraded, {kept} kept" if kept else f"{upgraded} upgraded")
-                if doi_mismatches:
-                    parts.append(f"{len(doi_mismatches)} DOI(s) reviewed")
-                log_messages.append(
-                    f"  ✅  Review done: {', '.join(parts)} ({refine_wall:.1f}s)"
-                )
-
-                # Update usage with refinement costs
-                try:
-                    refine_output = json.loads(refine_stdout)
-                    # Keep the reviewer's own narration: a label flip in the second
-                    # pass is otherwise invisible after the fact.
-                    debug_log["review"] = {
-                        "model": model,
-                        "reasons": {"low_medium": len(low_med_entries),
-                                    "doi_mismatches": len(doi_mismatches),
-                                    "citation_mismatches": len(citation_mismatches)},
-                        "entries_reviewed": [{"index": idx, "confidence_before": conf,
-                                              "result_before": res, "description": desc}
-                                             for idx, conf, res, desc in low_med_entries],
-                        "upgraded_to_high": upgraded,
-                        "assistant_text": refine_output.get("result", "")[:20000],
-                        "wall_sec": round(refine_wall, 1),
-                    }
-                    debug_path.write_text(json.dumps(debug_log, indent=2))
-                    usage["input_tokens"] += refine_output.get("usage", {}).get("input_tokens", 0)
-                    usage["output_tokens"] += refine_output.get("usage", {}).get("output_tokens", 0)
-                    usage["cost_usd"] += refine_output.get("total_cost_usd", 0)
-                    usage["num_turns"] += refine_output.get("num_turns", 0)
-                    usage["wall_time_ms"] += int(refine_wall * 1000)
-                    usage["refinement_round"] = True
-                except (json.JSONDecodeError, KeyError):
-                    pass
-
-            except (json.JSONDecodeError, FileNotFoundError):
-                log_messages.append("  ⚠️  Review produced invalid result, keeping original")
-        else:
-            log_messages.append(f"  ⚠️  Review failed (exit {refine_returncode}), keeping original")
-
-    elif needs_refinement:
-        # Log without review (codex mode or shutdown)
-        if low_med_entries:
-            log_messages.append(
-                f"  ⚠️  {len(low_med_entries)} entries with low/medium confidence (no review)"
-            )
+            log_messages.append(f"  ⚠️  {len(low_med_entries)} entries with low/medium confidence (no review)")
             for idx, conf, res, desc in low_med_entries:
                 log_messages.append(f"      Entry {idx}: [{conf}] result={res} — {desc}")
         if doi_mismatches:
-            log_messages.append(
-                f"  ❌  {len(doi_mismatches)} DOI mismatches (no review)"
-            )
+            log_messages.append(f"  ❌  {len(doi_mismatches)} DOI mismatches (no review)")
 
-    # ---- METADATA ENRICHMENT ----
-    # Enrich after all refinement is complete, so we work on final data
+    # ---- metadata enrichment, on the final data ----
     if not _shutdown_requested:
-        rep_doi = _extract_doi_from_url(replication_url)
         try:
             data, enrich_msgs = enrich_metadata(
                 data,
-                replication_doi=rep_doi or "",
+                replication_doi=_extract_doi_from_url(replication_url) or "",
                 original_doi_cache=original_doi_cache,
             )
             log_messages.extend(enrich_msgs)
