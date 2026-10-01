@@ -187,7 +187,8 @@ into `papers/{doi}/` — dry-run unless `--execute`), `inbox-subfolders` (one-ti
 move flat pre-layout inbox files into `inbox/{doi}/` — dry-run unless `--execute`),
 `render-markdown` (write the missing `_from_xml.md`/`_from_html.md` for XML/HTML
 already on the drive, gated on prose quality — dry-run unless `--execute`),
-`inventory`/`migrate`/`sweep` (one-time reorg, already done). `converted` now
+`repair-names`. (The one-time `inventory`/`migrate`/`sweep` reorg tools were removed
+2026-10-01; they live in git history.) `converted` now
 means "readable full text present" — abstract.md + body.md **or** a rendition —
 so an XML-only paper is visible to `include-list --status converted`.
 
@@ -267,12 +268,12 @@ Do not duplicate these definitions elsewhere.
 
 ## Where things are
 
-Discover stages `mo_pipeline/discover/` (+ `keywords.py` overlay, `aux/` alt-discovery);
+Discover + download stages `mo_pipeline/discover/` (+ `keywords.py` overlay);
 extract `mo_pipeline/extract/extract.py` (agentic, all fields) + `extract_core.py`
 (single-shot, no statistics; tests in `extract/test_extract_core.py`); ingest (manual, external)
 `../metascience_observatory_website/data_ingestor/data_ingestor.py`;
-corpus `mo_pipeline/corpus/` (models, catalog, migrate_drive, backfill); shared metadata
-fetchers `mo_pipeline/shared/`; orchestrator `server/app/`; dashboard `dashboard/src/app/`.
+corpus `mo_pipeline/corpus/` (models, catalog, render, adopt); shared metadata
+fetchers, the fetchpdf shim and the published-DB reader `mo_pipeline/shared/`; orchestrator `server/app/`; dashboard `dashboard/src/app/`.
 `benchmarking/` is the extraction benchmark: `harness.py` (evaluate / retest /
 gold-set toolchain), `matching.py` (DOI -> Haiku judge -> one-to-one assignment),
 `codebook.md`, `gold/`, `silver/`, `results/`, `recall_harness.py`; read

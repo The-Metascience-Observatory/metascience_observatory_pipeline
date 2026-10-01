@@ -46,16 +46,6 @@ PAPERS_DIR = MEDIA_ROOT / "papers"        # the corpus: one folder per DOI
 SPECIAL_DIR = MEDIA_ROOT / "special"      # pre-pipeline corpora (acm_AIS, questionable)
 LEGACY_DIR = MEDIA_ROOT / "legacy"        # dup losers / oddities from migration
 
-# Root of the already-ingested corpus (legacy layout, pre-reorg). This is the
-# **ingested** dir, NOT the historical "have_been_ingested" typo that several
-# scripts referenced — fixing it means the ingested-scan actually finds papers
-# and correctly shrinks the download queue.
-INGESTED_ROOT = MEDIA_ROOT / "ingested"
-
-# The batch dir stage-5 downloads write to today (pre-reorg). Post-reorg this
-# becomes INBOX_DIR; kept for the transition.
-CURRENT_BATCH_DIR = MEDIA_ROOT / "8th_batch"
-
 # ── API settings ─────────────────────────────────────────────────────────────
 ENTREZ_EMAIL = "delton17@gmail.com"
 NCBI_DELAY = 0.34          # seconds between NCBI API calls (their rate limit)
@@ -125,7 +115,6 @@ CANDIDATES_FILTERED_CSV = DATA_DIR / "candidates_filtered.csv"
 CLASSIFIED_CSV = DATA_DIR / "classified.csv"
 CONFIRMED_REPLICATIONS_CSV = DATA_DIR / "confirmed_replications.csv"
 PROCESSED_MANIFEST_CSV = DATA_DIR / "processed_manifest.csv"
-CITATION_MINED_CSV = DATA_DIR / "citation_mined_candidates.csv"
 
 # ── Keyword yield stats (derived, cached — see discover/keyword_stats.py) ────
 KEYWORD_STATS_JSON = DATA_DIR / "keyword_stats.json"
@@ -139,7 +128,6 @@ DOI_RUNS_DIR = DATA_DIR / "doi_runs"
 # ── Discover-stage progress checkpoints (progress/) ──────────────────────────
 SEARCH_PROGRESS_FILE = PROGRESS_DIR / "search_progress.json"
 CLASSIFY_PROGRESS_FILE = PROGRESS_DIR / "classify_progress.json"
-CITATION_MINE_PROGRESS_FILE = PROGRESS_DIR / "citation_mine_progress.json"
 
 # ── Stage-5 download selection ───────────────────────────────────────────────
 # Classifier replication_type values stage 5 queues by default (--type overrides,
@@ -218,7 +206,6 @@ PROMPT_FILES = {
     "xml": PROMPTS_DIR / "prompt_full_xml.md",
 }
 PROMPT_SHARED_CORE = PROMPTS_DIR / "prompt_shared_core.md"
-SCREEN_PROMPT_FILE = PROMPTS_DIR / "prompt_screen.md"
 EXTRACTOR_VERSION_FILE = PROMPTS_DIR / "version.txt"
 
 # ── Secrets ──────────────────────────────────────────────────────────────────
@@ -236,8 +223,7 @@ def _self_check() -> None:
         "Corpus (drive)": [
             ("CATALOG_PATH", CATALOG_PATH), ("INBOX_DIR", INBOX_DIR),
             ("PAPERS_DIR", PAPERS_DIR), ("SPECIAL_DIR", SPECIAL_DIR),
-            ("LEGACY_DIR", LEGACY_DIR), ("INGESTED_ROOT", INGESTED_ROOT),
-            ("CURRENT_BATCH_DIR", CURRENT_BATCH_DIR),
+            ("LEGACY_DIR", LEGACY_DIR),
         ],
         "Discover outputs": [
             ("CANDIDATES_RAW_CSV", CANDIDATES_RAW_CSV),
@@ -260,18 +246,14 @@ def _self_check() -> None:
         ],
         "Prompts": [
             ("PROMPT_SHARED_CORE", PROMPT_SHARED_CORE),
-            ("SCREEN_PROMPT_FILE", SCREEN_PROMPT_FILE),
             ("EXTRACTOR_VERSION_FILE", EXTRACTOR_VERSION_FILE),
             *[(f"PROMPT_FILES[{k}]", v) for k, v in PROMPT_FILES.items()],
         ],
         "Secrets": [("ENV_FILE", ENV_FILE)],
     }
-    # Paths that are legitimately absent (created on demand, or retired by the
-    # corpus reorg — INGESTED_ROOT/CURRENT_BATCH_DIR were drained into papers/).
+    # Paths that are legitimately absent (created on demand).
     expected_absent = {
         "CATALOG_PATH", "INBOX_DIR", "PAPERS_DIR", "SPECIAL_DIR", "LEGACY_DIR",
-        "CITATION_MINED_CSV",
-        "INGESTED_ROOT", "CURRENT_BATCH_DIR",
     }
     missing = 0
     for group, items in groups.items():

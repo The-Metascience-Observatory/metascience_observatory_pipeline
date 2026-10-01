@@ -194,9 +194,23 @@ def query(conn: sqlite3.Connection, *, status: str | None = None,
     return conn.execute(sql, args).fetchall()
 
 
-def ingested_dois(conn: sqlite3.Connection) -> set[str]:
-    """DOIs known to the corpus (any status) — used by download/classify dedup."""
-    return {r[0] for r in conn.execute("SELECT doi FROM papers")}
+def coverage_report() -> dict:
+    """Print how many published-database replication DOIs have a corpus folder."""
+    from mo_pipeline.shared.production_db import published_dois
+    db, path = published_dois()
+    if path is None:
+        raise FileNotFoundError(f"no replications database named in {config.VERSION_HISTORY_PATH}")
+    conn = connect()
+    try:
+        have = {r[0].lower() for r in conn.execute("SELECT doi FROM papers")}
+    finally:
+        conn.close()
+    matched = db & have
+    pct = 100 * len(matched) / len(db) if db else 0
+    print(f"Database→corpus coverage ({path.name}): {len(matched)}/{len(db)} = {pct:.1f}%")
+    print(f"  missing from the corpus: {len(db) - len(matched)}")
+    return {"matched": len(matched), "missing": len(db) - len(matched),
+            "coverage_pct": round(pct, 1)}
 
 
 def _normalize_doi(url_or_doi: str) -> str:

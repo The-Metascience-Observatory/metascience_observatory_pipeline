@@ -1,11 +1,9 @@
 """
-CLI for the corpus catalog + drive migration.
+CLI for the corpus catalog and drive maintenance.
 
-    python -m mo_pipeline.corpus inventory   # READ-ONLY: build migration_plan.csv
-    python -m mo_pipeline.corpus migrate      # dry-run the plan (moves nothing)
-    python -m mo_pipeline.corpus migrate --execute   # perform the moves
     python -m mo_pipeline.corpus scan         # rebuild corpus.sqlite from papers/
     python -m mo_pipeline.corpus stats        # print catalog stats
+    python -m mo_pipeline.corpus -h           # every subcommand
 """
 from __future__ import annotations
 
@@ -14,7 +12,7 @@ import json
 import sys
 from pathlib import Path
 
-from mo_pipeline.corpus import adopt, catalog, migrate_drive
+from mo_pipeline.corpus import adopt, catalog
 
 
 def _print(obj):
@@ -24,14 +22,6 @@ def _print(obj):
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="mo_pipeline.corpus")
     sub = ap.add_subparsers(dest="cmd", required=True)
-
-    sub.add_parser("inventory", help="READ-ONLY: scan legacy layout -> migration_plan.csv")
-
-    mp = sub.add_parser("migrate", help="execute migration_plan.csv (dry-run unless --execute)")
-    mp.add_argument("--execute", action="store_true", help="actually move folders")
-
-    sw = sub.add_parser("sweep", help="move remaining ingested/ + WIP leftovers to legacy/ (run after migrate)")
-    sw.add_argument("--execute", action="store_true", help="actually move")
 
     rp = sub.add_parser("repair-names",
                         help="rename legacy/ambiguous DOI folder names (dry-run unless --apply)")
@@ -83,25 +73,7 @@ def main(argv=None):
 
     args = ap.parse_args(argv)
 
-    if args.cmd == "inventory":
-        entries = migrate_drive.inventory()
-        path = migrate_drive.write_plan(entries)
-        print(f"Wrote plan: {path}")
-        _print(migrate_drive.plan_summary(entries))
-
-    elif args.cmd == "migrate":
-        result = migrate_drive.migrate(execute=args.execute)
-        _print(result)
-        if not args.execute:
-            print("\n(dry-run — re-run with --execute to perform moves)", file=sys.stderr)
-
-    elif args.cmd == "sweep":
-        result = migrate_drive.sweep_leftovers(execute=args.execute)
-        _print(result)
-        if not args.execute:
-            print("\n(dry-run — re-run with --execute to sweep)", file=sys.stderr)
-
-    elif args.cmd == "repair-names":
+    if args.cmd == "repair-names":
         from mo_pipeline.corpus import repair_folder_names
         if args.check:
             sys.exit(1 if repair_folder_names.check() else 0)
@@ -144,8 +116,7 @@ def main(argv=None):
         conn.close()
 
     elif args.cmd == "coverage":
-        from mo_pipeline.corpus import backfill
-        backfill.coverage_report()
+        catalog.coverage_report()
 
     elif args.cmd == "mark-ingested":
         import csv as _csv

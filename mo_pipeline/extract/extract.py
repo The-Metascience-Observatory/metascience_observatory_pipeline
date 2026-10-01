@@ -2,9 +2,9 @@
 """
 Replication data extractor for The Metascience Observatory.
 
-Calls the claude CLI to extract replication data from academic papers
-that have been pre-processed into split files (abstract.md, body.md,
-references.json, metadata.json) via GROBID.
+Runs an agentic CLI (claude, or codex) over each paper folder to extract its
+replication records. The folder's full text is read through a tier ladder
+(`paper_artifacts`): XML/HTML rendition > GROBID body.md > PDF.
 
 The claude agent writes result.json into each paper's directory.
 The full claude output (including reasoning) is saved as debug_log.json.
@@ -19,8 +19,8 @@ Usage:
     # Batch with parallel workers
     python extract.py papers/ --batch --workers 4
 
-    # Use Cursor Agent CLI instead of Claude CLIXue_PLoSOne_2014_HCVNS3-4A.pdf
-    python extract.py papers/ --batch --usecursor
+    # Codex CLI instead of the Claude CLI (set --model explicitly)
+    python extract.py papers/ --batch --usecodex --model <codex-model>
 """
 
 import argparse
@@ -1064,7 +1064,6 @@ def extract_paper(
     level: str = "base",
     existing_urls: set[str] | None = None,
     tag: str | None = None,
-    use_cursor: bool = False,
     use_codex: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
@@ -1201,23 +1200,6 @@ def extract_paper(
         from mo_pipeline.extract.codex_backend import build_command
         cmd = build_command(paper_dir, model, system_prompt, user_prompt)
         cli_name = "codex"
-    elif use_cursor:
-        # Cursor CLI does not expose a dedicated system prompt flag,
-        # so we prepend the system instructions to the user prompt.
-        cursor_prompt = (
-            f"System instructions:\n{system_prompt}\n\n"
-            f"Task instructions:\n{user_prompt}"
-        )
-        cmd = [
-            "cursor", "agent",
-            "--print",
-            "--output-format", "json",
-            "--model", model,
-            "--workspace", str(paper_dir),
-            "--force",
-            cursor_prompt,
-        ]
-        cli_name = "cursor"
     else:
         cmd = [
             "claude",
@@ -1419,7 +1401,7 @@ def extract_paper(
     needs_refinement = low_med_entries or doi_mismatches or citation_mismatches
     session_id = cli_output.get("session_id", "")
 
-    if needs_refinement and not use_cursor and not use_codex and not _shutdown_requested:
+    if needs_refinement and not use_codex and not _shutdown_requested:
         reasons = []
         if low_med_entries:
             reasons.append(f"{len(low_med_entries)} low/medium confidence")
@@ -1630,7 +1612,7 @@ def extract_paper(
             log_messages.append(f"  ⚠️  Review failed (exit {refine_returncode}), keeping original")
 
     elif needs_refinement:
-        # Log without review (cursor mode or shutdown)
+        # Log without review (codex mode or shutdown)
         if low_med_entries:
             log_messages.append(
                 f"  ⚠️  {len(low_med_entries)} entries with low/medium confidence (no review)"
@@ -1712,238 +1694,6 @@ def is_usage_limit_error(error_text: str) -> bool:
     return body == ""
 
 
-SCREEN_PROMPT_FILE = PROMPT_DIR / "prompt_screen.md"
-
-
-def _extract_pdf_text_local(pdf_path: Path, max_chars: int = 4000) -> str:
-    """Extract leading text from a PDF using fitz (no claude call needed)."""
-    try:
-        import fitz  # pymupdf
-        doc = fitz.open(str(pdf_path))
-        text = ""
-        for page in doc[:4]:
-            text += page.get_text()
-            if len(text) >= max_chars:
-                break
-        return text[:max_chars]
-    except Exception as e:
-        raise RuntimeError(f"fitz PDF extraction failed: {e}")
-
-
-def screen_paper(
-    paper_dir: Path,
-    model: str = "haiku",
-    tag: str | None = None,
-    pdf_only: bool = False,
-) -> tuple[dict, dict]:
-    """Run a cheap Haiku screen to check if a paper contains any type of replication.
-
-    Returns (result_dict, usage_dict). Writes {paper_name}_screen.json to tag dir.
-    Raises RuntimeError on failure, SkipPaper if screen already exists.
-    """
-    paper_dir = paper_dir.resolve()
-
-    output_dir = paper_dir / tag if tag else paper_dir
-    output_dir.mkdir(exist_ok=True)
-
-    screen_path = output_dir / f"{paper_dir.name}_screen.json"
-    if screen_path.exists():
-        raise SkipPaper(f"Screen already exists: {screen_path.name}")
-
-    # Gather input text locally — no claude tool calls needed
-    if pdf_only:
-        pdfs = list(paper_dir.glob("*.pdf"))
-        if not pdfs:
-            raise RuntimeError(f"No PDF found in {paper_dir}")
-        paper_text = _extract_pdf_text_local(pdfs[0])
-    else:
-        abstract_path = paper_dir / "abstract.md"
-        if not abstract_path.exists():
-            raise RuntimeError(f"No abstract.md in {paper_dir}")
-        paper_text = abstract_path.read_text()
-        # Also prepend intro if body.md exists and abstract is short
-        body_path = paper_dir / "body.md"
-        if body_path.exists() and len(paper_text) < 500:
-            body_text = body_path.read_text()
-            paper_text += "\n\n" + body_text[:2000]
-
-    screen_prompt = SCREEN_PROMPT_FILE.read_text()
-    user_prompt = screen_prompt + "\n\n" + paper_text.strip()
-
-    start = time.monotonic()
-    r = subprocess.run(
-        [
-            "claude", "--print", "--output-format", "json",
-            "--model", model, "--max-turns", "1",
-            "--dangerously-skip-permissions",
-            user_prompt,
-        ],
-        capture_output=True, text=True, timeout=60,
-    )
-    wall_time_ms = int((time.monotonic() - start) * 1000)
-
-    combined = ((r.stderr or "") + (r.stdout or "")).strip()
-    if r.returncode != 0:
-        raise RuntimeError(f"claude screen failed for {paper_dir}:\n{combined}")
-
-    try:
-        cli_output = json.loads(r.stdout)
-    except json.JSONDecodeError:
-        raise RuntimeError(f"Failed to parse screen CLI output:\n{r.stdout[:300]}")
-
-    model_usage = cli_output.get("modelUsage", {})
-    model_id = primary_model(model_usage, model)
-    usage = {
-        "model": model_id,
-        "input_tokens": cli_output.get("usage", {}).get("input_tokens", 0),
-        "output_tokens": cli_output.get("usage", {}).get("output_tokens", 0),
-        "cost_usd": cli_output.get("total_cost_usd", 0),
-        "wall_time_ms": wall_time_ms,
-    }
-
-    raw_result = cli_output.get("result", "")
-    # Extract JSON object robustly — ignore surrounding markdown fences or explanation text
-    start_idx = raw_result.find("{")
-    end_idx = raw_result.rfind("}")
-    if start_idx != -1 and end_idx != -1:
-        raw_result = raw_result[start_idx:end_idx + 1]
-
-    try:
-        result = json.loads(raw_result)
-    except json.JSONDecodeError:
-        raise RuntimeError(f"Screen result is not valid JSON:\n{raw_result[:300]}")
-
-    result["paper"] = paper_dir.name
-    result["tag"] = tag
-    result["cost_usd"] = usage["cost_usd"]
-
-    screen_path.write_text(json.dumps(result, indent=2))
-    return result, usage
-
-
-def screen_batch(
-    papers_dir: Path,
-    model: str = "haiku",
-    workers: int = 4,
-    tag: str | None = None,
-    pdf_only: bool = False,
-    limit: int | None = None,
-    include_papers: set[str] | None = None,
-) -> None:
-    """Run Haiku screening across all papers and write a positive-list file."""
-    papers_dir = papers_dir.resolve()
-
-    if pdf_only:
-        paper_dirs = sorted(
-            p for p in papers_dir.iterdir()
-            if p.is_dir() and any(p.glob("*.pdf"))
-            and (include_papers is None or p.name in include_papers)
-        )
-    else:
-        paper_dirs = sorted(
-            p for p in papers_dir.iterdir()
-            if p.is_dir() and (p / "abstract.md").exists()
-            and (include_papers is None or p.name in include_papers)
-        )
-
-    if limit is not None and len(paper_dirs) > limit:
-        print(f"Limiting screen from {len(paper_dirs)} to {limit} papers (--limit)", file=sys.stderr)
-        paper_dirs = paper_dirs[:limit]
-
-    if not paper_dirs:
-        print(f"No paper directories found in {papers_dir}", file=sys.stderr)
-        return
-
-    print(f"Screening {len(paper_dirs)} papers with {model}...", file=sys.stderr)
-
-    positives: list[str] = []
-    skipped = errors = 0
-    total_cost = 0.0
-    start = time.monotonic()
-
-    def _screen_one(paper_dir: Path):
-        try:
-            result, usage = screen_paper(paper_dir, model=model, tag=tag, pdf_only=pdf_only)
-            return paper_dir, result, usage, None
-        except SkipPaper as e:
-            return paper_dir, None, {}, str(e)
-        except Exception as e:
-            return paper_dir, None, {}, str(e)
-
-    def _run_screen_batch(dirs_to_screen: list[Path], batch_name: str) -> list[Path]:
-        """Run a screening pass; return dirs that failed due to usage limits."""
-        usage_limit_failures = []
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = {pool.submit(_screen_one, d): d for d in dirs_to_screen}
-            screen_start = time.monotonic()
-            for i, future in enumerate(as_completed(futures), 1):
-                paper_dir, result, usage, error = future.result()
-                name = paper_dir.name
-                elapsed_so_far = time.monotonic() - screen_start
-                avg_sec = elapsed_so_far / i
-                remaining_sec = avg_sec * (len(dirs_to_screen) - i)
-                eta = _format_duration(remaining_sec) if i > 1 else "?"
-                prefix = f"[{batch_name} {i}/{len(dirs_to_screen)} ETA {eta}]"
-                nonlocal total_cost, skipped, errors
-                total_cost += usage.get("cost_usd", 0)
-                if error:
-                    if "already exists" in error:
-                        skipped += 1
-                        existing = (paper_dir / tag / f"{name}_screen.json") if tag else (paper_dir / f"{name}_screen.json")
-                        if existing.exists():
-                            try:
-                                data = json.loads(existing.read_text())
-                                if data.get("is_replication"):
-                                    positives.append(name)
-                            except Exception:
-                                pass
-                        print(f"{prefix} SKIP  {name}", file=sys.stderr)
-                    elif is_usage_limit_error(error):
-                        print(f"{prefix} LIMIT {name}", file=sys.stderr)
-                        usage_limit_failures.append(paper_dir)
-                    else:
-                        errors += 1
-                        print(f"{prefix} FAIL  {name}: {error}", file=sys.stderr)
-                else:
-                    is_rep = result.get("is_replication", False)
-                    conf = result.get("confidence", "?")
-                    types = ", ".join(result.get("replication_types", []))
-                    if is_rep:
-                        positives.append(name)
-                        print(f"{prefix} YES   {name}  [{conf}] {types}", file=sys.stderr)
-                    else:
-                        print(f"{prefix} no    {name}  [{conf}]", file=sys.stderr)
-        return usage_limit_failures
-
-    usage_limit_failures = _run_screen_batch(paper_dirs, "Screen")
-
-    retry_attempt = 1
-    while usage_limit_failures and retry_attempt <= 100 and not _shutdown_requested:
-        print(f"\n{'='*60}", file=sys.stderr)
-        print(f"Session usage limit hit: {len(usage_limit_failures)} papers paused.", file=sys.stderr)
-        print(f"Probing every 30 minutes until session resets...", file=sys.stderr)
-        print(f"{'='*60}\n", file=sys.stderr)
-        while not _shutdown_requested:
-            time.sleep(1800)
-            print(f"[Probe] Checking if session limit has reset...", file=sys.stderr)
-            if use_codex or probe_session_available(model):
-                print(f"[Probe] Session available — resuming {len(usage_limit_failures)} papers", file=sys.stderr)
-                break
-            print(f"[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
-        usage_limit_failures = _run_screen_batch(usage_limit_failures, f"Retry-{retry_attempt}")
-        retry_attempt += 1
-
-    elapsed = time.monotonic() - start
-    positive_list_path = papers_dir / f"screened_positive_{tag or 'untagged'}.txt"
-    positive_list_path.write_text("\n".join(positives) + "\n")
-
-    print(f"\n{'='*60}", file=sys.stderr)
-    print(f"Screen complete: {len(positives)} positive / {len(paper_dirs) - skipped - errors} screened  |  {skipped} skipped  |  {errors} errors", file=sys.stderr)
-    print(f"Total cost: ${total_cost:.4f}  |  Time: {_format_duration(elapsed)}", file=sys.stderr)
-    print(f"Positive list → {positive_list_path}", file=sys.stderr)
-    print(f"{'='*60}\n", file=sys.stderr)
-
-
 def probe_session_available(model: str) -> bool:
     """Return True if a minimal claude call succeeds, indicating the session limit has lifted."""
     try:
@@ -1970,7 +1720,6 @@ def extract_batch(
     skip_check: bool = False,
     tag: str | None = None,
     include_papers: set[str] | None = None,
-    use_cursor: bool = False,
     use_codex: bool = False,
     pdf_only: bool = False,
     html_mode: bool = False,
@@ -2046,7 +1795,6 @@ def extract_batch(
                 level=level,
                 existing_urls=existing_urls,
                 tag=tag,
-                use_cursor=use_cursor,
                 use_codex=use_codex,
                 pdf_only=pdf_only,
                 html_mode=html_mode,
@@ -2391,11 +2139,6 @@ def main():
         help="Only collate existing result JSONs into a CSV — no extraction",
     )
     parser.add_argument(
-        "--usecursor",
-        action="store_true",
-        help="Use `cursor agent` CLI instead of `claude` CLI",
-    )
-    parser.add_argument(
         "--onlypdf",
         action="store_true",
         help="PDF-only mode: process papers with only PDF files (no markdown/JSON). Uses prompt_full_pdf_only.md",
@@ -2411,22 +2154,8 @@ def main():
         default=None,
         help="Benchmark only: restrict the full-text tier ladder to one rung (papers lacking it fall through to the PDF). Recorded in provenance.json.",
     )
-    parser.add_argument(
-        "--screen",
-        action="store_true",
-        help="Screening mode: run cheap Haiku pre-screen to identify papers likely containing replications. Writes _screen.json files and a screened_positive_<tag>.txt include-list.",
-    )
-    parser.add_argument(
-        "--screen-model",
-        type=str,
-        default="haiku",
-        help="Model to use for screening (default: haiku)",
-    )
-
     parser.add_argument("--usecodex", action="store_true", help="Use Codex CLI (set --model explicitly)")
     args = parser.parse_args()
-    if args.usecodex and args.usecursor:
-        parser.error("--usecodex and --usecursor are mutually exclusive")
     if args.usecodex and args.model == "sonnet":
         parser.error("--usecodex requires an explicit Codex --model")
 
@@ -2444,17 +2173,7 @@ def main():
             line.strip() for line in args.include_list.read_text().splitlines() if line.strip()
         )
 
-    if args.screen:
-        screen_batch(
-            args.path,
-            model=args.screen_model,
-            workers=args.workers,
-            tag=args.tag,
-            pdf_only=args.onlypdf,
-            limit=args.limit,
-            include_papers=include_papers,
-        )
-    elif args.batch:
+    if args.batch:
         extract_batch(
             args.path,
             model=args.model,
@@ -2464,7 +2183,6 @@ def main():
             skip_check=args.dontcheck,
             tag=args.tag,
             include_papers=include_papers,
-            use_cursor=args.usecursor,
             use_codex=args.usecodex,
             pdf_only=args.onlypdf,
             html_mode=args.html,
@@ -2480,7 +2198,6 @@ def main():
                 level=args.level,
                 existing_urls=existing_urls,
                 tag=args.tag,
-                use_cursor=args.usecursor,
                 use_codex=args.usecodex,
                 pdf_only=args.onlypdf,
                 html_mode=args.html,

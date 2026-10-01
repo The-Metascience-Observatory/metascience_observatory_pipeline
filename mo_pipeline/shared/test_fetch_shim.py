@@ -27,6 +27,9 @@ def test_entry_point_sees_the_elsevier_key(module):
     assert out.stdout.strip().endswith("KEY") and "NOKEY" not in out.stdout, out.stderr[-2000:]
 
 
-def test_backfill_fetches_through_the_shim():
-    src = (REPO / "mo_pipeline/corpus/backfill.py").read_text()
-    assert "from fetchpdf import" not in src and "mo_pipeline.shared.fetch" in src
+def test_nothing_imports_fetchpdf_around_the_shim():
+    """Only shared/fetch.py may import fetchpdf's fetchers directly (invariant 7)."""
+    offenders = [str(p.relative_to(REPO)) for p in (REPO / "mo_pipeline").rglob("*.py")
+                 if p.name != "fetch.py" and not p.name.startswith("test_")
+                 and "from fetchpdf import" in p.read_text()]
+    assert offenders == []

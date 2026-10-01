@@ -15,6 +15,12 @@ Hashes are sha256 of the file as stored, not of the rendered prompt: rendering
 also substitutes the discipline ontology, which lives in the website repo and
 changes on its own schedule.
 
+## Housekeeping 2026-10-01 (no version bump)
+
+`prompt_screen.md` was deleted along with `extract.py --screen`, which stage 4
+(classify) superseded. It was never part of the extraction prompt or its hashes,
+so `ai_version` is unchanged.
+
 ## Prompt 8.9 (2026-09-28)
 
 Two holes in the taxonomy, found by the 2026-09-18 gold-coding audit

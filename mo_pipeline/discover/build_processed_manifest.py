@@ -13,27 +13,17 @@ replications_database_*.csv) is a second source: every replication_url DOI in it
 is a published replication paper, verdict 1, whether or not its folder is on the
 drive and whatever a stale extraction says.
 
-Two sources, in preference order:
-  1. corpus.sqlite catalog (post-reorg) — one query over the flat papers/ corpus.
-  2. legacy INGESTED_ROOT scan (pre-reorg) — walk ingested/<batch>/<doi folders>.
-
-The catalog path is used automatically once the drive has been reorganized
-(see mo_pipeline.corpus). Until then this falls back to the legacy scan, so
-behavior is unchanged during the transition.
+The corpus side comes from the corpus.sqlite catalog; with no catalog the
+manifest holds the production-database DOIs alone (`corpus scan` builds one).
 
 Usage:
     python -m mo_pipeline.discover.build_processed_manifest
 """
 
 import csv
-import re
 import sys
 
-from mo_pipeline.config import DATA_DIR, INGESTED_ROOT, PROCESSED_MANIFEST_CSV, CATALOG_PATH
-from mo_pipeline.corpus.models import folder_to_doi
-
-
-DOI_FOLDER_RE = re.compile(r"^10\.\d+--")
+from mo_pipeline.config import DATA_DIR, PROCESSED_MANIFEST_CSV, CATALOG_PATH
 
 
 def _rows_from_catalog():
@@ -61,38 +51,14 @@ def _dois_in_production_db():
     return dois, path
 
 
-def _rows_from_legacy_scan():
-    """(doi, folder) for every DOI-named folder under INGESTED_ROOT/<batch>/."""
-    if not INGESTED_ROOT.exists():
-        print(f"INGESTED_ROOT does not exist: {INGESTED_ROOT}", file=sys.stderr)
-        sys.exit(1)
-    seen, rows, total, skipped = set(), [], 0, 0
-    for batch_dir in sorted(INGESTED_ROOT.iterdir()):
-        if not batch_dir.is_dir():
-            continue
-        for paper_dir in batch_dir.iterdir():
-            if not paper_dir.is_dir():
-                continue
-            total += 1
-            if not DOI_FOLDER_RE.match(paper_dir.name):
-                skipped += 1
-                continue
-            doi = folder_to_doi(paper_dir.name)
-            if doi.lower() in seen:
-                continue
-            seen.add(doi.lower())
-            rows.append((doi, str(paper_dir), ""))  # legacy layout: verdict unknown
-    print(f"Scanned {total} folders under {INGESTED_ROOT} (skipped {skipped} non-DOI)")
-    return rows
-
-
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     rows = _rows_from_catalog()
     source = "catalog"
     if rows is None:
-        rows = _rows_from_legacy_scan()
-        source = "legacy scan"
+        print("WARNING: no corpus catalog; run `python -m mo_pipeline.corpus scan`",
+              file=sys.stderr)
+        rows, source = [], "production DB only"
     db_dois, db_path = _dois_in_production_db()
     by_doi = {r[0].lower(): list(r) for r in rows}
     for doi in db_dois:

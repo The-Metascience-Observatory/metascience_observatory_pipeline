@@ -28,8 +28,7 @@ import re
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
-# ── Processing status (ordered from least to most processed) ─────────────────
-STATUS_ORDER = ["empty", "downloaded", "converted", "screened", "extracted", "ingested"]
+# ── Processing status ─────────────────────────────────────────────────────────
 
 # Files that mark each stage.
 _CONVERTED_MARKERS = ("abstract.md", "body.md")

@@ -123,7 +123,7 @@ def render_references(refs: list, cap: int = REFS_CAP) -> str:
 
     GROBID: {id, authors[], title, journal, volume, issue, pages, year, doi}
     (some entries carry the whole citation in `title` with everything else
-    null; that renders as-is). Elsevier (corpus/xml_to_markdown.py): {"raw"}.
+    null; that renders as-is). Elsevier (the retired xml_to_markdown backfill): {"raw"}.
     The GROBID `id` is kept as the number because numeric citation styles
     refer to it.
     """
