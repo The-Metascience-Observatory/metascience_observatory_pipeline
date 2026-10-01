@@ -1,4 +1,4 @@
-# mo_pipeline — unified Metascience Observatory replication pipeline
+# Unified Metascience Observatory replication pipeline
 
 One directory for the replication pipeline: search → classify → download →
 convert → extract (+ collate), plus a corpus catalog and a web dashboard to run and
@@ -10,7 +10,7 @@ a former copy here was removed 2026-08-09).
 
 ## Acknowledgment
 
-If you use this code in your research, please acknowledge the MetaScience
+If you use this code in your research, please acknowledge the Metascience
 Observatory and include a link to this repository.
 
 ## Layout
