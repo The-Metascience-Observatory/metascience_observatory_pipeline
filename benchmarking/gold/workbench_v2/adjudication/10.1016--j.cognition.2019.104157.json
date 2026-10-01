@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.cognition.2019.104157",
+  "paper_folder": "10.1016--j.cognition.2019.104157",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "ai_source_review:2026-09-18",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.cognition.2019.104157/body.md",
+      "sha256": "e5c8edc1e7a996231e19a71d49676ce87f01dc4b702ba2283809b9ba3981f168"
+    }
+  ],
+  "flags": [
+    "targeted source review: eligibility_boundary"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.1016--j.cognition.2019.104157#neg",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": " [coded by ling26]",
+      "is_replication_paper": "no",
+      "why_negative": "The paper develops a novel theory of teleological generics and reports four original experiments testing its own predictions; it does not replicate any prior published study."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1016--j.cognition.2019.104157",
+    "category": "eligibility_boundary",
+    "action": "review_required",
+    "pair_hint": "",
+    "finding": "Four experiments test a newly developed theory and linguistic tests. Luna lists five conceptual replications. A human must decide which prior published empirical findings, if any, are deliberately replicated rather than merely cited or used as theoretical background.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.cognition.2019.104157/body.md",
+    "source_line": 161,
+    "source_sha256": "e5c8edc1e7a996231e19a71d49676ce87f01dc4b702ba2283809b9ba3981f168",
+    "evidence": "articipants may have hesitated to mark anything as fully natural or unnatural.\n\nExperiments 1-4 served to assess the four linguistic tests for principled connections (Section 1.2). The experiments provided converging evidence that, across the four linguistic tests, people distinguish experimental verbs (i.e., those that yield acce",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

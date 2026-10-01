@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.34364",
+  "paper_folder": "10.7554--elife.34364",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.34364/10.7554--elife.34364_from_xml.md",
+      "sha256": "b33347caf5d02d8107465047d52532d631f21069db47cc1a45b05da34324ecc6"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.34364#ling26:851621a85e1b8a1a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1126/science.1224820",
+      "original_title": "Intestinal inflammation targets cancer-inducing activity of the microbiota",
+      "description": "Deletion of the pks island does not affect E. coli growth in vitro",
+      "citation_sentence": "This is comparable to what was reported in Supplemental Figure 7 of Arthur et al. (2012)",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.34364#ling26:8f0c1a34f172148c:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1126/science.1224820",
+      "original_title": "Intestinal inflammation targets cancer-inducing activity of the microbiota",
+      "description": "Absence of the pks island reduces tumorigenic potential but not inflammatory potential of E. coli NC101 in AOM-treated germ-free Il10-/- mice",
+      "citation_sentence": "we attempted to independently replicate an experiment similar to the one reported in Figure 4A\u2013F, and Supplemental Figure 10, of Arthur et al. (2012)",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication used an experimental endpoint 9 weeks longer than the original study (18 weeks after last AOM injection vs. 18 weeks after mono-association), a methodological error discovered during peer review that confounds comparison with the original. Authors state the data are unable to address the original question. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "6 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

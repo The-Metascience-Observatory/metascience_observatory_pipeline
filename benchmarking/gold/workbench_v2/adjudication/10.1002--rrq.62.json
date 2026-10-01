@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/rrq.62",
+  "paper_folder": "10.1002--rrq.62",
+  "discipline": "education",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--rrq.62/body.md",
+      "sha256": "cc9ce22c867312eb198c31878dfe110412fcfd4343b4ed8f6af7998673519089"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--rrq.62#ling26:8367794c44c5cc87:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1080/10888430701746849",
+      "original_title": "Scaffolding voluntary summer reading for children in grades 3 to 5: An experimental study",
+      "description": "The effect of adding teacher phone calls to a voluntary summer reading program providing matched books and teacher scaffolding on reading comprehension",
+      "citation_sentence": "In Kim and White's (2008) study of READS, the effective treatment condition-matched books with oral reading and comprehension scaffolding-involved three teacher-directed lessons at the end of the school year",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1002--rrq.62#ling26:39e7557ddf61efd0:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/10888430701746849",
+      "original_title": "Scaffolding voluntary summer reading for children in grades 3 to 5: An experimental study",
+      "description": "The effect of a voluntary summer reading program providing matched books and teacher scaffolding on reading comprehension",
+      "citation_sentence": "the basic treatment condition (TL-SB) in this study was identical with the treatment condition in Kim and White's (2008) study",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1002--rrq.62#ling26:2a89b359ecc5cdfe:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.3102/01623737028004335",
+      "original_title": "Effects of a voluntary summer reading intervention on reading achievement: Results from a randomized field trial",
+      "description": "The effect of a voluntary summer reading program providing matched books and teacher scaffolding on reading comprehension",
+      "citation_sentence": "In Kim and White's (2008) study and Kim's (2006) study, READS was implemented in a large and ethnically diverse suburban school district in the mid-Atlantic region",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

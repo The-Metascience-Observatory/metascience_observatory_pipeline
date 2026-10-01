@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/sjoe.12341",
+  "paper_folder": "10.1111--sjoe.12341",
+  "discipline": "economics",
+  "subdiscipline": "development economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1111--sjoe.12341/body.md",
+      "sha256": "fd1cc4ce00f174b46ea905323c2a24114dcd5787fb9cb1825e87de6205ce809b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--sjoe.12341#ling26:e470bc7504500065:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Iodine Deficiency and Schooling Attainment in Tanzania",
+      "description": "Protection from iodine deficiency in utero, provided by iodized oil capsule distribution programs, increases educational attainment.",
+      "citation_sentence": "Field, Robles, and Torero (2009, hereafter FRT) seek to shed light on this question by estimating the effect on educational attainment of iodized oil capsule (IOC) distribution programs launched in 1986 in Tanzania.",
+      "gt_ambiguity": "clear",
+      "notes": "Narrow replication exactly reproduces FRT's original specification and results using the original THBS 2000 data. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--sjoe.12341#ling26:0233ff9f436912a4:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Iodine Deficiency and Schooling Attainment in Tanzania",
+      "description": "Protection from iodine deficiency in utero, provided by iodized oil capsule distribution programs, increases educational attainment.",
+      "citation_sentence": "Field, Robles, and Torero (2009, hereafter FRT) seek to shed light on this question by estimating the effect on educational attainment of iodized oil capsule (IOC) distribution programs launched in 1986 in Tanzania.",
+      "gt_ambiguity": "clear",
+      "notes": "Wide replication pools five surveys (almost 4x sample size) and uses improved multi-compartment treatment models; no significant effect found in any specification. Authors state 'no effect is found' and 'We find no empirical support for a causal link.' They hedge on whether an effect could exist given measurement error and power limitations. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

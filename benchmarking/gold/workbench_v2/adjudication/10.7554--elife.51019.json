@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.51019",
+  "paper_folder": "10.7554--elife.51019",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.51019/10.7554--elife.51019_from_xml.md",
+      "sha256": "45070a902df0b2cbae94b7ad0698972e8f4f893fbfce1576f43022fca37a2206"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.51019#ling26:e3a2c7c2111b7661:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09144",
+      "original_title": "A coding-independent function of gene and pseudogene mRNAs regulates tumour biology",
+      "description": "PTENP1 downregulation accelerated cell proliferation with the strongest effect observed when PTEN and PTENP1 were both silenced.",
+      "citation_sentence": "This experiment was described in Protocol 2 in the Registered Report (Khan et al., 2015) and is similar to Figure 2H of Poliseno et al. (2010) that reported PTENP1 downregulation accelerated cell proliferation with the strongest effect observed when PTEN and PTENP1 were both silenced.",
+      "gt_ambiguity": "clear",
+      "notes": "Results were in the same direction as the original but not statistically significant for the planned comparisons; authors use hedging language ('generally in the same direction'). [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.51019#ling26:0c2c48db719c41f9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09144",
+      "original_title": "A coding-independent function of gene and pseudogene mRNAs regulates tumour biology",
+      "description": "siRNA knockdown of PTEN or PTENP1 decreased both PTEN and PTENP1 mRNA expression.",
+      "citation_sentence": "This is similar to what was reported in Figure 2G of Poliseno et al. (2010) and described in Protocol 3 in the Registered Report (Khan et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Mixed results: statistically significant for confirming knockdown of PTEN or PTENP1 with target-specific siRNA, but not statistically significant for other comparisons (PTEN mRNA following PTENP1 knockdown, and vice versa). [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.51019#ling26:a3763bbae1cd98d6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09144",
+      "original_title": "A coding-independent function of gene and pseudogene mRNAs regulates tumour biology",
+      "description": "PTEN protein levels decreased after siRNA knockdown of PTEN or PTENP1.",
+      "citation_sentence": "This is similar to what was reported in Figure 2H of Poliseno et al. (2010) and described in Protocol 4 in the Registered Report (Khan et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Mixed results: statistically significant decreases in relative PTEN expression for si-PTEN and si-PTEN/PTENP1 compared to non-targeting siRNA, but not significant for other comparisons. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.51019#ling26:451913a9cec97cd8:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09144",
+      "original_title": "A coding-independent function of gene and pseudogene mRNAs regulates tumour biology",
+      "description": "PTEN 3'UTR derepressed PTENP1 abundance.",
+      "citation_sentence": "This was described in Protocol 5 in the Registered Report (Khan et al., 2015) and is similar to Figure 4A of Poliseno et al. (2010) that reported PTEN 3'UTR derepressed PTENP1 abundance.",
+      "gt_ambiguity": "clear",
+      "notes": "Replication found no statistically significant difference (p=0.671) and the point estimate was in the opposite direction from the original (0.95 vs 1.00 vs original ~3.88 vs 1.00); authors explicitly state results were 'not in the same direction as the original study.' [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.51019#ling26:745603c8c3ba1aa1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09144",
+      "original_title": "A coding-independent function of gene and pseudogene mRNAs regulates tumour biology",
+      "description": "Overexpression of PTEN 3'UTR inhibited cell proliferation.",
+      "citation_sentence": "This is similar to what was reported in Figure 4A of Poliseno et al. (2010) and described in Protocol 6 in the Registered Report (Khan et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Replication found statistically significant growth inhibition in the same direction as the original (t(4)=9.25, p=0.00076); authors state results were 'in the same direction as the original study and statistically significant where predicted.' [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "6 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

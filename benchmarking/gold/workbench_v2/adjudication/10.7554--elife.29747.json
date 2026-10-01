@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.29747",
+  "paper_folder": "10.7554--elife.29747",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.29747/10.7554--elife.29747_from_xml.md",
+      "sha256": "e61d378390344ec0d3f402b94d28b45af5191d510abf95b1e532bf1ea932b21a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.29747#ling26:7f16c2c92bc9d187:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11005",
+      "original_title": "Systematic identification of genomic markers of drug sensitivity in cancer cells",
+      "description": "Ewing's sarcoma cell lines are more sensitive to the PARP inhibitor olaparib than osteosarcoma cell lines (colony formation assay)",
+      "citation_sentence": "This experiment is comparable to what was reported in Figure 4C and Supplemental Figure 16 of Garnett et al. (2012) and described in Protocol 1 in the Registered Report (Vanden Heuvel et al., 2016).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.29747#ling26:19811ff741e4a4c5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11005",
+      "original_title": "Systematic identification of genomic markers of drug sensitivity in cancer cells",
+      "description": "EWS-FLI1 rearrangement is associated with increased sensitivity to olaparib in mouse mesenchymal cells",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 4E of Garnett et al. (2012) and described in Protocol 2 in the Registered Report (Vanden Heuvel et al., 2016).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.29747#ling26:94326562a643de99:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11005",
+      "original_title": "Systematic identification of genomic markers of drug sensitivity in cancer cells",
+      "description": "Depletion of EWS-FLI1 from A673 cells partially rescues olaparib sensitivity",
+      "citation_sentence": "we replicated an experiment similar to what was reported in Figure 4F and Supplemental Figure 20 in Garnett et al. (2012) and described in Protocol 3 in the Registered Report (Vanden Heuvel et al., 2016).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1001/jamapsychiatry.2015.0554",
+  "paper_folder": "10.1001--jamapsychiatry.2015.0554",
+  "discipline": "biology",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1001--jamapsychiatry.2015.0554/body.md",
+      "sha256": "af9f25693ebeec0f2a0e35422671ff1437298b3da38827d00db9791fc38aa65f"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1001--jamapsychiatry.2015.0554#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This is an original meta-analysis of genome-wide association studies for neuroticism and its association with MDD; it does not replicate any previously published experiment or finding."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

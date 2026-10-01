@@ -24,6 +24,23 @@ The original coding sheets, production database and existing gold release are un
 - The OSF revision-notice input remains excluded from outcome scoring pending recovery
   of the actual paper. Twenty-three papers still lack a subdiscipline.
 
+## Changes 2026-10-01
+
+- **Adjudicate from `adjudication/`, not `packets/`.** Codex + Luna is the extraction
+  system under test, so the `adjudication/{folder}.json` views withhold the
+  luna56 coder's candidates (`BLIND_CODERS`). Resolve those candidates in the
+  decision file only after the blind enumeration is complete. Validation still
+  requires every candidate in the full packet to be resolved.
+- **The 20 papers recoded under codebook_v2 on 2026-09-28** carry the v2 rows
+  (`ling26@v2:` / `luna56@v2:`, provenance `ai_candidate:<coder>@codebook_v2`)
+  in place of that coder's v1 rows. A coder whose v2 recode failed keeps its v1
+  rows. Entries a coder added beyond the anchors get content-hash IDs.
+- **Commands:**
+  - `python benchmarking/ground_truth_workbench.py validate` lists per-paper errors.
+  - `export --kind human|ai_adjudicator` writes ground truth that
+    `harness.py evaluate --gold-dir` reads. Human and AI-adjudicated decisions
+    are exported separately and never mixed.
+
 ## Start reviewing
 
 `registry.csv` links every paper to a source/candidate packet and a separate decision file.

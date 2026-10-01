@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.45426",
+  "paper_folder": "10.7554--elife.45426",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.45426/10.7554--elife.45426_from_xml.md",
+      "sha256": "74803df3beb3b7f1b4af3643934f0087dc619c5785fb7130284fafe922441d38"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.45426#ling26:3a981dccd369c538:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/ncb2048",
+      "original_title": "Wnt activity defines colon cancer stem cells and is regulated by the microenvironment",
+      "description": "CD133, the combination of CD29/CD24, and the combination of CD44/CD166 correlated with high Wnt activity (TOP-GFP[high] population)",
+      "citation_sentence": "The original study stated that CD133, the combination of CD29/CD24, and the combination of CD44/CD166 were correlated with the TOP-GFP[high] population (Vermeulen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results varied in direction relative to the original study; some markers showed expected correlation, others did not. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.45426#ling26:613a5a1d516ee079:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/ncb2048",
+      "original_title": "Wnt activity defines colon cancer stem cells and is regulated by the microenvironment",
+      "description": "Clonogenic potential of TOP-GFP[high] fraction was greater compared to TOP-GFP[low] cells, with clonogenic potential of TOP-GFP[low] cells enhanced with MFCM or HGF treatment almost to the level of TOP-GFP[high] cells, which was blocked with PHA665752",
+      "citation_sentence": "The original study reported the clonogenic potential of the TOP-GFP[high] fraction was greater compared to TOP-GFP[low] cells, with the clonogenic potential of TOP-GFP[low] cells enhanced with MFCM, or HGF, treatment, almost to the level of TOP-GFP[high] cells, which was blocked with PHA665752 (Vermeulen et al., 2010). PHA665752 was also reported to have no effect on the clonogenicity of TOP-GFP[whole] cells (Vermeulen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Results were in the same direction as the original study for most comparisons, except for treatment of TOP-GFP[whole] cells with PHA665752, and statistical significance varied among the three cultures tested. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.45426#ling26:bda36506020a720c:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/ncb2048",
+      "original_title": "Wnt activity defines colon cancer stem cells and is regulated by the microenvironment",
+      "description": "TOP-GFP[high] fraction was more effective in inducing tumors than TOP-GFP[low] fraction, and tumorigenicity was increased when TOP-GFP[low] cells were co-injected with MFCM",
+      "citation_sentence": "The original study reported for each of the two clones tested (C100.B5 and C100.G7) the TOP-GFP[high] fraction was more effective in inducing tumors (C100.B5:~1 in every 37, 95% CI [92, 15]; C100.G7:~1 in every 961, 95% CI [2498, 369]) than the TOP-GFP[low] fraction (C100.B5:~1 in every 6939, 95% CI [18841, 2555]; C100.G7: frequency estimate unable to be determined) and that tumorigenicity was increased when TOP-GFP[low] cells were co-injected with MFCM (C100.B5:~1 in every 310, 95% CI [789, 122]; C100.G7:~1 in every 2352, 95% CI [5236, 1056]) (Vermeulen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Results were in the same direction as the original study for the comparison between TOP-GFP[low] with or without MFCM, but not for the comparison of TOP-GFP[low] and TOP-GFP[high], and not statistically significant where predicted. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

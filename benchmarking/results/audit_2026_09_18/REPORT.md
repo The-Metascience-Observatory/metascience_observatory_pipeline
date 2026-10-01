@@ -226,3 +226,18 @@ in `inventory_summary.json`. Original coding CSVs matched their snapshots after
 the work. **49 regression tests passed**, including rerun idempotence, retaining
 positive entries on negative anchors, schema/truncation handling, effect identity,
 cross-coder ID separation, conservative recovery and fail-closed gold export.
+
+## Addendum 2026-10-01: sixth protocol
+
+The workbench later flagged a sixth registered protocol, `10.7554/elife.04363`
+("This replication attempt will perform…"), which this audit counted as an
+ordinary paper. Its denominators do not change materially when it is also excluded:
+
+- Ling: 361 labelled entries, unchanged. Its only row on this paper is unlabelled.
+- Luna: 545 → 543 labelled entries, after dropping its two entries on this paper.
+- Candidate pairs: 54, unchanged. None of the pairs involve this paper.
+- Pairing coverage: 15.0% Ling and 9.9% Luna (54/543), unchanged at one decimal.
+- Outcome agreement on the selected pairs: 48/54, unchanged.
+
+The figures above are left as published. The workbench packets carry all six
+protocol flags.

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s12662-024-00979-x",
+  "paper_folder": "10.1007--s12662-024-00979-x",
+  "discipline": "psychology",
+  "subdiscipline": "sports psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s12662-024-00979-x/body.md",
+      "sha256": "13a06b67148e10b0614720e6fa2a2fa5e291ca0453bed404df8bd58a170e7942"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s12662-024-00979-x#ling26:7bd4d1dd4a2bfa63:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.3390/s21082672",
+      "original_title": "Comparison of self-reported and device-based measured physical activity using measures of stability, reliability, and validity in adults and children",
+      "description": "Investigating the stability of pairwise differences between accelerometry, diary, and questionnaire for measuring physical activity, and assessing reliability and validity of these tools in adults and children.",
+      "citation_sentence": "the current study aimed to replicate the results of our previous study using data from the first SMARTFAMILY trial [8] with data from the SMARTFAMILY2.0 trial.",
+      "gt_ambiguity": "clear",
+      "notes": "Self-replication with mixed results: accelerometry findings largely replicated but diary/questionnaire findings partially reversed; authors state results 'reinforce' previous findings but note important differences and reversed roles of diary vs questionnaire.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1525/collabra.168",
+  "paper_folder": "10.1525--collabra.168",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.168/body.md",
+      "sha256": "282d5f152f9232ddf5544f405b7bbdd74bd49d811d77a5222463419b9149a7af"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1525--collabra.168#ling26:c63405f5aa36fcc3:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.actpsy.2018.04.007",
+      "original_title": "The universal and automatic association between brightness and positivity",
+      "description": "The explicit association between brightness and positivity tested with achromatic black-and-white stimuli using a rating task in Study 2 of the original",
+      "citation_sentence": "Study 2 replicated the findings of Study 2 of [17]",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--collabra.168#ling26:8a6243684fa1201b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.actpsy.2018.04.007",
+      "original_title": "The universal and automatic association between brightness and positivity",
+      "description": "The implicit association between brightness and positivity tested with chromatic blue color patches using the IAT in Study 1 of the original",
+      "citation_sentence": "Study 1 replicated the findings of Study 1 of [17]",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--collabra.168#ling26:31f51d1587e386b1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.actpsy.2018.04.007",
+      "original_title": "The universal and automatic association between brightness and positivity",
+      "description": "The explicit association between brightness and positivity tested with chromatic blue color patches using a rating task in Study 1 of the original",
+      "citation_sentence": "Study 1 replicated the findings of Study 1 of [17]",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--collabra.168#ling26:3e7d46c25591f329:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.actpsy.2018.04.007",
+      "original_title": "The universal and automatic association between brightness and positivity",
+      "description": "The implicit association between brightness and positivity tested with achromatic black-and-white stimuli using the IAT in Study 2 of the original",
+      "citation_sentence": "Study 2 replicated the findings of Study 2 of [17]",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1186/s12913-023-09505-5",
+  "paper_folder": "10.1186--s12913-023-09505-5",
+  "discipline": "medical fields",
+  "subdiscipline": "geriatric care",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1186--s12913-023-09505-5/10.1186--s12913-023-09505-5_from_xml.md",
+      "sha256": "4f17b97c984390ac5729e68eebb53ef190ce35b4a71f1a8493fdff11d6c3966b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1186--s12913-023-09505-5#ling26:38e82f416a60dfe5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1186/s12913-021-06708-6",
+      "original_title": "Sociodemographic aspects and health care-related outcomes: a latent class analysis of informal dementia care dyads",
+      "description": "Latent class analysis identifying six subgroups of informal dementia care dyads based on sociodemographic characteristics in a German sample of 551 dyads",
+      "citation_sentence": "The present study is designed as a replication of a previous LCA, which was carried out with baseline data of the German DemNet-D study [22].",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state that 'the findings of the present study confirm those of the original LCA.' The replication uses the same LCA methodology (Step-3 approach, same indicator variables as much as possible) but with a Dutch sample (COMPAS) instead of the German original (DemNet-D), making it a close extension. No traditional effect sizes or p-values are reported for the LCA results in either the original or replication.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/1745691616664694",
+  "paper_folder": "10.1177--1745691616664694",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--1745691616664694/10.1177--1745691616664694_from_xml.md",
+      "sha256": "0e74286af491d65d89521eb9c677504917328ebafb193f30fad1943d94f7c5eb"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--1745691616664694#ling26:3a06ad9b13495509:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.82.6.956",
+      "original_title": "Dealing with betrayal in close relationships: Does commitment promote forgiveness?",
+      "description": "A high commitment prime reduces exit and neglect forgiveness responses and increases voice and loyalty forgiveness responses compared to a low commitment prime when reacting to hypothetical betrayals by a romantic partner.",
+      "citation_sentence": "Finkel, Rusbult, Kumashiro, and Hannon (2002) predicted that participants exposed to a high-commitment prime would exhibit greater forgiveness, reacting to betrayal with \"lesser exit and neglect along with greater voice and loyalty\" (p. 960) than would those exposed to a low-commitment prime.",
+      "gt_ambiguity": "clear",
+      "notes": "This is a multilab direct replication of Study 1 from Finkel et al. (2002). The RRR found no significant effects of the commitment prime on any of the four forgiveness measures (exit, neglect, voice, loyalty), failing to replicate the original finding that high commitment prime reduced exit and neglect responses. The original study found significant effects for exit and neglect but not voice and loyalty; the RRR found null results across all four. This is a large-scale multilab direct replication (16 labs, preregistered) of Study 1 from Finkel et al. (2002). The meta-analytic results showed near-zero effects for all four outcome measures (exit, neglect, voice, loyalty), and the authors explicitly state the results are not consistent with the original finding. The manipulation check (subjective commitment) also failed.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

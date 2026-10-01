@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/psyp.13546",
+  "paper_folder": "10.1111--psyp.13546",
+  "discipline": "psychology",
+  "subdiscipline": "psychophysiology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1111--psyp.13546/10.1111--psyp.13546_from_xml.md",
+      "sha256": "cbc5ab541e58acd64b6cabf68d139f071f40668c886013043d2497c1c9b1a5fe"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--psyp.13546#ling26:20dd105ea4b07396:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "What is going on around here? Intolerance of uncertainty predicts threat generalization",
+      "description": "Higher intolerance of uncertainty is associated with greater threat generalization during acquisition training and delayed learning of cue pairings during extinction training",
+      "citation_sentence": "Here, we attempted a three-lab direct and conceptual replication of Morriss and colleagues' (2016a) original results.",
+      "gt_ambiguity": "clear",
+      "notes": "Conceptual replication 2 at Texas A&M University used the same general paradigm with ERP measures and modified timing; SCR and LPP findings partially aligned with the original (higher IU showed greater threat generalization and increased threat differentiation during extinction) but ratings did not show the expected phase X IU interaction.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--psyp.13546#ling26:b137995150310942:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "What is going on around here? Intolerance of uncertainty predicts threat generalization",
+      "description": "Higher intolerance of uncertainty is associated with greater threat generalization during acquisition training and delayed learning of cue pairings during extinction training",
+      "citation_sentence": "Here, we attempted a three-lab direct and conceptual replication of Morriss and colleagues' (2016a) original results.",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state they 'failed to replicate' the IU interactions from the original study; higher IU participants showed less threat generalization (greater differentiation) across both phases using SCR, opposite to the original finding. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--psyp.13546#ling26:20dd105ea4b07396:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "What is going on around here? Intolerance of uncertainty predicts threat generalization",
+      "description": "Higher intolerance of uncertainty is associated with greater threat generalization during acquisition training and delayed learning of cue pairings during extinction training",
+      "citation_sentence": "Here, we attempted a three-lab direct and conceptual replication of Morriss and colleagues' (2016a) original results.",
+      "gt_ambiguity": "clear",
+      "notes": "Conceptual replication 1 at McGill University used the same general paradigm but added ERP measures and modified timing; mixed results\u2014some IU-related SCR findings in the expected direction but ratings and LPP did not show the expected interactions. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

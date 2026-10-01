@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.jml.2022.104352",
+  "paper_folder": "10.1016--j.jml.2022.104352",
+  "discipline": "linguistics",
+  "subdiscipline": "phonetics and phonology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.jml.2022.104352/10.1016--j.jml.2022.104352_from_xml.md",
+      "sha256": "c18af332b13c111d227fc58c660ec5025ed7aeb6172d8b6f343c2f275372dd70"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.jml.2022.104352#ling26:cf88abab063f06b4:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1121/1.1894649",
+      "original_title": "Training Japanese listeners to identify English",
+      "description": "Multiple talker phonetic training improves generalisation of non-native phoneme contrast learning",
+      "citation_sentence": "The goal of the current paper is to replicate the key experiments from Logan et al. (1991) and Lively et al. (1993) and test the hypothesis that using high variability input leads to more generalisation in phonetic learning than when low variability input is used.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Paper replicates both Logan et al. (1991) and Lively et al. (1993); original_url references Logan et al. (1991) as the primary original study. The paper's own experiment is a single replication study with both HV and LV conditions. Bayes Factors were used as the primary inference statistic; traditional p-values and effect sizes are not reported in the standard format.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

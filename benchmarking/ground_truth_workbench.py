@@ -14,6 +14,12 @@ from mo_pipeline.extract.extract_core import paper_artifacts
 from prepare_gold_sources import ROOT, DOI as SPORTS_DOI
 
 AUDIT = harness.RESULTS_DIR / 'audit_2026_09_18'
+RECODE = harness.RESULTS_DIR / 'recode_v2_2026_09_28'
+# Coders whose candidates are withheld from the adjudication view. Luna (luna56)
+# is the extraction system under test from 2026-10-01, so letting its proposals
+# anchor the reference would score it against itself. Its candidates stay in the
+# full packet and are resolved after the blind adjudication.
+BLIND_CODERS = ('luna56',)
 PROTOCOLS = {'10.7554/elife.' + s for s in
              ('11566', '11999', '09976', '11414', '10860', '04363')}
 NOTICE = '10.31234/osf.io/esu9z'
@@ -28,7 +34,7 @@ def digest(value):
     return hashlib.sha256(json.dumps(value, sort_keys=True).encode()).hexdigest()
 
 
-def candidate(row, coder):
+def candidate(row, coder, provenance=None):
     # Exclude imported external labels and hints from the review packet. The
     # source coder may already have seen hints: this does not restore blinding.
     allowed = ('result', 'replication_type', 'original_url', 'original_title',
@@ -36,8 +42,13 @@ def candidate(row, coder):
                'is_replication_paper', 'why_negative')
     # Coder-prefixed: both coders' sheets name a paper's negative row '<folder>#neg',
     # so the bare row_id collided on 29 packets and one resolution covered both.
-    return dict(candidate_id=f'{coder}:{row["row_id"]}', coder=coder,
-                provenance='ai_candidate:' + coder,
+    # Entries a coder ADDED beyond the sheet's anchors have no row_id (the v2
+    # recode sheets hold 2-3 per paper); identify those by their content instead.
+    row_id = row.get('row_id') or '{}#added_{}'.format(row.get('paper_folder', ''), hashlib.sha1(
+        '\x1f'.join(row.get(k, '') for k in ('original_url', 'original_title', 'description',
+                                              'citation_sentence')).encode()).hexdigest()[:10])
+    return dict(candidate_id=f'{coder}:{row_id}', coder=coder,
+                provenance=provenance or 'ai_candidate:' + coder,
                 **{key: row.get(key, '') for key in allowed})
 
 
@@ -108,12 +119,38 @@ def is_untouched(decision):
                                              'enumeration_complete', 'effects', 'candidate_resolutions'))
 
 
+def recoded_papers():
+    """{coder: folders that coder recoded successfully under codebook_v2}."""
+    out = {}
+    for coder in ('ling26', 'luna56'):
+        path = RECODE / f'runs_{coder}' / 'completion.json'
+        out[coder] = set(json.loads(path.read_text()).get('succeeded', [])) if path.exists() else set()
+    return out
+
+
+def adjudication_view(packet):
+    """The packet with BLIND_CODERS' candidates withheld, for blind adjudication."""
+    hidden = [c for c in packet['candidates'] if c['coder'].split('@')[0] in BLIND_CODERS]
+    view = dict(packet, candidates=[c for c in packet['candidates'] if c not in hidden])
+    view['blinding'] = (f'{len(hidden)} candidate(s) from {", ".join(BLIND_CODERS)} withheld: '
+                        'that model is the system under test. Resolve them after adjudicating.')
+    return view
+
+
 def build(root=ROOT):
     frame = read_csv(AUDIT / 'frame_reconciled.csv')
     candidates = defaultdict(list)
+    recoded = recoded_papers()
     for coder in ('ling26', 'luna56'):
         for row in read_csv(AUDIT / f'clean_{coder}.csv'):
-            candidates[row['replication_doi']].append(candidate(row, coder))
+            if row['paper_folder'] not in recoded[coder]:
+                candidates[row['replication_doi']].append(candidate(row, coder))
+        # Papers this coder recoded successfully under codebook_v2 (2026-09-28)
+        # carry the v2 rows instead; failed papers keep their v1 rows.
+        for row in read_csv(RECODE / f'sheet_{coder}_v2.csv'):
+            if row['paper_folder'] in recoded[coder]:
+                candidates[row['replication_doi']].append(
+                    candidate(row, coder + '@v2', f'ai_candidate:{coder}@codebook_v2'))
     reviews = {r['paper_folder']: r for r in
                json.loads((AUDIT / 'source_review_20.json').read_text())}
     sports = json.loads((ROOT / 'sources/sports/source_effects.json').read_text())
@@ -162,6 +199,8 @@ def build(root=ROOT):
                       flags=flags, candidates=candidates[doi], source_proposals=proposals,
                       prior_source_review=review)
         (root / 'packets' / f'{folder}.json').write_text(json.dumps(packet, indent=2))
+        (root / 'adjudication').mkdir(exist_ok=True)
+        (root / 'adjudication' / f'{folder}.json').write_text(json.dumps(adjudication_view(packet), indent=2))
         decision_path = root / 'decisions' / f'{folder}.json'
         template = blank_decision(packet)
         # A started decision is never rewritten: if its packet changed, the stale
@@ -175,6 +214,8 @@ def build(root=ROOT):
     harness.write_csv(root / 'registry.csv', registry)
     inputs = [AUDIT / 'frame_reconciled.csv', AUDIT / 'clean_ling26.csv',
               AUDIT / 'clean_luna56.csv', AUDIT / 'source_review_20.json',
+              RECODE / 'sheet_ling26_v2.csv', RECODE / 'sheet_luna56_v2.csv',
+              RECODE / 'runs_ling26' / 'completion.json', RECODE / 'runs_luna56' / 'completion.json',
               ROOT / 'sources/sports/source_effects.json']
     manifest = dict(papers=len(frame), candidates=sum(r['candidates'] for r in registry),
                     source_proposals=sum(r['source_proposals'] for r in registry),

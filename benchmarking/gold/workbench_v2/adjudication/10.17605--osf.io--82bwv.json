@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/82bwv",
+  "paper_folder": "10.17605--osf.io--82bwv",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--82bwv/body.md",
+      "sha256": "99a132492af0fc7e23f620598d4e7b29ab386ed0a115b59f7577f6d06e3d2eb4"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--82bwv#ling26:86a292e0f94af52a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Errors Are Aversive",
+      "description": "The magnitude of the error-potentiated startle response is correlated with the amplitude of the error-related negativity.",
+      "citation_sentence": "Hajcak & Foti, 2008 \"The task was an arrow version of the flankers task (cf. Hajcak et al., 2005).\"",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state 'we consider this to be a failure to replicate' despite the correlation trending in the same direction (r = -.25, p = .11, one-tailed) and the overall pattern being remarkably similar to the original. Authors explicitly state 'we consider this to be a failure to replicate but with extremely similar results.' The correlation trended in the same direction (r = -.25) but did not reach significance (p = .11, one-tailed).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

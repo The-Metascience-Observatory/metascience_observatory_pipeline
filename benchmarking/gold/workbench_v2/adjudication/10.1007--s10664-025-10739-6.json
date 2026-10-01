@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s10664-025-10739-6",
+  "paper_folder": "10.1007--s10664-025-10739-6",
+  "discipline": "human-computer interaction",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s10664-025-10739-6/body.md",
+      "sha256": "c878f707e82b0c22eb8bf74a32eeeebeee720b38a376cef1f2f9b4077fcceac7"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s10664-025-10739-6#ling26:e590f197a07d1f19:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "The original lab study claimed that biometric sensors can predict the interruptibility of software developers with high accuracy (91.5%) in a controlled lab environment.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states it is an external close replication of the original lab study. The replication failed to replicate the original's high-accuracy classification results; models did not significantly outperform the majority classifier baseline. AQ5 was not replicated due to an incorrect post-interview questionnaire (noted in Section 6.4). The authors explicitly state they cannot replicate models that significantly improve over the majority classifier baseline. Severe threats to validity were identified: small sample size (10 participants), highly imbalanced dataset, and ad hoc transformation of the interruptibility scale. EDA features were dropped after sessions due to a measurement error (electrode saturation), which may have affected model performance.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "5 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

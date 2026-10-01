@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.11999",
+  "paper_folder": "10.7554--elife.11999",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.11999/10.7554--elife.11999_from_xml.md",
+      "sha256": "96d8b113654472bf4b913ae30d21f7dd76a2a7a1c53d61e4fd1e1f7c9e31db4d"
+    }
+  ],
+  "flags": [
+    "protocol: exclude from outcome scoring pending human confirmation",
+    "targeted source review: eligibility"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.11999#ling26:01100ff18f4f8073:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2009.12.040",
+      "original_title": "Kinase-dead BRAF and oncogenic RAS cooperate to drive tumor progression through CRAF",
+      "description": "Paradoxical activation of MEK/ERK signaling by BRAF inhibitors (PLX4720, 885-A) in BRAF[WT]/NRAS[Q61L] D04 cells, and lack of activation by sorafenib",
+      "citation_sentence": "In their 2010 paper, Heidorn and colleagues examined the mechanism of action behind this paradoxical activation of MEK/ERK signaling.",
+      "gt_ambiguity": "clear",
+      "notes": "Registered report protocol paper; replication results reported in a separate paper; Protocol 1 replicates Figure 1A of Heidorn et al.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.11999#ling26:c5302721209b00fb:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2009.12.040",
+      "original_title": "Kinase-dead BRAF and oncogenic RAS cooperate to drive tumor progression through CRAF",
+      "description": "Knockdown of NRAS or CRAF abrogates paradoxical MEK/ERK activation by 885-A in D04 cells",
+      "citation_sentence": "In their 2010 paper, Heidorn and colleagues examined the mechanism of action behind this paradoxical activation of MEK/ERK signaling.",
+      "gt_ambiguity": "clear",
+      "notes": "Registered report protocol paper; replication results reported in a separate paper; Protocol 2 replicates Figure 1B of Heidorn et al.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.11999#ling26:693a9f3b8bd3cc21:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2009.12.040",
+      "original_title": "Kinase-dead BRAF and oncogenic RAS cooperate to drive tumor progression through CRAF",
+      "description": "CRAF[R89L] mutant is unable to bind to BRAF in the presence of activated RAS",
+      "citation_sentence": "In their 2010 paper, Heidorn and colleagues examined the mechanism of action behind this paradoxical activation of MEK/ERK signaling.",
+      "gt_ambiguity": "clear",
+      "notes": "Registered report protocol paper; replication results reported in a separate paper; Protocol 3 replicates Figure 3A of Heidorn et al.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.11999#ling26:394fed65f70ae69e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2009.12.040",
+      "original_title": "Kinase-dead BRAF and oncogenic RAS cooperate to drive tumor progression through CRAF",
+      "description": "BRAF[R188L] mutant does not bind to CRAF even in the presence of drug-induced RAS activity",
+      "citation_sentence": "In their 2010 paper, Heidorn and colleagues examined the mechanism of action behind this paradoxical activation of MEK/ERK signaling.",
+      "gt_ambiguity": "clear",
+      "notes": "Registered report protocol paper; replication results reported in a separate paper; Protocol 4 replicates Figure 3B of Heidorn et al.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.11999#ling26:f34891644b6034e3:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2009.12.040",
+      "original_title": "Kinase-dead BRAF and oncogenic RAS cooperate to drive tumor progression through CRAF",
+      "description": "Kinase-dead BRAF[D594A] still binds to CRAF, indicating that inhibition of BRAF activity drives BRAF binding to CRAF and paradoxical activation",
+      "citation_sentence": "In their 2010 paper, Heidorn and colleagues examined the mechanism of action behind this paradoxical activation of MEK/ERK signaling.",
+      "gt_ambiguity": "clear",
+      "notes": "Registered report protocol paper; replication results reported in a separate paper; Protocol 5 replicates Figure 4D of Heidorn et al.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.11999",
+    "category": "eligibility",
+    "action": "exclude_outcome",
+    "pair_hint": "",
+    "finding": "Future-tense protocols describe original findings. Outcome labels risk attributing the original results to the planned replication.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.11999/10.7554--elife.11999_from_xml.md",
+    "source_line": 20,
+    "source_sha256": "96d8b113654472bf4b913ae30d21f7dd76a2a7a1c53d61e4fd1e1f7c9e31db4d",
+    "evidence": "ahan et al., 2010; Joseph et al., 2010; Lee et al., 2010; Kaplan et al., 2011). This experiment will be replicated in Protocol 1.\n\nPrevious work had shown that activated RAS in melanoma signals through CRAF, while normal signaling in healthy melanocytes is accomplished through BRAF (Dumaz et al., 2006). To determine if CRAF was required for parad",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "6 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

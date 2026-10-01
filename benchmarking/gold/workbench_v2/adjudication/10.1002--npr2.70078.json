@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/npr2.70078",
+  "paper_folder": "10.1002--npr2.70078",
+  "discipline": "medical fields",
+  "subdiscipline": "psychiatry",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--npr2.70078/10.1002--npr2.70078_from_xml.md",
+      "sha256": "48965dc594237df343313f6f4c228fd2f6533b399c74e216a5fb895f695b3e8c"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--npr2.70078#ling26:916a84ca36bcc0f7:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Proposal for a Novel Classification of Patients With Enlarged Ventricles and Cognitive Impairment Based on Data-Driven Analysis of Neuroimaging Results in Patients With Psychiatric Disorders",
+      "description": "Data-driven classification identifies a novel subtype of psychiatric disorders characterized by pronounced enlarged ventricles and cognitive impairment (EVCI), predominantly associated with schizophrenia.",
+      "citation_sentence": "These findings are consistent with the trends observed in our previous study (see Table S1, which is a modified version of table 5 in the previous paper [6]).",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

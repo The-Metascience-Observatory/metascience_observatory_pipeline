@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.17044",
+  "paper_folder": "10.7554--elife.17044",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.17044/10.7554--elife.17044_from_xml.md",
+      "sha256": "625cebe1725f95e68abda94166272dcecd3a53112d283a2ce3d424d798249728"
+    }
+  ],
+  "flags": [
+    "targeted source review: codebook_null"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.17044#1",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1126/scitranslmed.3001318",
+      "original_title": "Discovery and preclinical validation of drug indications using compendia of public gene expression data",
+      "description": "Cimetidine treatment reduces tumor volume in A549 lung adenocarcinoma xenografts compared to vehicle control",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 4C\u2013D and Supplemental Figure 1 of Sirota et al., 2011.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication effect (d=0.93, 95% CI [0.12, 1.72]) was in the expected direction but not statistically significant at the pre-registered Bonferroni threshold (p=0.105). The authors use hedging language ('While not statistically significant'). The meta-analysis of original and replication was significant (p=0.0043), but the replication alone is inconclusive per the codebook's qualified support rule.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.17044",
+    "category": "codebook_null",
+    "action": "accept_pair",
+    "pair_hint": "ACHN",
+    "finding": "Descriptions identify the ACHN negative-control contrast. Both original and replication report no treatment difference. The codebook needs an explicit rule for replication of a null result; do not equate non-significance with either proven equivalence or automatic failure.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.17044/10.7554--elife.17044_from_xml.md",
+    "source_line": 32,
+    "source_sha256": "625cebe1725f95e68abda94166272dcecd3a53112d283a2ce3d424d798249728",
+    "evidence": "ion as the original study. The treatment of ACHN derived tumors with cimetidine did not result in an observational difference in tumor volume after treatment when compared to vehicle control treated tumors, similar to the original study.\n\nAs an additional control for tumor growth inhibition, tumors from A549 cells were treated with 2 mg/kg doxorubicin, simila",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

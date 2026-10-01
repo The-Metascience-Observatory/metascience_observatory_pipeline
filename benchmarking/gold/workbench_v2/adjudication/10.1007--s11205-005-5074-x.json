@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s11205-005-5074-x",
+  "paper_folder": "10.1007--s11205-005-5074-x",
+  "discipline": "economics",
+  "subdiscipline": "behavioral and experimental economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s11205-005-5074-x/body.md",
+      "sha256": "db70800dbcb5011fddf0fc21f6664e2ce53bb9f87359fe195c758ae37c969a5d"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s11205-005-5074-x#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

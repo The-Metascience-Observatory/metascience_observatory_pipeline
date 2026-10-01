@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/edu0000095",
+  "paper_folder": "10.1037--edu0000095",
+  "discipline": "education",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--edu0000095/body.md",
+      "sha256": "7ac6d4062f75fd52edfdcb8ec165692ac9039a1a242000f9433148b6932cb6a3"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--edu0000095#ling26:20e6c153a8e026da:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A randomized field trial of the Pathway Project cognitive strategies approach to text-based analytical writing for mainstreamed English learners in secondary school",
+      "description": "The Pathway Project cognitive strategies professional development program improves academic writing outcomes for secondary school Latinos and English learners",
+      "citation_sentence": "This prior study yielded effect sizes of .35 in Year 1 and .67 in Year 2 on an on-demand assessment of academic writing. It also showed that the Pathway Project had a small but statistically significant impact on the writing subtest of the California Standards Test (CST; Kim et al., 2011; Olson et al., 2012).",
+      "gt_ambiguity": "clear",
+      "notes": "[ling26: no entry matched this anchor] Year 2 of the AUHSD replication; original SAUSD study identified as Kim et al. (2011) and Olson et al. (2012); no DOI available for the original study in the paper.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--edu0000095#ling26:20e6c153a8e026da:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A randomized field trial of the Pathway Project cognitive strategies approach to text-based analytical writing for mainstreamed English learners in secondary school",
+      "description": "The Pathway Project cognitive strategies professional development program improves academic writing outcomes for secondary school Latinos and English learners",
+      "citation_sentence": "This prior study yielded effect sizes of .35 in Year 1 and .67 in Year 2 on an on-demand assessment of academic writing. It also showed that the Pathway Project had a small but statistically significant impact on the writing subtest of the California Standards Test (CST; Kim et al., 2011; Olson et al., 2012).",
+      "gt_ambiguity": "clear",
+      "notes": "Year 1 of the AUHSD replication; original SAUSD study identified as Kim et al. (2011) and Olson et al. (2012); no DOI available for the original study in the paper. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.26030",
+  "paper_folder": "10.7554--elife.26030",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.26030/10.7554--elife.26030_from_xml.md",
+      "sha256": "5d2823667655791f0f1ba6dad0a3e756a451702630d4a88b95d25e34b5d191ff"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.26030#ling26:484962d231e981d9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.ccr.2010.01.20",
+      "original_title": "The common feature of leukemia-associated IDH1 and IDH2 mutations is a neomorphic enzyme activity converting alpha-ketoglutarate to 2-hydroxyglutarate",
+      "description": "The cancer-associated IDH2 R172 mutation exhibits a loss-of-function for isocitrate-dependent NADPH production and a gain-of-function for alpha-ketoglutarate-dependent NADPH consumption compared to wild-type IDH2",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 2 of Ward et al. (2010) and described in Protocol 1 in the Registered Report (Fiehn et al., 2016).",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results were in the same direction as the original and statistically significant where predicted. The isocitrate-dependent NADPH production assay showed significant wild-type vs vector control difference but not R172K vs vector control; the alpha-ketoglutarate-dependent NADPH consumption assay showed significant R172K vs vector control difference but not wild-type vs vector control. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.26030#ling26:6fb4d00bbc280dc0:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.ccr.2010.01.20",
+      "original_title": "The common feature of leukemia-associated IDH1 and IDH2 mutations is a neomorphic enzyme activity converting alpha-ketoglutarate to 2-hydroxyglutarate",
+      "description": "R172K mutant IDH2 acquires enhanced conversion of alpha-ketoglutarate to 2-hydroxyglutarate (2HG)",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 3D of Ward et al. (2010), and described in Protocol 2 in the Registered Report (Fiehn et al., 2016), with cells analyzed 24 and 48 hr after transfection.",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results were in the same direction as the original and statistically significant where predicted. R172K mutant IDH2 cells showed over 600-fold higher 2HG/glutamate than vector control and wild-type IDH2 cells at 48 hr. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.26030#ling26:34cc19373cd10e27:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.ccr.2010.01.20",
+      "original_title": "The common feature of leukemia-associated IDH1 and IDH2 mutations is a neomorphic enzyme activity converting alpha-ketoglutarate to 2-hydroxyglutarate",
+      "description": "2HG is elevated in AML patients with IDH mutations compared to wild-type IDH samples",
+      "citation_sentence": "This is comparable to the experiment that was reported in Figure 5 of Ward et al. (2010), and described in Protocol 3 in the Registered Report (Fiehn et al., 2016), except the mutational status of IDH1 and IDH2 were determined prior to conducting the metabolite analysis to have adequate samples for each genetically distinct group.",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results were in the same direction as the original and statistically significant, except on samples with IDH1 mutations when using TIC chromatograms (corrected p=0.063). All other comparisons (IDH2 mutation, IDH1/IDH2 mutation, and EIC-based analyses) were statistically significant. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "6 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

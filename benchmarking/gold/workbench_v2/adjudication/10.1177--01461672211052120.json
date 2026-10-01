@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/01461672211052120",
+  "paper_folder": "10.1177--01461672211052120",
+  "discipline": "psychology",
+  "subdiscipline": "experimental philosophy",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/ground_truth_data_filtered_PDFs/10.1177--01461672211052120/body.md",
+      "sha256": "1ff964f82e869f9effb4d5626c555d85f8768839a13e5494f32c677b279b09ad"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--01461672211052120#ling26:227c7992bfb544cf:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.cognition.2014.09.006",
+      "original_title": "The drunk utilitarian: Blood alcohol concentration predicts utilitarian responses in moral dilemmas",
+      "description": "Pro-sacrificial harm judgments in the switch dilemma as a function of blood alcohol concentration",
+      "citation_sentence": "For responses to the two variants of the trolley problem, we expected to obtain effects that correspond to Duke and B\u00e8gue's (2015) correlational findings.",
+      "gt_ambiguity": "clear",
+      "notes": "Preregistered experiment with N=329 found no significant effect of alcohol on moral judgments across all measures (all Fs and ts nonsignificant), failing to replicate the drunk utilitarian phenomenon originally reported by Duke and B\u00e8gue (2015). Original study was correlational; this replication was experimental with placebo control and higher alcohol dose.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--01461672211052120#ling26:537d498cafec8cd5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.cognition.2014.09.006",
+      "original_title": "The drunk utilitarian: Blood alcohol concentration predicts utilitarian responses in moral dilemmas",
+      "description": "Pro-sacrificial harm judgments in the footbridge dilemma as a function of blood alcohol concentration",
+      "citation_sentence": "For responses to the two variants of the trolley problem, we expected to obtain effects that correspond to Duke and B\u00e8gue's (2015) correlational findings.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

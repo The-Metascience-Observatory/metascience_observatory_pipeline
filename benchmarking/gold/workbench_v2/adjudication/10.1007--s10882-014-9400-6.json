@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s10882-014-9400-6",
+  "paper_folder": "10.1007--s10882-014-9400-6",
+  "discipline": "education",
+  "subdiscipline": "special education",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s10882-014-9400-6/body.md",
+      "sha256": "42895363d9b1b4f8fa1b36ec9c8692a317ff7b1d4a7e976e1a8fc8a28980f52b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s10882-014-9400-6#ling26:d2afd1ef2f3a493e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Advancing imitation and requesting skills in toddlers with Down syndrome",
+      "description": "Feeley et al. (2011) taught toddlers with Down syndrome to make requests using multiple opportunities, prompting, and social reinforcement",
+      "citation_sentence": "The purpose of the present study is to replicate the effects of prompting, multiple opportunities, and high rates of social reinforcement as implemented in [10] with infants with Down syndrome between 6 and 18 months of age, the young age at which these critical skills are seen in typically developing infants, and explore generalization and collateral changes in intelligibility and problem solving.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original as [10] using a numbered marker rather than spelling out author names and year in the body text; the original DOI was not provided in the paper so original_url is left blank. Requesting intervention with 3 infants (Simon, Johnny, Jordan); all mastered gaze shift, gaze shift with vocalization, gaze shift with 'mm', and gaze shift with 'he'. Lucy and Tyler did not participate in requesting intervention because they already demonstrated the first two requesting responses during baseline.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1007--s10882-014-9400-6#ling26:53bc21af9fd88d3e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Advancing imitation and requesting skills in toddlers with Down syndrome",
+      "description": "Feeley et al. (2011) taught toddlers with Down syndrome to imitate verbal sounds using multiple opportunities, prompting, and social reinforcement",
+      "citation_sentence": "The purpose of the present study is to replicate the effects of prompting, multiple opportunities, and high rates of social reinforcement as implemented in [10] with infants with Down syndrome between 6 and 18 months of age, the young age at which these critical skills are seen in typically developing infants, and explore generalization and collateral changes in intelligibility and problem solving.",
+      "gt_ambiguity": "clear",
+      "notes": "Verbal imitation intervention with 5 infants; all infants mastered all 3 target sounds. The original study [10] also targeted both verbal imitation and requesting simultaneously. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

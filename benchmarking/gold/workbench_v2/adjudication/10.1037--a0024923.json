@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/a0024923",
+  "paper_folder": "10.1037--a0024923",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--a0024923/body.md",
+      "sha256": "91e88df755ed823d6d7727beb785bf2bb6bb5b0cd25dbe6fb77e5353d297abe3"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--a0024923#ling26:6b6168f911d3e7e1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-7687.2009.00859",
+      "original_title": "Children's and adults' judgments of equitable resource distributions",
+      "description": "5-and 6-year-olds' and parents' sensitivity to proportion when evaluating niceness of givers in collaborative versus individual effort contexts",
+      "citation_sentence": "Consistent with previous reports [24], we found that children often focused on absolute amount rather than proportion when evaluating givers who shared individually earned resources, unlike adults who always considered proportion.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 3 replicates key findings from Studies 1 and 2 using identical methods for children and caregivers; authors state 'replicated key findings from Studies 1 and 2' in the abstract. Study 3 replicated key findings from Studies 1 and 2 using identical methods for children and parents.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--a0024923#ling26:9a28644d18a57ae9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-7687.2009.00859",
+      "original_title": "Children's and adults' judgments of equitable resource distributions",
+      "description": "5-year-olds' sensitivity to proportion when assessing the niceness of givers in a Giving Game",
+      "citation_sentence": "This result replicates the findings of [24]",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--a0024923#ling26:ac2dee94ee27f29d:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-7687.2009.00859",
+      "original_title": "Children's and adults' judgments of equitable resource distributions",
+      "description": "children's and adults' sensitivity to proportion when evaluating niceness of givers in collaborative versus individual effort contexts",
+      "citation_sentence": "In one recent study, [24] found some sensitivity to proportion in 5-year-olds' intuitions about resource distribution.",
+      "gt_ambiguity": "clear",
+      "notes": "Children show proportion sensitivity in collaborative contexts but not individual contexts; adults show it in both. Results differ across scenarios within one experiment, yielding inconclusive. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

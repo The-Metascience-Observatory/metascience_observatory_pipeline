@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/w34fb",
+  "paper_folder": "10.17605--osf.io--w34fb",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--w34fb/body.md",
+      "sha256": "28cdc413ac3272087bd1733739dbe88aefc4a29ed7a9d9838b3e7dcd0b05f4fc"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--w34fb#ling26:954560a7bb259ab2:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/a0025883",
+      "original_title": "More than a body: Mind perception and the nature of objectification.",
+      "description": "Body focus inferring different moral statuses effect (Experiment Five of Gray et al., 2011).",
+      "citation_sentence": "The study described in the current report is a very close replication of Gray et al.'s (2011) study and had two clear goals.",
+      "gt_ambiguity": "clear",
+      "notes": "Original effect sizes and p-values are for specific dependent variables (moral agency and moral patiency) and not aggregated; replication N for Experiment 5 is 240.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.17605--osf.io--w34fb#ling26:e9336994a0997c95:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/a0025883",
+      "original_title": "More than a body: Mind perception and the nature of objectification.",
+      "description": "Body focus inducing redistribution of mind perception effect (Experiment Four of Gray et al., 2011).",
+      "citation_sentence": "The study described in the current report is a very close replication of Gray et al.'s (2011) study and had two clear goals.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "7 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

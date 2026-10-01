@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/0022-3999(93)90123-w",
+  "paper_folder": "10.1016--0022-3999(93)90123-w",
+  "discipline": "medical fields",
+  "subdiscipline": "psychosomatic medicine",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--0022-3999(93)90123-w/body.md",
+      "sha256": "69014911d6da475700d486763531115e0da51169aaef916e3bba62886215cddb"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--0022-3999(93)90123-w#ling26:a4f57ee16ed18f20:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Patterns of illness behaviour with intractable pain",
+      "description": "Factor analysis of the Illness Behaviour Questionnaire (IBQ-52) identifying seven dimensions of illness behaviour in pain clinic patients",
+      "citation_sentence": "The factors obtained were compared to those of the original study, Pilowsky and Spence J Psychosom Res 1975, 19: 279-287, and studies by Zonderman ef al. Hlth Psycho1 1985; 4: 425-436, and Main and Waddell Pain 1987; 28: 13-26.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports varying degrees of robustness across the original seven factors: Affective Inhibition, Affective Disturbance, Denial, and Irritability replicated well, but Psychological vs Somatic Focusing was far less robust. Five new factors also emerged. The mixed pattern of partial replication across factors warrants inconclusive classification. Mixed results across the original seven factors: Affective Inhibition, Affective Disturbance, Denial, and Irritability were robust; General Hypochondriasis, Disease Conviction, and Psychological vs Somatic Focusing were less robust or absent in subgroups. Five new factors also emerged. The authors do not make an explicit success or failure statement, and the varying robustness across factors makes the overall result genuinely ambiguous.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "7 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

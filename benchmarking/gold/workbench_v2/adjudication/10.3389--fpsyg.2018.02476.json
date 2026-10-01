@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3389/fpsyg.2018.02476",
+  "paper_folder": "10.3389--fpsyg.2018.02476",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3389--fpsyg.2018.02476/10.3389--fpsyg.2018.02476_from_xml.md",
+      "sha256": "3bd707b02dd144355130346ff8ee234af6a2baf798cd6a534d0570423d4a7f60"
+    }
+  ],
+  "flags": [
+    "targeted source review: type"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.3389--fpsyg.2018.02476#flora_459",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cognition.2017.02.010",
+      "original_title": "Sequential congruency effects reveal differences in disengagement of attention for monolingual and bilingual young adults",
+      "description": "Bilinguals show a smaller sequential congruency effect than monolinguals, suggesting more efficient disengagement of attention from previous stimuli",
+      "citation_sentence": "One recent study, for example, reported smaller sequential congruency effects for bilingual compared to monolingual adults (Grundy et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication adds neutral baseline trials not present in the original and compares interference effects to that neutral baseline, but the core flanker paradigm and the claim being tested are the same.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.3389--fpsyg.2018.02476",
+    "category": "type",
+    "action": "accept_pair",
+    "pair_hint": "sequential congruency",
+    "finding": "Both descriptions target the bilingual sequential-congruency contrast and agree on failure. Added neutral-baseline trials and language-group differences must be weighed under the method/context type rule.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3389--fpsyg.2018.02476/10.3389--fpsyg.2018.02476_from_xml.md",
+    "source_line": 99,
+    "source_sha256": "3bd707b02dd144355130346ff8ee234af6a2baf798cd6a534d0570423d4a7f60",
+    "evidence": "ly by measuring interference effects following congruent and incongruent trials relative to a post-neutral trial baseline. Consistent with conflict-adaptation models of the sequential congruency effect (e.g., Gratton et al., 1992; Botvinick et al., 2001; but see Compton et al., 2012), adaptation of conflict processing in the current trial ",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

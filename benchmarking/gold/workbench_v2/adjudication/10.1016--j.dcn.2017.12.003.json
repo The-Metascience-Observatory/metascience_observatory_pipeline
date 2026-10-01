@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.dcn.2017.12.003",
+  "paper_folder": "10.1016--j.dcn.2017.12.003",
+  "discipline": "psychology",
+  "subdiscipline": "developmental psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.dcn.2017.12.003/10.1016--j.dcn.2017.12.003_from_xml.md",
+      "sha256": "29caea8748c371ab038fa7ffe8281eeb727af76f71d19b4cbafbb85ef3d1b35a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.dcn.2017.12.003#ling26:1f8ef58097805e15:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-8624.2009.01312.x",
+      "original_title": "Social perception in infancy: a near infrared spectroscopy study",
+      "description": "Differential hemodynamic response in the posterior temporal cortex to social dynamic versus non-social dynamic stimuli in 5-month-old infants",
+      "citation_sentence": "In the present study, we aim to replicate the results of Lloyd-Fox et al. (2009) and investigate the impact of infant Negative Affect (as measured by parental questionnaire) on the early cortical specialization for processing social dynamic stimuli.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states it aims to replicate Lloyd-Fox et al. (2009) Experiment 2 using identical stimuli and closely following its procedure. The authors confirm replication in the Discussion: 'We thus replicated the findings of Lloyd-Fox et al.'s study (2009).' The original study's N, effect sizes, and p-values are not reported in this paper, so those fields are left blank. The replication found the same effect (differential posterior temporal activation for social vs. non-social stimuli) but only in the right hemisphere, whereas the original reported bilateral activation; authors still explicitly state they replicated the findings.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

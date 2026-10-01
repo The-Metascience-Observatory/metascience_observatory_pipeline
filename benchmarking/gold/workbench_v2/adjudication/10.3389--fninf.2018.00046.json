@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3389/fninf.2018.00046",
+  "paper_folder": "10.3389--fninf.2018.00046",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3389--fninf.2018.00046/10.3389--fninf.2018.00046_from_xml.md",
+      "sha256": "e9fa7a8c304606ee764fce7c8ed640144ce3d4c749191f94dff99b0399d891a3"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3389--fninf.2018.00046#ling26:6ca5bd701a7dc69b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1162/089976606775093882",
+      "original_title": "Polychronization: computation with spikes",
+      "description": "The polychronization network model generating polychronous groups",
+      "citation_sentence": "The polychronization network model was proposed by Izhikevich (2006) as a minimal spiking neural network model capable of exhibiting polychronization, consisting of randomly coupled point neurons expressing STDP",
+      "gt_ambiguity": "clear",
+      "notes": "The paper is primarily a reproducibility guideline paper; the replication of Izhikevich (2006) serves as a demonstrative example. Section 3.1 reports successful replication of main results, but the Discussion (Section 4) concludes that the original results generalize very poorly and are sensitive to implementation choices, making the overall outcome ambiguous.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

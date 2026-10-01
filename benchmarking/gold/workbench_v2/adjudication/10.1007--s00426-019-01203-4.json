@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s00426-019-01203-4",
+  "paper_folder": "10.1007--s00426-019-01203-4",
+  "discipline": "psychology",
+  "subdiscipline": "consumer psychology / marketing",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s00426-019-01203-4/10.1007--s00426-019-01203-4_from_xml.md",
+      "sha256": "5128e18e384b9d916aec9b49bed178e99b971a03245ac887f063fd643e6722ef"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s00426-019-01203-4#ling26:7c12c3462fab4147:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1177/0956797610384746",
+      "original_title": "Facing freeze: Social threat induces bodily freeze in humans",
+      "description": "Social threat (angry faces) causes lower heart rate and reduced body sway compared to neutral and happy faces, with the effect modulated by state anxiety",
+      "citation_sentence": "Given the important theoretical and practical consequences of freezing in response to social stress, together with the fact that Roelofs et al. (2010) is the only study showing freezing in response to social threat, the current study aimed to replicate Roelofs et al. (2010).",
+      "gt_ambiguity": "clear",
+      "notes": "The main heart rate effect (lower HR during angry block vs. neutral/happy) was significant and in the expected direction, and the authors state 'largely replicated.' However, the state anxiety modulation was only marginal (and only after excluding an outlier), the negative HR\u2013STAI correlation was not replicated, and the authors note findings are 'not completely in line' with the original. A second coder could plausibly code this as success given the significant main effect and the authors' confirming language, or as inconclusive given the hedging and missing moderators. The authors explicitly state 'the current research has largely replicated the freezing-to-social-threat effect.' The main heart rate finding (angry block lower than neutral and happy blocks) was statistically significant. The state anxiety modulation was only marginal and only emerged after excluding a STAI outlier, and the negative heart rate\u2013STAI correlation was not replicated, but the authors still characterize the overall result as a successful replication.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

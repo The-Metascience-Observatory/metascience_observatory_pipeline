@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.04363",
+  "paper_folder": "10.7554--elife.04363",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.04363/10.7554--elife.04363_from_xml.md",
+      "sha256": "50da13157afed72c07bfa661b2da8571c0b763ff73a5897d030bc147c0cdf985"
+    }
+  ],
+  "flags": [
+    "protocol: exclude from outcome scoring pending human confirmation",
+    "targeted source review: eligibility"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.04363#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "category": "eligibility",
+    "action": "exclude_outcome",
+    "reviewer": "Codex AI source review; not human adjudication",
+    "evidence": "This replication attempt will perform",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.04363/10.7554--elife.04363_from_xml.md",
+    "source_line": 63,
+    "source_sha256": "50da13157afed72c07bfa661b2da8571c0b763ff73a5897d030bc147c0cdf985",
+    "finding": "Registered report describes planned work, not completed replication outcomes."
+  },
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

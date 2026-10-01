@@ -147,3 +147,24 @@ def test_rebuild_preserves_decisions(tmp_path, monkeypatch):
     before = path.read_bytes()
     work.build(tmp_path)
     assert path.read_bytes() == before
+
+
+def test_adjudication_view_withholds_the_system_under_test():
+    packet = dict(candidates=[dict(candidate_id='ling26:1', coder='ling26'),
+                              dict(candidate_id='luna56:2', coder='luna56'),
+                              dict(candidate_id='luna56@v2:3', coder='luna56@v2')], sources=[])
+    view = work.adjudication_view(packet)
+    assert [c['coder'] for c in view['candidates']] == ['ling26']
+    assert '2 candidate(s)' in view['blinding']
+    assert len(packet['candidates']) == 3   # the full packet is untouched
+
+
+def test_v2_candidates_carry_codebook_provenance():
+    c = work.candidate(dict(row_id='p#1'), 'ling26@v2', 'ai_candidate:ling26@codebook_v2')
+    assert c['candidate_id'] == 'ling26@v2:p#1' and c['provenance'].endswith('@codebook_v2')
+
+
+def test_added_entries_without_row_id_get_distinct_ids():
+    a = work.candidate(dict(row_id='', paper_folder='p', description='claim A'), 'ling26@v2')
+    b = work.candidate(dict(row_id='', paper_folder='p', description='claim B'), 'ling26@v2')
+    assert a['candidate_id'] != b['candidate_id'] and a['candidate_id'].startswith('ling26@v2:p#added_')

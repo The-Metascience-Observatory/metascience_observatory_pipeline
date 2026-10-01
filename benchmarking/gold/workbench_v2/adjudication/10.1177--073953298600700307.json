@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/073953298600700307",
+  "paper_folder": "10.1177--073953298600700307",
+  "discipline": "sociology",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--073953298600700307/body.md",
+      "sha256": "c755d2cf87b788d18fb44f6bdb8503658ec4bfee8affac8b63af71e15bc49f27"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing",
+    "targeted source review: matching"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.1177--073953298600700307#1",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": " [ling26: no entry matched this anchor]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.1177--073953298600700307#added_3197045e56",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "description": "The original study's three-factor solution (surveillance, diversion, interaction) from 14 uses-and-gratifications statements applied to newspaper readership",
+      "citation_sentence": "Note that if all seven hypotheses are accepted, the Towers study would have been replicated exactly.",
+      "gt_ambiguity": "clear",
+      "notes": "H1 tested whether the tripartite factor distinction could be replicated; Sample II produced only two factors (Information and Entertainment), not three, so Hypothesis 1 could not be accepted. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.1177--073953298600700307#added_a085d2c7f3",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "description": "The original study's findings that uses-and-gratifications dimensions predict newspaper readership patterns for weekday and Sunday subscribers, single-copy readers, and non-readers",
+      "citation_sentence": "Note that if all seven hypotheses are accepted, the Towers study would have been replicated exactly.",
+      "gt_ambiguity": "clear",
+      "notes": "H2-H7 tested specific readership predictions; the discriminant analyses provided limited support for some but not all hypotheses (H2 strongly supported, H3 and H4 disappeared, H5 not supported, H6 supported, H7 partially supported), making the overall result inconclusive. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1177--073953298600700307",
+    "category": "matching",
+    "action": "reject_pair",
+    "pair_hint": "",
+    "finding": "One description combines factor structure and readership prediction, the other only factor structure. The source separates mixed predictive findings from a two-factor rather than three-factor solution. The automatic candidate is not equivalent in scope.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--073953298600700307/body.md",
+    "source_line": 213,
+    "source_sha256": "c755d2cf87b788d18fb44f6bdb8503658ec4bfee8affac8b63af71e15bc49f27",
+    "evidence": "served  to add demographic and psychographic variables as well.\n\nFinally,  the  reduction  of  the  factor analytic  solution  to  only  two  sets  of varibles suggests that only the entertain-\n\nThe research affirmed  the consistency of  some  variables  and  concepts,  but  it also  demonstrated  the  inconsistency  of others.  Perhaps  most ",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "8 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

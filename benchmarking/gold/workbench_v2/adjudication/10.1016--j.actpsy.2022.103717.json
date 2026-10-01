@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.actpsy.2022.103717",
+  "paper_folder": "10.1016--j.actpsy.2022.103717",
+  "discipline": "psychology",
+  "subdiscipline": "consumer psychology / marketing",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.actpsy.2022.103717/10.1016--j.actpsy.2022.103717_from_xml.md",
+      "sha256": "8724413f11fb0ce9e807612fadd05c7cfc69fd98350f3488edbfc8170de34d76"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.actpsy.2022.103717#ling26:822df7cd8c9b1630:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1086/691462",
+      "original_title": "Brain drain: The mere presence of one's own smartphone reduces available cognitive capacity",
+      "description": "The 'brain drain' effect found in Ward et al.'s (2017) second experiment, where closer proximity to one's smartphone (on desk) impaired working memory capacity (OSpan performance) compared to other locations, moderated by smartphone reliance.",
+      "citation_sentence": "The purpose of the present study was to carry out a direct replication of Ward et al.'s (2017) second experiment.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states it is a direct replication, pre-registered on OSF. The main OSpan 'brain drain' effect was not replicated (no significant main effect of smartphone location). The power effect and Go/No-Go null result were replicated. The authors explicitly conclude the 'brain drain' effect was not replicated.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "5 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

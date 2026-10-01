@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.25801",
+  "paper_folder": "10.7554--elife.25801",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.25801/10.7554--elife.25801_from_xml.md",
+      "sha256": "e95dc21a0160ac584bde86e28a72ff10a4a9918b7aaf216dca85a23db64aad7a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.25801#ling26:f984df7f946b2f7d:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1101/gr.126516.111",
+      "original_title": "Fusobacterium nucleatum infection is prevalent in human colorectal carcinoma",
+      "description": "F. nucleatum DNA abundance is higher in colorectal carcinoma tissue compared to adjacent normal tissue as measured by qPCR",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 2 of Castellarin et al. (2012).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication found a statistically significant effect in the same direction (p = 0.032) but with a much smaller effect size (r = 0.24 vs r = 0.45) and substantial data quality concerns (non-detects, non-specific amplification). The authors do not explicitly claim success or failure. The replication found a statistically significant effect in the same direction (p = 0.032) but with a much smaller effect size than the original (median fold change 1.13 vs 3.15). The authors express substantial validity concerns regarding non-detects, high Ct values, and non-specific amplification, which undermines confidence in the replication result. A second coder could plausibly classify this as success given the significant p-value in the same direction.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

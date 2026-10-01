@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/1948550618808863",
+  "paper_folder": "10.1177--1948550618808863",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--1948550618808863/body.md",
+      "sha256": "58e5b7076c866233925592d5e9aa73637210ad65e8365ef647b7e44068c263f3"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--1948550618808863#ling26:721274264cd0677f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1177/0956797612451466",
+      "original_title": "The Marley hypothesis: Denial of racism reflects ignorance of history",
+      "description": "Study 1: Replicated the Marley hypothesis that knowledge of historical racism mediates racial differences in perceptions of present racism.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state Study 1 failed to replicate the Marley hypothesis. Original authors (Nelson et al., 2013) are not named in the text; only cited as [13]. Statistical fields left blank as per instructions.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--1948550618808863#ling26:b9351d5d7e3eef89:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1177/0956797612451466",
+      "original_title": "The Marley hypothesis: Denial of racism reflects ignorance of history",
+      "description": "Study 2: Replicated the Marley hypothesis that knowledge of historical racism mediates racial differences in perceptions of present racism.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state Study 2 failed to replicate the Marley hypothesis. Original authors (Nelson et al., 2013) are not named in the text; only cited as [13]. Statistical fields left blank as per instructions.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

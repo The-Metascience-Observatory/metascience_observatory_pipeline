@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.5964/jnc.7047",
+  "paper_folder": "10.5964--jnc.7047",
+  "discipline": "psychology",
+  "subdiscipline": "developmental psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.5964--jnc.7047/body.md",
+      "sha256": "5e31a23adf6e9b5347ebb2330964943dd029d5f858780753dcd6e5bbb1f3237e"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.5964--jnc.7047#ling26:0f7e3698ccf1afd3:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1037/edu0000193",
+      "original_title": "Examining the relations between executive function, math, and literacy during the transition to kindergarten: A multi-analytic approach",
+      "description": "Bidirectional associations between executive function and math/literacy achievement from preschool to kindergarten",
+      "citation_sentence": "The goal of the current study was to conduct a conceptual replication of the reciprocal associations between executive function and academic achievement reported in Schmitt et al. (2017, https://doi.org/10.1037/edu0000193).",
+      "gt_ambiguity": "clear",
+      "notes": "Pathways sample (N=279). Failed to replicate bidirectional EF\u2013achievement associations; found only unidirectional EF \u2192 math and EF \u2192 literacy paths.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.5964--jnc.7047#ling26:0f7e3698ccf1afd3:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1037/edu0000193",
+      "original_title": "Examining the relations between executive function, math, and literacy during the transition to kindergarten: A multi-analytic approach",
+      "description": "Bidirectional associations between executive function and math/literacy achievement from preschool to kindergarten",
+      "citation_sentence": "The goal of the current study was to conduct a conceptual replication of the reciprocal associations between executive function and academic achievement reported in Schmitt et al. (2017, https://doi.org/10.1037/edu0000193).",
+      "gt_ambiguity": "clear",
+      "notes": "STAR sample (N=277). Failed to replicate bidirectional EF\u2013achievement associations; found only unidirectional EF \u2192 math paths. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

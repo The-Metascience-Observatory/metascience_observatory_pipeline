@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.48550/arxiv.1605.00178",
+  "paper_folder": "10.48550--arxiv.1605.00178",
+  "discipline": "linguistics",
+  "subdiscipline": "psycholinguistics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.48550--arxiv.1605.00178/body.md",
+      "sha256": "3a147cbbe2e7de52db562cbeac24003ce39253cc260ee977cddf4d9ad45d8aeb"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.48550--arxiv.1605.00178#ling26:d5b3592bf5f0f9d2:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Quantification and ACD: Evidence from Real Time Sentence Processing",
+      "description": "HKV's Experiment 1: ACD relative clauses modifying a quantified object NP (every) are easier to process than those modifying a definite object NP (the), with a critical interaction between verb type and determiner in the words immediately following the disambiguating verb",
+      "citation_sentence": "In a recent attempt to find on-line evidence for the existence of Quantifier Raising (QR), Hackl, Koster-Hale & Varvoutis (HKV;2012) reported that antecedent-contained-deletion (ACD) relative clauses modifying an object noun phrase (NP) whose determiner is \"every\" (e.g., \"every doctor... was\", as in (1a)) were easier to process than those modifying a object NP whose determiner is \"the\" (e.g., \"the doctor... was\").",
+      "gt_ambiguity": "clear",
+      "notes": "Failed to find the critical verb type \u00d7 determiner interaction in any of the four word regions (15-18) following the disambiguating verb. Main effects of verb type were replicated but the predicted interaction was not significant in either participants or items ANOVAs. The authors explicitly conclude that HKV's experiments should not be viewed as providing evidence for the ACD quantifier raising processing effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.48550--arxiv.1605.00178#ling26:e25d7d79826518b8:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Quantification and ACD: Evidence from Real Time Sentence Processing",
+      "description": "HKV's Experiment 2: ACD relative clauses modifying a quantified object NP (every) are easier to process than those modifying a definite object NP (the), with a critical interaction between verb type (full verb, local ellipsis, long-distance ellipsis) and determiner in the words following the disambiguating verb",
+      "citation_sentence": "In a recent attempt to find on-line evidence for the existence of Quantifier Raising (QR), Hackl, Koster-Hale & Varvoutis (HKV;2012) reported that antecedent-contained-deletion (ACD) relative clauses modifying an object noun phrase (NP) whose determiner is \"every\" (e.g., \"every doctor... was\", as in (1a)) were easier to process than those modifying a object NP whose determiner is \"the\" (e.g., \"the doctor... was\").",
+      "gt_ambiguity": "clear",
+      "notes": "Failed to find the critical verb type \u00d7 determiner interaction in the full 3x2 design or the restricted 2x2 design at any word position (15-18). Main effects of verb type were replicated but the predicted interaction was not. The authors explicitly conclude that HKV's experiments should not be viewed as providing evidence for the ACD quantifier raising processing effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

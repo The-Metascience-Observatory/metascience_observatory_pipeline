@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s00181-018-1457-0",
+  "paper_folder": "10.1007--s00181-018-1457-0",
+  "discipline": "economics",
+  "subdiscipline": "labor economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s00181-018-1457-0/body.md",
+      "sha256": "509cc286234ee83ef1a11a0acbd22130d31323b692d46b9e1e6b4916bd8c3dee"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s00181-018-1457-0#ling26:1b9514d27bcc498b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1007/s00181-013-0773-7",
+      "original_title": "Entry regulation and entrepreneurship: a natural experiment in German craftsmanship",
+      "description": "The effect of deregulation of the German Trade and Crafts Code of 2004 on market entry, self-employment, and exit probabilities in crafts trades",
+      "citation_sentence": "Rostam-Afschar (2014, RA hereafter) examines the effects of the deregulation of occupational licensing in the German crafts sector.",
+      "gt_ambiguity": "clear",
+      "notes": "RA found no change in exit probabilities; replication found significant increase of 2.0-2.5pp in B1-trades",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

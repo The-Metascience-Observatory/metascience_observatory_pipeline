@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3389/fpsyg.2014.00786",
+  "paper_folder": "10.3389--fpsyg.2014.00786",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3389--fpsyg.2014.00786/10.3389--fpsyg.2014.00786_from_xml.md",
+      "sha256": "34f718822d5846e2ea950b0a242330d6e000eaf6fa21f2f5fce96d8ab6cd0d08"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3389--fpsyg.2014.00786#ling26:78f8d04675ffb35a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2008.02136.x",
+      "original_title": "Measuring the crowd within: probabilistic representations within individuals",
+      "description": "Averaging two guesses within one person provides a more accurate answer than either guess alone in the delayed condition",
+      "citation_sentence": "In the light of the practical and theoretical appeal of the crowd within, and the limited success in replicating the effect, we believe it is worthwhile to set up another attempt at replicating the crowd within effect in both the immediate and the delayed condition of Vul and Pashler (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Pre-registered replication; the delayed condition (3-week gap between guesses) was a novel addition not previously attempted in replication. Both conditions met the pre-registered success criteria.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.3389--fpsyg.2014.00786#ling26:9bc6c3c4941143e9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2008.02136.x",
+      "original_title": "Measuring the crowd within: probabilistic representations within individuals",
+      "description": "Averaging two guesses within one person provides a more accurate answer than either guess alone in the immediate condition",
+      "citation_sentence": "In the light of the practical and theoretical appeal of the crowd within, and the limited success in replicating the effect, we believe it is worthwhile to set up another attempt at replicating the crowd within effect in both the immediate and the delayed condition of Vul and Pashler (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Pre-registered replication; both immediate and delayed conditions were successful. The immediate condition used the same paradigm as the original with questions translated to Dutch and updated answers. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

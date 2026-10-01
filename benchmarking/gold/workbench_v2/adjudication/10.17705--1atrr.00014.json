@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17705/1atrr.00014",
+  "paper_folder": "10.17705--1atrr.00014",
+  "discipline": "business & management",
+  "subdiscipline": "management",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17705--1atrr.00014/body.md",
+      "sha256": "22a38945fac16be2042e969f1a81b8f9ebf2d080848f44ebd851f114a73232d6"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17705--1atrr.00014#ling26:ba33843460280bc0:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "Understanding information systems continuance: an expectation-confirmation model",
+      "description": "IS Continuance Model predicting continuance intention from satisfaction, confirmation, and perceived usefulness in web-based banking.",
+      "citation_sentence": "[3] published one of the earliest and most cited scholarly papers in the IS field that conceptualizes and tests a theoretical model of IT continuance that takes into account the distinctions between adoption and continued use of IT.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper's body identifies the original study only by reference number [3]; the author name and year appear only in the reference list, which is used as the citation_sentence. The original DOI is not provided in the paper. Conceptual replication; original N=122 from Table 3; all five hypotheses supported at p<.01.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "5 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

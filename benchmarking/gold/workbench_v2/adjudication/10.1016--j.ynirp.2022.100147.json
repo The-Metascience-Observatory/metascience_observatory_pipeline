@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.ynirp.2022.100147",
+  "paper_folder": "10.1016--j.ynirp.2022.100147",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.ynirp.2022.100147/body.md",
+      "sha256": "d3917ef124a2e41395ca0a8313cd38000286fe7eb8f86304e172dc49332c5c04"
+    }
+  ],
+  "flags": [
+    "targeted source review: codebook_null"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.1016--j.ynirp.2022.100147#flora_486",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "description": "No difference in nucleus accumbens (NAcc) response during gain anticipation between fibromyalgia patients and healthy controls",
+      "citation_sentence": "Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).",
+      "gt_ambiguity": "clear",
+      "notes": "The original reported a null NAcc finding; the replication also found no group difference, and the authors explicitly state the result is 'consistent with previous findings.' Per the null-claim rule, agreement with the original null claim is classified as success.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.1016--j.ynirp.2022.100147#added_408fc66936",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "description": "Reduced medial prefrontal cortex (MPFC) response during gain anticipation in fibromyalgia patients compared to healthy controls",
+      "citation_sentence": "Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a trend in the same direction but did not reach the corrected significance threshold (p < 0.0125); authors describe results as 'similar trends' and 'consistent with prior results' without claiming clear replication success. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.1016--j.ynirp.2022.100147#added_1c2da40b45",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "description": "Enhanced MPFC response during non-punishment outcome (no-loss vs loss) in fibromyalgia patients compared to healthy controls",
+      "citation_sentence": "Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a trend in the same direction but did not reach the corrected significance threshold (p < 0.0125); authors describe results as 'similar trends' and 'consistent with prior results' without claiming clear replication success. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1016--j.ynirp.2022.100147",
+    "category": "codebook_null",
+    "action": "accept_pair",
+    "pair_hint": "NAcc",
+    "finding": "Both descriptions identify the NAcc null contrast. Do not transfer the hedged MPFC findings or paper-wide summary to this contrast. The null-replication convention is the primary unresolved rule.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.ynirp.2022.100147/body.md",
+    "source_line": 173,
+    "source_sha256": "d3917ef124a2e41395ca0a8313cd38000286fe7eb8f86304e172dc49332c5c04",
+    "evidence": "rored the prior study's results. For example, consistent with previous results, NAcc response to reward anticipation did not differ between patient and control groups, but patients showed lesser MPFC response to reward anticipation and greater MPFC response to non-punishment outcome (i.e., no-loss vs. loss outcome). Also, the present findings establ",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

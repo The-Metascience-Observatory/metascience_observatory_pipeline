@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/1948550618775410",
+  "paper_folder": "10.1177--1948550618775410",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--1948550618775410/10.1177--1948550618775410_from_xml.md",
+      "sha256": "3c0abb038cf8fcfadaf1e49b59b8881326f728101dfddb06e74421f2c1e1dc52"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--1948550618775410#ling26:638c285faab1de93:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1126/science.1239918",
+      "original_title": "Reading Literary Fiction Improves Theory of Mind",
+      "description": "Reading literary fiction compared to popular genre fiction improves Theory of Mind performance on the Reading the Mind in the Eyes Test (RMET), as tested in Experiment 5 of Kidd and Castano (2013).",
+      "citation_sentence": "These experiments are preregistered replications and extensions of the fifth experiment reported in Kidd and Castano (2013).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 3 RMET main effect was significant (p = .027); the 95% CI of the effect size [.026, .449] is entirely above d33% (.203) and does not include zero, making it a successful replication per the small telescopes analysis.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--1948550618775410#ling26:5fa1b6fd476b1979:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1126/science.1239918",
+      "original_title": "Reading Literary Fiction Improves Theory of Mind",
+      "description": "Reading literary fiction compared to popular genre fiction improves Theory of Mind performance on the Reading the Mind in the Eyes Test (RMET), as tested in Experiment 5 of Kidd and Castano (2013).",
+      "citation_sentence": "These experiments are preregistered replications and extensions of the fifth experiment reported in Kidd and Castano (2013).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--1948550618775410#ling26:5fa1b6fd476b1979:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1126/science.1239918",
+      "original_title": "Reading Literary Fiction Improves Theory of Mind",
+      "description": "Reading literary fiction compared to popular genre fiction improves Theory of Mind performance on the Reading the Mind in the Eyes Test (RMET), as tested in Experiment 5 of Kidd and Castano (2013).",
+      "citation_sentence": "These experiments are preregistered replications and extensions of the fifth experiment reported in Kidd and Castano (2013).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

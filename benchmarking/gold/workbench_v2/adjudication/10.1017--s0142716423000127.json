@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/s0142716423000127",
+  "paper_folder": "10.1017--s0142716423000127",
+  "discipline": "linguistics",
+  "subdiscipline": "second language acquisition",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--s0142716423000127/body.md",
+      "sha256": "3597ce92d9533320227d31bd14685ed9fd3ad9d6d7d57d17dcd5cd1c56f76ef7"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--s0142716423000127#ling26:ad78f125dc78d612:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Social bias orientations (positive or negative) influence native listeners' ratings of non-native English speech across five linguistic dimensions (accentedness, comprehensibility, segmental errors, intonation, and flow)",
+      "citation_sentence": "Reid et al. (2019) showed that 'native' listeners could be easily biased toward 'non-native' speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "5 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

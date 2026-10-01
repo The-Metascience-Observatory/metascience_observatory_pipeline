@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/1534508420953894",
+  "paper_folder": "10.1177--1534508420953894",
+  "discipline": "psychology",
+  "subdiscipline": "educational psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--1534508420953894/body.md",
+      "sha256": "ecda83f6d5b5e4126c3d426f6136652fbf7ac72dde3b30d9ac1e1e59c7eedff3"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--1534508420953894#ling26:8497df82dcda502b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.jsp.2019.07.016",
+      "original_title": "Interval likelihood ratios: Applications for gated screening in schools",
+      "description": "Using interval likelihood ratios to estimate post-test probabilities of math risk in a gated screening framework with middle school students.",
+      "citation_sentence": "In the current study, we sought to replicate our initial evaluation of using interval LRs to estimate post-test probabilities to determine math risk (Klingbeil et al., 2019).",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly call this a 'direct replication' and the Discussion confirms the findings corroborate the original study's results.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

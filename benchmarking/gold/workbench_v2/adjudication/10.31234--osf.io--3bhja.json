@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.31234/osf.io/3bhja",
+  "paper_folder": "10.31234--osf.io--3bhja",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.31234--osf.io--3bhja/body.md",
+      "sha256": "861acf2f3fca2c02e224cf95901cabc595716cbc5e283033bf3272961f7183f9"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.31234--osf.io--3bhja#ling26:f89d34f4af4c5b09:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/a0038647",
+      "original_title": "Personality change following unemployment",
+      "description": "The effect of involuntary job loss on mean-level changes in openness, agreeableness, and conscientiousness, moderated by unemployment duration and gender, as tested using latent change models in a working sample.",
+      "citation_sentence": "Therefore, the current study seeks to replicate the study reported in [6] as closely as possible.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper is a single-entry replication of Boyce et al. (2015) [6] in an independent sample (NEPS). The authors explicitly state the results could not be replicated and report no support for any of the hypothesized effects. The replication type is close experiment because the same general paradigm (latent change models of Big Five traits following unemployment) was used with a different dataset and some methodological refinements (matched samples, BFI-10 instead of longer scales). The paper explicitly states it could not replicate Boyce et al. (2015); the result is unambiguously a failure.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

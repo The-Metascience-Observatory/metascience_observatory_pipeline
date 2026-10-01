@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1098/rsos.181868",
+  "paper_folder": "10.1098--rsos.181868",
+  "discipline": "psychology",
+  "subdiscipline": "psychophysics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1098--rsos.181868/10.1098--rsos.181868_from_xml.md",
+      "sha256": "74836735a4a5e435ca1009963b0fd69669764e7a5a1fc9b585581bbe545bfc28"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1098--rsos.181868#ling26:272ecfe46fd3065a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/srep30423",
+      "original_title": "Skilled musicians are not subject to the McGurk effect",
+      "description": "Skilled musicians are not subject to the McGurk effect",
+      "citation_sentence": "Proverbio and colleagues [2] argue that the McGurk effect is absent in highly trained musicians.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reports two analyses (replication and targeted) but these are two analyses of the same experiment, not separate entries. The replication found that musicians are subject to the McGurk effect, contradicting the original claim.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

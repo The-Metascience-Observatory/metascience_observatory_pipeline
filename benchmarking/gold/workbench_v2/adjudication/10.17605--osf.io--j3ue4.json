@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/j3ue4",
+  "paper_folder": "10.17605--osf.io--j3ue4",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--j3ue4/body.md",
+      "sha256": "c2c08571f4844a376799d4a6caaefcbc41e59b7dfe534b1e2eb8ca5da0bf62da"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--j3ue4#ling26:e1fe9ec668a721c7:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.83.1.138",
+      "original_title": "The role of public exposure in moral and nonmoral shame and guilt",
+      "description": "Public exposure increases shame more than guilt over one's misconduct",
+      "citation_sentence": "Revisiting the Role of Public Exposure and Moral Beliefs on Feelings of Shame and Guilt: Replication Registered Report of Smith et al. (2002)'s Study 1",
+      "gt_ambiguity": "clear",
+      "notes": "Paper classifies replication as 'close' in Table 4. Original N = 168 from 'given N = 168 in Study 1 of [38]'. Original \u03b7\u00b2 = .14 for exposure on shame. Paper uses [38] in-text; author names from reference list. Authors explicitly state 'failed replication' in Discussion and Conclusion. The replication found similar effects of exposure on both shame and guilt, contradicting the original's claim of a differential effect. Authors explicitly state 'we conclude this as a failed replication' and 'Our results suggest a failed replication.' The original study's N = 168; the original effect of exposure on shame was \u03b7p\u00b2 = .14 (95% CI [.05, .24]) per Table 12A. The original did not detect a main effect of exposure on explicit guilt.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

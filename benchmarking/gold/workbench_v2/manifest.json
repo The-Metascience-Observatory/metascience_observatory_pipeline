@@ -1,6 +1,6 @@
 {
   "papers": 206,
-  "candidates": 1052,
+  "candidates": 1054,
   "source_proposals": 25,
   "protocol_flags": 6,
   "discipline_counts": {
@@ -25,6 +25,10 @@
     "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/clean_ling26.csv": "ad97a763b1e5f613c1f937a4e82dc271bce676d23a6e8b2119d9900005fbd0af",
     "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/clean_luna56.csv": "b1583b2f85500b411ef81628335fd9d626d763868f3cf99116bdc99bc86343c6",
     "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/source_review_20.json": "e1ea841e8514c3456842a736bf05aacac63bb7b0c56da20ed3d18d9c3cf4ede2",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/recode_v2_2026_09_28/sheet_ling26_v2.csv": "6070204d989e7a2b5ef3fb7ed97249213ab9cb253ec3852222ec8116f222b32d",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/recode_v2_2026_09_28/sheet_luna56_v2.csv": "0128cd586f4b3fd022cae93e5091da3a823af06a11f557c6f24fe34798e741aa",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/recode_v2_2026_09_28/runs_ling26/completion.json": "c29ba7821f5d98e3e55e26bfacedbf2f672ec482aed02a146ccb1d0b961022b4",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/recode_v2_2026_09_28/runs_luna56/completion.json": "3110538213ebea8f1ecf51fb2f53a0845435441cb6e230ba561c32fb08b0232c",
     "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/sports/source_effects.json": "1df42e46d114603fb8f3052db977684d29bd65cc2d40476d4d490acf07123776"
   }
 }

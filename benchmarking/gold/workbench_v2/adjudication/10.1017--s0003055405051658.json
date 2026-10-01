@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/s0003055405051658",
+  "paper_folder": "10.1017--s0003055405051658",
+  "discipline": "political science",
+  "subdiscipline": "political economy",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--s0003055405051658/body.md",
+      "sha256": "eee58b2cdff36fd9b3b1211003502483e9daf58faf32a2cc609a797139a7287f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--s0003055405051658#ling26:acd88467e5d8b3e2:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "reversal",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The Effects of Canvassing, Telephone Calls, and Direct Mail on Voter Turnout: A Field Experiment",
+      "description": "Get-out-the-vote phone calls reduce voter turnout by five percentage points",
+      "citation_sentence": "In this article, I replicate and extend Gerber and Green's analysis of the voter mobilization study.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reanalyzes Gerber and Green (2000) data using propensity score matching on corrected treatment/control groups and revised data, finding that telephone canvassing increases turnout by about five percentage points, directly reversing the original negative finding. The replication reanalyzes Gerber and Green (2000) field experiment data using propensity score matching on corrected/revised data. The original finding was that phone calls decrease turnout by 5pp; the replication finds phone calls increase turnout by approximately 5pp, which the authors explicitly describe as reversing the original finding. All three reversal conditions are met: statistically significant effect in the opposite direction, authors describe it as a reversal, and the reversed effect is clear and unambiguous.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/art.39932",
+  "paper_folder": "10.1002--art.39932",
+  "discipline": "medical fields",
+  "subdiscipline": "medical genetics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--art.39932/10.1002--art.39932_from_xml.md",
+      "sha256": "875aac4ba9721a03b9a5b82be962ddc63df5f9d19543e39197220fdee764581f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--art.39932#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

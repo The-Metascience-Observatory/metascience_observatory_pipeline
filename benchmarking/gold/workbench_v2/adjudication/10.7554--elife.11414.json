@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.11414",
+  "paper_folder": "10.7554--elife.11414",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.11414/10.7554--elife.11414_from_xml.md",
+      "sha256": "8017763832aa59f30670a49ce3ed5fbfa9abb9f5e6f246e612fbb30eba156246"
+    }
+  ],
+  "flags": [
+    "protocol: exclude from outcome scoring pending human confirmation",
+    "targeted source review: eligibility"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.11414#1",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": " [ling26: no entry matched this anchor]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.11414#added_4aca2ce847",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09627",
+      "original_title": "COT drives resistance to RAF inhibition through MAP kinase pathway reactivation",
+      "description": "MAP3K8 expression is elevated in resistant melanoma cell lines (RPMI-7951, OUMS-23) and these cells show undiminished MAPK pathway activity and reduced growth sensitivity despite RAF inhibition with PLX4720",
+      "citation_sentence": "RPMI-7951 and OUMS-23 cells also exhibited robust, undiminished ERK and MEK activity concomitant with reduced growth sensitivity in the presence of PLX4720 (Figure 3D\u2013E; Johannessen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Protocols 1 and 3 together replicate this claim: Protocol 1 covers Figures 3B (MAP3K8 expression) and 3E (MAPK pathway activity after RAF inhibition), Protocol 3 covers Figure 3D (growth inhibition/viability/GI50). All are different measures/endpoints of the same original claim. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.11414#added_9f8f3b6e7a",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09627",
+      "original_title": "COT drives resistance to RAF inhibition through MAP kinase pathway reactivation",
+      "description": "MAP3K8 kinase activity is required to regulate MEK/ERK activation in RPMI-7951 cells",
+      "citation_sentence": "Finally, in Figure 3I, Johannessen and colleagues determined that MAP3K8 kinase activity is required to regulate MEK/ERK activation in RPMI-7951 cells, findings that further confirm MAP3K8 is an essential upstream activator of the MEK-ERK signaling cascade (George and Salmeron, 2009; Johannessen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Protocol 4 replicates Figure 3I of the original. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.11414#added_5deba0a90c",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature09627",
+      "original_title": "COT drives resistance to RAF inhibition through MAP kinase pathway reactivation",
+      "description": "Combined RAF and MEK inhibition dramatically reduces viability and ERK activation in MAP3K8-expressing cells, bypassing MAP3K8-driven resistance",
+      "citation_sentence": "As shown in Figures 4E and 4F, both viability and ERK activation was dramatically reduced in MAP3K8-expressing cells treated with either of the combination therapies, similar to cells ectopically expressing MEK1, which remained sensitive to PLX4720 (Johannessen et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Protocols 5 and 6 together replicate this claim: Protocol 5 covers Figure 4E (viability) and Protocol 6 covers Figure 4F (MAPK pathway activity). Both are different measures of the same original claim about combination therapy overcoming resistance. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.11414",
+    "category": "eligibility",
+    "action": "exclude_outcome",
+    "pair_hint": "",
+    "finding": "Registered protocol without completed replication outcomes. Fresh Ling responses switched between blanks and labels: successful JSON parsing is not evidence validity.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.11414/10.7554--elife.11414_from_xml.md",
+    "source_line": 14,
+    "source_sha256": "8017763832aa59f30670a49ce3ed5fbfa9abb9f5e6f246e612fbb30eba156246",
+    "evidence": "lspan` and `rowspan` are authoritative and Markdown cannot express them. -->\n\n# Registered Report: COT drives resistance to RAF inhibition through MAP kinase pathway reactivation\n\n## Introduction\n\nActivation of the canonical mitogen activated protein kinase (MAPK) pathway occurs in response to the binding of growth f",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "9 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

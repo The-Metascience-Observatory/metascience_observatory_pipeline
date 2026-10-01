@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1521/pedi_2013_27_117",
+  "paper_folder": "10.1521--pedi_2013_27_117",
+  "discipline": "psychology",
+  "subdiscipline": "personality psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1521--pedi_2013_27_117/body.md",
+      "sha256": "4609d5c0c36b9eed2884d5980e0d36500864bba471e769704eb47f4c1947332e"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1521--pedi_2013_27_117#ling26:b22d27a54be7ffcf:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1521/pedi.17.2.152.23990",
+      "original_title": "Separate personality traits from states to predict future depression",
+      "description": "Clark et al. (2003) found that both the changeable state and stable trait components of SNAP personality scales predict depressive symptoms in recurrent major depressive disorder patients receiving cognitive therapy.",
+      "citation_sentence": "Using a new, larger data set of patients with recurrent depression treated with acute-phase CT [24], we aimed to replicate and extend Clark et al.'s (2003) findings.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

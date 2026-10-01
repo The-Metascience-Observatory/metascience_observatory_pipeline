@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/smj.2905",
+  "paper_folder": "10.1002--smj.2905",
+  "discipline": "business & management",
+  "subdiscipline": "management",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--smj.2905/body.md",
+      "sha256": "812b01eac875e2b9e80e6be68fdfd64c276e287dc9d54d87f5818cd2b13f9630"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--smj.2905#ling26:a635f3a229a11a02:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1002/smj.2274",
+      "original_title": "Do female and ethnically diverse executives endure inequity in the CEO position or do they benefit from their minority status? An empirical examination",
+      "description": "Women CEOs receive higher compensation than male CEOs",
+      "citation_sentence": "Our replication study, both with the original sample and the expanded sample, provides a contrast to HUB's findings, suggesting that claims about gender gap in CEO compensation favoring women over men may be premature.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

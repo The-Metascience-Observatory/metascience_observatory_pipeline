@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1371/journal.pone.0042510",
+  "paper_folder": "10.1371--journal.pone.0042510",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1371--journal.pone.0042510/10.1371--journal.pone.0042510_from_xml.md",
+      "sha256": "3a09a4613eaf8c0ed63219f9c2a8fac3ff43d50e27c624d7b63a6fc106c81f91"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0042510#ling26:08c1620a4184a768:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Keeping one's distance: The influence of spatial distance cues on affect and evaluation",
+      "description": "Plotting close-together points on graph paper causes people to report stronger emotional bonds to family and hometown compared to plotting distant points",
+      "citation_sentence": "The first replication attempt focused on Study 4 of Williams and Bargh (2008), in which the 'spatial priming manipulation' was reported to have influenced people's feelings of emotional attachment to familiar people and places.",
+      "gt_ambiguity": "clear",
+      "notes": "Direct replication of Williams and Bargh (2008) Study 4. ANOVA showed no significant difference in bond strength between priming conditions, F(2,68)=.31, p=.73. Authors explicitly state neither study supported the original results. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0042510#ling26:19ca9453c9d80c85:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Keeping one's distance: The influence of spatial distance cues on affect and evaluation",
+      "description": "Physical-distance cues influence participants' estimates of the caloric content of unhealthy and healthy foods",
+      "citation_sentence": "The second study attempted to replicate Study 3 of the same paper by Williams and Bargh (2008), which reported that physical-distance cues influenced participants' estimates of the caloric content of some 'unhealthy foods' such as french fries and ice cream, and some 'healthy foods' such as brown rice and apple.",
+      "gt_ambiguity": "clear",
+      "notes": "Direct replication of Williams and Bargh (2008) Study 3. No main effect of priming condition, F(2,85)=.53, p=.59; no significant interaction, F(2,85)=.45, p=.64. Authors state 'no support whatsoever for the findings of Williams and Bargh (2008).' [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

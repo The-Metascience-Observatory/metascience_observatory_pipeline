@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.25306",
+  "paper_folder": "10.7554--elife.25306",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.25306/10.7554--elife.25306_from_xml.md",
+      "sha256": "45ae4dc99af8a465943f63879d5822dc9d0fa176023229333680bcd0753bed9b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.25306#ling26:0872943bb0c11141:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature10509",
+      "original_title": "Inhibition of BET recruitment to chromatin as an effective treatment for MLL-fusion leukaemia",
+      "description": "I-BET151 selectively inhibits the growth of MLL-fusion leukaemic MV4;11 cells compared to non-MLL-fusion K-562 cells",
+      "citation_sentence": "This experiment is comparable to what was reported in Figure 2A and Supplementary Figure 11A-B of Dawson et al. (2011) and described in Protocols 1\u20132 in the Registered Report (Fung et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results were in the same direction as the original and statistically significant where predicted. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.25306#ling26:6d20e9cdb3f9677c:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature10509",
+      "original_title": "Inhibition of BET recruitment to chromatin as an effective treatment for MLL-fusion leukaemia",
+      "description": "I-BET151 selectively inhibits BCL2 expression in MLL-fusion leukaemic MV4;11 cells",
+      "citation_sentence": "We sought to replicate this experiment, which is similar to what was reported in Figure 3D of Dawson et al. (2011) and described in Protocol 3 in the Registered Report (Fung et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state results were statistically significant where predicted and in the same direction as the original study. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.25306#ling26:14df144c371f9ee5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature10509",
+      "original_title": "Inhibition of BET recruitment to chromatin as an effective treatment for MLL-fusion leukaemia",
+      "description": "I-BET151 treatment increases survival in a xenograft mouse model of MLL-fusion leukaemia",
+      "citation_sentence": "In order to test the efficacy of I-BET151 as a therapeutic agent in MLL-fusion leukaemia, we sought to replicate an experiment similar to what was reported in Figure 4B and D and Supplementary Figure 16A (Dawson et al., 2011) and described in Protocols 4\u20135 in the Registered Report (Fung et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Survival result was a failure (p=0.536, opposite direction from original), but disease burden was in the same direction as the original. Mixed signals within one experiment yield inconclusive. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

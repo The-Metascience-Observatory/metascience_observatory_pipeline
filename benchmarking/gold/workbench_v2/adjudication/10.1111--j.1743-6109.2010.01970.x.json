@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/j.1743-6109.2010.01970.x",
+  "paper_folder": "10.1111--j.1743-6109.2010.01970.x",
+  "discipline": "medical fields",
+  "subdiscipline": "psychiatry",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1111--j.1743-6109.2010.01970.x/10.1111--j.1743-6109.2010.01970.x_from_xml.md",
+      "sha256": "6e3513072e7e159714634b23f0da8ddc4cc523da070d71cf3baecb5b7f67e6d9"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--j.1743-6109.2010.01970.x#ling26:c5548fbeca253d57:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1080/009262300278597",
+      "original_title": "The Female Sexual Function Index (FSFI): A multidimensional self-report instrument for the assessment of female sexual function",
+      "description": "The original FSFI study validated the six-factor structure and psychometric properties of the Female Sexual Function Index in a clinical sample; this replication evaluates whether those psychometric properties (factor structure, internal consistency, construct validity) hold in an unselected twin sample.",
+      "citation_sentence": "The FSFI\u2014a 19-item self-report questionnaire\u2014was chosen [12].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper uses reference number [12] rather than explicitly naming the original authors and year in the text body; the original study is Rosen et al. (2000) as cited in reference [12]. The replication evaluates the FSFI's six-factor structure, internal consistency, and CFA fit in a twin sample (N=744 for EFA, N=930 for the FSFI subsample). The authors explicitly state 'we were successful in replicating the six-factor structure of the original FSFI.' The FSFI-LL development and validation is a separate new instrument contribution, not a replication entry.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

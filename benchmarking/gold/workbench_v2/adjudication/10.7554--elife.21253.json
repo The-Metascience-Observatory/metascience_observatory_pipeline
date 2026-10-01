@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.21253",
+  "paper_folder": "10.7554--elife.21253",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.21253/10.7554--elife.21253_from_xml.md",
+      "sha256": "9698b659b7231f824176e95f9c8343accdc3dcd6d34b35600a5fc7587b072c80"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.21253#ling26:397ce0a48eb3b710:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2011.08.017",
+      "original_title": "BET bromodomain inhibition as a therapeutic strategy to target c-Myc",
+      "description": "Inhibition of BET bromodomains with (+)-JQ1 down-regulates MYC expression in MM.1S-luc cells",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 3B (Delmore et al., 2011)",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.21253#ling26:484183e2a5848468:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2011.08.017",
+      "original_title": "BET bromodomain inhibition as a therapeutic strategy to target c-Myc",
+      "description": "(+)-JQ1 treatment prolongs overall survival in MM.1S-luc orthotopic xenograft model",
+      "citation_sentence": "In order to test the effectiveness of (+)-JQ1 as a therapeutic strategy to target c-Myc, we sought to replicate experiments similar to what was reported in Figure 7C\u2013E (Delmore et al., 2011)",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.21253#ling26:283af6a7bf29bf8c:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cell.2011.08.017",
+      "original_title": "BET bromodomain inhibition as a therapeutic strategy to target c-Myc",
+      "description": "(+)-JQ1 treatment reduces tumor burden in MM.1S-luc orthotopic xenograft model",
+      "citation_sentence": "In order to test the effectiveness of (+)-JQ1 as a therapeutic strategy to target c-Myc, we sought to replicate experiments similar to what was reported in Figure 7C\u2013E (Delmore et al., 2011)",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

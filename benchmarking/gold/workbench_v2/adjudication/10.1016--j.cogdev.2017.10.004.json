@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.cogdev.2017.10.004",
+  "paper_folder": "10.1016--j.cogdev.2017.10.004",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.cogdev.2017.10.004/10.1016--j.cogdev.2017.10.004_from_xml.md",
+      "sha256": "67a5d51e381daa1340a7324b14186f5b745872086867e2937c7a039b6b605f0f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.cogdev.2017.10.004#ling26:e21926bc3d99e647:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Eighteen- and 24-month-old infants correct others in anticipation of action mistakes",
+      "description": "24-month-old children's anticipatory helping behavior is influenced by an experimenter's knowledge state about an object's location",
+      "citation_sentence": "These results replicate Knudsen and Liszkowski's (2012) findings with 24-month-old children and partially extend them to 3-year-old children.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--j.cogdev.2017.10.004#ling26:fafadc874a471db1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Eighteen-month-old infants show false belief understanding in an active helping paradigm",
+      "description": "18-month-old infants' helping behavior is influenced by an experimenter's false belief about an object's location",
+      "citation_sentence": "When replicating this task, we adhered as closely as possible to the original methods as describe by Buttelmann et al. (2009).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--j.cogdev.2017.10.004#ling26:a7114875953e305b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Do 15-month-old infants understand false beliefs?",
+      "description": "15-month-old infants look longer when an experimenter reaches for an object in a location inconsistent with her false belief about its location",
+      "citation_sentence": "Our initial VOE task was based on the 'FB-green' condition from Onishi and Baillargeon's study (2005).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--j.cogdev.2017.10.004#ling26:5e45809b5550b11a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Do 15-month-old infants understand false beliefs?",
+      "description": "15-month-old infants look longer when an experimenter reaches for an object in a location inconsistent with her false belief about its location",
+      "citation_sentence": "We conducted close replications of studies by Knudsen and Liszkowski (2012) and Buttelmann et al. (2009), as well as two experiments based on published violation of expectation paradigms (Onishi & Baillargeon, 2005; Song, Onishi, Baillargeon & Fisher, 2008; Tr\u00e4uble, Marinovi\u0107 & Pauen, 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Task 3 is a second independent VOE experiment with procedural changes; same original study as Task 2. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

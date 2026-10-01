@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/2515245918781032",
+  "paper_folder": "10.1177--2515245918781032",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--2515245918781032/body.md",
+      "sha256": "a10d65cd33342aca4296fa91defa0c3384c487c2e40a4b078dd213a50d881714"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--2515245918781032#ling26:208767a6cfa78d18:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The dishonesty of honest people: A theory of self-concept maintenance",
+      "description": "Recalling the Ten Commandments reduces self-reported cheating (number of matrices solved) compared to recalling books when participants have the opportunity to cheat.",
+      "citation_sentence": "Mazar, Amir, and Ariely (2008, Experiment 1) gave participants an opportunity and incentive to cheat on a problem-solving task.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper is a Registered Replication Report aggregating 25 direct replications of the same original study; coded as one entry. The original DOI is not provided in the paper.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

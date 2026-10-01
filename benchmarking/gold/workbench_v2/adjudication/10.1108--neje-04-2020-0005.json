@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1108/neje-04-2020-0005",
+  "paper_folder": "10.1108--neje-04-2020-0005",
+  "discipline": "education",
+  "subdiscipline": "higher education",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1108--neje-04-2020-0005/body.md",
+      "sha256": "93788caac9329d6b763b0172cef7a0b0dde2cf13aba90ba1559174aa3a2b3d54"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1108--neje-04-2020-0005#ling26:c59e57d7394a6adc:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "",
+      "description": "Participation in an international consulting project improves self-reported entrepreneurial competencies",
+      "citation_sentence": "In 2013, Michael Morris and his colleagues reported in the Journal of Small Business Management that 40 students reported a significant increase in 9 of 13 entrepreneurial competencies following a six-week international consulting project with disadvantaged entrepreneurs in South Africa (Morris et al., 2013b).",
+      "gt_ambiguity": "clear",
+      "notes": "In-study replication cohort (Fall 2017); the desired interaction effect was present for only one competency (not one of the original three), and the repeated measures model found no class-by-time interaction. The authors explicitly frame this as a failure to replicate the original findings. The second cohort (Fall 2017) is an in-study replication of the first cohort and is excluded as a within-paper replication per codebook rules. The first cohort's result is inconclusive: some competencies showed significant increases but the main interaction effect was present in only 3 of 13 competencies, and authors describe results as 'very limited support' and 'unable to reliably increase any of the 13 competencies.' The replication_type is coded as conceptual because the authors explicitly call it a 'systematic/conceptual replication' and the manipulation differs fundamentally (classroom curriculum vs. international consulting project).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

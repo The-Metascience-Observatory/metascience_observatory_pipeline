@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.18718/81781.29",
+  "paper_folder": "10.18718--81781.29",
+  "discipline": "economics",
+  "subdiscipline": "labor economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.18718--81781.29/body.md",
+      "sha256": "9bc7f9ff42d2c7f0267cdb50d7c73b428c94bceaa80a8bba3aea0dbf17441a51"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.18718--81781.29#ling26:445a3218fd2c1b5d:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1162/REST_a_00258",
+      "original_title": "Knowledge Transfers from Multinational to Domestic Firms: Evidence from Worker Mobility",
+      "description": "When workers leave multinationals and are rehired at domestic establishments, the wages of their new coworkers who have already been present in the establishment increase (replicated for Norway).",
+      "citation_sentence": "This paper replicates Poole (2013) using comprehensive Norwegian and Irish register data.",
+      "gt_ambiguity": "clear",
+      "notes": "[ling26: no entry matched this anchor] Paper classifies itself as robustness-extension replication type. Norway uses comprehensive register data covering all private-sector workers 1996-2007. Main spillover effect (\u03b3_M - \u03b3_D) is significant and positive.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.18718--81781.29#ling26:e2f84cc29f646f47:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1162/REST_a_00258",
+      "original_title": "Knowledge Transfers from Multinational to Domestic Firms: Evidence from Worker Mobility",
+      "description": "When workers leave multinationals and are rehired at domestic establishments, the wages of their new coworkers who have already been present in the establishment increase (replicated for Ireland, 2005-2010).",
+      "citation_sentence": "This paper replicates Poole (2013) using comprehensive Norwegian and Irish register data.",
+      "gt_ambiguity": "clear",
+      "notes": "Norway replication of Poole (2013); main effect of multinational wage spillovers confirmed; uses comprehensive register data covering all private-sector workers rather than a 1% sample. Ireland 2005-2010 sample period. Main spillover effect (\u03b3_M - \u03b3_D) is significant and positive. Ireland split into two time periods for comparability with the original 6-year Brazil sample.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.18718--81781.29#ling26:7fc99ac1c1a18ddd:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1162/REST_a_00258",
+      "original_title": "Knowledge Transfers from Multinational to Domestic Firms: Evidence from Worker Mobility",
+      "description": "When workers leave multinationals and are rehired at domestic establishments, the wages of their new coworkers who have already been present in the establishment increase (replicated for Ireland, 2011-2016).",
+      "citation_sentence": "This paper replicates Poole (2013) using comprehensive Norwegian and Irish register data.",
+      "gt_ambiguity": "clear",
+      "notes": "Ireland replication of Poole (2013); main effect confirmed across both 2005-2010 and 2011-2016 periods; uses firm-level administrative data covering all formal workers. Ireland 2011-2016 sample period. Main spillover effect (\u03b3_M - \u03b3_D) is significant and positive. Heterogeneity analyses across unionisation, skill intensity, job tenure, and wages are mostly not statistically significant for any country, which the authors note as a divergence from the original.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

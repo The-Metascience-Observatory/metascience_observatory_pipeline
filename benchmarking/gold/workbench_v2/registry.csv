@@ -36,7 +36,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1111/psyp.13546,psychology,psychophysiology,6,0,,packets/10.1111--psyp.13546.json,decisions/10.1111--psyp.13546.json
 10.1080/02699931.2015.1136270,psychology,clinical psychology,3,0,,packets/10.1080--02699931.2015.1136270.json,decisions/10.1080--02699931.2015.1136270.json
 10.1073/pnas.2103313118,psychology,consumer psychology / marketing,5,0,supplement required: recovered study list does not establish outcomes; targeted source review: input_coverage,packets/10.1073--pnas.2103313118.json,decisions/10.1073--pnas.2103313118.json
-10.3389/fpsyg.2018.02476,psychology,cognitive psychology,2,0,targeted source review: type,packets/10.3389--fpsyg.2018.02476.json,decisions/10.3389--fpsyg.2018.02476.json
+10.3389/fpsyg.2018.02476,psychology,cognitive psychology,3,0,targeted source review: type,packets/10.3389--fpsyg.2018.02476.json,decisions/10.3389--fpsyg.2018.02476.json
 10.1177/0956797619837942,psychology,cognitive psychology,3,0,,packets/10.1177--0956797619837942.json,decisions/10.1177--0956797619837942.json
 10.1037/edu0000965,psychology,developmental psychology,2,0,,packets/10.1037--edu0000965.json,decisions/10.1037--edu0000965.json
 10.1007/s10882-014-9400-6,education,special education,4,0,,packets/10.1007--s10882-014-9400-6.json,decisions/10.1007--s10882-014-9400-6.json
@@ -46,7 +46,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1016/j.jml.2022.104352,linguistics,phonetics and phonology,3,0,,packets/10.1016--j.jml.2022.104352.json,decisions/10.1016--j.jml.2022.104352.json
 10.1111/desc.13080,education,mathematics education,4,0,,packets/10.1111--desc.13080.json,decisions/10.1111--desc.13080.json
 10.1016/0163-6383(90)90029-8,medical fields,pediatrics,6,0,,packets/10.1016--0163-6383(90)90029-8.json,decisions/10.1016--0163-6383(90)90029-8.json
-10.1016/j.ynirp.2022.100147,neuroscience,cognitive neuroscience,11,0,targeted source review: codebook_null,packets/10.1016--j.ynirp.2022.100147.json,decisions/10.1016--j.ynirp.2022.100147.json
+10.1016/j.ynirp.2022.100147,neuroscience,cognitive neuroscience,7,0,targeted source review: codebook_null,packets/10.1016--j.ynirp.2022.100147.json,decisions/10.1016--j.ynirp.2022.100147.json
 10.1108/neje-04-2020-0005,education,higher education,3,0,,packets/10.1108--neje-04-2020-0005.json,decisions/10.1108--neje-04-2020-0005.json
 10.1017/xps.2017.22,political science,,5,0,subdiscipline missing,packets/10.1017--xps.2017.22.json,decisions/10.1017--xps.2017.22.json
 10.1371/journal.pone.0209704,psychology,social psychology,2,0,,packets/10.1371--journal.pone.0209704.json,decisions/10.1371--journal.pone.0209704.json
@@ -55,7 +55,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1007/s10648-019-09468-2,psychology,cognitive psychology,4,0,,packets/10.1007--s10648-019-09468-2.json,decisions/10.1007--s10648-019-09468-2.json
 10.1002/ejsp.2175,psychology,cognitive psychology,2,0,,packets/10.1002--ejsp.2175.json,decisions/10.1002--ejsp.2175.json
 10.1037/xge0000788,psychology,social psychology,6,0,,packets/10.1037--xge0000788.json,decisions/10.1037--xge0000788.json
-10.1525/collabra.216,psychology,organizational psychology,5,0,targeted source review: type,packets/10.1525--collabra.216.json,decisions/10.1525--collabra.216.json
+10.1525/collabra.216,psychology,organizational psychology,4,0,targeted source review: type,packets/10.1525--collabra.216.json,decisions/10.1525--collabra.216.json
 10.5964/jnc.7047,psychology,developmental psychology,4,0,,packets/10.5964--jnc.7047.json,decisions/10.5964--jnc.7047.json
 10.1525/collabra.168,psychology,cognitive psychology,7,0,,packets/10.1525--collabra.168.json,decisions/10.1525--collabra.168.json
 10.1177/1948550618775410,psychology,cognitive psychology,6,0,,packets/10.1177--1948550618775410.json,decisions/10.1177--1948550618775410.json
@@ -110,29 +110,29 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1007/s00181-018-1457-0,economics,labor economics,4,0,,packets/10.1007--s00181-018-1457-0.json,decisions/10.1007--s00181-018-1457-0.json
 10.7554/elife.51019,biology,cancer biology,11,0,,packets/10.7554--elife.51019.json,decisions/10.7554--elife.51019.json
 10.7554/elife.04363,biology,cancer biology,3,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.04363.json,decisions/10.7554--elife.04363.json
-10.7554/elife.11566,biology,cancer biology,7,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11566.json,decisions/10.7554--elife.11566.json
-10.7554/elife.11999,biology,cancer biology,10,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11999.json,decisions/10.7554--elife.11999.json
-10.7554/elife.09976,biology,cancer biology,6,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.09976.json,decisions/10.7554--elife.09976.json
+10.7554/elife.11566,biology,cancer biology,8,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11566.json,decisions/10.7554--elife.11566.json
+10.7554/elife.11999,biology,cancer biology,11,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11999.json,decisions/10.7554--elife.11999.json
+10.7554/elife.09976,biology,cancer biology,8,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.09976.json,decisions/10.7554--elife.09976.json
 10.7554/elife.45426,biology,cancer biology,6,0,,packets/10.7554--elife.45426.json,decisions/10.7554--elife.45426.json
-10.7554/elife.11414,biology,cancer biology,11,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11414.json,decisions/10.7554--elife.11414.json
+10.7554/elife.11414,biology,cancer biology,13,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.11414.json,decisions/10.7554--elife.11414.json
 10.7554/elife.17584,biology,cancer biology,8,0,,packets/10.7554--elife.17584.json,decisions/10.7554--elife.17584.json
 10.7554/elife.26030,biology,cancer biology,9,0,,packets/10.7554--elife.26030.json,decisions/10.7554--elife.26030.json
 10.7554/elife.21253,biology,cancer biology,7,0,,packets/10.7554--elife.21253.json,decisions/10.7554--elife.21253.json
-10.7554/elife.45120,biology,cancer biology,10,0,targeted source review: outcome,packets/10.7554--elife.45120.json,decisions/10.7554--elife.45120.json
-10.7554/elife.17044,biology,cancer biology,6,0,targeted source review: codebook_null,packets/10.7554--elife.17044.json,decisions/10.7554--elife.17044.json
+10.7554/elife.45120,biology,cancer biology,11,0,targeted source review: outcome,packets/10.7554--elife.45120.json,decisions/10.7554--elife.45120.json
+10.7554/elife.17044,biology,cancer biology,4,0,targeted source review: codebook_null,packets/10.7554--elife.17044.json,decisions/10.7554--elife.17044.json
 10.7554/elife.56651,biology,cancer biology,8,0,,packets/10.7554--elife.56651.json,decisions/10.7554--elife.56651.json
-10.7554/elife.43511,biology,cancer biology,11,0,targeted source review: outcome,packets/10.7554--elife.43511.json,decisions/10.7554--elife.43511.json
+10.7554/elife.43511,biology,cancer biology,12,0,targeted source review: outcome,packets/10.7554--elife.43511.json,decisions/10.7554--elife.43511.json
 10.7554/elife.25306,biology,cancer biology,7,0,,packets/10.7554--elife.25306.json,decisions/10.7554--elife.25306.json
 10.7554/elife.29747,biology,cancer biology,6,0,,packets/10.7554--elife.29747.json,decisions/10.7554--elife.29747.json
-10.7554/elife.18173,biology,cancer biology,6,0,targeted source review: outcome,packets/10.7554--elife.18173.json,decisions/10.7554--elife.18173.json
+10.7554/elife.18173,biology,cancer biology,2,0,targeted source review: outcome,packets/10.7554--elife.18173.json,decisions/10.7554--elife.18173.json
 10.7554/elife.34364,biology,cancer biology,8,0,,packets/10.7554--elife.34364.json,decisions/10.7554--elife.34364.json
 10.7554/elife.39944,biology,cancer biology,2,0,,packets/10.7554--elife.39944.json,decisions/10.7554--elife.39944.json
 10.7554/elife.21634,biology,cancer biology,5,0,,packets/10.7554--elife.21634.json,decisions/10.7554--elife.21634.json
-10.7554/elife.10860,biology,cancer biology,6,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.10860.json,decisions/10.7554--elife.10860.json
+10.7554/elife.10860,biology,cancer biology,8,0,protocol: exclude from outcome scoring pending human confirmation; targeted source review: eligibility,packets/10.7554--elife.10860.json,decisions/10.7554--elife.10860.json
 10.7554/elife.30274,biology,cancer biology,6,0,,packets/10.7554--elife.30274.json,decisions/10.7554--elife.30274.json
 10.7554/elife.25801,biology,cancer biology,2,0,,packets/10.7554--elife.25801.json,decisions/10.7554--elife.25801.json
 10.1101/2025.04.02.645026,biology,cell biology,2,0,,packets/10.1101--2025.04.02.645026.json,decisions/10.1101--2025.04.02.645026.json
-10.1007/s40279-025-02201-w,sports and exercise science,sports and exercise science,25,25,targeted source review: input_coverage; 25 PDF table outcomes recovered; type and fine-grained identity pending,packets/10.1007--s40279-025-02201-w.json,decisions/10.1007--s40279-025-02201-w.json
+10.1007/s40279-025-02201-w,sports and exercise science,sports and exercise science,26,25,targeted source review: input_coverage; 25 PDF table outcomes recovered; type and fine-grained identity pending,packets/10.1007--s40279-025-02201-w.json,decisions/10.1007--s40279-025-02201-w.json
 10.1186/1471-2350-13-27,medical fields,cardiovascular medicine,8,0,,packets/10.1186--1471-2350-13-27.json,decisions/10.1186--1471-2350-13-27.json
 10.1046/j.1365-2133.1996.d01-1096.x,medical fields,dermatology,2,0,,packets/10.1046--j.1365-2133.1996.d01-1096.x.json,decisions/10.1046--j.1365-2133.1996.d01-1096.x.json
 10.1158/1055-9965.epi-08-1223,medical fields,epidemiology,17,0,,packets/10.1158--1055-9965.epi-08-1223.json,decisions/10.1158--1055-9965.epi-08-1223.json
@@ -154,7 +154,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1371/journal.pone.0110118,psychology,cognitive psychology,3,0,,packets/10.1371--journal.pone.0110118.json,decisions/10.1371--journal.pone.0110118.json
 10.1371/journal.pone.0210327,medical fields,pharmacology and toxicology,2,0,,packets/10.1371--journal.pone.0210327.json,decisions/10.1371--journal.pone.0210327.json
 10.5018/economics-ejournal.ja.2018-3,economics,development economics,10,0,,packets/10.5018--economics-ejournal.ja.2018-3.json,decisions/10.5018--economics-ejournal.ja.2018-3.json
-10.1177/073953298600700307,sociology,,8,0,subdiscipline missing; targeted source review: matching,packets/10.1177--073953298600700307.json,decisions/10.1177--073953298600700307.json
+10.1177/073953298600700307,sociology,,11,0,subdiscipline missing; targeted source review: matching,packets/10.1177--073953298600700307.json,decisions/10.1177--073953298600700307.json
 10.1080/02699931.2020.1719982,psychology,cognitive psychology,4,0,,packets/10.1080--02699931.2020.1719982.json,decisions/10.1080--02699931.2020.1719982.json
 10.3389/fnhum.2020.00265,neuroscience,cognitive neuroscience,2,0,,packets/10.3389--fnhum.2020.00265.json,decisions/10.3389--fnhum.2020.00265.json
 10.1016/j.jsat.2013.07.013,medical fields,pharmacology and toxicology,2,0,targeted source review: scope,packets/10.1016--j.jsat.2013.07.013.json,decisions/10.1016--j.jsat.2013.07.013.json
@@ -176,7 +176,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.3758/s13421-023-01471-x,psychology,cognitive psychology,8,0,,packets/10.3758--s13421-023-01471-x.json,decisions/10.3758--s13421-023-01471-x.json
 10.1007/s11205-005-5074-x,economics,behavioral and experimental economics,2,0,,packets/10.1007--s11205-005-5074-x.json,decisions/10.1007--s11205-005-5074-x.json
 10.1016/j.neuroimage.2008.04.023,neuroscience,cognitive neuroscience,3,0,,packets/10.1016--j.neuroimage.2008.04.023.json,decisions/10.1016--j.neuroimage.2008.04.023.json
-10.1001/archneurol.2011.155,medical fields,neurology,4,0,targeted source review: type,packets/10.1001--archneurol.2011.155.json,decisions/10.1001--archneurol.2011.155.json
+10.1001/archneurol.2011.155,medical fields,neurology,6,0,targeted source review: type,packets/10.1001--archneurol.2011.155.json,decisions/10.1001--archneurol.2011.155.json
 10.1016/j.psyneuen.2016.08.017,neuroscience,behavioral neuroscience,3,0,,packets/10.1016--j.psyneuen.2016.08.017.json,decisions/10.1016--j.psyneuen.2016.08.017.json
 10.3758/s13421-024-01583-y,psychology,cognitive psychology,6,0,,packets/10.3758--s13421-024-01583-y.json,decisions/10.3758--s13421-024-01583-y.json
 10.2466/pr0.2000.87.2.493,psychology,social psychology,6,0,,packets/10.2466--pr0.2000.87.2.493.json,decisions/10.2466--pr0.2000.87.2.493.json
@@ -194,7 +194,7 @@ replication_doi,discipline,subdiscipline,candidates,source_proposals,flags,packe
 10.1177/0956797618788882,psychology,,2,0,subdiscipline missing,packets/10.1177--0956797618788882.json,decisions/10.1177--0956797618788882.json
 10.1080/13523260.2020.1868836,political science,,2,0,subdiscipline missing,packets/10.1080--13523260.2020.1868836.json,decisions/10.1080--13523260.2020.1868836.json
 10.1037/pspa0000032,psychology,social psychology,2,0,,packets/10.1037--pspa0000032.json,decisions/10.1037--pspa0000032.json
-10.1016/j.cognition.2019.104157,psychology,cognitive psychology,6,0,targeted source review: eligibility_boundary,packets/10.1016--j.cognition.2019.104157.json,decisions/10.1016--j.cognition.2019.104157.json
+10.1016/j.cognition.2019.104157,psychology,cognitive psychology,2,0,targeted source review: eligibility_boundary,packets/10.1016--j.cognition.2019.104157.json,decisions/10.1016--j.cognition.2019.104157.json
 10.1111/j.1467-9280.2008.02076.x,psychology,social psychology,3,0,,packets/10.1111--j.1467-9280.2008.02076.x.json,decisions/10.1111--j.1467-9280.2008.02076.x.json
 10.1080/13803390701550110,neuroscience,,2,0,subdiscipline missing,packets/10.1080--13803390701550110.json,decisions/10.1080--13803390701550110.json
 10.1016/0010-0277(83)90004-5,psychology,,2,0,subdiscipline missing,packets/10.1016--0010-0277(83)90004-5.json,decisions/10.1016--0010-0277(83)90004-5.json

@@ -19,9 +19,9 @@
   ],
   "candidates": [
     {
-      "candidate_id": "ling26:10.31234--osf.io--esu9z#neg",
-      "coder": "ling26",
-      "provenance": "ai_candidate:ling26",
+      "candidate_id": "ling26@v2:10.31234--osf.io--esu9z#fred_32",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
       "result": "",
       "replication_type": "",
       "original_url": "",
@@ -29,14 +29,14 @@
       "description": "",
       "citation_sentence": "",
       "gt_ambiguity": "",
-      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
-      "is_replication_paper": "",
-      "why_negative": ""
+      "notes": " [ling26: no entry matched this anchor]",
+      "is_replication_paper": "no",
+      "why_negative": "The paper is a correction notice about a bug in the analysis code, not a replication study."
     },
     {
-      "candidate_id": "luna56:10.31234--osf.io--esu9z#neg",
-      "coder": "luna56",
-      "provenance": "ai_candidate:luna56",
+      "candidate_id": "luna56@v2:10.31234--osf.io--esu9z#fred_32",
+      "coder": "luna56@v2",
+      "provenance": "ai_candidate:luna56@codebook_v2",
       "result": "",
       "replication_type": "",
       "original_url": "",
@@ -44,9 +44,9 @@
       "description": "",
       "citation_sentence": "",
       "gt_ambiguity": "",
-      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
-      "is_replication_paper": "",
-      "why_negative": ""
+      "notes": " [luna56: no entry matched this anchor]",
+      "is_replication_paper": "no",
+      "why_negative": "The paper is only a correction notice about an analysis-code bug and reports no qualifying replication experiment."
     }
   ],
   "source_proposals": [],

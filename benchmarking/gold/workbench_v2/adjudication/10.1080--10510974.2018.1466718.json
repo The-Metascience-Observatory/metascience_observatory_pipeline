@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/10510974.2018.1466718",
+  "paper_folder": "10.1080--10510974.2018.1466718",
+  "discipline": "education",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--10510974.2018.1466718/body.md",
+      "sha256": "e328335e7182bb6f5412d1e4dcd1c89766f861440c33daef05dbbb89b36c39db"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--10510974.2018.1466718#ling26:8b61dbd63f1df3b6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/23808985.1987.11678663",
+      "original_title": "The relationship between selected immediacy behaviors and cognitive learning",
+      "description": "The relationship between nonverbal immediacy behaviors and cognitive learning",
+      "citation_sentence": "This study replicated [15] study on nonverbal immediacy and cognitive learning (H1b)",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--10510974.2018.1466718#ling26:847e0b8f554694c9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/03634529909379152",
+      "original_title": "The relationship between student perceptions of instructor humor and students' reports of learning",
+      "description": "The relationship between student perceptions of instructor humor and students' reports of learning",
+      "citation_sentence": "For humor, this study replicated [19] findings.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--10510974.2018.1466718#ling26:52bcab54ee08127e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/03634520109379232",
+      "original_title": "The relationship of teacher clarity and immediacy with student state receiver apprehension, affect, and cognitive learning",
+      "description": "The relationship of teacher clarity and immediacy with student cognitive learning",
+      "citation_sentence": "This study replicates and extends three widely cited instructional communication research studies regarding instructor clarity, humor, immediacy, and students' learning: [15], Wanzer and[19][4][4].",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "5 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

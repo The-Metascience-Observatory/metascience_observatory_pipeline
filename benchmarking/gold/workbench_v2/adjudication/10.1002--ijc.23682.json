@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/ijc.23682",
+  "paper_folder": "10.1002--ijc.23682",
+  "discipline": "biology",
+  "subdiscipline": "genetics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--ijc.23682/10.1002--ijc.23682_from_xml.md",
+      "sha256": "ef9aacb8fd5602855c820b93c266ae03a2ea67d31d92854114870651df7c9e0d"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--ijc.23682#ling26:b71b4fad13e69c3f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Genome-wide association study in esophageal cancer using the genechip mapping 10K array",
+      "description": "Genome-wide case-control study identified 38 gene-related SNPs associated with esophageal squamous cell carcinoma risk in Shanxi Province, China",
+      "citation_sentence": "To identify genetic factors leading to ESCC susceptibility, we conducted a replication case-control study of 38 gene-related SNPs associated with ESCC in a previous pilot study.",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state the replication 'confirmed' and 'replicated' the original findings, but only 4 of 38 SNPs replicated their association with ESCC in the replication study. The paper uses numbered references rather than author-date citations, so the citation_sentence does not contain author names and year in the text. A second coder may code this as inconclusive given the partial replication (4/38 SNPs). Paper uses only numeric citations in text; no author-year citation available for the original study. Phase 1 and Phase 2 use the same 300 cases and 300 controls and constitute one study. Authors explicitly state the replication 'confirmed' previously-identified associations.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

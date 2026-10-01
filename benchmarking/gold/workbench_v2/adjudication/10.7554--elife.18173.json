@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.18173",
+  "paper_folder": "10.7554--elife.18173",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.18173/10.7554--elife.18173_from_xml.md",
+      "sha256": "ee7d11cdd98f70dfac1ff0b172992ec9494d1c4bc63cf86c4fdd8b9fe5500a09"
+    }
+  ],
+  "flags": [
+    "targeted source review: outcome"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.7554--elife.18173#1",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "Anti-CD47 antibody treatment reduces tumor weight in a syngeneic breast cancer model",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2015), we attempted a replication of the experiments reported in Figure 6A\u2013C and Supplemental Table S4 of Willingham et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no significant difference in tumor weight between anti-CD47 and IgG groups (p=0.104), with anti-CD47 tumors actually larger than IgG tumors (0.163g vs 0.075g), opposite to the original finding. The meta-analysis of original and replication effect sizes was not significant (p=0.745) with significant heterogeneity (Cochran's Q p=0.0039).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.18173",
+    "category": "outcome",
+    "action": "accept_pair",
+    "pair_hint": "lymphocytic",
+    "finding": "Both target the same infiltration comparison. The ordinal infiltration assessment must be distinguished from tumor growth, blood lymphocytes and exploratory neutrophil effects. Source supports uncertainty about how strongly to classify this contrast.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.18173/10.7554--elife.18173_from_xml.md",
+    "source_line": 36,
+    "source_sha256": "ee7d11cdd98f70dfac1ff0b172992ec9494d1c4bc63cf86c4fdd8b9fe5500a09",
+    "evidence": "g system to assess the degree of lymphocytic infiltrate (Demaria et al., 2001). Both IgG and anti-CD47 treated tumors resulted in minimal to moderate lymphocytic infiltrate (Table 1). Although not planned, the tumors were also analyzed for the extent of neutrophilic infiltration. The neutrophilic infiltrate in IgG treated tumors was minimal in 4 and moderate in 3 tumors. The neutrophilic i",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "1 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

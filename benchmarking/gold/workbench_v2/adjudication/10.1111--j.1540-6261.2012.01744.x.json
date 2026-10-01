@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/j.1540-6261.2012.01744.x",
+  "paper_folder": "10.1111--j.1540-6261.2012.01744.x",
+  "discipline": "economics",
+  "subdiscipline": "finance & financial economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/ground_truth_data_filtered_PDFs/10.1111--j.1540-6261.2012.01744.x/body.md",
+      "sha256": "cee352b19cea8442d7a7a712dc116f46430c08fe237b23409f6a8e8087e5cb2b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--j.1540-6261.2012.01744.x#ling26:ad381adbaa418a11:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "CEO pay decreases 17% more in firms with noncompliant boards (majority non-independent directors) than in firms with compliant boards (majority independent directors)",
+      "citation_sentence": "Chhaochharia and Grinstein (2009) (henceforth CG) use firms' compliance status before the rule change to identify the causal effect of board composition on CEO pay.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication finds CG's main board independence result is driven by two outlier firms (Apple and Fossil). After excluding them, the effect drops by 74% and becomes statistically indistinguishable from zero. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--j.1540-6261.2012.01744.x#ling26:f99190581e53cc58:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "The effect of board independence on CEO pay is moderated by the presence of blockholder directors (nonemployee directors owning 5%+ of shares)",
+      "citation_sentence": "Column (1) in panel A of Table III reproduces CG's main result on block ownership from table VII, column (1) of the published paper",
+      "gt_ambiguity": "clear",
+      "notes": "The replication finds CG's blockholder moderation result is also driven by the same outliers (Apple and Fossil). After excluding them, the noncompliance effect for firms without blockholders drops from -0.270 to -0.100 and becomes marginally significant. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--j.1540-6261.2012.01744.x#ling26:d91d3ee3b7ea0c75:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "The effect of board independence on CEO pay varies with institutional ownership concentration (top vs. bottom quartiles)",
+      "citation_sentence": "Column (1) in panel B of Table III reproduces CG's results on institutional ownership concentration from Table VII, column (2) of the published paper.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication finds CG's institutional concentration results are also driven by outliers. After excluding Apple and Fossil, neither high nor low institutional concentration groups show significant noncompliance effects. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1111--j.1540-6261.2012.01744.x#ling26:8010a6d8218c84cf:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "Compensation committee independence requirement does not significantly affect CEO pay",
+      "citation_sentence": "Column (1) of Table IV reproduces CG's main result from Table II, column (2) of the published paper",
+      "gt_ambiguity": "ambiguous",
+      "notes": "CG found a null effect of compensation committee noncompliance on CEO pay (coefficient -0.014, p=0.83). The replication also finds null in the full sample (coefficient -0.000), but after excluding outliers the effect reverses to positive and significant (coefficient 0.069, p=0.023). A second coder might code this as 'failure' (null is fragile) or 'inconclusive' (full sample matches but outlier-adjusted result differs). [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "4 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

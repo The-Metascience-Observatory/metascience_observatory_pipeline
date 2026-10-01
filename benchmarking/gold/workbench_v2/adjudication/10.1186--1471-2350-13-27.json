@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1186/1471-2350-13-27",
+  "paper_folder": "10.1186--1471-2350-13-27",
+  "discipline": "medical fields",
+  "subdiscipline": "cardiovascular medicine",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1186--1471-2350-13-27/10.1186--1471-2350-13-27_from_xml.md",
+      "sha256": "a6878f28c7adfd4b99fdde645cacd3dd503edd79e9afd17afc9f9604ed9ad390"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1186--1471-2350-13-27#ling26:b9971b3fe705221f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A genome-wide association study of hypertension and blood pressure in African Americans",
+      "description": "Association of SNPs in or near PMS1, SLC24A4, YWHA7, IPO7, CACANA1H, STK39, and CDH13 with hypertension and blood pressure in African Americans",
+      "citation_sentence": "SNPs associated with hypertension and blood pressure in the genome wide association study by Adeyemo et al among AAs were selected for the study [18].",
+      "gt_ambiguity": "clear",
+      "notes": "Year (2009) not explicitly cited in the text body; only in the reference list. The paper's title 'Non-replication study' describes the outcome (failure to replicate), not the study type. The authors explicitly state they were 'unable to confirm previously reported associations' and none of the 24 SNPs were convincingly associated with hypertension or blood pressure. The paper explicitly frames itself as a replication attempt of Adeyemo et al. (2009) in an independent African American sample from Milwaukee. All 24 SNPs tested showed no significant association with hypertension or blood pressure after adjustment for multiple comparisons, and the authors state they were 'unable to confirm previously reported associations.' The STK39 and CDH13 SNPs were also included as they were replicated by Adeyemo et al. in African Americans; they are part of the same replication effort rather than separate original studies.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "7 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

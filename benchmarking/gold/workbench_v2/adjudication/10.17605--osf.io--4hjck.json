@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/4hjck",
+  "paper_folder": "10.17605--osf.io--4hjck",
+  "discipline": "psychology",
+  "subdiscipline": "judgment and decision making",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--4hjck/body.md",
+      "sha256": "916c421dd805ad4b056dbc0b8601bdcf644b0aa6bc0c538b955bbb009f6563c9"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--4hjck#ling26:e856c7a09885e1c6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1177/0272989x",
+      "original_title": "Understanding health risk comprehension: The role of math anxiety, subjective numeracy, and objective numeracy",
+      "description": "Numeracy moderates the positive-negative attribute framing effect, with lower numeracy associated with stronger framing bias",
+      "citation_sentence": "We embarked on a direct replication of [50] with two primary goals.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.17605--osf.io--4hjck#ling26:dfc00205388cea5e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1177/0272989x",
+      "original_title": "Understanding health risk comprehension: The role of math anxiety, subjective numeracy, and objective numeracy",
+      "description": "Numeracy moderates the frequency-percentage effect, with lower numeracy associated with stronger frequency-percentage bias",
+      "citation_sentence": "We embarked on a direct replication of [50] with two primary goals.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Dichotomized numeracy analysis failed to find the interaction (p = .065), but the continuous numeracy extension found support for all four effects. Authors frame the dichotomized Study 2 result as a failure, yet the effect was in the right direction and supported by the continuous extension, which could lead a second coder to code inconclusive. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.17605--osf.io--4hjck#ling26:47e4d4e581bec223:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1177/0272989x",
+      "original_title": "Understanding health risk comprehension: The role of math anxiety, subjective numeracy, and objective numeracy",
+      "description": "Numeracy is associated with more optimal choices in competing affective decisions, with lower numeracy associated with stronger ratio bias",
+      "citation_sentence": "We embarked on a direct replication of [50] with two primary goals.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.17605--osf.io--4hjck#ling26:c25f40c89db5c50a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1177/0272989x",
+      "original_title": "Understanding health risk comprehension: The role of math anxiety, subjective numeracy, and objective numeracy",
+      "description": "Numeracy is associated with stronger bets effect, with higher numeracy showing greater difference in bet attractiveness between loss and no-loss conditions",
+      "citation_sentence": "We embarked on a direct replication of [50] with two primary goals.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "7 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

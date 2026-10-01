@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.21203/rs.3.rs-8351701/v1",
+  "paper_folder": "10.21203--rs.3.rs-8351701--v1",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.21203--rs.3.rs-8351701--v1/body.md",
+      "sha256": "63d54422151f4fdfbd3654180a9588b2a7dd2cafdca3b0ca81dd587b72ff38a7"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.21203--rs.3.rs-8351701--v1#ling26:ed7084409bb92025:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1007/s12144-022-02879-5",
+      "original_title": "The neural basis of acceptance of uncertain situations: Relationship between ambiguity tolerance and the resting-state functional connectivity of the brain",
+      "description": "The original study found that higher ambiguity tolerance (unidimensional) was associated with stronger connectivity within integration and control networks (IPL-MFG/MCC) and lower tolerance with stronger connectivity in threat/error-monitoring circuits (OFC-ACC). This replication tested whether three MAAS dimensions (Discomfort with Ambiguity, Absolutism, Need for Complexity) relate to resting-state functional connectivity in a Japanese sample.",
+      "citation_sentence": "This preregistered study conceptually replicated and extended [9] by examining how three dimensions of the Multidimensional Attitude toward Ambiguity Scale (MAAS)-Discomfort with Ambiguity (DA), Absolutism (AB), and Need for Complexity (NC)-relate to resting-state functional connectivity in a Japanese sample.",
+      "gt_ambiguity": "clear",
+      "notes": "One entry for the whole study; three hypotheses tested but one conceptual replication of Liu et al. (2023). Null results for all three MAAS dimensions.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null,
+  "blinding": "3 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1525/collabra.216",
+  "paper_folder": "10.1525--collabra.216",
+  "discipline": "psychology",
+  "subdiscipline": "organizational psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.216/body.md",
+      "sha256": "455e71fa9b4003518f8d3d7ec7e21593c2736a7b12c29e7a416d02c61e54d9a4"
+    }
+  ],
+  "flags": [
+    "targeted source review: type"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26@v2:10.1525--collabra.216#flora_92",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "Manipulating the magnitude of vertical spatial difference in an organization chart influences power evaluations of a leader",
+      "citation_sentence": "We adapted the design of Study 1a from [7].",
+      "gt_ambiguity": "clear",
+      "notes": "Citation sentence uses reference number [7] rather than author names and year; the reference corresponds to Giessner & Schubert (2007).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26@v2:10.1525--collabra.216#added_d951f7505d",
+      "coder": "ling26@v2",
+      "provenance": "ai_candidate:ling26@codebook_v2",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "Describing a leader as powerful causes participants to place the leader's box at a higher vertical position in an organization chart",
+      "citation_sentence": "We followed closely the procedure of the original study in Giessner & Schubert (2007).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1525--collabra.216",
+    "category": "type",
+    "action": "accept_pair",
+    "pair_hint": "leader",
+    "finding": "The matched descriptions target Study 1 (power to placement). Study 2 reverses the causal direction and is not interchangeable even though the original DOI is shared. A genuine type disagreement remains for Study 1.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.216/body.md",
+    "source_line": 71,
+    "source_sha256": "455e71fa9b4003518f8d3d7ec7e21593c2736a7b12c29e7a416d02c61e54d9a4",
+    "evidence": "gistered study successfully replicated the main findings of the original study. Participants placed the box of a leader in a more elevated position when this leader was described as powerful, compared to the condition where the leader was described as having less power. The effect was stronger in this study than in the original study.\n\nThe scatterplot of the relati",
+    "reviewer": "Codex AI source review; not human adjudication"
+  },
+  "blinding": "2 candidate(s) from luna56 withheld: that model is the system under test. Resolve them after adjudicating."
+}
