@@ -35,6 +35,7 @@ import threading
 import time
 import unicodedata
 from pathlib import Path
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from mo_pipeline.shared.fetch_metadata_from_doi import (
@@ -511,6 +512,91 @@ def _title_similarity(a: str, b: str, threshold: float = 0.55) -> float:
     return _shared_title_similarity(a, b, threshold=threshold)
 
 
+def _normalize_enum(rep: dict, field: str, valid, prefix: str, msgs: list[str],
+                    aliases: dict[str, str] | None = None) -> None:
+    """Lowercase an enum value, map a known alias, or warn that it is not valid."""
+    val = rep.get(field, "")
+    if not val:
+        return
+    low = val.lower()
+    if aliases and low in aliases:
+        rep[field] = aliases[low]
+        msgs.append(f"{prefix} {field}=\"{low}\" → \"{aliases[low]}\"")
+    elif low in valid and val != low:
+        msgs.append(f"{prefix} {field}=\"{val}\" → \"{low}\"")
+        rep[field] = low
+    elif low not in valid:
+        msgs.append(f"{prefix} {field}=\"{val}\" not in {sorted(valid)}")
+
+
+def _check_discipline(rep: dict, prefix: str, msgs: list[str]) -> None:
+    """Canonicalize discipline case, lift a subdiscipline given as the discipline,
+    and check the subdiscipline belongs to the discipline."""
+    disc = rep.get("discipline", "")
+    if disc and disc.lower() != "other":
+        disc_lower = disc.lower()
+        if disc_lower in {d.lower() for d in VALID_DISCIPLINES}:
+            canonical = next(d for d in VALID_DISCIPLINES if d.lower() == disc_lower)
+            if disc != canonical:
+                msgs.append(f"{prefix} discipline=\"{disc}\" → \"{canonical}\"")
+                rep["discipline"] = canonical
+        elif disc_lower in {s.lower() for s in _ALL_SUBDISCIPLINES}:
+            canonical_sub = next(s for s in _ALL_SUBDISCIPLINES if s.lower() == disc_lower)
+            parent = _SUBDISCIPLINE_TO_DISCIPLINE[canonical_sub]
+            rep["discipline"] = parent
+            if not rep.get("subdiscipline"):
+                rep["subdiscipline"] = canonical_sub
+            msgs.append(f"{prefix} discipline=\"{disc}\" → \"{parent}\" (was subdiscipline)")
+        else:
+            msgs.append(f"{prefix} discipline=\"{disc}\" not in valid list")
+
+    subdisc = rep.get("subdiscipline", "")
+    current_disc = rep.get("discipline", "")
+    if subdisc and subdisc.lower() != "other" and current_disc in VALID_DISCIPLINES:
+        valid_subs = {s.lower() for s in VALID_DISCIPLINES[current_disc]}
+        if subdisc.lower() not in valid_subs:
+            msgs.append(f"{prefix} subdiscipline=\"{subdisc}\" not in {current_disc} list")
+
+
+def _check_statistics(rep: dict, prefix: str, msgs: list[str]) -> None:
+    """n fields coerced to int, p-values in [0, 1], known p-value types, and
+    every effect size paired with its type."""
+    for n_field in ("original_n", "replication_n"):
+        val = rep.get(n_field, "")
+        if val != "" and val is not None:
+            try:
+                n_int = int(float(str(val)))
+                if n_int <= 0:
+                    msgs.append(f"{prefix} {n_field}={val} should be positive")
+                elif val != n_int:
+                    rep[n_field] = n_int  # silent: "120" -> 120 is benign
+            except (ValueError, TypeError):
+                msgs.append(f"{prefix} {n_field}=\"{val}\" is not a valid integer")
+
+    for pv_field in ("original_p_value", "replication_p_value"):
+        val = rep.get(pv_field, "")
+        if val != "" and val is not None:
+            try:
+                pv = float(str(val))
+                if pv < 0 or pv > 1:
+                    msgs.append(f"{prefix} {pv_field}={pv} outside [0, 1]")
+            except (ValueError, TypeError):
+                msgs.append(f"{prefix} {pv_field}=\"{val}\" is not a valid number")
+
+    for pvt_field in ("original_p_value_type", "replication_p_value_type"):
+        val = rep.get(pvt_field, "")
+        if val and val not in VALID_P_VALUE_TYPES:
+            msgs.append(f"{prefix} {pvt_field}=\"{val}\" not in {sorted(VALID_P_VALUE_TYPES)}")
+
+    for side in ("original", "replication"):
+        es = rep.get(f"{side}_es", "")
+        es_type = rep.get(f"{side}_es_type", "")
+        if es and not es_type:
+            msgs.append(f"{prefix} {side}_es={es} but {side}_es_type is empty")
+        elif es_type and not es:
+            msgs.append(f"{prefix} {side}_es_type=\"{es_type}\" but {side}_es is empty")
+
+
 def validate_extraction(data: dict) -> tuple[dict, list[str]]:
     """Validate and auto-correct extracted data. Returns (data, log_messages).
 
@@ -518,9 +604,6 @@ def validate_extraction(data: dict) -> tuple[dict, list[str]]:
     Auto-corrects where safe (case normalization, known aliases). Logs warnings for issues.
     """
     msgs = []
-    corrections = 0
-
-    # Structural check: contains_replications consistency
     has_reps = data.get("contains_replications", False)
     reps = data.get("replications", [])
     if has_reps and not reps:
@@ -530,132 +613,24 @@ def validate_extraction(data: dict) -> tuple[dict, list[str]]:
 
     for i, rep in enumerate(reps):
         prefix = f"  ⚠️  SANITY entry {i}:"
+        _normalize_enum(rep, "result", VALID_RESULTS, prefix, msgs)
+        _normalize_enum(rep, "replication_type", VALID_REPLICATION_TYPES, prefix, msgs,
+                        aliases={"close": "close experiment"})
+        _normalize_enum(rep, "confidence", VALID_CONFIDENCE, prefix, msgs,
+                        aliases={"moderate": "medium"})
+        _check_discipline(rep, prefix, msgs)
 
-        # --- Enum: result ---
-        result = rep.get("result", "")
-        if result:
-            if result.lower() in VALID_RESULTS and result != result.lower():
-                msgs.append(f"{prefix} result=\"{result}\" → \"{result.lower()}\"")
-                rep["result"] = result.lower()
-                corrections += 1
-            elif result.lower() not in VALID_RESULTS:
-                msgs.append(f"{prefix} result=\"{result}\" not in {sorted(VALID_RESULTS)}")
-
-        # --- Enum: replication_type ---
-        rtype = rep.get("replication_type", "")
-        if rtype:
-            if rtype.lower() == "close":
-                rep["replication_type"] = "close experiment"
-                corrections += 1
-                msgs.append(f"{prefix} replication_type=\"close\" → \"close experiment\"")
-            elif rtype.lower() in VALID_REPLICATION_TYPES and rtype != rtype.lower():
-                msgs.append(f"{prefix} replication_type=\"{rtype}\" → \"{rtype.lower()}\"")
-                rep["replication_type"] = rtype.lower()
-                corrections += 1
-            elif rtype.lower() not in VALID_REPLICATION_TYPES:
-                msgs.append(f"{prefix} replication_type=\"{rtype}\" not in {sorted(VALID_REPLICATION_TYPES)}")
-
-        # --- Enum: confidence ---
-        conf = rep.get("confidence", "")
-        if conf:
-            if conf.lower() == "moderate":
-                rep["confidence"] = "medium"
-                corrections += 1
-                msgs.append(f"{prefix} confidence=\"moderate\" → \"medium\"")
-            elif conf.lower() in VALID_CONFIDENCE and conf != conf.lower():
-                msgs.append(f"{prefix} confidence=\"{conf}\" → \"{conf.lower()}\"")
-                rep["confidence"] = conf.lower()
-                corrections += 1
-            elif conf.lower() not in VALID_CONFIDENCE:
-                msgs.append(f"{prefix} confidence=\"{conf}\" not in {sorted(VALID_CONFIDENCE)}")
-
-        # --- Enum: discipline ---
-        disc = rep.get("discipline", "")
-        if disc and disc.lower() != "other":
-            disc_lower = disc.lower()
-            if disc_lower in {d.lower() for d in VALID_DISCIPLINES}:
-                # Normalize case
-                canonical = next(d for d in VALID_DISCIPLINES if d.lower() == disc_lower)
-                if disc != canonical:
-                    msgs.append(f"{prefix} discipline=\"{disc}\" → \"{canonical}\"")
-                    rep["discipline"] = canonical
-                    corrections += 1
-            elif disc_lower in {s.lower() for s in _ALL_SUBDISCIPLINES}:
-                # Subdiscipline used as discipline — auto-correct
-                canonical_sub = next(s for s in _ALL_SUBDISCIPLINES if s.lower() == disc_lower)
-                parent = _SUBDISCIPLINE_TO_DISCIPLINE[canonical_sub]
-                rep["discipline"] = parent
-                if not rep.get("subdiscipline"):
-                    rep["subdiscipline"] = canonical_sub
-                corrections += 1
-                msgs.append(f"{prefix} discipline=\"{disc}\" → \"{parent}\" (was subdiscipline)")
-            else:
-                msgs.append(f"{prefix} discipline=\"{disc}\" not in valid list")
-
-        # --- Enum: subdiscipline ---
-        subdisc = rep.get("subdiscipline", "")
-        current_disc = rep.get("discipline", "")
-        if subdisc and subdisc.lower() != "other" and current_disc in VALID_DISCIPLINES:
-            valid_subs = {s.lower() for s in VALID_DISCIPLINES[current_disc]}
-            if subdisc.lower() not in valid_subs:
-                msgs.append(f"{prefix} subdiscipline=\"{subdisc}\" not in {current_disc} list")
-
-        # --- Required fields ---
         for field in ("description", "result", "confidence", "discipline", "replication_type"):
             if not rep.get(field):
                 msgs.append(f"{prefix} missing required field \"{field}\"")
-
-        # --- Citation sentence ---
         if not rep.get("citation_sentence"):
             msgs.append(f"{prefix} missing citation_sentence")
 
-        # --- original_url normalization (silent: always correct, never surprising) ---
-        orig_url = rep.get("original_url", "")
-        if orig_url:
-            normalized = normalize_doi_url(orig_url)
-            if normalized != orig_url:
-                rep["original_url"] = normalized
-                corrections += 1
+        # original_url normalization is silent: always correct, never surprising.
+        if rep.get("original_url"):
+            rep["original_url"] = normalize_doi_url(rep["original_url"])
 
-        # --- Statistical: n fields (coerce string -> int, silent for benign case) ---
-        for n_field in ("original_n", "replication_n"):
-            val = rep.get(n_field, "")
-            if val != "" and val is not None:
-                try:
-                    n_int = int(float(str(val)))
-                    if n_int <= 0:
-                        msgs.append(f"{prefix} {n_field}={val} should be positive")
-                    elif val != n_int:
-                        rep[n_field] = n_int
-                        corrections += 1
-                except (ValueError, TypeError):
-                    msgs.append(f"{prefix} {n_field}=\"{val}\" is not a valid integer")
-
-        # --- Statistical: p_value range ---
-        for pv_field in ("original_p_value", "replication_p_value"):
-            val = rep.get(pv_field, "")
-            if val != "" and val is not None:
-                try:
-                    pv = float(str(val))
-                    if pv < 0 or pv > 1:
-                        msgs.append(f"{prefix} {pv_field}={pv} outside [0, 1]")
-                except (ValueError, TypeError):
-                    msgs.append(f"{prefix} {pv_field}=\"{val}\" is not a valid number")
-
-        # --- Statistical: p_value_type ---
-        for pvt_field in ("original_p_value_type", "replication_p_value_type"):
-            val = rep.get(pvt_field, "")
-            if val and val not in VALID_P_VALUE_TYPES:
-                msgs.append(f"{prefix} {pvt_field}=\"{val}\" not in {sorted(VALID_P_VALUE_TYPES)}")
-
-        # --- Statistical: es paired with es_type ---
-        for side in ("original", "replication"):
-            es = rep.get(f"{side}_es", "")
-            es_type = rep.get(f"{side}_es_type", "")
-            if es and not es_type:
-                msgs.append(f"{prefix} {side}_es={es} but {side}_es_type is empty")
-            elif es_type and not es:
-                msgs.append(f"{prefix} {side}_es_type=\"{es_type}\" but {side}_es is empty")
+        _check_statistics(rep, prefix, msgs)
 
     return data, msgs
 
@@ -1633,6 +1608,64 @@ def discover_papers(papers_dir: Path, include: set[str] | None, limit: int | Non
     return dirs
 
 
+def _log_kind(msg: str) -> str | None:
+    """Which batch-summary counter an extract_paper log line feeds, if any."""
+    if "SANITY" in msg:
+        return "sanity_corrections" if "→" in msg else "sanity_warnings"
+    if "📖  Replication:" in msg:
+        return "enrichment_rep_ok"
+    if "+  Entry" in msg and "from DOI" in msg:
+        return "enrichment_orig_doi"
+    if "+  Entry" in msg and "found DOI" in msg:
+        return "enrichment_title_found"
+    return None
+
+
+def _print_batch_summary(results: list[dict], skipped: list, errors: list[dict],
+                         total_usage: dict, log_counts: Counter) -> None:
+    refinement_count = sum(1 for r in results if r.get("usage", {}).get("refinement_round"))
+    confidence_counts = {"high": 0, "medium": 0, "low": 0}
+    total_entries = 0
+    for r in results:
+        for rep in r.get("replications", []):
+            conf = rep.get("confidence", "").lower()
+            if conf in confidence_counts:
+                confidence_counts[conf] += 1
+            total_entries += 1
+
+    print(f"\n{'='*60}", file=sys.stderr)
+    print(f"Papers processed: {len(results)}  |  Skipped: {len(skipped)}  |  Errors: {len(errors)}", file=sys.stderr)
+    print(
+        f"Total tokens: {total_usage['input_tokens'] + total_usage['output_tokens']:,} "
+        f"(in: {total_usage['input_tokens']:,}, out: {total_usage['output_tokens']:,})",
+        file=sys.stderr,
+    )
+    print(f"Total cost: ${total_usage['cost_usd']:.4f}", file=sys.stderr)
+    print(f"Total time: {_format_duration(total_usage['duration_ms'] / 1000)}", file=sys.stderr)
+    if refinement_count:
+        print(f"Refinement rounds: {refinement_count}", file=sys.stderr)
+    if total_entries:
+        print(
+            f"Confidence: {confidence_counts['high']} high, "
+            f"{confidence_counts['medium']} medium, "
+            f"{confidence_counts['low']} low "
+            f"({total_entries} total entries)",
+            file=sys.stderr,
+        )
+    c = log_counts
+    if c["sanity_corrections"] or c["sanity_warnings"]:
+        print(f"Validation: {c['sanity_corrections']} auto-corrections, {c['sanity_warnings']} warnings",
+              file=sys.stderr)
+    if c["enrichment_rep_ok"] or c["enrichment_orig_doi"] or c["enrichment_title_found"]:
+        print(
+            f"Enrichment: {c['enrichment_rep_ok']} replication DOIs, "
+            f"{c['enrichment_orig_doi']} original DOIs enriched, "
+            f"{c['enrichment_title_found']} DOIs found from title",
+            file=sys.stderr,
+        )
+    print(f"{'='*60}", file=sys.stderr)
+
+
 def extract_batch(
     papers_dir: Path,
     model: str = "sonnet",
@@ -1700,17 +1733,10 @@ def extract_batch(
         except Exception as e:
             return (paper_dir, None, None, str(e), [])
 
-    # Counters for batch summary (must be before process_batch_of_papers for nonlocal access)
-    sanity_corrections = 0
-    sanity_warnings = 0
-    enrichment_rep_ok = 0
-    enrichment_orig_doi = 0
-    enrichment_title_found = 0
+    log_counts = Counter()  # validation / enrichment outcomes, for the summary
 
     def process_batch_of_papers(papers_to_process: list[Path], batch_name: str = "Initial") -> list[Path]:
         """Process a batch of papers and return list of papers that failed due to usage limits."""
-        nonlocal sanity_corrections, sanity_warnings
-        nonlocal enrichment_rep_ok, enrichment_orig_doi, enrichment_title_found
         usage_limit_failures = []
 
         with ThreadPoolExecutor(max_workers=workers) as pool:
@@ -1750,16 +1776,9 @@ def extract_batch(
                 # Print any log messages from extract_paper with the batch prefix
                 for msg in log_msgs:
                     print(f"{prefix} {name}{msg}", file=sys.stderr)
-                    if "SANITY" in msg and "→" in msg:
-                        sanity_corrections += 1
-                    elif "SANITY" in msg:
-                        sanity_warnings += 1
-                    elif "📖  Replication:" in msg:
-                        enrichment_rep_ok += 1
-                    elif "+  Entry" in msg and "from DOI" in msg:
-                        enrichment_orig_doi += 1
-                    elif "+  Entry" in msg and "found DOI" in msg:
-                        enrichment_title_found += 1
+                    kind = _log_kind(msg)
+                    if kind:
+                        log_counts[kind] += 1
 
         return usage_limit_failures
 
@@ -1792,47 +1811,7 @@ def extract_batch(
         for paper_dir in usage_limit_failures:
             errors.append({"paper": paper_dir.name, "error": "Usage limit after max retries"})
 
-    # Compute refinement, confidence stats from results
-    refinement_count = sum(1 for r in results if r.get("usage", {}).get("refinement_round"))
-    confidence_counts = {"high": 0, "medium": 0, "low": 0}
-    total_entries = 0
-    for r in results:
-        for rep in r.get("replications", []):
-            conf = rep.get("confidence", "").lower()
-            if conf in confidence_counts:
-                confidence_counts[conf] += 1
-            total_entries += 1
-
-    # Print usage summary
-    print(f"\n{'='*60}", file=sys.stderr)
-    print(f"Papers processed: {len(results)}  |  Skipped: {len(skipped)}  |  Errors: {len(errors)}", file=sys.stderr)
-    print(
-        f"Total tokens: {total_usage['input_tokens'] + total_usage['output_tokens']:,} "
-        f"(in: {total_usage['input_tokens']:,}, out: {total_usage['output_tokens']:,})",
-        file=sys.stderr,
-    )
-    print(f"Total cost: ${total_usage['cost_usd']:.4f}", file=sys.stderr)
-    print(f"Total time: {_format_duration(total_usage['duration_ms'] / 1000)}", file=sys.stderr)
-    if refinement_count:
-        print(f"Refinement rounds: {refinement_count}", file=sys.stderr)
-    if total_entries:
-        print(
-            f"Confidence: {confidence_counts['high']} high, "
-            f"{confidence_counts['medium']} medium, "
-            f"{confidence_counts['low']} low "
-            f"({total_entries} total entries)",
-            file=sys.stderr,
-        )
-    if sanity_corrections or sanity_warnings:
-        print(f"Validation: {sanity_corrections} auto-corrections, {sanity_warnings} warnings", file=sys.stderr)
-    if enrichment_rep_ok or enrichment_orig_doi or enrichment_title_found:
-        print(
-            f"Enrichment: {enrichment_rep_ok} replication DOIs, "
-            f"{enrichment_orig_doi} original DOIs enriched, "
-            f"{enrichment_title_found} DOIs found from title",
-            file=sys.stderr,
-        )
-    print(f"{'='*60}", file=sys.stderr)
+    _print_batch_summary(results, skipped, errors, total_usage, log_counts)
 
     # Combine all results
     output = {"results": results, "errors": errors, "total_usage": total_usage}
@@ -1958,10 +1937,7 @@ def collate_results(papers_dir: Path, tag: str | None = None) -> Path:
     return out_path
 
 
-def main():
-    # Register signal handler for graceful shutdown
-    signal.signal(signal.SIGINT, signal_handler)
-
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Extract replication data from academic papers using Claude"
     )
@@ -2045,6 +2021,14 @@ def main():
         help="Benchmark only: restrict the full-text tier ladder to one rung (papers lacking it fall through to the PDF). Recorded in provenance.json.",
     )
     parser.add_argument("--usecodex", action="store_true", help="Use Codex CLI (set --model explicitly)")
+    return parser
+
+
+def main():
+    # Register signal handler for graceful shutdown
+    signal.signal(signal.SIGINT, signal_handler)
+
+    parser = build_parser()
     args = parser.parse_args()
     if args.usecodex and args.model == "sonnet":
         parser.error("--usecodex requires an explicit Codex --model")
