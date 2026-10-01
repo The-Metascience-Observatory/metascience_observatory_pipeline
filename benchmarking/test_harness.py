@@ -16,6 +16,7 @@ sys.path.insert(0, str(BENCH.parent))
 sys.path.insert(1, str(BENCH))
 
 import harness  # noqa: E402
+import gold_build
 import matching  # noqa: E402
 
 
@@ -312,14 +313,14 @@ def test_coding_sheet_can_omit_the_statistical_columns(tmp_path, monkeypatch):
     monkeypatch.setattr(harness.config, "PAPERS_DIR", papers)
 
     args = argparse.Namespace(gold_version=9, coder="ai_a", force=True, no_stats=True)
-    harness.cmd_coding_sheet(args)
+    gold_build.cmd_coding_sheet(args)
     cols = harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")[0].keys()
     assert not (set(cols) - harness.SHEET_ALLOWED), "blinding whitelist must still hold"
     assert not (set(cols) & set(harness.STAT_FIELDS))
     assert "result" in cols and "citation_sentence" in cols
 
     args.no_stats = False
-    harness.cmd_coding_sheet(args)
+    gold_build.cmd_coding_sheet(args)
     assert set(harness.STAT_FIELDS) <= set(harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")[0])
 
 
@@ -352,7 +353,7 @@ def test_coding_sheet_skips_a_paper_that_is_not_on_the_drive(tmp_path, monkeypat
     (papers / "10.1--a" / "body.md").write_text("prose")
     monkeypatch.setattr(harness.config, "PAPERS_DIR", papers)
 
-    harness.cmd_coding_sheet(argparse.Namespace(gold_version=9, coder="ai_a", force=True, no_stats=True))
+    gold_build.cmd_coding_sheet(argparse.Namespace(gold_version=9, coder="ai_a", force=True, no_stats=True))
     rows = harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")
     assert [r["paper_folder"] for r in rows] == ["10.1--a"]
     assert "skipping 1 paper" in capsys.readouterr().out
@@ -410,7 +411,7 @@ def test_sheet_ids_cannot_collide_across_coders(tmp_path, monkeypatch):
     monkeypatch.setattr(harness, 'CODING_DIR', tmp_path)
     for coder in ('a', 'b'):
         harness.write_csv(tmp_path / f'sheet_gold_v1_{coder}.csv', [dict(row_id='same-anchor', paper_folder='p', description='x')])
-    assert harness._read_sheet(1, 'a')[0]['row_id'] != harness._read_sheet(1, 'b')[0]['row_id']
+    assert gold_build._read_sheet(1, 'a')[0]['row_id'] != gold_build._read_sheet(1, 'b')[0]['row_id']
 
 
 def test_paper_level_ground_truth_is_refused_for_scoring(tmp_path, monkeypatch):
@@ -493,9 +494,9 @@ def test_split_all_refuses_ground_truth_with_test_rows(tmp_path, monkeypatch):
 
 
 def test_two_coder_build_is_refused_even_with_an_empty_b_sheet(tmp_path, monkeypatch):
-    monkeypatch.setattr(harness, "_frame", lambda gv: [])
-    monkeypatch.setattr(harness, "_read_sheet", lambda gv, c: [])
+    monkeypatch.setattr(gold_build, "_frame", lambda gv: [])
+    monkeypatch.setattr(gold_build, "_read_sheet", lambda gv, c: [])
     args = argparse.Namespace(gold_version=1, coder_a="a", coder_b="b")
     with pytest.raises(SystemExit) as e:
-        harness.cmd_build_gold(args)
+        gold_build.cmd_build_gold(args)
     assert "two-coder gold export" in str(e.value)

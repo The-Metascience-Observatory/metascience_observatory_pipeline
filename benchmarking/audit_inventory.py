@@ -2,6 +2,7 @@
 from collections import Counter, defaultdict
 import json
 import harness
+import gold_build
 from audit_coding import ROOT, SNAP
 from mo_pipeline.label_centrality.common import latest_csv_path
 from mo_pipeline.extract.extract_core import paper_artifacts
@@ -27,7 +28,7 @@ REVIEWS = {
 def main():
     frame = harness.read_csv(SNAP/'frame_gold_v1_UNBLINDED.csv')
     db_path = latest_csv_path()
-    db = harness._latest_db_rows()
+    db = gold_build._latest_db_rows()
     by_doi = defaultdict(list)
     for r in db:
         by_doi[r['_rep']].append(r)

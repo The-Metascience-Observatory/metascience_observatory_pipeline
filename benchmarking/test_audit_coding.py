@@ -4,6 +4,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import audit_coding
 import harness
+import gold_build
 
 
 def test_reconstruction_requires_log_count_and_keeps_unknown_paper_label(tmp_path, monkeypatch):
@@ -23,7 +24,7 @@ def test_reconstruction_requires_log_count_and_keeps_unknown_paper_label(tmp_pat
 def test_two_coder_export_fails_before_writing_gold(tmp_path, monkeypatch):
     from argparse import Namespace
     import pytest
-    monkeypatch.setattr(harness, '_frame', lambda gv: [])
-    monkeypatch.setattr(harness, '_read_sheet', lambda gv,c: [dict(row_id='p#'+c)])
+    monkeypatch.setattr(gold_build, '_frame', lambda gv: [])
+    monkeypatch.setattr(gold_build, '_read_sheet', lambda gv,c: [dict(row_id='p#'+c)])
     with pytest.raises(SystemExit, match='human-reconciled effect identities'):
-        harness.cmd_build_gold(Namespace(gold_version=1,coder_a='a',coder_b='b'))
+        gold_build.cmd_build_gold(Namespace(gold_version=1,coder_a='a',coder_b='b'))

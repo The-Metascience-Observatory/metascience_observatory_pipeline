@@ -40,7 +40,8 @@ Contents
 
 ```
 benchmarking/
-  harness.py          the evaluator + gold-set toolchain (all subcommands)
+  harness.py          the evaluator and the CLI for every subcommand
+  gold_build.py       gold-set toolchain: import, sample, coding sheets, agreement, adjudicate, build-gold, match-audit
   matching.py         DOI / LLM-judge / Hungarian matcher used by harness.py
   test_harness.py     pytest: PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest benchmarking/test_harness.py -q
   codebook.md         coder codebook, versioned (codebook_v1); derived from prompts/prompt_shared_core.md
@@ -81,8 +82,8 @@ and stamps the report `CONTAMINATED`.
 Silver extras: `silver/main_gt_label_flips.csv` lists 8 rows whose `result` changed
 between the Feb-6 and Feb-19 files with no rationale (adjudicate before use);
 `silver/main_gt_dropped.csv` records the one self-replication row removed. The
-importers are `harness.py import-flora` / `import-fred` (from the two xlsx files at
-the repo root); `archive/tag_provenance.py` is the one-off that split the Feb file.
+importers are `harness.py import-flora` / `import-fred` (from the two xlsx files in
+`benchmarking/`); `archive/tag_provenance.py` is the one-off that split the Feb file.
 
 ### FLoRa is retired as an extraction-scoring source (2026-09-04)
 

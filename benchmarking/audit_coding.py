@@ -14,6 +14,7 @@ import hashlib
 import json
 import re
 import harness
+import gold_build
 
 ROOT = harness.RESULTS_DIR / "audit_2026_09_18"
 SNAP = ROOT / "snapshot"
@@ -85,7 +86,7 @@ def main():
                 data = json.loads(path.read_text())
                 validate_reply(data)
                 fresh[path.stem] = data
-        frame = {r['paper_folder']: r for r in harness._frame(1)}
+        frame = {r['paper_folder']: r for r in gold_build._frame(1)}
         fields = list(harness.read_csv(SNAP / f"sheet_gold_v1_{coder}.csv")[0])
         for folder, data in fresh.items():
             clean = [r for r in clean if r["paper_folder"] != folder]

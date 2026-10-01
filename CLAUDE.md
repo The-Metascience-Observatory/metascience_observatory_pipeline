@@ -276,8 +276,8 @@ extract `mo_pipeline/extract/extract.py` (agentic, all fields) + `extract_core.p
 `../metascience_observatory_website/data_ingestor/data_ingestor.py`;
 corpus `mo_pipeline/corpus/` (models, catalog, render, adopt); shared metadata
 fetchers, the fetchpdf shim and the published-DB reader `mo_pipeline/shared/`; orchestrator `server/app/`; dashboard `dashboard/src/app/`.
-`benchmarking/` is the extraction benchmark: `harness.py` (evaluate / retest /
-gold-set toolchain), `matching.py` (DOI -> Haiku judge -> one-to-one assignment),
+`benchmarking/` is the extraction benchmark: `harness.py` (evaluate / retest / status /
+run, and the CLI for everything), `gold_build.py` (the gold-set toolchain), `matching.py` (DOI -> Haiku judge -> one-to-one assignment),
 `codebook.md`, `gold/`, `silver/`, `results/`, `recall_harness.py`; read
 `benchmarking/README.md` first. Ground truth rows carry `provenance`; anything
 `pipeline:*` is refused for scoring. Benchmark extractions **must** run with
