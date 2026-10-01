@@ -157,3 +157,15 @@ def test_a_verdictless_result_does_not_erase_the_screening_verdict(tmp_path):
     t.mkdir()
     (t / f"{d.name}_result_full.json").write_text(_json.dumps({"replications": []}))
     assert scan_folder(d).contains_replications is True
+
+
+def test_normalize_doi():
+    from mo_pipeline.corpus.models import normalize_doi as n
+    assert n("https://doi.org/10.1037/A0025140.") == "10.1037/a0025140"
+    assert n("http://dx.doi.org/10.1000/xyz;") == "10.1000/xyz"
+    assert n("10.1044/1092-4388(2004/026)") == "10.1044/1092-4388(2004/026)"
+    assert n("(10.1000/abc)") is None
+    assert n("10.1000/abc)") == "10.1000/abc"
+    assert n("10.1016/j .obhdp.2006.10.001") is None
+    assert n("10.1017/s000305540 (case conflict 1)") is None
+    assert n("n/a") is None and n("") is None and n(None) is None

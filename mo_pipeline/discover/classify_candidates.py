@@ -26,6 +26,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from mo_pipeline.corpus.models import normalize_doi
 from mo_pipeline.discover.screening_backend import BACKENDS, get_backend
 from mo_pipeline.config import (
     DATA_DIR, PROGRESS_DIR,
@@ -91,10 +92,6 @@ def save_progress(progress):
     PROGRESS_FILE.write_text(json.dumps(progress, indent=2))
 
 
-def _norm_doi(doi):
-    return (doi or "").strip().lower()
-
-
 CONFIDENCE_VALUES = {"high", "medium", "low"}
 REPLICATION_TYPE_VALUES = {"direct", "close", "conceptual", "systematic", "multi-site"}
 # reasoning stamped on Level-2 rows before 2026-10-01, when every corpus paper was
@@ -119,7 +116,7 @@ def _load_ingested_dois():
                   "ignoring it. Rebuild: python -m mo_pipeline.discover.build_processed_manifest")
             return verdicts
         for row in reader:
-            doi = _norm_doi(row.get("doi", ""))
+            doi = (normalize_doi(row.get("doi", "")) or "")
             verdict = (row.get("contains_replications") or "").strip()
             if doi and verdict in ("0", "1"):
                 verdicts[doi] = verdict
@@ -163,7 +160,7 @@ def _load_prior_classified():
         return by_doi, by_pmid
     with open(CLASSIFIED_CSV, "r", newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
-            doi = _norm_doi(row.get("doi", ""))
+            doi = (normalize_doi(row.get("doi", "")) or "")
             pmid = (row.get("pmid") or "").strip()
             if doi:
                 by_doi[doi] = row
@@ -295,7 +292,7 @@ def main():
         if idx in already_done:
             continue
 
-        doi = _norm_doi(row.get("doi", ""))
+        doi = (normalize_doi(row.get("doi", "")) or "")
         pmid = (row.get("pmid") or "").strip()
         title = row.get("title", "")
         abstract = row.get("abstract", "")

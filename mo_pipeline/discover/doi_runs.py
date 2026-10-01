@@ -23,25 +23,12 @@ import time
 from pathlib import Path
 
 from mo_pipeline import config
-from mo_pipeline.corpus.models import doi_to_folder
+from mo_pipeline.corpus.models import doi_to_folder, normalize_doi
 
 csv.field_size_limit(2**31 - 1)
 
-_DOI_RE = re.compile(r"10\.\d{4,9}/\S+", re.IGNORECASE)
 _PREFERRED_COLUMNS = ["replication_doi", "doi", "replication_url", "doi_url", "url"]
 _SLUG_RE = re.compile(r"[^a-z0-9_-]+")
-
-
-def normalize_doi(value: str) -> str | None:
-    """'https://doi.org/10.1037/A0025140.' -> '10.1037/a0025140' (None if not a DOI)."""
-    if not value:
-        return None
-    v = value.strip().lower()
-    v = re.sub(r"^https?://(dx\.)?doi\.org/", "", v)
-    m = _DOI_RE.match(v)
-    if not m:
-        return None
-    return m.group(0).rstrip(".,;)]}>\"'")
 
 
 def slugify(name: str) -> str:

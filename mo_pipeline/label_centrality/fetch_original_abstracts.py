@@ -21,6 +21,7 @@ import requests
 
 from mo_pipeline import config
 from mo_pipeline.label_centrality import common
+from mo_pipeline.corpus.models import normalize_doi
 
 OPENALEX_BASE = "https://api.openalex.org/works"
 BATCH = 50
@@ -98,7 +99,7 @@ def main() -> int:
             "per-page": str(BATCH),
         }, api_key, mailto)
         for work in data.get("results", []):
-            doi = common.normalize_doi(work.get("doi") or "")
+            doi = normalize_doi(work.get("doi") or "")
             if doi:
                 cache[doi] = {
                     "title": work.get("title") or "",

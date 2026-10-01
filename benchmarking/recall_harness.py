@@ -42,7 +42,7 @@ sys.path.insert(1, str(BENCH_DIR))
 from harness import _load_xlsx as load_ground_truth_xlsx  # noqa: E402
 
 from mo_pipeline import config  # noqa: E402
-from mo_pipeline.discover.doi_runs import normalize_doi  # noqa: E402
+from mo_pipeline.corpus.models import normalize_doi  # noqa: E402
 
 csv.field_size_limit(sys.maxsize)
 

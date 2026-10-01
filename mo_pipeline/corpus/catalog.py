@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 from mo_pipeline import config
-from mo_pipeline.corpus.models import Paper, scan_folder, is_doi_folder
+from mo_pipeline.corpus.models import Paper, scan_folder, is_doi_folder, normalize_doi
 
 csv.field_size_limit(sys.maxsize)
 
@@ -213,15 +213,6 @@ def coverage_report() -> dict:
             "coverage_pct": round(pct, 1)}
 
 
-def _normalize_doi(url_or_doi: str) -> str:
-    """'https://doi.org/10.x/y' or '10.x/y' -> '10.x/y' (lowercased)."""
-    s = (url_or_doi or "").strip().lower()
-    for prefix in ("https://doi.org/", "http://doi.org/", "https://dx.doi.org/", "doi:"):
-        if s.startswith(prefix):
-            s = s[len(prefix):]
-    return s
-
-
 def mark_ingested(conn: sqlite3.Connection, dois, db_version: str,
                   write_passport: bool = True) -> dict:
     """Stamp `status='ingested'` + db_version on matching catalog rows, and
@@ -232,7 +223,10 @@ def mark_ingested(conn: sqlite3.Connection, dois, db_version: str,
     from mo_pipeline.corpus.models import write_passport as _wp
     matched, unmatched = 0, []
     for raw in dois:
-        doi = _normalize_doi(raw)
+        doi = normalize_doi(raw)
+        if doi is None:
+            unmatched.append(raw)
+            continue
         row = conn.execute(
             "SELECT doi, folder FROM papers WHERE lower(doi)=?", (doi,)).fetchone()
         if row is None:

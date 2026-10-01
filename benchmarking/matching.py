@@ -30,7 +30,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 from mo_pipeline import config
-from mo_pipeline.discover.doi_runs import normalize_doi
+from mo_pipeline.corpus.models import normalize_doi
 
 # ── string helpers (evaluate_enhanced.py, Feb 2026) ──────────────────────────
 

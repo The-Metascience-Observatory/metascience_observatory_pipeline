@@ -26,6 +26,7 @@ import random
 from collections import Counter, defaultdict
 
 from mo_pipeline.label_centrality import common
+from mo_pipeline.corpus.models import normalize_doi
 from mo_pipeline.label_centrality.sample_pilot import folder_usable, source_bucket
 
 SEED = 20260714
@@ -47,7 +48,7 @@ def main() -> int:
     # eligible rows grouped by original paper
     by_orig: dict[str, list] = defaultdict(list)
     for r in rows:
-        doi = common.normalize_doi(r["replication_url"])
+        doi = normalize_doi(r["replication_url"])
         if not doi or doi not in catalog:
             continue
         if not r["original_url"] or not r["description"].strip():
@@ -98,7 +99,7 @@ def main() -> int:
             {
                 "replication_doi": doi,
                 "folder": str(rs[0]["_folder"]),
-                "original_doi": common.normalize_doi(rs[0]["original_url"]) or "",
+                "original_doi": normalize_doi(rs[0]["original_url"]) or "",
                 "original_title": rs[0]["original_title"],
                 "original_journal": rs[0]["original_journal"],
                 "original_year": rs[0]["original_year"],

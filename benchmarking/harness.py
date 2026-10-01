@@ -56,9 +56,8 @@ sys.path.insert(0, str(BENCH_DIR.parent))
 sys.path.insert(1, str(BENCH_DIR))
 
 from mo_pipeline import config  # noqa: E402
-from mo_pipeline.corpus.models import RESULT_SUFFIXES, doi_to_folder  # noqa: E402
-from mo_pipeline.discover.doi_runs import (create_run, delete_run, load_dois,  # noqa: E402
-                                           normalize_doi, run_status)
+from mo_pipeline.corpus.models import RESULT_SUFFIXES, doi_to_folder, normalize_doi  # noqa: E402
+from mo_pipeline.discover.doi_runs import create_run, delete_run, load_dois, run_status  # noqa: E402
 from mo_pipeline.label_centrality.collate import cohen_kappa  # noqa: E402
 
 import matching  # noqa: E402

@@ -19,6 +19,7 @@ import sys
 from collections import defaultdict
 
 from mo_pipeline.config import CANDIDATES_RAW_CSV, CANDIDATES_DEDUP_CSV, DATA_DIR
+from mo_pipeline.corpus.models import normalize_doi
 
 # Raise CSV field size limit for large abstracts
 csv.field_size_limit(sys.maxsize)
@@ -27,16 +28,6 @@ FIELDNAMES = [
     "pmid", "doi", "title", "abstract", "authors",
     "journal", "year", "source_api", "source_query", "match_count",
 ]
-
-
-def normalize_doi(doi):
-    """Lowercase, strip whitespace and trailing punctuation."""
-    if not doi:
-        return ""
-    doi = doi.strip().lower()
-    doi = re.sub(r"^https?://doi\.org/", "", doi)
-    doi = doi.rstrip(".")
-    return doi
 
 
 def normalize_title(title):
@@ -112,7 +103,7 @@ def deduplicate(rows):
 
     first_seen = {}  # (kind, value) -> first row index carrying it
     for i, row in enumerate(rows):
-        doi = normalize_doi(row.get("doi", ""))
+        doi = normalize_doi(row.get("doi", "")) or ""
         pmid = (row.get("pmid") or "").strip()
         title = normalize_title(row.get("title", ""))
         keys = [("doi", doi), ("pmid", pmid)] + ([("title", title)] if title and len(title) > 20 else [])

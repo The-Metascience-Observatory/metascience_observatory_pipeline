@@ -15,39 +15,32 @@ Zip entries keep the papers/<doi folder>/... structure.
 from __future__ import annotations
 
 import csv
-import re
 import zipfile
 from pathlib import Path
 
 from mo_pipeline import config
+from mo_pipeline.corpus.models import normalize_doi
 
 UNCLASSIFIED = "unclassified"
 
-_DOI_URL_RE = re.compile(r"^https?://(?:dx\.)?doi\.org/", re.I)
 
 # Already-compressed formats are stored; everything else (md/json/xml/…) deflates.
 _STORE_SUFFIXES = {".pdf", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".gz"}
 
 
 def _norm_doi(doi: str) -> str:
-    return doi.strip().lower()
-
-
-def _latest_production_db() -> Path | None:
-    dbs = sorted(config.WEBSITE_DATA_DIR.glob("replications_database_*.csv"),
-                 key=lambda p: p.stat().st_mtime)
-    return dbs[-1] if dbs else None
+    return normalize_doi(doi) or ""
 
 
 def type_map() -> dict[str, set[str]]:
     """DOI (lowercased) -> set of replication types (multi-label)."""
     mapping: dict[str, set[str]] = {}
 
-    db = _latest_production_db()
+    db = config.latest_replications_db()
     if db is not None:
         with open(db, newline="", encoding="utf-8", errors="replace") as f:
             for row in csv.DictReader(f):
-                doi = _norm_doi(_DOI_URL_RE.sub("", row.get("replication_url") or ""))
+                doi = _norm_doi(row.get("replication_url") or "")
                 rtype = (row.get("replication_type") or "").strip().lower()
                 if doi and rtype:
                     mapping.setdefault(doi, set()).add(rtype)

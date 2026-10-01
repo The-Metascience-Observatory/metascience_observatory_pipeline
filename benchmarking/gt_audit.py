@@ -43,7 +43,7 @@ sys.path.insert(0, str(BENCH_DIR.parent))
 
 from mo_pipeline import config  # noqa: E402
 from mo_pipeline.corpus.models import doi_to_folder  # noqa: E402
-from mo_pipeline.discover.doi_runs import normalize_doi  # noqa: E402
+from mo_pipeline.corpus.models import normalize_doi  # noqa: E402
 from mo_pipeline.shared.fetch_metadata_from_title import _title_similarity  # noqa: E402
 
 SILVER_DIR = config.BENCH_SILVER_DIR

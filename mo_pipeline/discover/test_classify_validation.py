@@ -24,8 +24,8 @@ def test_legacy_auto_rows_and_invalid_rows_are_not_reused():
 
 def test_manifest_without_verdict_column_is_ignored(tmp_path, monkeypatch):
     p = tmp_path / "m.csv"
-    p.write_text("doi,ingested_path\n10.1/a,/x\n")
+    p.write_text("doi,ingested_path\n10.1000/a,/x\n")
     monkeypatch.setattr(cc, "PROCESSED_MANIFEST_CSV", p)
     assert cc._load_ingested_dois() == {}
-    p.write_text("doi,ingested_path,contains_replications\n10.1/a,/x,1\n10.1/b,/y,0\n10.1/c,/z,\n")
-    assert cc._load_ingested_dois() == {"10.1/a": "1", "10.1/b": "0"}
+    p.write_text("doi,ingested_path,contains_replications\n10.1000/a,/x,1\n10.1000/b,/y,0\n10.1000/c,/z,\n")
+    assert cc._load_ingested_dois() == {"10.1000/a": "1", "10.1000/b": "0"}

@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from mo_pipeline import config
+from mo_pipeline.corpus.models import normalize_doi
 
 _DOI_RE = re.compile(r"10\.\d{4,9}/\S+", re.I)
 
@@ -33,6 +34,7 @@ def published_dois(path: Path | None = None) -> tuple[set[str], Path | None]:
     with open(path, newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             m = _DOI_RE.search(row.get("replication_url") or "")
-            if m:
-                dois.add(m.group(0).rstrip(".,;/").lower())
+            doi = normalize_doi(m.group(0)) if m else None
+            if doi:
+                dois.add(doi)
     return dois, path

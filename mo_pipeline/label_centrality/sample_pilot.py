@@ -26,6 +26,7 @@ import random
 from collections import Counter, defaultdict
 
 from mo_pipeline.label_centrality import common
+from mo_pipeline.corpus.models import normalize_doi
 
 SEED = 20260713
 BODY_OR_PDF = ("body.md",)  # body.md preferred; else any *.pdf
@@ -94,7 +95,7 @@ def main() -> int:
     eligible = []
     skipped_no_folder = 0
     for r in rows:
-        doi = common.normalize_doi(r["replication_url"])
+        doi = normalize_doi(r["replication_url"])
         if not doi or doi not in catalog:
             skipped_no_folder += 1
             continue
@@ -145,7 +146,7 @@ def main() -> int:
             {
                 "replication_doi": doi,
                 "folder": str(unit_rows[0]["_folder"]),
-                "original_doi": common.normalize_doi(unit_rows[0]["original_url"]) or "",
+                "original_doi": normalize_doi(unit_rows[0]["original_url"]) or "",
                 "original_title": unit_rows[0]["original_title"],
                 "original_journal": unit_rows[0]["original_journal"],
                 "original_year": unit_rows[0]["original_year"],

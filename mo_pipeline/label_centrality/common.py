@@ -10,7 +10,6 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-import re
 import sqlite3
 from pathlib import Path
 
@@ -61,9 +60,10 @@ MANIFEST_ALLOWED_KEYS = {
 
 
 def latest_csv_path() -> Path:
-    lines = config.VERSION_HISTORY_PATH.read_text().strip().split("\n")
-    lines = [ln for ln in lines if ln.strip() and not ln.strip().startswith("#")]
-    return config.WEBSITE_DATA_DIR / lines[-1].split("#")[0].strip()
+    path = config.latest_replications_db()
+    if path is None:
+        raise FileNotFoundError(f"no replications database named in {config.VERSION_HISTORY_PATH}")
+    return path
 
 
 def load_db_rows() -> tuple[str, list[dict]]:
@@ -76,13 +76,6 @@ def load_db_rows() -> tuple[str, list[dict]]:
         digest = hashlib.sha1(key.encode()).hexdigest()[:10]
         r["row_id"] = f"r{i:05d}-{digest}"
     return path.name, rows
-
-
-def normalize_doi(url_or_doi: str) -> str | None:
-    """'https://doi.org/10.X/Y' or '10.X/Y' -> lowercased bare DOI."""
-    s = (url_or_doi or "").strip()
-    m = re.search(r"(?:doi\.org/)?(10\.\d{4,9}/\S+)", s, re.I)
-    return m.group(1).lower().rstrip("/") if m else None
 
 
 def load_catalog_folders() -> dict[str, Path]:

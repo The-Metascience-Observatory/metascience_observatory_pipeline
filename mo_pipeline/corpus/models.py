@@ -68,6 +68,31 @@ RESULT_SUFFIXES = ("_result_xml.json", "_result_html.json", "_result_pdf_only.js
 _FS_FORBIDDEN = '<>"\\|?*'
 
 
+_DOI_RE = re.compile(r"10\.\d{4,9}/\S+", re.IGNORECASE)
+_CLOSERS = {")": "(", "]": "[", "}": "{"}
+
+
+def normalize_doi(value: str) -> str | None:
+    """'https://doi.org/10.1037/A0025140.' -> '10.1037/a0025140' (None if not a DOI).
+
+    The one DOI normaliser: lowercases, drops a doi.org / dx.doi.org prefix and
+    the trailing punctuation a DOI pasted into prose picks up. A closing bracket
+    is dropped only when unbalanced, so 10.1044/1092-4388(2004/026) survives. A
+    value with anything after the DOI ("10.1/x (case conflict 1)", a space
+    inside it) is not a DOI: truncating it would silently merge distinct papers.
+    Callers that need a string rather than None write `normalize_doi(x) or ""`.
+    """
+    if not value or not isinstance(value, str):
+        return None
+    v = re.sub(r"^https?://(dx\.)?doi\.org/", "", value.strip().lower())
+    if not _DOI_RE.fullmatch(v):
+        return None
+    while v and (v[-1] in ".,;>\"'/"
+                 or (v[-1] in _CLOSERS and v.count(v[-1]) > v.count(_CLOSERS[v[-1]]))):
+        v = v[:-1]
+    return v if _DOI_RE.fullmatch(v) else None
+
+
 def doi_to_folder(doi: str) -> str:
     """'10.1001/archneurol.2010.292' -> '10.1001--archneurol.2010.292'.
 
