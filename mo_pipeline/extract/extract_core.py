@@ -36,14 +36,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from mo_pipeline import config
-from mo_pipeline.corpus.models import folder_to_doi_url
+from mo_pipeline.corpus.models import RESULT_SUFFIXES, folder_to_doi_url
 from mo_pipeline.discover.screening_backend import (BACKENDS, BackendUnavailable, get_backend,
                                                     parse_json_reply)
 from mo_pipeline.extract.extract import (
-    RESULT_SUFFIXES, STAT_FIELDS, SkipPaper, _extract_doi_from_url, _format_duration, _husk_reason,
+    STAT_FIELDS, SkipPaper, discover_papers, _extract_doi_from_url, _format_duration, _husk_reason,
     _write_provenance, collate_results, enrich_metadata, is_usage_limit_error,
     load_existing_replication_urls, load_system_prompt, load_version_number,
-    normalize_doi_url, paper_artifacts, probe_session_available,
+    normalize_doi_url, paper_artifacts, wait_for_session,
     validate_citation_sentences, validate_extraction, validate_original_dois,
 )
 
@@ -441,17 +441,6 @@ def looks_like_batch(path: Path) -> bool:
     return False
 
 
-def discover_papers(papers_dir: Path, include: set[str] | None, limit: int | None) -> list[Path]:
-    """Same rule as extract_batch: any folder with readable full text."""
-    dirs = sorted(p for p in papers_dir.iterdir()
-                  if p.is_dir() and (include is None or p.name in include)
-                  and paper_artifacts(p)["has_fulltext"])
-    if limit is not None and len(dirs) > limit:
-        print(f"Limiting batch from {len(dirs)} to {limit} papers (--limit)", file=sys.stderr)
-        dirs = dirs[:limit]
-    return dirs
-
-
 def extract_core_batch(papers_dir: Path, backend, *, workers: int = 4, tag: str | None = None,
                        include_papers: set[str] | None = None, limit: int | None = None,
                        skip_check: bool = False, max_chars: int | None = None) -> dict:
@@ -527,11 +516,7 @@ def extract_core_batch(papers_dir: Path, backend, *, workers: int = 4, tag: str 
         if backend.name == "claude_cli":
             print(f"\nSession usage limit hit: {len(limit_failures)} papers paused; "
                   f"probing every 30 minutes until it lifts.", file=sys.stderr)
-            while not _shutdown:
-                time.sleep(1800)
-                if probe_session_available(backend.model):
-                    break
-                print("  still limited...", file=sys.stderr)
+            wait_for_session(backend.model, lambda: _shutdown)
         else:
             print(f"\nProvider rate limit hit: {len(limit_failures)} papers paused; "
                   f"retrying in 5 minutes.", file=sys.stderr)

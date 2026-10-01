@@ -21,7 +21,7 @@ ENTREZ_API_KEY = env_key('ENTREZ_EUTILS_API_KEY')
 CONTACT_EMAIL = env_key('CONTACT_EMAIL') or 'your_email@example.com'
 
 
-def _format_initial(name):
+def format_initials(name):
     """Add periods after single-letter initials in an author name.
     e.g., 'J Lukas' → 'J. Lukas', 'Jonathan W Schooler' → 'Jonathan W. Schooler'"""
     if not name:
@@ -189,7 +189,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
             for a in d.get("creators", []):
                 name = a.get("name") or f"{a.get('givenName','')} {a.get('familyName','')}".strip()
                 if name:
-                    authors.append(_format_initial(name))
+                    authors.append(format_initials(name))
             # Use container title if available; publisher is not the journal
             container = d.get("container", {}) or {}
             journal = container.get("title") or None
@@ -260,7 +260,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                 parts = []
                 if "given" in a: parts.append(a["given"])
                 if "family" in a: parts.append(a["family"])
-                name = _format_initial(" ".join(parts).strip())
+                name = format_initials(" ".join(parts).strip())
                 if name:
                     authors.append(name)
             year = (
@@ -292,7 +292,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
             u = r.json()
             best_loc = u.get("best_oa_location") or {}
             authors = "; ".join(
-                [_format_initial(f"{a.get('given','')} {a.get('family','')}".strip()) for a in u.get("z_authors", [])]
+                [format_initials(f"{a.get('given','')} {a.get('family','')}".strip()) for a in u.get("z_authors", [])]
             ) or None
             up = {
                 "authors": authors,
@@ -351,7 +351,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                         last = str(author.get("LastName", "")).strip()
                         fore = str(author.get("ForeName", "")).strip()
                         if last:
-                            authors_list.append(_format_initial(f"{fore} {last}".strip()))
+                            authors_list.append(format_initials(f"{fore} {last}".strip()))
                     pagination = article.get("Pagination", {})
                     pages = pagination.get("StartPage") or pagination.get("MedlinePgn")
                     pm = {
@@ -379,7 +379,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                         d = result.get(pmids[0], {})
                         if d and isinstance(d, dict):
                             authors = "; ".join(
-                                _format_initial(a.get("name", ""))
+                                format_initials(a.get("name", ""))
                                 for a in d.get("authors", [])
                                 if a.get("authtype") == "Author"
                             ) or None
@@ -432,7 +432,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                             authors_raw = doc.get("dcCreator") or doc.get("dccreator") or []
                             if isinstance(authors_raw, str):
                                 authors_raw = [authors_raw]
-                            authors = "; ".join(_format_initial(a) for a in authors_raw) or None
+                            authors = "; ".join(format_initials(a) for a in authors_raw) or None
                             base_year = None
                             dcdate = doc.get("dcyear") or doc.get("dcdate", "")
                             if isinstance(dcdate, list):
@@ -473,7 +473,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                 if isinstance(authors_obj, dict):
                     authors_obj = [authors_obj]
                 authors = "; ".join(
-                    _format_initial(
+                    format_initials(
                         f"{a.get('ce:given-name', '')} {a.get('ce:surname', '')}".strip()
                     )
                     for a in authors_obj
@@ -589,7 +589,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                         if ratio >= 0.9:
                             authors_list = doc.get("authors", [])
                             authors = "; ".join(
-                                _format_initial(a.get("name", "") if isinstance(a, dict) else str(a))
+                                format_initials(a.get("name", "") if isinstance(a, dict) else str(a))
                                 for a in authors_list
                             ) or None
                             journals = doc.get("journals") or []
@@ -631,7 +631,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                         if isinstance(authors_data, dict):
                             authors_data = [authors_data]
                         authors = "; ".join(
-                            _format_initial(a.get("text", "") if isinstance(a, dict) else str(a))
+                            format_initials(a.get("text", "") if isinstance(a, dict) else str(a))
                             for a in authors_data
                         ) or None
                         db = {
@@ -786,7 +786,7 @@ def fetch_metadata_from_doi(doi, email=None, delay=0.2, enable_base=False, enabl
                 raw_authors = e.get("author", "")
                 if raw_authors:
                     bib_authors = "; ".join(
-                        _format_initial(a.strip()) for a in raw_authors.split(" and ") if a.strip()
+                        format_initials(a.strip()) for a in raw_authors.split(" and ") if a.strip()
                     ) or None
                 else:
                     bib_authors = None

@@ -37,7 +37,9 @@ import unicodedata
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from mo_pipeline.shared.fetch_metadata_from_doi import fetch_metadata_from_doi, _new_authors_are_better
+from mo_pipeline.shared.fetch_metadata_from_doi import (
+    _new_authors_are_better, fetch_metadata_from_doi, format_initials,
+)
 from mo_pipeline.shared.fetch_metadata_from_title import (
     _title_similarity as _shared_title_similarity, fetch_metadata_from_title)
 from mo_pipeline import config as _cfg
@@ -658,19 +660,11 @@ def validate_extraction(data: dict) -> tuple[dict, list[str]]:
     return data, msgs
 
 
-def _format_author_initial(name: str) -> str:
-    """Add periods after single-letter initials. 'J Schooler' -> 'J. Schooler'"""
-    if not name:
-        return name
-    parts = name.split()
-    return ' '.join(p + '.' if len(p) == 1 and p.isalpha() else p for p in parts)
-
-
 def format_authors_string(authors_str: str) -> str:
     """Format semicolon-separated authors, adding periods after initials."""
     if not authors_str or not isinstance(authors_str, str):
         return authors_str
-    return '; '.join(_format_author_initial(a.strip()) for a in authors_str.split(';'))
+    return '; '.join(format_initials(a.strip()) for a in authors_str.split(';'))
 
 
 def _fill_metadata_fields(entry: dict, prefix: str, meta: dict) -> int:
@@ -1660,6 +1654,46 @@ def probe_session_available(model: str) -> bool:
         return False
 
 
+
+def wait_for_session(model: str, should_stop) -> None:
+    """Block until the Claude session limit lifts, probing every 30 minutes.
+
+    Returns early when `should_stop()` turns true (a shutdown was requested).
+    """
+    while not should_stop():
+        time.sleep(1800)
+        print("[Probe] Checking if session limit has reset...", file=sys.stderr)
+        if probe_session_available(model):
+            print("[Probe] Session available — resuming", file=sys.stderr)
+            return
+        print("[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
+
+
+def discover_papers(papers_dir: Path, include: set[str] | None, limit: int | None,
+                    *, html_mode: bool = False, pdf_only: bool = False) -> list[Path]:
+    """Paper folders a batch should process, sorted, optionally capped at `limit`.
+
+    Default: any folder with readable full text, judged by the same inventory
+    extract_paper validates against, so discovery never queues a paper that
+    extraction then refuses (or skips one it would take). --html / --onlypdf
+    instead want a folder holding that one format.
+    """
+    def wanted(p: Path) -> bool:
+        if html_mode:
+            return any(p.glob("*.html"))
+        if pdf_only:
+            return any(p.glob("*.pdf"))
+        return paper_artifacts(p)["has_fulltext"]
+
+    # Cheap name filter first: the inventory costs several globs per folder.
+    dirs = sorted(p for p in papers_dir.iterdir()
+                  if p.is_dir() and (include is None or p.name in include) and wanted(p))
+    if limit is not None and len(dirs) > limit:
+        print(f"Limiting batch from {len(dirs)} to {limit} papers (--limit)", file=sys.stderr)
+        dirs = dirs[:limit]
+    return dirs
+
+
 def extract_batch(
     papers_dir: Path,
     model: str = "sonnet",
@@ -1680,36 +1714,8 @@ def extract_batch(
     If include_papers is provided, only process directories whose names are in the set.
     """
 
-    if html_mode:
-        # For HTML mode, check for HTML files
-        paper_dirs = sorted(
-            p for p in papers_dir.iterdir()
-            if p.is_dir() and any(p.glob("*.html"))
-            and (include_papers is None or p.name in include_papers)
-        )
-    elif pdf_only:
-        # For PDF-only mode, check for PDF files instead of abstract.md
-        paper_dirs = sorted(
-            p for p in papers_dir.iterdir()
-            if p.is_dir() and any(p.glob("*.pdf"))
-            and (include_papers is None or p.name in include_papers)
-        )
-    else:
-        # Normal mode: any folder with something readable in it. Uses the same
-        # inventory extract_paper validates against, so discovery can never
-        # queue a paper that extraction then refuses (or skip one it would take).
-        paper_dirs = sorted(
-            p for p in papers_dir.iterdir()
-            if p.is_dir()
-            # Cheap name filter first: the inventory costs several globs per
-            # folder, and the corpus holds thousands of folders.
-            and (include_papers is None or p.name in include_papers)
-            and paper_artifacts(p)["has_fulltext"]
-        )
-
-    if limit is not None and len(paper_dirs) > limit:
-        print(f"Limiting batch from {len(paper_dirs)} to {limit} papers (--limit)", file=sys.stderr)
-        paper_dirs = paper_dirs[:limit]
+    paper_dirs = discover_papers(papers_dir, include_papers, limit,
+                                 html_mode=html_mode, pdf_only=pdf_only)
 
     if not paper_dirs:
         print(f"No paper directories found in {papers_dir}", file=sys.stderr)
@@ -1831,14 +1837,10 @@ def extract_batch(
         print("Probing every 30 minutes until session resets...", file=sys.stderr)
         print(f"{'='*60}\n", file=sys.stderr)
 
-        # Probe until session available, checking every 30 minutes
-        while not _shutdown_requested:
-            time.sleep(1800)  # 30 minutes
-            print("[Probe] Checking if session limit has reset...", file=sys.stderr)
-            if use_codex or probe_session_available(model):
-                print(f"[Probe] Session available — resuming {len(usage_limit_failures)} papers", file=sys.stderr)
-                break
-            print("[Probe] Still limited — waiting another 30 minutes", file=sys.stderr)
+        if use_codex:
+            time.sleep(1800)  # no cheap probe for Codex: wait one window, then retry
+        else:
+            wait_for_session(model, lambda: _shutdown_requested)
 
         # Retry the failed papers
         retry_papers = usage_limit_failures
