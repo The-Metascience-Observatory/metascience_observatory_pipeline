@@ -1,13 +1,25 @@
-# mo_pipeline — orientation for Claude Code agents
+# mo_pipeline — orientation for coding agents
 
 Unified Metascience Observatory replication pipeline: search → dedup → prefilter →
 classify → download → convert → extract (+ collate), plus a corpus catalog and a
-FastAPI+Next.js dashboard. Consolidated from former directories (see the
-`DEPRECATED.md` pointers in `pull_replication_studies/`, `claude_code_replications/`).
+FastAPI+Next.js dashboard. The former discovery and extraction projects are
+consolidated under `mo_pipeline/`; their old directories are not part of this repo.
 **Ingestion into the website database is NOT a pipeline stage**: it is run manually
 from `metascience_observatory_website/data_ingestor/` (its own repo — the canonical
 home of `data_ingestor.py`; a former copy here was removed 2026-08-09).
 Read [README.md](README.md) first.
+
+## Repository and license
+
+- Canonical remote: [The-Metascience-Observatory/mo_pipeline](https://github.com/The-Metascience-Observatory/mo_pipeline)
+  (`origin` fetch/push: `https://github.com/The-Metascience-Observatory/mo_pipeline.git`).
+- Original code, prompts, and documentation use the [MIT License](LICENSE).
+  The README acknowledgment request is voluntary, not a license condition.
+  Research datasets and third-party paper PDFs/text are outside this license.
+- The external ingester lives in the
+  [website repository](https://github.com/The-Metascience-Observatory/metascience-observatory-website/tree/main/data_ingestor).
+  The local sibling directory remains `../metascience_observatory_website/`;
+  do not change local paths to match the hyphenated GitHub repository name.
 
 ## Running it
 
@@ -38,7 +50,7 @@ Stage 6 is the external `pdf4llm` binary, not part of this package. The argv bui
 | 4 | Classify | `python -m mo_pipeline.discover.classify_candidates [--workers N] [--limit N]` |
 | 5 | Download | `python -m mo_pipeline.discover.download_all_confirmed [--doi-csv F] [--type T] [--include-published] [--limit N] [--workers N] [--legalonly] [--no-download-xml] [--no-to-markdown] [--download-si] [--refresh-si] [--max-si-mb N] [--delay S] [--backfill-structured] [--backfill-pdf] [--cookies F] [--no-cookies] [--cookies-only] [--cookies-max N]` |
 | 6 | Convert | `pdf4llm batch <inbox> -o <papers> --mode full-grobid --workers 4 --movepdf --resume` |
-| 7 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--collate-only]` |
+| 7 | Extract | `python -m mo_pipeline.extract.extract <papers_dir> --batch --level full [--tag T] [--workers N] [--include-list F] [--model M] [--usecodex] [--dontcheck] [--collate-only]` |
 | 7b | Extract (core, no statistics) | `python -m mo_pipeline.extract.extract_core <papers_dir> [--tag T] [--workers N] [--include-list F] [--provider claude_cli\|openrouter] [--model M] [--dontcheck] [--collate-only] [--show-prompt]` |
 
 After stage 7's collate, ingest the collated CSV manually:
@@ -47,8 +59,14 @@ then stamp the corpus with `python -m mo_pipeline.corpus mark-ingested <collated
 
 Running by hand **bypasses the runner's mutex groups** (see invariant 6) — a manual
 launch will happily collide with a detached stage. Check `./dev.sh status` first.
-Stage 6 also needs GROBID up at `localhost:8070`; the CLI won't start it (the dashboard
-probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeline.corpus
+Stage 6 needs GROBID answering at `localhost:8070`. Dashboard conversion preflight
+checks available RAM, starts GROBID through `server/app/grobid.py`, and refuses
+to launch if it cannot answer. For direct CLI conversion, start it first with
+`./dev.sh grobid up`; `./dev.sh grobid status` and `./dev.sh grobid down` manage
+the same service. The lifecycle helper uses host networking when creating the
+container and leaves a running but unreachable container untouched. Its settings
+are `MO_GROBID_URL`, `MO_GROBID_CONTAINER`, `MO_GROBID_IMAGE`, and
+`MO_GROBID_START_TIMEOUT`. Adjacent CLIs outside the 7 stages: `python -m mo_pipeline.corpus
 <cmd>`, `mo_pipeline/discover/doi_runs.py`, and the `label_centrality/` pilot modules.
 
 ## Invariants that matter
@@ -92,13 +110,15 @@ probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeli
    each extraction run writes a `{tag}/` subfolder. Do not flatten or restructure.
 6. **Stages run detached** (`server/app/runner.py`): state under `~/.local/state/mo_pipeline/`.
    They survive API restarts; `dev.sh down` never kills them. Mutex groups: `claude_cli`
-   (classify+extract share Max rate limits), `heavy_ram` (dedup+convert), `self` (per-stage
-   singleton, NOT cross-blocking).
+   (classify+extract; still enforced for Codex/core extraction), `heavy_ram`
+   (dedup+convert), `inbox` (download+convert must not overlap while PDFs are
+   written/moved), and `self` (per-stage singleton, NOT cross-blocking).
 7. **Stage 5 fetches structured full text AND the PDF, one folder per record.**
    It queues confirmed replications of `config.DOWNLOAD_REPLICATION_TYPES`
    (direct, close, conceptual; `--type all` lifts it) minus DOIs already in the
    published database (`shared/production_db.published_dois`; `--include-published`
-   keeps them). The old direct-only "filter_direct" stage was removed 2026-10-01.
+   keeps them). Explicit `--doi-csv` lists bypass the type and published-DOI
+   filters. The old direct-only "filter_direct" stage was removed 2026-10-01.
    fetchpdf's `--get-xml-or-html` (on by default; `--no-download-xml` opts out)
    fills two goals per record — `{stem}.xml`, else publisher
    `{stem}.fulltext.html`, plus `{stem}.pdf` — written to `inbox/{stem}/`
@@ -126,7 +146,7 @@ probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeli
    `--cookies-max` caps it (default 5000).
    Every run ends with fetchpdf's per-source cost table (calls/hits/seconds) and
    leaves `source_counts.json` at the inbox root — read it before cutting a source.
-9. **Extraction reads a tier ladder, and a rendition must pass a prose gate.**
+8. **Extraction reads a tier ladder, and a rendition must pass a prose gate.**
    Stage 7's default mode inventories the folder (`extract.paper_artifacts`) and
    names one PRIMARY: `{stem}_from_xml.md` > `{stem}_from_html.md` > `body.md`,
    with the PDF always last. Lower tiers stay available as *gated* fallbacks —
@@ -155,18 +175,19 @@ probe only reports it). Adjacent CLIs outside the 7 stages: `python -m mo_pipeli
    115/120 good kept) and kept as the guard against the next converter
    regression. A rejected rendition is not a loss — the paper simply stays on
    the GROBID tier, which is where it was before.
-8. **Search keywords are code defaults + a runtime overlay.** The curated lists live in
+9. **Search keywords are code defaults + a runtime overlay.** The curated lists live in
    `discover/queries.py`; the dashboard edits `data/keywords.json` (via
    `discover/keywords.py`), which overrides them per-list. Which list feeds which source is
    `keywords.API_FANOUT`, the one definition the search and the yield stats both read. Edit
    terms via the dashboard **Keywords** page or that JSON — do not expect source edits to be
    the only path.
-10. **Four versions move independently; a git commit is not enough.** The pipeline code
+10. **Versions move independently; a git commit is not enough.** The pipeline code
    (`mo_pipeline.__version__`, which `pyproject.toml` reads — never restate it there),
    the extraction prompt (`prompts/version.txt`, stamped on every row as `ai_version`),
    the matcher prompt (`prompts/version_match.txt`, part of the judge's cache key) and
    the evaluator (`benchmarking/harness.py` `HARNESS_VERSION`, recorded in every
-   `metrics.json`) each version separately. Because this repo is edited by several
+   `metrics.json`) each version separately. The centrality pilot also tracks
+   `prompts/version_centrality.txt`. Because this repo is edited by several
    sessions at once and can sit uncommitted for a day, a run's HEAD commit may predate
    the code that ran — every extraction on 2026-09-02 recorded commit `6774905`, which
    contains none of that day's work. So `provenance.json` also carries `prompt_sha256`
@@ -198,7 +219,7 @@ so an XML-only paper is visible to `include-list --status converted`.
 
 `dashboard/src/app/`: `/` (pipeline overview + run/stop + system strip), `/stages/[id]`
 (probe detail, run form, log tail), `/corpus` (catalog stats + browse), `/keywords`
-(view/edit the four search-keyword lists), `/doi-runs` (run download→convert→extract→
+(view/edit the four search-keyword lists), `/keywords/stats` (source yields), `/doi-runs` (run download→convert→extract→
 collate on an explicit DOI list — paste/upload/point at a CSV, DOI column
 auto-detected; runs live at `data/doi_runs/<slug>/`, extraction tag = slug; backed by
 `discover/doi_runs.py` + `--doi-csv` on stage 5; the resulting collated CSV is ingested
@@ -214,7 +235,7 @@ Do not duplicate these definitions elsewhere.
 ## Gotchas
 
 - Extract reads the XML by way of its markdown rendition, never the raw markup
-  as full text (invariant 9) — with **one** exception, the ladder's last rung: a
+  as full text (invariant 8) — with **one** exception, the ladder's last rung: a
   folder with no rendition, no `body.md` and no PDF gets the raw `.xml` as its
   PRIMARY (`extract.paper_artifacts`, tier `raw_xml`). Some documents defeat
   every converter (Wiley's `<component>` schema does), and 429 folders on
@@ -248,11 +269,19 @@ Do not duplicate these definitions elsewhere.
   row (excluded/inconclusive; the "reported" view uses `result`), and the ingestor's
   auto-dedup keys on `replication_n/es/es_type`, so re-ingesting a core row over a
   stat-bearing row goes to the manual duplicate review.
+- **Agentic extraction supports Claude and Codex.** Claude is the default; use
+  `--usecodex --model <codex-model-id>` for Codex, with `--level full` or `base`.
+  Codex runs `codex exec` in the paper folder and retains validation, DOI enrichment,
+  provenance, and collation, but skips the Claude-specific second-pass reviewer.
+  The dashboard exposes `usecodex`, `level`, and `model`; single-shot core uses
+  `--provider` instead.
 - Every extraction writes `<paper>/<tag>/provenance.json` (model, prompt hashes, input
   tier, CLI version, commit). `--force-tier` exists for benchmark tier studies only.
 - `benchmarking/archive/legacy_feb2026/` is quarantined: its ground truth was partly
   written by the V6 pipeline. Do not score against it or cite its numbers.
-  Dead `base`/`mid` PROMPT_FILES entries were removed in the unified config.
+  `config.PROMPT_FILES["base"]` uses `prompt_full.md` with statistics stripped;
+  `mid` is unsupported. `prompt_full_xml.md` is archived under `prompts/archive/`;
+  normal XML extraction uses the shared tier-aware prompt.
 - Classify's checkpoint is guarded: `classify_progress.json`'s stored `input_row_count`
   must match the current `candidates_filtered.csv` row count. Regenerating prefilter output
   (e.g. after adding search terms) invalidates it — the dashboard pre-flags this as `stale`;
@@ -286,3 +315,29 @@ skip would silently drop them); `harness.py run` does this for you.
 `mo_pipeline/label_centrality/` is an emerging pilot (claude-vs-human agreement on whether
 a database row's claim is central to its original paper; rubric in
 `prompts/prompt_centrality.md`) — not yet part of the main 7-stage flow.
+
+## Current benchmark workflow
+
+Read [benchmarking/gold/workbench_v2/README.md](benchmarking/gold/workbench_v2/README.md)
+before ground-truth work. This is a development reference set awaiting human
+adjudication, not scored gold. Review from `adjudication/` views, which withhold
+the designated system-under-test coder's candidates during blind enumeration.
+Only an actual human reviewer may mark decisions as human-reviewed.
+`benchmarking/ground_truth_workbench.py` provides `validate` and
+`export --kind human|ai_adjudicator`; keep those exports separate. The old
+two-coder gold builder is disabled. FLoRa paper-level verdicts are excluded from
+effect-level extraction scoring. The harness also provides `originals` and
+`originals-select` for original-study identification; consult its parser for flags.
+
+## Checks after changes
+
+Run focused checks for the component changed, from the repo root:
+
+- Python: `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest <test-file-or-directory> -q`.
+  Tests live alongside modules in `mo_pipeline/`, under `server/tests/`, and in
+  `benchmarking/test_*.py`. Use scratch data and the path overrides above when needed.
+- Dashboard: `npm --prefix dashboard run typecheck`.
+- Prompt edits: `python -m mo_pipeline.version` checks recorded prompt hashes;
+  update the extraction prompt version and changelog as described above.
+- Documentation: check referenced paths and CLI flags against source, then run
+  `git diff --check`. Documentation-only edits do not require pipeline runs.
