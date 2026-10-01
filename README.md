@@ -7,8 +7,7 @@ of this pipeline — it is run manually using [metascience_observatory_website/d
 
 ## Acknowledgment
 
-If you use this code in your research, please acknowledge the Metascience
-Observatory and include a link to this repository.
+If you use this code in your work, please acknowledge the Metascience Observatory and include a link to this repository.
 
 ## Layout
 
