@@ -33,14 +33,13 @@ import argparse
 import csv
 import hashlib
 import json
-import os
 import sys
-import tempfile
 import threading
 import time
 from collections import Counter
 from datetime import datetime, timezone
 
+from mo_pipeline.shared.jsonio import atomic_write_json
 from mo_pipeline import config
 from mo_pipeline.discover import keywords as kw
 
@@ -99,18 +98,7 @@ def is_stale(stats: dict) -> bool:
 
 
 def write_cache(stats: dict) -> None:
-    STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(dir=STATS_PATH.parent, suffix=".tmp")
-    try:
-        with os.fdopen(fd, "w") as f:
-            json.dump(stats, f, indent=1)
-        os.replace(tmp, STATS_PATH)
-    except BaseException:
-        try:
-            os.unlink(tmp)
-        except OSError:
-            pass
-        raise
+    atomic_write_json(STATS_PATH, stats, indent=1)
 
 
 # ── compute ──────────────────────────────────────────────────────────────────

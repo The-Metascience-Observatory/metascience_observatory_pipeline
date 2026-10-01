@@ -26,6 +26,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from mo_pipeline.shared.jsonio import atomic_write_json
 from mo_pipeline.corpus.models import normalize_doi
 from mo_pipeline.discover.screening_backend import BACKENDS, get_backend
 from mo_pipeline.config import (
@@ -89,7 +90,7 @@ def load_progress():
 
 
 def save_progress(progress):
-    PROGRESS_FILE.write_text(json.dumps(progress, indent=2))
+    atomic_write_json(PROGRESS_FILE, progress)
 
 
 CONFIDENCE_VALUES = {"high", "medium", "low"}

@@ -150,6 +150,20 @@ ONTOLOGY_PATH = WEBSITE_DATA_DIR / "metascience_observatory_topic_ontology.json"
 VERSION_HISTORY_PATH = WEBSITE_DATA_DIR / "version_history.txt"
 
 
+def setting(name: str, default=None):
+    """A tunable from this module, overridable by a non-empty env var of the same name.
+
+    The env value is cast to the type of the configured value (str stays str).
+    A configured None means "no preference" and falls through to `default`:
+    a SCREENING_MODEL of None asks for the provider's own default model.
+    """
+    value = globals().get(name)
+    raw = os.environ.get(name)
+    if raw:
+        return raw if value is None or isinstance(value, str) else type(value)(raw)
+    return default if value is None else value
+
+
 def latest_replications_db() -> Path | None:
     """The newest `replications_database_*.csv`, or None if it cannot be found.
 

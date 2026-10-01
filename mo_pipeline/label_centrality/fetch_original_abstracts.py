@@ -23,19 +23,10 @@ from mo_pipeline import config
 from mo_pipeline.label_centrality import common
 from mo_pipeline.corpus.models import normalize_doi
 from mo_pipeline.shared.env import env_key
+from mo_pipeline.shared.text import deinvert_abstract
 
 OPENALEX_BASE = "https://api.openalex.org/works"
 BATCH = 50
-
-
-def deinvert(inv: dict | None) -> str:
-    if not inv:
-        return ""
-    pos = {}
-    for word, idxs in inv.items():
-        for i in idxs:
-            pos[i] = word
-    return " ".join(pos[i] for i in sorted(pos))
 
 
 def get(params: dict, api_key: str | None, mailto: str | None) -> dict:
@@ -92,7 +83,7 @@ def main() -> int:
                 cache[doi] = {
                     "title": work.get("title") or "",
                     "year": work.get("publication_year"),
-                    "abstract": deinvert(work.get("abstract_inverted_index")),
+                    "abstract": deinvert_abstract(work.get("abstract_inverted_index")),
                 }
         time.sleep(config.OPENALEX_DELAY)
         print(f"  batch {i // BATCH + 1}: cache now {len(cache)}")

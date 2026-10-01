@@ -14,12 +14,12 @@ Output: data/candidates_dedup.csv
 """
 
 import csv
-import re
 import sys
 from collections import defaultdict
 
 from mo_pipeline.config import CANDIDATES_RAW_CSV, CANDIDATES_DEDUP_CSV, DATA_DIR
 from mo_pipeline.corpus.models import normalize_doi
+from mo_pipeline.shared.text import normalize_title
 
 # Raise CSV field size limit for large abstracts
 csv.field_size_limit(sys.maxsize)
@@ -28,16 +28,6 @@ FIELDNAMES = [
     "pmid", "doi", "title", "abstract", "authors",
     "journal", "year", "source_api", "source_query", "match_count",
 ]
-
-
-def normalize_title(title):
-    """Lowercase, remove punctuation, collapse whitespace."""
-    if not title:
-        return ""
-    t = title.lower()
-    t = re.sub(r"[^\w\s]", " ", t)
-    t = re.sub(r"\s+", " ", t).strip()
-    return t
 
 
 def completeness_score(row):

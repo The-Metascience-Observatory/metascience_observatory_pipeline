@@ -30,6 +30,8 @@ from Bio import Entrez, Medline
 sys.stdout.reconfigure(line_buffering=True)
 sys.stderr.reconfigure(line_buffering=True)
 
+from mo_pipeline.shared.jsonio import atomic_write_json
+from mo_pipeline.shared.text import deinvert_abstract, normalize_title
 from mo_pipeline.config import (
     DATA_DIR, PROGRESS_DIR,
     ENTREZ_EMAIL, NCBI_DELAY, OPENALEX_DELAY, EUROPEPMC_DELAY,
@@ -261,21 +263,13 @@ def load_progress():
 
 
 def save_progress(progress):
-    PROGRESS_FILE.write_text(json.dumps(progress, indent=2))
+    atomic_write_json(PROGRESS_FILE, progress)
 
 
 # ── In-memory dedup tracker ──────────────────────────────────────────────────
 seen_dois = set()     # lowercased DOIs
 seen_pmids = set()    # PMID strings
 seen_titles = set()   # normalized title strings
-
-
-def _normalize_title(title):
-    """Lowercase, strip punctuation, collapse whitespace for dedup."""
-    if not title:
-        return ""
-    t = re.sub(r"[^\w\s]", " ", title.lower())
-    return re.sub(r"\s+", " ", t).strip()
 
 
 def load_seen_from_csv():
@@ -294,7 +288,7 @@ def _mark_seen(row):
     """Add a row's identifiers to the seen sets."""
     doi = (row.get("doi") or "").strip().lower()
     pmid = (row.get("pmid") or "").strip()
-    title = _normalize_title(row.get("title", ""))
+    title = normalize_title(row.get("title", ""))
     if doi:
         seen_dois.add(doi)
     if pmid:
@@ -311,7 +305,7 @@ def _is_duplicate(row):
     pmid = (row.get("pmid") or "").strip()
     if pmid and pmid in seen_pmids:
         return True
-    title = _normalize_title(row.get("title", ""))
+    title = normalize_title(row.get("title", ""))
     if title and len(title) > 20 and title in seen_titles:
         return True
     return False
@@ -538,7 +532,7 @@ def search_openalex(title_query, concept_filter=True, max_results=None):
                 "pmid": "",  # OpenAlex doesn't always have PMID directly
                 "doi": doi,
                 "title": w.get("title", ""),
-                "abstract": _reconstruct_abstract(w.get("abstract_inverted_index")),
+                "abstract": deinvert_abstract(w.get("abstract_inverted_index")),
                 "authors": authors,
                 "journal": ((w.get("primary_location") or {}).get("source") or {}).get("display_name", ""),
                 "year": str(w.get("publication_year", "")),
@@ -557,18 +551,6 @@ def search_openalex(title_query, concept_filter=True, max_results=None):
 
     print(f"  OpenAlex: {len(results)} results for '{title_query}' ({pages} pages)")
     return results
-
-
-def _reconstruct_abstract(inverted_index):
-    """Reconstruct abstract text from OpenAlex inverted index format."""
-    if not inverted_index:
-        return ""
-    word_positions = []
-    for word, positions in inverted_index.items():
-        for pos in positions:
-            word_positions.append((pos, word))
-    word_positions.sort()
-    return " ".join(w for _, w in word_positions)
 
 
 def run_openalex_searches(progress):

@@ -27,7 +27,6 @@ from __future__ import annotations
 import argparse
 import html
 import json
-import os
 import re
 import signal
 import sys
@@ -71,15 +70,6 @@ def _signal_handler(signum, frame):
     _shutdown = True
     print("\nShutdown requested: finishing in-flight papers, starting no new ones.",
           file=sys.stderr)
-
-
-def _setting(name: str):
-    """config.<name>, overridable by an env var of the same name (typed like the default)."""
-    default = getattr(config, name)
-    raw = os.environ.get(name)
-    if raw is None or raw == "":
-        return default
-    return type(default)(raw) if not isinstance(default, str) else raw
 
 
 def _read(path: Path) -> str:
@@ -323,7 +313,7 @@ def extract_paper_core(paper_dir: Path, backend, system_prompt: str, existing_ur
     paper_dir = paper_dir.resolve()
     log: list[str] = []
     output_dir = paper_dir / tag if tag else paper_dir
-    max_chars = max_chars or _setting("EXTRACT_CORE_MAX_INPUT_CHARS")
+    max_chars = max_chars or config.setting("EXTRACT_CORE_MAX_INPUT_CHARS")
 
     for suffix in RESULT_SUFFIXES:
         existing = output_dir / f"{paper_dir.name}{suffix}"
@@ -572,17 +562,17 @@ def extract_core_batch(papers_dir: Path, backend, *, workers: int = 4, tag: str 
 # ── CLI ─────────────────────────────────────────────────────────────────────
 
 def make_backend(provider: str | None, model: str | None):
-    provider = provider or _setting("EXTRACT_CORE_PROVIDER")
+    provider = provider or config.setting("EXTRACT_CORE_PROVIDER")
     if provider not in BACKENDS:
         sys.exit(f"unknown --provider {provider!r}; expected one of {sorted(BACKENDS)}")
-    kwargs: dict = {"timeout": _setting("EXTRACT_CORE_TIMEOUT_SEC")}
+    kwargs: dict = {"timeout": config.setting("EXTRACT_CORE_TIMEOUT_SEC")}
     if provider == "claude_cli":
-        model = model or _setting("EXTRACT_CORE_MODEL")
+        model = model or config.setting("EXTRACT_CORE_MODEL")
     else:
         if not model:
             sys.exit("--provider openrouter needs an explicit --model slug "
                      "(e.g. anthropic/claude-sonnet-4.6)")
-        kwargs["max_tokens"] = _setting("EXTRACT_CORE_MAX_OUTPUT_TOKENS")
+        kwargs["max_tokens"] = config.setting("EXTRACT_CORE_MAX_OUTPUT_TOKENS")
     return get_backend(provider=provider, model=model, **kwargs)
 
 
@@ -635,7 +625,7 @@ def main() -> int:
         if target is None:
             sys.exit("no extractable paper found")
         prompt, info = assemble_input(target, paper_artifacts(target),
-                                      args.max_input_chars or _setting("EXTRACT_CORE_MAX_INPUT_CHARS"))
+                                      args.max_input_chars or config.setting("EXTRACT_CORE_MAX_INPUT_CHARS"))
         print(json.dumps(info), file=sys.stderr)
         print(prompt)
         return 0

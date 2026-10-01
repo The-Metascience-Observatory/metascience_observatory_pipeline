@@ -50,7 +50,6 @@ Selection (config.py, overridable by env):
 from __future__ import annotations
 
 import json
-import os
 import re
 import subprocess
 import time
@@ -58,6 +57,7 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
 
+from mo_pipeline import config
 from mo_pipeline.config import LLM_MODEL, LLM_TIMEOUT_SEC
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
@@ -82,7 +82,7 @@ def check_model(provider: str, model: str) -> str:
         raise ValueError(
             f"model {model!r} looks like an OpenRouter slug but the provider is claude_cli. "
             f"SCREENING_MODEL names a model for the configured provider "
-            f"({_cfg('SCREENING_PROVIDER', 'claude_cli')}); pass an explicit model to use another.")
+            f"({config.setting('SCREENING_PROVIDER', 'claude_cli')}); pass an explicit model to use another.")
     if provider == "openrouter" and "/" not in model:
         raise ValueError(
             f"model {model!r} is not an OpenRouter id (expected `vendor/model`). "
@@ -482,20 +482,8 @@ def _screen(backend, idx, system_prompt, user_prompt):
 
 # ── selection ───────────────────────────────────────────────────────────────
 
-def _cfg(name, default):
-    """config attribute, overridable by env var of the same name.
-
-    Note the `or default` rather than getattr's default arg: config declares
-    SCREENING_MODEL = None to mean "use the provider's default", and getattr
-    would return that explicit None instead of falling through.
-    """
-    from mo_pipeline import config
-    return os.environ.get(name) or getattr(config, name, None) or default
-
-
 def _openrouter_key():
     """OPENROUTER_API_KEY from env, the repo's .env.local, or the observatory root's."""
-    from mo_pipeline import config
     from mo_pipeline.shared.env import env_key
     return env_key("OPENROUTER_API_KEY", config.OBSERVATORY_ROOT / ".env.local")
 
@@ -515,13 +503,13 @@ def get_backend(provider=None, model=None, **kwargs):
     "inclusionai/ling-2.6-flash" as soon as the configured default became
     OpenRouter -- so stage 4 classified nothing while still exiting 0.
     """
-    configured = _cfg("SCREENING_PROVIDER", "claude_cli")
+    configured = config.setting("SCREENING_PROVIDER", "claude_cli")
     provider = provider or configured
     if provider not in BACKENDS:
         raise ValueError(
             f"unknown SCREENING_PROVIDER {provider!r}; expected one of {sorted(BACKENDS)}"
         )
     if model is None and provider == configured:
-        model = _cfg("SCREENING_MODEL", None) or None
+        model = config.setting("SCREENING_MODEL") or None
     model = check_model(provider, model or PROVIDER_DEFAULT_MODEL[provider])
     return BACKENDS[provider](model=model, **kwargs)
