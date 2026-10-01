@@ -222,6 +222,14 @@ def build_existing_stems():
     return stems, structured
 
 
+def _dois_from_csv(path) -> list[str]:
+    """DOIs from a --doi-csv file, its DOI column auto-detected."""
+    from mo_pipeline.discover.doi_runs import extract_dois_from_text
+    parsed = extract_dois_from_text(Path(path).read_text(errors="replace"))
+    print(f"DOI list: {len(parsed['dois'])} DOIs from column '{parsed['column']}' of {path}")
+    return parsed["dois"]
+
+
 def _drop_published(to_download):
     """Remove DOIs already in the published replications database.
 
@@ -395,9 +403,7 @@ def run_backfill(args):
 
     allow = None
     if args.doi_csv:
-        from mo_pipeline.discover.doi_runs import extract_dois_from_text
-        parsed = extract_dois_from_text(Path(args.doi_csv).read_text(errors="replace"))
-        allow = {doi_to_folder(d).lower() for d in parsed["dois"]}
+        allow = {doi_to_folder(d).lower() for d in _dois_from_csv(args.doi_csv)}
         print(f"Restricting the backfill to {len(allow)} DOIs from {args.doi_csv}")
 
     remaining = args.limit
@@ -449,7 +455,7 @@ def run_backfill(args):
               "python -m mo_pipeline.corpus scan")
 
 
-def main():
+def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--type", default=",".join(DOWNLOAD_REPLICATION_TYPES),
@@ -536,8 +542,12 @@ def main():
         "--cookies-max", type=int, default=5000,
         help="Most PDFs fetched through institutional access in one run (default: 5000).",
     )
-    args = parser.parse_args()
+    return parser
 
+
+def _configure_sources(args, parser) -> None:
+    """Institutional (cookie) access and the grey last resorts: process-wide
+    fetchpdf state, set once before any worker starts."""
     from fetchpdf.retrieval import institutional
     if args.cookies and not os.path.isfile(args.cookies):
         parser.error(f"--cookies: no such file: {args.cookies}")
@@ -567,10 +577,11 @@ def main():
         print("Legal sources only (--legalonly): last-resort sources disabled")
         disable_last_resorts()
 
-    if args.backfill_structured or args.backfill_pdf:
-        run_backfill(args)
-        return
 
+def _load_queue(args) -> list[tuple[str, str, str]]:
+    """(doi, replication_type, title) to fetch, highest-priority type first: the
+    --doi-csv list, or confirmed replications of the selected types minus what
+    is on the drive and (unless --include-published) what is already published."""
     type_filter = None
     if args.type and args.type.strip().lower() != "all":
         type_filter = {t.strip() for t in args.type.split(",") if t.strip()}
@@ -588,12 +599,7 @@ def main():
     if args.doi_csv:
         # Explicit DOI list (dashboard DOI runs / ad-hoc CSVs): auto-detect the
         # DOI column, skip already-present papers; no type info to filter on.
-        from mo_pipeline.discover.doi_runs import extract_dois_from_text
-        text = Path(args.doi_csv).read_text(errors="replace")
-        parsed = extract_dois_from_text(text)
-        print(f"DOI list: {len(parsed['dois'])} DOIs from column "
-              f"'{parsed['column']}' of {args.doi_csv}")
-        for doi in parsed["dois"]:
+        for doi in _dois_from_csv(args.doi_csv):
             if doi_to_folder(doi).lower() in existing:
                 continue
             to_download.append((doi, "other", ""))
@@ -632,10 +638,21 @@ def main():
         to_download = to_download[:args.limit]
 
     print(f"\nDOIs to download: {len(to_download)}")
-    types = Counter(t[1] for t in to_download)
-    for rtype, count in types.most_common():
+    for rtype, count in Counter(t[1] for t in to_download).most_common():
         print(f"  {rtype}: {count}")
+    return to_download
 
+
+def main():
+    parser = _build_parser()
+    args = parser.parse_args()
+    _configure_sources(args, parser)
+
+    if args.backfill_structured or args.backfill_pdf:
+        run_backfill(args)
+        return
+
+    to_download = _load_queue(args)
     if not to_download:
         print("Nothing to download.")
         return

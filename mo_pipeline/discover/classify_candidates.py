@@ -207,9 +207,54 @@ def _reuse_prior_row(row, prior_row):
     return out_row
 
 
-def main():
-    sys.stdout.reconfigure(line_buffering=True)
+def _build_work_queue(rows, already_done, classified_rows, ingested_dois,
+                      prior_by_doi, prior_by_pmid):
+    """Rows that still need an LLM call, as (index, row) pairs.
 
+    Everything decidable without one is resolved here, appended to
+    classified_rows and marked done: rows with no text, Level 2 (the corpus
+    extraction already reached a verdict) and Level 1 (a valid verdict from a
+    prior classify run). Returns (work, skipped_ingested, skipped_prior).
+    """
+    work = []
+    skipped_ingested = 0
+    skipped_prior = 0
+    for idx, row in enumerate(rows):
+        if idx in already_done:
+            continue
+
+        doi = normalize_doi(row.get("doi", "")) or ""
+        pmid = (row.get("pmid") or "").strip()
+        if not row.get("title", "") and not row.get("abstract", ""):
+            classified_rows.append(_auto_row(row, False, "No title or abstract available", "low"))
+            already_done.add(idx)
+            continue
+
+        # Level 2: the corpus extraction already decided this paper
+        if doi and doi in ingested_dois:
+            found = ingested_dois[doi] == "1"
+            classified_rows.append(_auto_row(
+                row, found, "Corpus extraction found replications" if found
+                else "Corpus extraction found no replications", "high"))
+            already_done.add(idx)
+            skipped_ingested += 1
+            continue
+
+        # Level 1: classified in a prior run — reuse result without LLM call
+        prior = prior_by_doi.get(doi) if doi else None
+        if prior is None and pmid:
+            prior = prior_by_pmid.get(pmid)
+        if prior is not None and _prior_is_valid(prior):
+            classified_rows.append(_reuse_prior_row(row, prior))
+            already_done.add(idx)
+            skipped_prior += 1
+            continue
+
+        work.append((idx, row))
+    return work, skipped_ingested, skipped_prior
+
+
+def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Classify replication study candidates via a screening LLM")
     parser.add_argument(
@@ -222,9 +267,8 @@ def main():
     )
     parser.add_argument(
         "--provider", choices=sorted(BACKENDS), default=None,
-        help="Screening backend. Default comes from config.SCREENING_PROVIDER "
-             "(claude_cli). Use openrouter to spend money instead of the "
-             "rate-limited Claude budget, e.g. for a large sweep.",
+        help="Screening backend (default: config.SCREENING_PROVIDER). openrouter "
+             "spends money instead of the rate-limited Claude budget.",
     )
     parser.add_argument(
         "--model", default=None,
@@ -236,7 +280,12 @@ def main():
         help="Hard ceiling on fresh LLM calls this run; stops cleanly when hit. "
              "Use to stay inside the weekly Claude budget (~10k/week).",
     )
-    args = parser.parse_args()
+    return parser
+
+
+def main():
+    sys.stdout.reconfigure(line_buffering=True)
+    args = _build_parser().parse_args()
     batch_size = args.workers
     print(f"Running with {batch_size} concurrent workers")
 
@@ -284,46 +333,8 @@ def main():
             classified_rows = list(csv.DictReader(f))
         print(f"Resuming with {len(classified_rows)} rows from current run's classified.csv")
 
-    # Build work queue
-    work = []
-    skipped_ingested = 0
-    skipped_prior = 0
-
-    for idx, row in enumerate(rows):
-        if idx in already_done:
-            continue
-
-        doi = (normalize_doi(row.get("doi", "")) or "")
-        pmid = (row.get("pmid") or "").strip()
-        title = row.get("title", "")
-        abstract = row.get("abstract", "")
-
-        if not title and not abstract:
-            classified_rows.append(_auto_row(row, False, "No title or abstract available", "low"))
-            already_done.add(idx)
-            continue
-
-        # Level 2: the corpus extraction already decided this paper
-        if doi and doi in ingested_dois:
-            found = ingested_dois[doi] == "1"
-            classified_rows.append(_auto_row(
-                row, found, "Corpus extraction found replications" if found
-                else "Corpus extraction found no replications", "high"))
-            already_done.add(idx)
-            skipped_ingested += 1
-            continue
-
-        # Level 1: classified in a prior run — reuse result without LLM call
-        prior = prior_by_doi.get(doi) if doi else None
-        if prior is None and pmid:
-            prior = prior_by_pmid.get(pmid)
-        if prior is not None and _prior_is_valid(prior):
-            classified_rows.append(_reuse_prior_row(row, prior))
-            already_done.add(idx)
-            skipped_prior += 1
-            continue
-
-        work.append((idx, row))
+    work, skipped_ingested, skipped_prior = _build_work_queue(
+        rows, already_done, classified_rows, ingested_dois, prior_by_doi, prior_by_pmid)
 
     if args.limit:
         work = work[:args.limit]
@@ -382,16 +393,9 @@ def main():
                     continue
                 result = checked
 
-                out_row = dict(row)
-                for field in CLASSIFICATION_FIELDS:
-                    val = result.get(field)
-                    if val is None:
-                        out_row[field] = ""
-                    elif isinstance(val, bool):
-                        out_row[field] = str(val)
-                    else:
-                        out_row[field] = str(val)
-                classified_rows.append(out_row)
+                classified_rows.append({**row, **{
+                    field: "" if result.get(field) is None else str(result[field])
+                    for field in CLASSIFICATION_FIELDS}})
 
                 already_done.add(idx)
                 new_count += 1
