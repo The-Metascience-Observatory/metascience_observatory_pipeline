@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.jml.2022.104352",
+  "paper_folder": "10.1016--j.jml.2022.104352",
+  "discipline": "linguistics",
+  "subdiscipline": "phonetics and phonology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.jml.2022.104352/10.1016--j.jml.2022.104352_from_xml.md",
+      "sha256": "c18af332b13c111d227fc58c660ec5025ed7aeb6172d8b6f343c2f275372dd70"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.jml.2022.104352#ling26:cf88abab063f06b4:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1121/1.1894649",
+      "original_title": "Training Japanese listeners to identify English",
+      "description": "Multiple talker phonetic training improves generalisation of non-native phoneme contrast learning",
+      "citation_sentence": "The goal of the current paper is to replicate the key experiments from Logan et al. (1991) and Lively et al. (1993) and test the hypothesis that using high variability input leads to more generalisation in phonetic learning than when low variability input is used.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Paper replicates both Logan et al. (1991) and Lively et al. (1993); original_url references Logan et al. (1991) as the primary original study. The paper's own experiment is a single replication study with both HV and LV conditions. Bayes Factors were used as the primary inference statistic; traditional p-values and effect sizes are not reported in the standard format.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.jml.2022.104352#luna56:ab8fa5207194fa4f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1121/1.1894649",
+      "original_title": "Training Japanese listeners to identify English /r/ and /l/",
+      "description": "Training Japanese listeners with multiple talkers improves identification of the English /r/-/l/ contrast and generalizes to novel talkers and items.",
+      "citation_sentence": "Our study set out to replicate seminal phonetic training studies investigating the effect of talker variability on generalisation ability (Lively et al., 1993; Logan et al., 1991) in a large participant sample.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors describe this as a direct-as-possible replication. Both high- and low-variability groups improved, but evidence for a specific high-variability benefit was ambiguous.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.jml.2022.104352#luna56:331fe7915c5aa428:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1121/1.408177",
+      "original_title": "II: The role of phonetic environment and talker variability in learning new perceptual categories",
+      "description": "Single-talker training improves identification of the English /r/-/l/ contrast but produces poorer generalization to novel talkers than multiple-talker training.",
+      "citation_sentence": "Our study set out to replicate seminal phonetic training studies investigating the effect of talker variability on generalisation ability (Lively et al., 1993; Logan et al., 1991) in a large participant sample.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication focused on the single-talker condition corresponding to Experiment 2 of Lively et al. (1993). Evidence for a high-variability advantage over low variability was ambiguous. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

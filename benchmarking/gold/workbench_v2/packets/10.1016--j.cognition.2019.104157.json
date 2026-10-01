@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.cognition.2019.104157",
+  "paper_folder": "10.1016--j.cognition.2019.104157",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "ai_source_review:2026-09-18",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.cognition.2019.104157/body.md",
+      "sha256": "e5c8edc1e7a996231e19a71d49676ce87f01dc4b702ba2283809b9ba3981f168"
+    }
+  ],
+  "flags": [
+    "targeted source review: eligibility_boundary"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.cognition.2019.104157#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper presents original experiments (Experiments 1-4) testing a novel theoretical account of teleological generics; it does not replicate any previously published study."
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.cognition.2019.104157#luna56:3c3537ea7c5e9eb7:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "description": "Principled connections between kinds and properties license self-referential generalizations, whereas non-principled connections do not.",
+      "citation_sentence": "[47] introduced several linguistic tests to distinguish principled from non-principled connections.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 1 adapted the self-referential generalization test from the original study to teleological generics.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.cognition.2019.104157#luna56:d1b409bef112ea6e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "description": "Principled connections establish norms of normality and normativity for the properties of a kind, whereas non-principled connections do not.",
+      "citation_sentence": "As [47] point out, there are two ways of examining norm-based expectations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2a tested normality and normativity formulations as an extension of the original norm test.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.cognition.2019.104157#luna56:f6df5a777f4dd7f5:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "description": "Principled connections establish normative expectations that a kind should possess the corresponding property.",
+      "citation_sentence": "As [47] point out, there are two ways of examining norm-based expectations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2b used an alternative should formulation to extend the original normativity test.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.cognition.2019.104157#luna56:fa79fbc34cef19af:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "description": "Properties linked to a kind by a principled connection are construed as an aspect of that kind, whereas properties linked non-principally are not.",
+      "citation_sentence": "When a principled connection is present between a kind and a property, people construe the property as an aspect of the kind.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paragraph identifies the aspect test as originating in the prior principled-connections work, cited as [47].",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.cognition.2019.104157#luna56:d90ee2d1a8354468:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "description": "Principled connections license natural formal explanations that explain a property by reference to the kind, whereas non-principled connections do not.",
+      "citation_sentence": "Principled connections should license formal explanations, i.e., explanations that explain properties by referring to the kind in question [44].",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 4 adapted the formal-explanations test to teleological phenomena; the sentence cites [44] directly, while the broader four-test framework is attributed to [47].",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1016--j.cognition.2019.104157",
+    "category": "eligibility_boundary",
+    "action": "review_required",
+    "pair_hint": "",
+    "finding": "Four experiments test a newly developed theory and linguistic tests. Luna lists five conceptual replications. A human must decide which prior published empirical findings, if any, are deliberately replicated rather than merely cited or used as theoretical background.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.cognition.2019.104157/body.md",
+    "source_line": 161,
+    "source_sha256": "e5c8edc1e7a996231e19a71d49676ce87f01dc4b702ba2283809b9ba3981f168",
+    "evidence": "articipants may have hesitated to mark anything as fully natural or unnatural.\n\nExperiments 1-4 served to assess the four linguistic tests for principled connections (Section 1.2). The experiments provided converging evidence that, across the four linguistic tests, people distinguish experimental verbs (i.e., those that yield acce",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

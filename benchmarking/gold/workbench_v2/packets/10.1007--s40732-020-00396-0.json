@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s40732-020-00396-0",
+  "paper_folder": "10.1007--s40732-020-00396-0",
+  "discipline": "psychology",
+  "subdiscipline": "clinical psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s40732-020-00396-0/body.md",
+      "sha256": "13ad068a7d8edac26d08b430a28acdfe033237af1b8530058e12ff89d3992393"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s40732-020-00396-0#ling26:18511916b039a3d4:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Tact training versus bidirectional intraverbal training in teaching a foreign language",
+      "description": "The original study tested the effects of foreign tact and bidirectional intraverbal training on emergent verbal relations in teaching a foreign language vocabulary to adults.",
+      "citation_sentence": "The present study aimed to replicate the findings of Dounavi (Journal of Applied Behavior Analysis, 47(1), 165\u2013170 2014)",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state they replicated Dounavi (2014) and the results confirm the original findings: foreign tact and N-F intraverbal training were more effective than F-N training. Minor methodological refinements (added N-F baseline probe, no feedback during probes, counterbalanced posttraining probes, added third participant, added 4-week follow-up) do not change the direct replication classification. The paper reports a successful direct replication of Dounavi (2014) with minor methodological refinements (added N-F baseline probe, no feedback during probes, counterbalanced posttraining probes, added a third participant, added 4-week follow-up). The discussion explicitly states 'The present study replicated Dounavi's (2014) research.' The original DOI was not found in the paper and is left blank.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s40732-020-00396-0#luna56:e141ceef5e25cba5:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Tact training versus bidirectional intraverbal training in teaching a foreign language",
+      "description": "Foreign tact and native-to-foreign intraverbal training are more effective than foreign-to-native intraverbal training in producing emergent verbal relations during foreign-language learning.",
+      "citation_sentence": "The present study aims to further evaluate the efficacy of foreign tact versus bidirectional training in teaching a small foreign language vocabulary and facilitating emergent responding by systematically replicating Dounavi (2014).",
+      "gt_ambiguity": "clear",
+      "notes": "The study is explicitly described as a systematic replication, with deliberate procedural refinements including textual rather than vocal stimuli, fewer stimuli, an added participant, counterbalanced probes, and maintenance assessment.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.intell.2020.101471",
+  "paper_folder": "10.1016--j.intell.2020.101471",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.intell.2020.101471/10.1016--j.intell.2020.101471_from_xml.md",
+      "sha256": "a27920891802a35d98962586f9642d52675e5ed84072908c76b714cb547f3c80"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.intell.2020.101471#ling26:6c96a0b1b93d9395:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-8624.2007.00995.x",
+      "original_title": "Implicit theories of intelligence predict achievement across an adolescent transition: A longitudinal study and an intervention",
+      "description": "Growth mindset predicts improvement in mathematics grades across a challenging transition to junior high school",
+      "citation_sentence": "Here we report two near-replication studies of Blackwell et al. (2007) study 1, testing if intelligence mindsets are associated with educational attainment",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--j.intell.2020.101471#ling26:6c96a0b1b93d9395:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-8624.2007.00995.x",
+      "original_title": "Implicit theories of intelligence predict achievement across an adolescent transition: A longitudinal study and an intervention",
+      "description": "Growth mindset predicts improvement in mathematics grades across a challenging transition to junior high school",
+      "citation_sentence": "Here we report two near-replication studies of Blackwell et al. (2007) study 1, testing if intelligence mindsets are associated with educational attainment",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.intell.2020.101471#luna56:2d2603a203cd5daa:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-8624.2007.00995.x",
+      "original_title": "Implicit theories of intelligence predict achievement across an adolescent transition: A longitudinal study and an intervention",
+      "description": "Blackwell et al. (2007) claimed that a growth mindset predicts higher mathematics grades across a challenging educational transition.",
+      "citation_sentence": "We conducted two near-replication studies of study 1 in Blackwell et al. (2007): Our study 1 tested the cross-sectional association between mindset and self-reported university grades. Our second study used a larger sample size (N = 586) and more rigorous set of analyses than was undertaken by Blackwell et al. (2007), testing the association of mindset with official grades in a longitudinal sample, controlling from baseline (university entrance) exam grades, and testing mindset effects across the challenging transition from high school to university and continuing each year across additional challenging thresholds to graduation.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 tested the association with entry grades and grades across university years, including the high-school-to-university transition and subsequent transitions; the authors reported no support for any predicted association.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.intell.2020.101471#luna56:4fefd73b1797943f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1111/j.1467-8624.2007.00995.x",
+      "original_title": "Implicit theories of intelligence predict achievement across an adolescent transition: A longitudinal study and an intervention",
+      "description": "Blackwell et al. (2007) claimed that a growth mindset predicts improvement in mathematics grades across the challenging transition from sixth to seventh grade.",
+      "citation_sentence": "We conducted two near-replication studies of study 1 in Blackwell et al. (2007): Our study 1 tested the cross-sectional association between mindset and self-reported university grades.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 1 was a near-replication using university students in the UK and self-reported university grades; the association was null and slightly negative rather than positive. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

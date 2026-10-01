@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"why_negative\": \"\",\n  \"entries\": [\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1016/j.obhdp.2006.10.001\",\n      \"original_title\": \"High in the hierarchy: How vertical location and judgments of leaders' power are interrelated\",\n      \"original_authors\": \"Giessner, S.; Schubert, T.\",\n      \"original_year\": \"2007\",\n      \"original_journal\": \"Organizational Behavior & Human Decision Processes\",\n      \"description\": \"Describing a leader as powerful causes participants to place the leader's box at a higher vertical position in an organization chart\",\n      \"citation_sentence\": \"We followed closely the procedure of the original study in Giessner & Schubert (2007).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"\"\n    },\n    {\n      \"result\": \"failure\",\n      \"replication_type\": \"close experiment\",\n      \"original_url\": \"https://doi.org/10.1016/j.obhdp.2006.10.001\",\n      \"original_title\": \"High in the hierarchy: How vertical location and judgments of leaders' power are interrelated\",\n      \"original_authors\": \"Giessner, S.; Schubert, T.\",\n      \"original_year\": \"2007\",\n      \"original_journal\": \"Organizational Behavior & Human Decision Processes\",\n      \"description\": \"Manipulating the magnitude of vertical spatial difference in an organization chart influences power evaluations of a leader\",\n      \"citation_sentence\": \"We adapted the design of Study 1a from [7].\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Citation sentence uses reference number [7] rather than author names and year; the reference corresponds to Giessner & Schubert (2007).\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 15882,
+    "output_tokens": 16811,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.0012883206,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 39285,
+    "truncated": false,
+    "input_sha256": "8a948193e91243b63657488846b754c6b56f81a44639e36c0de372e25b90bece",
+    "refs_withheld": false
+  }
+}

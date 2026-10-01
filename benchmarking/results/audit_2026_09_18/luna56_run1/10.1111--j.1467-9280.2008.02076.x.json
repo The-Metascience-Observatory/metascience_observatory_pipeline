@@ -1,0 +1,41 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Perceived entitativity, stereotype formation, and the interchangeability of group members",
+      "original_authors": "Crawford, M.; Sherman, S.; Hamilton, D.",
+      "original_year": "2002",
+      "original_journal": "Journal of Personality and Social Psychology",
+      "description": "When a group is perceived as large and diverse, people recognize that one individual's behavior is not representative of all group members and resist generalizing evaluations to another group member.",
+      "citation_sentence": "We predicted that people would explicitly refrain from using the information about the original group members in making immediate judgments of the new group members; this finding would replicate demonstrations that people can recognize that one individual's behavior is not representative of all group members if their group is large and diverse [5][17].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original using numbered references rather than author-year citations. The replication found that explicit generalization was substantially reduced for new group members, although not entirely absent."
+    },
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Target entitativity: Implications for information processing about individual and group targets",
+      "original_authors": "McConnell, A.; Sherman, S.; Hamilton, D.",
+      "original_year": "1997",
+      "original_journal": "Journal of Personality and Social Psychology",
+      "description": "People can recognize that one individual's behavior is not representative of all members of a large and diverse group and therefore resist transferring evaluations from one group member to another.",
+      "citation_sentence": "We predicted that people would explicitly refrain from using the information about the original group members in making immediate judgments of the new group members; this finding would replicate demonstrations that people can recognize that one individual's behavior is not representative of all group members if their group is large and diverse [5][17].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original using numbered references rather than author-year citations. The replication found that explicit generalization was substantially reduced for new group members, although not entirely absent."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 32113,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 1990,
+    "cost_usd": 0.00415197
+  }
+}

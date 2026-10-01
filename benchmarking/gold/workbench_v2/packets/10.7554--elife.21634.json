@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.21634",
+  "paper_folder": "10.7554--elife.21634",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.21634/10.7554--elife.21634_from_xml.md",
+      "sha256": "49f2e43a086df45524c41eed8bfec507408aa524358d3938b3c467f3464908ca"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.21634#ling26:18b142c05beabf40:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11071",
+      "original_title": "Melanoma genome sequencing reveals frequent PREX2 mutations",
+      "description": "Expression of mutant PREX2 isoforms (G844D and Q1430*) decreases tumor-free survival compared to wild-type PREX2 and GFP controls in vivo",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 3B and S6 of Berger et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "[ling26: no entry matched this anchor] The replication found no significant differences in tumor-free survival between any groups (all Bonferroni-corrected p > 0.99). Control groups (GFP and PREX2[WT]) had dramatically shorter median TFS (1 week) compared to the original study (5 weeks for mutant groups), masking any potential PREX2 mutation effect. Meta-analyses of original and replication effects were all non-significant (p = 0.344\u20130.493). The authors frame the control group outcomes as fundamentally different from the original, preventing replication of the reported effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.21634#luna56:3d78858160608aa6:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11071",
+      "original_title": "Melanoma genome sequencing reveals frequent PREX2 mutations",
+      "description": "Expression of PREX2[G844D] in NRAS[G12D] melanocytes causes shorter tumor-free survival in mice than expression of GFP.",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2014), we attempted a replication of the experiments reported in Figures 3B and S6 of Berger et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no statistically significant difference in tumor-free survival between GFP and PREX2[G844D] groups. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.21634#luna56:9148bab60384ed14:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11071",
+      "original_title": "Melanoma genome sequencing reveals frequent PREX2 mutations",
+      "description": "Expression of PREX2[Q1430*] in NRAS[G12D] melanocytes causes shorter tumor-free survival in mice than expression of GFP.",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2014), we attempted a replication of the experiments reported in Figures 3B and S6 of Berger et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no statistically significant difference in tumor-free survival between GFP and PREX2[Q1430*] groups. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.21634#luna56:838a1122263e2e37:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11071",
+      "original_title": "Melanoma genome sequencing reveals frequent PREX2 mutations",
+      "description": "Expression of PREX2[G844D] in NRAS[G12D] melanocytes causes shorter tumor-free survival in mice than expression of PREX2[WT].",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2014), we attempted a replication of the experiments reported in Figures 3B and S6 of Berger et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no statistically significant difference in tumor-free survival between PREX2[WT] and PREX2[G844D] groups. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.21634#luna56:ac694afcc827462e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature11071",
+      "original_title": "Melanoma genome sequencing reveals frequent PREX2 mutations",
+      "description": "Expression of PREX2[Q1430*] in NRAS[G12D] melanocytes causes shorter tumor-free survival in mice than expression of PREX2[WT].",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2014), we attempted a replication of the experiments reported in Figures 3B and S6 of Berger et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no statistically significant difference in tumor-free survival between PREX2[WT] and PREX2[Q1430*] groups. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

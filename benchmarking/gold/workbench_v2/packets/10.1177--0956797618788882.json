@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/0956797618788882",
+  "paper_folder": "10.1177--0956797618788882",
+  "discipline": "psychology",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--0956797618788882/body.md",
+      "sha256": "4e9a32675c0750b458fc08dd3d57cec00183bec59b1cb65197b6f8b5948807f2"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--0956797618788882#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper reports four original preregistered studies that extend prior work on face-based trait judgments to corruption records; it does not replicate any specific separately published study."
+    },
+    {
+      "candidate_id": "luna56:10.1177--0956797618788882#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper reports original experiments and only replicates findings from its own earlier studies within the same paper, with no qualifying replication of a separately published study."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

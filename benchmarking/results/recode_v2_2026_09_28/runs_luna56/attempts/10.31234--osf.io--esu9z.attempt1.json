@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"no\",\n  \"why_negative\": \"The paper is only a correction notice about an analysis-code bug and reports no qualifying replication experiment.\",\n  \"entries\": []\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 6141,
+    "output_tokens": 47,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00023611,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "10.31234--osf.io--esu9z.pdf (tail pages)",
+    "chars": 1010,
+    "truncated": false,
+    "input_sha256": "a4dd827dab281f832d4bdd5e002d5a14c3f8f50c299ae11e1dbc1e3cfba1034f",
+    "refs_withheld": false
+  }
+}

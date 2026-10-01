@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1001/archneurol.2011.155",
+  "paper_folder": "10.1001--archneurol.2011.155",
+  "discipline": "medical fields",
+  "subdiscipline": "neurology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1001--archneurol.2011.155/10.1001--archneurol.2011.155_from_xml.md",
+      "sha256": "c08169e8e79a6b5ed69c504132ee0b84999992d59d77ebff6303773e8a67f45a"
+    }
+  ],
+  "flags": [
+    "targeted source review: type"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1001--archneurol.2011.155#ling26:a615742cedd6aad9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "description": "The polyT repeat (rs10524523) in TOMM40 is associated with age at onset of late-onset Alzheimer's disease",
+      "citation_sentence": "Roses et al. used DNA sequencing and an evolutionary network approach to demonstrate that a polyT polymorphism in intron 6 of TOMM40 (rs10524523) is associated with age at onset (AAO) in APOE 33 and 34 individuals.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1001--archneurol.2011.155#ling26:a4f59a98cca1c66c:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "reversal",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "description": "The polyT repeat (rs10524523) in TOMM40 is associated with risk for late-onset Alzheimer's disease",
+      "citation_sentence": "Roses et al. found that the very-long allele of rs10524523 is associated with increased risk and lower AAO for LOAD.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1001--archneurol.2011.155#luna56:36742079aa4481ad:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "description": "The APOE \u03b53\u2013TOMM40 polyT polymorphism haplotype groups are associated with age at onset of late-onset Alzheimer's disease.",
+      "citation_sentence": "In this study we attempted to replicate the recent report by Roses et al.12 that reported an association of APOE 3-TOMM40 polyT polymorphism (rs10524523) haplotypes are associated with age at onset and risk of AD.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reports no significant association with age at onset after accounting for APOE genotype and concludes that it failed to support the original finding. The original reference does not provide a DOI. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1001--archneurol.2011.155#luna56:f5404db6c72566e0:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "reversal",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "description": "The very-long allele of the APOE \u03b53\u2013TOMM40 polyT polymorphism is associated with increased risk of late-onset Alzheimer's disease.",
+      "citation_sentence": "In this study we attempted to replicate the recent report by Roses et al.12 that reported an association of APOE 3-TOMM40 polyT polymorphism (rs10524523) haplotypes are associated with age at onset and risk of AD.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a statistically significant association in the opposite direction from the original report: the very-long allele was less frequent in cases and associated with a protective effect. The authors explicitly describe the result as opposite to the original finding. The original reference does not provide a DOI. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1001--archneurol.2011.155",
+    "category": "type",
+    "action": "accept_pair",
+    "pair_hint": "age at onset",
+    "finding": "The age-at-onset comparison is recognizable and both coders call it failure. Risk, onset, expression and endophenotype analyses must not be merged merely because they cite the same TOMM40 original.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1001--archneurol.2011.155/10.1001--archneurol.2011.155_from_xml.md",
+    "source_line": 88,
+    "source_sha256": "c08169e8e79a6b5ed69c504132ee0b84999992d59d77ebff6303773e8a67f45a",
+    "evidence": "LOAD to investigate different potential effects of the TOMM40 polymorphisms. We failed to find a significant association between the polyT polymorphism (rs10524523) and age at onset despite the fact that our large series of 2784 individuals (1175 APOE33s) provides high statistical power. Indeed, we found that among APOE 33 and 34 individuals the longer alleles of the p",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

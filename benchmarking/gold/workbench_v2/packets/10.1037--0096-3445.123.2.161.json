@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/0096-3445.123.2.161",
+  "paper_folder": "10.1037--0096-3445.123.2.161",
+  "discipline": "neuroscience",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--0096-3445.123.2.161/body.md",
+      "sha256": "c679e399cf4d37bb8752c3df0b506861804b35034326d78960cfe2c2c410d363"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--0096-3445.123.2.161#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This paper presents original empirical experiments (a modified spatial precuing paradigm in normal subjects and parietal-lesion patients) and does not replicate any prior published study."
+    },
+    {
+      "candidate_id": "luna56:10.1037--0096-3445.123.2.161#luna56:e0e17c95991d2a9d:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Isolating attentional systems: A cognitive-anatomical analysis",
+      "description": "Unilateral parietal lesions cause an abnormally large spatial disengagement cost for invalidly cued contralesional targets, including targets requiring horizontal shifts of attention.",
+      "citation_sentence": "The spatial disengage difficulty with horizontal shifts to an invalidly cued contralesional target replicates the previous findings of Posner, Inhoff, et al. (1987), and the difficulty with vertical shifts within the contralesional field replicates the observations of Baynes et al. (1986).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 explicitly states that its finding for horizontal shifts replicates Posner, Inhoff, et al. (1987).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--0096-3445.123.2.161#luna56:f4c1d622bc593a3d:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1093/brain/109.1.99",
+      "original_title": "Components of visual attention: Alternations in response pattern to visual stimuli following parietal lobe infarction",
+      "description": "Parietal-lesion patients show an abnormally large difficulty disengaging attention for vertical shifts to invalidly cued targets in the contralesional field.",
+      "citation_sentence": "The spatial disengage difficulty with horizontal shifts to an invalidly cued contralesional target replicates the previous findings of Posner, Inhoff, et al. (1987), and the difficulty with vertical shifts within the contralesional field replicates the observations of Baynes et al. (1986).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 explicitly states that its finding for vertical shifts within the contralesional field replicates Baynes et al. (1986).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

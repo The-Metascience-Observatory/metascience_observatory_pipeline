@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1371/journal.pone.0029081",
+  "paper_folder": "10.1371--journal.pone.0029081",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1371--journal.pone.0029081/10.1371--journal.pone.0029081_from_xml.md",
+      "sha256": "769a3d3fe6aeabddf7049caed190c39de62fd2801fd97e30e7f755634b3e594a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0029081#ling26:6fd18c0eafa1df56:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/0022-3514.71.2.230",
+      "original_title": "Automaticity of social behavior: direct effects of trait construct and stereotype-activation on action",
+      "description": "Activating the stereotype of old age through scrambled sentences priming causes participants to walk more slowly",
+      "citation_sentence": "In Experiment 2, however, we were indeed able to replicate Bargh et al.'s priming effect, but only when the experimenter expected the primed participant to walk slower after having being primed.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 found the priming effect only when experimenters expected slower walking (slow condition), but found a reversal on subjective timing in the fast condition and null on objective timing; mixed signals within one experiment make this inconclusive. Effect found only in the slow experimenter condition (conditional success); fast condition showed no effect on objective timings and a reversal on subjective timings, which authors attribute to stopwatch error.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0029081#ling26:0d30ec28c7d6bb36:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/0022-3514.71.2.230",
+      "original_title": "Automaticity of social behavior: direct effects of trait construct and stereotype-activation on action",
+      "description": "Activating the stereotype of old age through scrambled sentences priming causes participants to walk more slowly",
+      "citation_sentence": "Despite our large sample of 120 participants (vs. 60 in Bargh et al.'s study 2a and 2b combined), and despite our precise measurement methods, we were unable to replicate the effects observed by Bargh et al. [1].",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0029081#luna56:79c0a6e8ea75d7b9:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: direct effects of trait construct and stereotype-activation on action",
+      "description": "Exposure to words related to old age causes participants to walk more slowly after completing a scrambled-sentences task, without awareness of the prime's influence.",
+      "citation_sentence": "This result replicates Bargh et al. [1] effect on walking speed.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 found the expected effect only when experimenters expected primed participants to walk more slowly; objective timing showed no effect in the fast-expectation condition, while subjective timing showed a significant opposite-direction effect there. The paper cites the original by numbered reference [1] rather than displaying the year in the citation sentence, so the original DOI is left blank.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0029081#luna56:077df649a11b67b5:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: direct effects of trait construct and stereotype-activation on action",
+      "description": "Exposure to words related to old age causes participants to walk more slowly after completing a scrambled-sentences task, without awareness of the prime's influence.",
+      "citation_sentence": "The design replicated Bargh et al.'s [1] study and took place in an empty hallway located on a vacant floor of a Universit\u00e9 Libre de Bruxelles building.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 used Belgian French-speaking students and adapted French stimuli, plus automated chronometry. The paper cites the original by numbered reference [1] rather than displaying the year in the citation sentence, so the original DOI is left blank. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

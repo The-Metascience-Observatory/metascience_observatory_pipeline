@@ -1,0 +1,56 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "original_authors": "Rentfrow, J.; Goldberg, L.; Levitin, D.",
+      "original_year": "2011",
+      "original_journal": "Journal of Personality and Social Psychology",
+      "description": "The five-factor MUSIC structure (Mellow, Unpretentious, Sophisticated, Intense, Contemporary) based on preferences for musical attributes rather than genre labels",
+      "citation_sentence": "One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "original_authors": "Rentfrow, J.; Goldberg, L.; Levitin, D.",
+      "original_year": "2011",
+      "original_journal": "Journal of Personality and Social Psychology",
+      "description": "The five-factor MUSIC structure within the jazz genre",
+      "citation_sentence": "One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "original_authors": "Rentfrow, J.; Goldberg, L.; Levitin, D.",
+      "original_year": "2011",
+      "original_journal": "Journal of Personality and Social Psychology",
+      "description": "The five-factor MUSIC structure within the rock genre",
+      "citation_sentence": "One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 87387,
+    "truncated": false,
+    "input_sha256": "c43c3b8f1dfadc4e781e44529e91e7604fccdbe941ead5fbb6424dc4bc5e25a2",
+    "refs_withheld": false,
+    "output_tokens": 4745,
+    "cost_usd": 0.000827043
+  }
+}

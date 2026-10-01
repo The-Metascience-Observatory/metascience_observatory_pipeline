@@ -1,0 +1,42 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "original_authors": "Roses, A.; Lutz, M.; Amrine-Madsen, H.",
+      "original_year": "2010",
+      "original_journal": "The Pharmacogenomics Journal",
+      "description": "The original study claimed that the very-long TOMM40 rs10524523 allele was associated with a lower age at onset of late-onset Alzheimer's disease among APOE \u03b53/\u03b53 and \u03b53/\u03b54 individuals.",
+      "citation_sentence": "Roses et al. found that the very-long allele of rs10524523 is associated with increased risk and lower AAO for LOAD.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors found a nonsignificant association in the opposite direction, with very-long allele carriers tending toward later onset, and characterized the evidence as not supporting the original finding. The paper cites the original as reference 12 rather than giving the publication year in the citation sentence."
+    },
+    {
+      "result": "reversal",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "original_authors": "Roses, A.; Lutz, M.; Amrine-Madsen, H.",
+      "original_year": "2010",
+      "original_journal": "The Pharmacogenomics Journal",
+      "description": "The original study claimed that the very-long TOMM40 rs10524523 allele was associated with increased risk of late-onset Alzheimer's disease.",
+      "citation_sentence": "Roses et al. found that the very-long allele of rs10524523 is associated with increased risk and lower AAO for LOAD.",
+      "gt_ambiguity": "clear",
+      "notes": "In the APOE \u03b53/\u03b53 stratum, the replication found a significant protective association: the very-long allele was less frequent in cases than controls. The authors explicitly described this as opposite to the association reported by Roses et al."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.1001--archneurol.2011.155_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 24373,
+    "truncated": false,
+    "input_sha256": "f9d6b3694d228214c006591148ac4a7ad08d0bc6cb4589136ebd134bdc1207d8",
+    "refs_withheld": false,
+    "output_tokens": 1368,
+    "cost_usd": 0.00328531
+  }
+}

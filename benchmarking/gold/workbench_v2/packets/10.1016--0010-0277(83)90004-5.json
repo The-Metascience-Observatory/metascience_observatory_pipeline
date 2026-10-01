@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/0010-0277(83)90004-5",
+  "paper_folder": "10.1016--0010-0277(83)90004-5",
+  "discipline": "psychology",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--0010-0277(83)90004-5/body.md",
+      "sha256": "f87ed77ab8e044f04f667a215e8df4e5186b0daa8086582cd387dd6efdab062c"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--0010-0277(83)90004-5#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This paper reports original experimental studies on children's theory of mind and does not replicate any prior published work."
+    },
+    {
+      "candidate_id": "luna56:10.1016--0010-0277(83)90004-5#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This paper reports original experiments on children's understanding of false beliefs and deception rather than qualifying replications of separately published studies."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

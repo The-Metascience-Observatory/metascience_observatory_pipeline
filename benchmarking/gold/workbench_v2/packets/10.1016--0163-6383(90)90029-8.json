@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/0163-6383(90)90029-8",
+  "paper_folder": "10.1016--0163-6383(90)90029-8",
+  "discipline": "medical fields",
+  "subdiscipline": "pediatrics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--0163-6383(90)90029-8/body.md",
+      "sha256": "9cc1de3275772d1963943163adbdcd6f8b3a52bbc2599bbe3590e607f9aa8efc"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--0163-6383(90)90029-8#ling26:8d7e4d738fd6e047:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Tactile/kinesthetic stimulation effects on preterm neonates",
+      "description": "Tactile/kinesthetic stimulation effects on preterm neonates' clinical course, weight gain, and sleep/wake behavior",
+      "citation_sentence": "The present investigation was designed to correct for these methodological weaknesses and to provide a replication of our previous study by providing tactile/kinesthetic stimulation to preterm infants after their stay in the NICU [13][31].",
+      "gt_ambiguity": "clear",
+      "notes": "Weight gain was significantly greater in the treatment group (replicated), but sleep/wake behaviors and Brazelton scores showed no significant group differences; authors explicitly state they replicated the weight gain results but not the behavioral findings, yielding mixed/inconclusive overall outcome. Paper cites two distinct original studies [13] and [31] as replication targets; one replication experiment with one set of results; authors explicitly state they replicated the previous findings.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--0163-6383(90)90029-8#ling26:2bed48f17767af11:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Effects of tactile/kinesthetic stimulation on the clinical course and sleep/wake behavior of preterm neonates",
+      "description": "Tactile/kinesthetic stimulation effects on preterm neonates' clinical course and sleep/wake behavior",
+      "citation_sentence": "The present investigation was designed to correct for these methodological weaknesses and to provide a replication of our previous study by providing tactile/kinesthetic stimulation to preterm infants after their stay in the NICU [13][31].",
+      "gt_ambiguity": "clear",
+      "notes": "Paper cites two distinct original studies [13] and [31] as replication targets; one replication experiment with one set of results; authors explicitly state they replicated the previous findings. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--0163-6383(90)90029-8#luna56:9e0f8bef534e7c44:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of tactile/kinesthetic stimulation on the clinical course and sleep/wake behavior of preterm neonates",
+      "description": "Tactile/kinesthetic stimulation increases activity and produces more mature sleep/wake behaviors in preterm infants.",
+      "citation_sentence": "The similarity of overall sleep/wake state behaviors and activity levels in the two groups was an unexpected finding.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no between-group differences in overall sleep/wake behavior or activity and discusses this as an unexpected non-replication of prior findings.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--0163-6383(90)90029-8#luna56:e6b84c3ee37da640:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of tactile/kinesthetic stimulation on the clinical course and sleep/wake behavior of preterm neonates",
+      "description": "Tactile/kinesthetic stimulation produces greater daily weight gain in preterm infants than standard care.",
+      "citation_sentence": "Although this investigation replicated the weight gain results of our previous study [13][31], there are three notable differences between the earlier and more recent studies.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states that it replicated the prior weight-gain result. The original is identified through numbered citations [13] and [31]; the OCR text does not provide an author-year citation in the relevant sentence, and no DOI is given. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--0163-6383(90)90029-8#luna56:274909812ca6485d:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of tactile/kinesthetic stimulation on the clinical course and sleep/wake behavior of preterm neonates",
+      "description": "Tactile/kinesthetic stimulation shortens the post-treatment hospital stay of preterm infants.",
+      "citation_sentence": "Like our earlier study, we expected to show (a) greater daily weight gain for the treatment group with no significant group differences in caloric intake; (b) superior performance of the treatment infants on the Brazelton Neonatal Behavior Assessment Scale; and (c) a shorter hospital stay for the treatment infants following the stimulation period.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reports a significantly shorter hospital stay for the treatment group, consistent with the prior study. The relevant sentence refers to the earlier study without an author-year citation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--0163-6383(90)90029-8#luna56:d7b3221428e7bd69:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of tactile/kinesthetic stimulation on the clinical course and sleep/wake behavior of preterm neonates",
+      "description": "Tactile/kinesthetic stimulation improves preterm infants' performance on the Brazelton Neonatal Behavioral Assessment Scale.",
+      "citation_sentence": "Like our earlier study, we expected to show (a) greater daily weight gain for the treatment group with no significant group differences in caloric intake; (b) superior performance of the treatment infants on the Brazelton Neonatal Behavior Assessment Scale; and (c) a shorter hospital stay for the treatment infants following the stimulation period.",
+      "gt_ambiguity": "clear",
+      "notes": "Only the habituation cluster differed significantly, and the Discussion characterizes developmental differences as minimal; this is partial support for the broader original claim. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

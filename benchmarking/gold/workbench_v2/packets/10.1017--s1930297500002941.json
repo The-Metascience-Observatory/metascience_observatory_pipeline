@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/s1930297500002941",
+  "paper_folder": "10.1017--s1930297500002941",
+  "discipline": "psychology",
+  "subdiscipline": "judgment and decision making",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--s1930297500002941/body.md",
+      "sha256": "fb6eebab23345f90d43e75bde6a1ca3ec9585ab27ebbabcfc73640eec84c0201"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--s1930297500002941#ling26:e0430fccc5e8cebe:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Crowd IQ: Measuring the intelligence of crowdsourcing platforms",
+      "description": "Aggregating multiple responses through majority vote improves collective IQ performance, with collective IQ increasing with group size showing diminishing returns",
+      "citation_sentence": "We conducted a partial replication of Kosinski et al.'s (2012) study to re-examine the hypothesis that the overall task performance would be significantly enhanced by tapping into a wisdom-of-the-crowd effect at the micro-task level.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper labels this a 'partial replication' with deliberate methodological simplifications (focus on group size only, larger base sample, different sampling approach, all 60 test items included). The original study's statistics are not reported in this paper, so all original statistical fields are left blank.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s1930297500002941#luna56:3fa0001f67f13d18:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Crowd IQ: Measuring the intelligence of crowdsourcing platforms",
+      "description": "Aggregating multiple responses to Raven's Progressive Matrices items through majority vote increases collective intelligence as group size increases, with diminishing returns.",
+      "citation_sentence": "We conducted a partial replication of Kosinski et al.'s (2012) study to re-examine the hypothesis that the overall task performance would be significantly enhanced by tapping into a wisdom-of-the-crowd effect at the micro-task . level.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly describes this as a partial replication and states that its findings largely corroborate the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s1930297500002941#luna56:a1e0f1d68f999abd:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Crowd IQ: Aggregating opinions to boost performance",
+      "description": "Aggregating responses produces a collective IQ that exceeds the performance of the best-performing individual in the group.",
+      "citation_sentence": "Another study examined group and individual performance based on traditional (not crowdsourced) administration of the Raven's Standard Progressive Matrices (Bachrach, Graepel, Kasneci, Kosinski & Gael, 2012), and found that response aggregation resulted in a collective IQ that exceeded the best performing individual within the group.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication found that collective IQ was never greater than the best-performing individual's IQ; it was statistically indistinguishable from it at all group sizes. The paper does not explicitly label this outcome a failed replication. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,25 @@
+{
+  "coder": "ling26",
+  "model": "inclusionai/ling-3.0-flash",
+  "provider": "openrouter",
+  "max_output_tokens": 64000,
+  "max_input_chars": 120000,
+  "system_prompt_sha256": "86eb1bfafb63b623ec12981701347dadcad60f0baf8f59cd83bbbc50cc115a4b",
+  "source_sheet_sha256": "660ccedadf4eaecadada91fd8e205fc0ad31f50c79435b45e18b115fb19ff91c",
+  "code_sha256": "b24bac07143264670bea23562d3528baaeb7c4b9a87f11a50351855a8b50f7a2",
+  "folders": [
+    "10.1073--pnas.2103313118",
+    "10.1177--1948550618808863",
+    "10.1525--collabra.185",
+    "10.7554--elife.11566",
+    "10.7554--elife.11999",
+    "10.7554--elife.09976",
+    "10.7554--elife.11414",
+    "10.7554--elife.10860",
+    "10.1007--s40279-025-02201-w",
+    "10.1016--j.neurobiolaging.2009.09.004",
+    "10.1111--famp.12710",
+    "10.1177--0956797611419168",
+    "10.1038--s41598-018-35209-6"
+  ]
+}

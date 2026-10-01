@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3758/s13423-020-01834-4",
+  "paper_folder": "10.3758--s13423-020-01834-4",
+  "discipline": "economics",
+  "subdiscipline": "behavioral and experimental economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3758--s13423-020-01834-4/body.md",
+      "sha256": "f74b82486ecb0590866876f88129f9f75d5e89b164d8f3fc0808de568657da56"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3758--s13423-020-01834-4#ling26:760a2315fc5527a5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Default neglect in attempts at social influence",
+      "description": "Participants selected the optimal default significantly less than chance when using a complex advice-giving paradigm with default-framing confound",
+      "citation_sentence": "First, we were able to replicate Zlatev et al.'s (2017) original results.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.3758--s13423-020-01834-4#ling26:4d778bd39da3dc70:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "reversal",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "Default neglect in attempts at social influence",
+      "description": "Participants selected the optimal default significantly less than chance when using a complex advice-giving paradigm with default-framing confound",
+      "citation_sentence": "In Experiment 2, we conducted a direct and conceptual replication of one of Zlatev et al.'s original studies, which found that participants selected the optimal default significantly less than chance.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3758--s13423-020-01834-4#luna56:b382b31b01c2a78a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1073/pnas.1708413114",
+      "original_title": "Default neglect in attempts at social influence",
+      "description": "In Study 1h, choice architects selecting a default to influence a new employee toward a higher-paying or more vacation-rich job selected the optimal default at below-chance levels.",
+      "citation_sentence": "Experiment 2 includes both a direct and a conceptual replication of Zlatev et al.'s (2017) Study 1h.",
+      "gt_ambiguity": "clear",
+      "notes": "The direct replication used the original materials and found significantly below-chance optimal-default selection overall, consistent with the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3758--s13423-020-01834-4#luna56:2e171938464e164e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "reversal",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1073/pnas.1708413114",
+      "original_title": "Default neglect in attempts at social influence",
+      "description": "In Study 1h, choice architects selecting a default to influence a new employee toward a higher-paying or more vacation-rich job selected the optimal default at below-chance levels.",
+      "citation_sentence": "Experiment 2 includes both a direct and a conceptual replication of Zlatev et al.'s (2017) Study 1h.",
+      "gt_ambiguity": "clear",
+      "notes": "The conceptual replication simplified the task and removed the default-framing confound; optimal-default selection was significantly above chance, which the authors describe as the opposite pattern and a reversal of the original result. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3758--s13423-020-01834-4#luna56:670e58f339f1a414:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1073/pnas.1708413114",
+      "original_title": "Default neglect in attempts at social influence",
+      "description": "In Study 1h, choice architects selecting a default to influence a new employee toward a higher-paying or more vacation-rich job selected the optimal default at below-chance levels when the option attributes were framed as the advantages and disadvantages of switching jobs.",
+      "citation_sentence": "First, we again replicated Zlatev et al.'s (2017) original results when the (dis)advantages were framed in terms of switching to the new job.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 3 tested both the original switch framing and an alternate stay framing within one experiment; results were below chance in the original framing and above chance in the alternate framing, so the entry is inconclusive under the multi-condition rule. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

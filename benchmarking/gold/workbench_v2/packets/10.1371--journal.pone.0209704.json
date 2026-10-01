@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1371/journal.pone.0209704",
+  "paper_folder": "10.1371--journal.pone.0209704",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1371--journal.pone.0209704/body.md",
+      "sha256": "7810570426c5102bc0a8c2ad320124cffd9edcd9c15c0cb258b392358621d9e2"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0209704#ling26:825163dfe6a82e37:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Behavioral study of obedience",
+      "description": "Participants obey an authority figure's instructions to administer electric shocks to a learner, entering an agentic state where they are insensitive to the victim's suffering.",
+      "citation_sentence": "Milgram's own film of his studies, Obedience (1965), suggests that participants are deeply concerned with the plight of their victim and deeply ambivalent about what they are doing.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper is framed as a VR replication of Milgram's baseline obedience study. The primary research questions concern concern for the Learner rather than obedience per se, but the Milgram paradigm is replicated and obedience is observed. The paper does not contain an explicit success/failure statement about replicating the original obedience finding. The citation sentence identifies Milgram's studies via reference numbers [1][2] but does not include the year in the text body itself. The paper is a VR replication of Milgram's baseline obedience paradigm; the primary replication target is Milgram (1963). The citation_sentence is the best available sentence from the paper that cites Milgram with an explicit year in the text; the paper does not contain a single sentence that explicitly states 'we replicate Milgram (1963).' The control condition (20 additional participants, no Learner) is not a separate replication entry as it is part of the same experiment.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0209704#luna56:782634ec4805b653:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Behavioral study of obedience",
+      "description": "Participants obey an authority figure by administering escalating electric shocks to a learner who gives incorrect answers and expresses distress.",
+      "citation_sentence": "Participants then went through a modified version of Milgram's classic 'proximity' study variant (see [4]) in which the Learner and the Teacher are in the same room.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper is a modified virtual-reality reprise of Milgram's obedience paradigm. It reproduces obedience behavior but explicitly presents its findings as a refutation of Milgram's agentic-state explanation, because participants also showed concern for and attempted to help the Learner.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

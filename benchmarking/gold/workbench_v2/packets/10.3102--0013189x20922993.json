@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3102/0013189x20922993",
+  "paper_folder": "10.3102--0013189x20922993",
+  "discipline": "education",
+  "subdiscipline": "higher education",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3102--0013189x20922993/body.md",
+      "sha256": "ccb1a7f25abd6566c0ce337dabc49fa6bb3c461c70363d9e678c76b27d47f58e"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3102--0013189x20922993#ling26:7d7f466e06b5a6b1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Different tests, different answers: The stability of teacher value-added estimates across outcome measures",
+      "description": "Teacher VAM scores from models using spring-to-spring test score changes are essentially orthogonal (correlation of -.10) to those same teachers' VAM scores from a model using fall-to-fall test score changes",
+      "citation_sentence": "Results from the current study generally align with findings from a similar analysis embedded in Papay (2011) and hold up against the additional robustness checks we are able to bring to bear.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3102--0013189x20922993#luna56:bdba1dbd74426f78:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Different Tests, Different Answers: The Stability of Teacher Value-Added Estimates Across Outcome Measures",
+      "description": "Teacher value-added scores based on fall-to-fall and spring-to-spring test-score timing have a weak correlation, producing substantially different rankings of teacher effectiveness.",
+      "citation_sentence": "In one such study, Papay (2011) briefly shows that teacher VAM scores from models using the most common pre/post testing timeframe-that is, based on changes in test scores from last spring to current spring-are essentially orthogonal (correlation of -.10) to those same teachers' VAM scores from a model using test score changes from current fall to next fall.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reports that its findings generally align with Papay (2011), documenting very low correlations between fall-to-fall and spring-to-spring teacher VAM scores in both ELA and math.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

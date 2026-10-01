@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1038/nature08833\",\n      \"original_title\": \"RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth\",\n      \"original_authors\": \"Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S\",\n      \"original_year\": \"2010\",\n      \"original_journal\": \"Nature\",\n      \"description\": \"Replicates the original claim that RAF inhibitors paradoxically activate MEK/ERK signaling in BRAF[WT] cancer cell lines, as measured by IC50 values across a panel of cancer cell lines (Figure 1A)\",\n      \"citation_sentence\": \"Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text.\"\n    },\n    {\n      \"result\": \"\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1038/nature08833\",\n      \"original_title\": \"RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth\",\n      \"original_authors\": \"Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S\",\n      \"original_year\": \"2010\",\n      \"original_journal\": \"Nature\",\n      \"description\": \"Replicates the original claim that silencing CRAF reverses MEK activation upon RAF inhibitor treatment in KRAS-mutant HCT116 cells (Figure 2B)\",\n      \"citation_sentence\": \"Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text.\"\n    },\n    {\n      \"result\": \"\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1038/nature08833\",\n      \"original_title\": \"RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth\",\n      \"original_authors\": \"Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S\",\n      \"original_year\": \"2010\",\n      \"original_journal\": \"Nature\",\n      \"description\": \"Replicates the original claim about CRAF-BRAF heterodimerization dynamics in the presence of RAF inhibitors, specifically that PLX4720 destabilizes and GDC-0879 stabilizes the CRAF-BRAF interaction (Figure 4A)\",\n      \"citation_sentence\": \"Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 26588,
+    "output_tokens": 13996,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.001440096,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.09976_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 57618,
+    "truncated": false,
+    "input_sha256": "43c4107b007eb87ed9c47473d3b614a4ebc4ccf14efbd0e318862a186cd2a66f",
+    "refs_withheld": false
+  }
+}

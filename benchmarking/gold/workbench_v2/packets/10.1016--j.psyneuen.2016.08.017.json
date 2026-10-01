@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.psyneuen.2016.08.017",
+  "paper_folder": "10.1016--j.psyneuen.2016.08.017",
+  "discipline": "neuroscience",
+  "subdiscipline": "behavioral neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.psyneuen.2016.08.017/10.1016--j.psyneuen.2016.08.017_from_xml.md",
+      "sha256": "fd5d67ff72bbe4afe163103c2799f014cd007202012e37e4f88da7110556cbbc"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.psyneuen.2016.08.017#ling26:e8443e790649b576:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of 5-hydroxytryptamine 2C receptor agonist MK212 and 2A receptor antagonist MDL100907 on maternal behavior in postpartum female rats",
+      "description": "Acute MK212 administration disrupts pup retrieval in postpartum female rats",
+      "citation_sentence": "Chen et al. (2014) first reported that acute MK212 administration disrupts maternal responses in rats, especially for pup retrieval.",
+      "gt_ambiguity": "clear",
+      "notes": "Self-replication of Chen et al. (2014); authors explicitly state 'we replicated the acute disruptive effect of MK212 on pup retrieval' in Experiment 4 Results. Authors explicitly state 'we replicated the acute disruptive effect of MK212 on pup retrieval' in Experiment 4; this is a self-replication of their own prior work (Chen et al., 2014). The same acute MK212 disruption of pup retrieval is also confirmed in Experiment 1 results.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.psyneuen.2016.08.017#luna56:da993ef8284d1be2:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of 5-hydroxytryptamine 2C receptor agonist MK212 and 2A receptor antagonist MDL100907 on maternal behavior in postpartum female rats",
+      "description": "Acute systemic administration of the 5-HT2C receptor agonist MK212 disrupts active maternal behaviors in postpartum rats, particularly pup retrieval.",
+      "citation_sentence": "In agreement with our previous report (Chen et al., 2014), acute MK212 injection severely disrupted various active components of maternal behavior.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 explicitly frames its finding as agreeing with Chen et al. (2014). [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.psyneuen.2016.08.017#luna56:05c03c96058b91c9:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of 5-hydroxytryptamine 2C receptor agonist MK212 and 2A receptor antagonist MDL100907 on maternal behavior in postpartum female rats",
+      "description": "Acute administration of MK212 disrupts pup retrieval and other maternal behaviors in postpartum rats.",
+      "citation_sentence": "This dose was chosen based on our previous work showing that acute injection of MK212 dose-dependently disrupts rat maternal performance with 2.0 mg/kg MK212 having the most disruption (Chen et al., 2014).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 4 reports that it replicated the acute disruptive effect of MK212 on pup retrieval. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

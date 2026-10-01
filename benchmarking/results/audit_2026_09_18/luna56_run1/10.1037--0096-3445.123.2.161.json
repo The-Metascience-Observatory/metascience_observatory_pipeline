@@ -1,0 +1,41 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Isolating attentional systems: A cognitive-anatomical analysis",
+      "original_authors": "Posner, Michael I.; Inhoff, Albrecht W.; Friedrich, Fred J.; Cohen, Alan",
+      "original_year": "1987",
+      "original_journal": "Psychobiology",
+      "description": "Unilateral parietal lesions cause an abnormally large spatial disengagement cost for invalidly cued contralesional targets, including targets requiring horizontal shifts of attention.",
+      "citation_sentence": "The spatial disengage difficulty with horizontal shifts to an invalidly cued contralesional target replicates the previous findings of Posner, Inhoff, et al. (1987), and the difficulty with vertical shifts within the contralesional field replicates the observations of Baynes et al. (1986).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 explicitly states that its finding for horizontal shifts replicates Posner, Inhoff, et al. (1987)."
+    },
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1093/brain/109.1.99",
+      "original_title": "Components of visual attention: Alternations in response pattern to visual stimuli following parietal lobe infarction",
+      "original_authors": "Baynes, Kevin; Holtzman, Jeffrey D.; Volpe, Bruce T.",
+      "original_year": "1986",
+      "original_journal": "Brain",
+      "description": "Parietal-lesion patients show an abnormally large difficulty disengaging attention for vertical shifts to invalidly cued targets in the contralesional field.",
+      "citation_sentence": "The spatial disengage difficulty with horizontal shifts to an invalidly cued contralesional target replicates the previous findings of Posner, Inhoff, et al. (1987), and the difficulty with vertical shifts within the contralesional field replicates the observations of Baynes et al. (1986).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 explicitly states that its finding for vertical shifts within the contralesional field replicates Baynes et al. (1986)."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 119768,
+    "truncated": true,
+    "refs_withheld": false,
+    "output_tokens": 1912,
+    "cost_usd": 0.00934337
+  }
+}

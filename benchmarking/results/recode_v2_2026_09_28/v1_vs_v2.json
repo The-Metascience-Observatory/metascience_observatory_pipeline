@@ -1,0 +1,54 @@
+{
+ "v1": {
+  "tag": "v1 (codebook_v1, audit clean sheets)",
+  "ling": 26,
+  "luna": 50,
+  "pairs": 13,
+  "cov_ling": 0.5,
+  "cov_luna": 0.26,
+  "equal_count_papers": 6,
+  "total_count_gap": 24,
+  "res_agree": 0.46153846153846156,
+  "res_kappa": 0.18750000000000003,
+  "typ_agree": 0.6153846153846154,
+  "typ_kappa": 0.18750000000000003
+ },
+ "v2": {
+  "tag": "v2 (codebook_v2, fresh re-code)",
+  "ling": 24,
+  "luna": 35,
+  "pairs": 8,
+  "cov_ling": 0.3333333333333333,
+  "cov_luna": 0.22857142857142856,
+  "equal_count_papers": 6,
+  "total_count_gap": 11,
+  "res_agree": 0.75,
+  "res_kappa": 0.6521739130434783,
+  "typ_agree": 0.125,
+  "typ_kappa": -0.4
+ },
+ "scored": [
+  "10.7554--elife.45120",
+  "10.7554--elife.17044",
+  "10.7554--elife.43511",
+  "10.7554--elife.18173",
+  "10.1016--j.ynirp.2022.100147",
+  "10.1016--j.jsat.2013.07.013",
+  "10.1177--073953298600700307",
+  "10.1525--mp.2012.30.2.161",
+  "10.3389--fpsyg.2018.02476",
+  "10.1525--collabra.216",
+  "10.1001--archneurol.2011.155",
+  "10.1016--j.cognition.2019.104157"
+ ],
+ "excluded": [
+  "10.1007--s40279-025-02201-w",
+  "10.1073--pnas.2103313118",
+  "10.31234--osf.io--esu9z",
+  "10.7554--elife.09976",
+  "10.7554--elife.10860",
+  "10.7554--elife.11414",
+  "10.7554--elife.11566",
+  "10.7554--elife.11999"
+ ]
+}

@@ -1,0 +1,94 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that let-7b expression was reduced in CD44-positive LAPC4 prostate cancer stem cells relative to CD44-negative cells; this replication tested the claim using FACS-sorted LAPC4 cells.",
+      "citation_sentence": "This experiment is comparable to what was reported in Figure 1B of Liu et al. (2011) and described in Protocol 3 in the Registered Report (Li et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found let-7b underexpressed in CD44-positive cells, in the same direction as the original."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that miR-34a expression was reduced in CD44-positive LAPC4 prostate cancer stem cells relative to CD44-negative cells; this replication tested the claim using FACS-sorted LAPC4 cells.",
+      "citation_sentence": "This experiment is comparable to what was reported in Figure 1B of Liu et al. (2011) and described in Protocol 3 in the Registered Report (Li et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found miR-34a elevated rather than reduced in CD44-positive cells."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that enforced miR-34a expression inhibited tumor regeneration and reduced LAPC4 xenograft tumor growth; this replication tested the claim by comparing miR-34a-transduced, negative-control-transduced, and untransduced LAPC4 cells in mice.",
+      "citation_sentence": "This experiment is similar to what was reported in Supplemental Figure 5C of Liu et al. (2011) and described in Protocol 4 in the Registered Report (Li et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found similar tumor weights and growth profiles across groups, with no statistically significant effect of miR-34a."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that residual LAPC4 tumors showed no or only a marginal increase in miR-34a expression after miR-34a manipulation; this replication tested miR-34a expression in tumors derived from miR-34a-transduced LAPC4 cells.",
+      "citation_sentence": "The original study reported no, or marginal (~3X), increases in miR-34a expression in the residual tumors formed from prostate cancer cells, specifically LAPC4, LAPC9, and DU145, transiently transfected with miR-34a oligo compared to vector control (Liu et al., 2011).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "No miR-34a was detected in tumors derived from miR-34a-transduced cells, but the authors noted that in vivo silencing prevented clear interpretation of the intended overexpression comparison."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that CD44 expression was inversely correlated with miR-34a expression in tumors formed from miR-34a-transduced prostate cancer cells; this replication measured CD44 expression in tumors derived from miR-34a-transduced LAPC4 cells.",
+      "citation_sentence": "This experiment was described in Protocol 5 in the Registered Report (Li et al., 2015) and is conceptually similar to what was reported in Figure 4A of Liu et al. (2011), which used DU145 cells transduced with a retroviral vector encoding miR-34a.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "CD44 expression did not differ between groups, but interpretation was limited because miR-34a was not detectable in the miR-34a-transduced tumors."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nm.2284",
+      "original_title": "The microRNA miR-34a inhibits prostate cancer stem cells and metastasis by directly repressing CD44",
+      "original_authors": "Liu, C; Kelnar, K; Liu, B; Chen, X; Calhoun-Davis, T; Li, H; Patrawala, L; Yan, H; Jeter, C; Honorio, S; Wiggins, J; Bader, A; Fagin, R; Brown, D; Tang, D",
+      "original_year": "2011",
+      "original_journal": "Nature Medicine",
+      "description": "The original study claimed that miR-34a directly repressed CD44 through putative miR-34a binding sites in the CD44 3-prime UTR; this replication tested wild-type and double-mutant CD44 3-prime UTR luciferase reporters in DU145 cells.",
+      "citation_sentence": "This is similar to what was reported in Figure 4D of Liu et al. (2011) and described in Protocol 7 in the Registered Report (Li et al., 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no significant miR-34a effect on the wild-type reporter and described the results as not consistent in direction with the original study."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.43511_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 62154,
+    "truncated": false,
+    "input_sha256": "56a43ab9bd70e8247a2971c7d4b2f82bb1515c778062fbef194c0fbc6abb0c3a",
+    "refs_withheld": false,
+    "output_tokens": 3777,
+    "cost_usd": 0.00902636
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "database": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/metascience_observatory_website/data/replications_database_2026_09_04_184008.csv",
+  "database_sha256": "492c38493c998f76cad00575ad506819459dbc40e61bdd77ae00fde7dd291f2f",
+  "database_rows": 8892,
+  "database_missing_discipline": 0,
+  "database_missing_subdiscipline": 217,
+  "frame_papers": 206,
+  "frame_in_database": 184,
+  "frame_missing_discipline": 0,
+  "frame_missing_subdiscipline": 23,
+  "discipline_counts": {
+    "psychology": 98,
+    "biology": 29,
+    "economics": 18,
+    "medical fields": 17,
+    "neuroscience": 17,
+    "education": 11,
+    "linguistics": 5,
+    "business & management": 3,
+    "political science": 3,
+    "environmental science": 2,
+    "human-computer interaction": 1,
+    "sports and exercise science": 1,
+    "sociology": 1
+  },
+  "extraction_status": {
+    "extracted": 199,
+    "attempted_failed": 1,
+    "not_attempted_legacy_only": 6
+  }
+}

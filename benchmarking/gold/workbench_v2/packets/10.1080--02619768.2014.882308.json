@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/02619768.2014.882308",
+  "paper_folder": "10.1080--02619768.2014.882308",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--02619768.2014.882308/body.md",
+      "sha256": "1bfcdb70de8c1dd5d548eec7330c777668a5fb379cf2be69f53ce54a88130a46"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--02619768.2014.882308#ling26:1c472bbde289bcde:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "From psychological need satisfaction to intentional behavior: Testing a motivational sequence in two behavioral contexts",
+      "description": "Psychological need satisfaction leads to self-determined motivation, which then influences dispositional variables (attitude, subjective norm, self-efficacy) and behavioral intention in the contexts of exercise and dieting.",
+      "citation_sentence": "In this article, we report on our study that replicated a study of [14] in which Self-Determination Theory (SDT) and the Theory of Planned Behavior (TBP) are combined according [22] proposal to distinguish between global level psychological needs, contextual-level and situational-level motivational constructs.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication uses IMBP (largely based on TPB) rather than TPB directly, and applies the model to teachers' use of digital learning materials rather than the original health domain (exercising and dieting). The authors conclude 'cautiously positive' with hedging language, noting the model 'potentially provides' a more comprehensive explanation, and report that the self-efficacy path coefficient is weaker than in the original study. Authors describe results as 'cautiously positive' and 'potentially provides,' using hedging language; key path coefficients are significant and in the expected direction but some findings (e.g., self-efficacy contribution) contrast with the original, making the overall outcome genuinely ambiguous between success and inconclusive.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--02619768.2014.882308#luna56:dffd3a50aee73b76:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1177/0146167205284288",
+      "original_title": "From psychological need satisfaction to intentional behavior: Testing a motivational sequence in two behavioral contexts",
+      "description": "Psychological need satisfaction predicts self-determined motivation, which predicts attitudes, subjective norms, perceived behavioral control or self-efficacy, and behavioral intentions in exercise and dieting contexts.",
+      "citation_sentence": "In this article, we report on our study that replicated a study of [14] in which Self-Determination Theory (SDT) and the Theory of Planned Behavior (TBP) are combined according [22] proposal to distinguish between global level psychological needs, contextual-level and situational-level motivational constructs.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors characterize the answer as 'cautiously positive' and state that the combined model 'potentially' provides a more comprehensive explanation, so the outcome is inconclusive rather than clear success. The study changes the population and behavioral domain from health behaviors to teachers' use of digital learning materials, and also substitutes IMBP for TPB.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

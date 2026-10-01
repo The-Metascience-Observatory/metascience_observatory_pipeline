@@ -139,12 +139,18 @@ Each study gets its own entry even though they all replicate the same original p
 
 **When to create a single entry:** Only when a paper reports an aggregate result across all studies without breaking them down individually (rare). If the paper provides individual results for each study, create separate entries.
 
-**What counts as a separate replication entry:**
-- Each distinct study/experiment with its own participants or independent design
-- NOT each individual statistical test, mediator path, or dependent variable within one study
-- If a single study tests whether A mediates X→Y AND whether B mediates X→Y using the same participants, that is ONE replication entry, not two
+**What counts as a separate replication entry:** one row per **claim of the original**, per replication study that tests it.
+- A *claim* is a distinct finding the ORIGINAL authors reported as a result — not a statistical test, measure or analysis path the replication happens to run. Decide by reading how the original presented its findings.
+- Each distinct replication study/experiment with its own participants or independent design gets its own rows.
+- Several measures, statistical tests or mediator paths of the **same claim** within one study are ONE entry. If a single study tests whether A mediates X→Y AND whether B mediates X→Y using the same participants, that is one entry, not two.
+- Several timepoints or endpoints of the **same claim** are ONE entry. Classify it by the original's stated primary timepoint/endpoint if it named one; if it did not, and the results differ across timepoints, the entry is `inconclusive`.
+- Controls are not claims. Negative and positive control conditions (e.g. a control cell line or contrast expected to show nothing) get no row.
 
 Example: A paper replicates a mediation study testing 3 mediator pathways using the same 300 participants. This is 1 replication entry (the mediation study), not 3 separate entries.
+
+Example: The original reported three findings — effects on compassion, on empathy, and on Theory of Mind. Those are three claims, so three rows, even though the replication measured them in one study.
+
+Example: An intervention improved abstinence at 3 months but not at 6 months. That is one claim measured twice: one row, classified by the original's primary timepoint, or `inconclusive` if it named none.
 
 <!-- mode:write -->
 You may narrate your reasoning as you work — this is saved for debugging. But you **must** write `result.json` before finishing.
@@ -284,12 +290,21 @@ If the authors make an explicit statement, use it. Only override if the statemen
 If only some conditions within the experiment show opposite effects → "inconclusive", not "reversal".
 When in doubt between reversal and anything else, choose the other category.
 
+### When the original claimed NO effect
+
+The definitions above assume the original found an effect. When the original authors reported the *absence* of an effect as a finding in its own right (e.g. "X does not affect Y"), judge agreement with that claim instead:
+- Replication also finds no effect, and the authors treat it as consistent with the original → **success**
+- Replication finds a significant effect where the original claimed none → **failure**
+- Authors say the replication was too underpowered or imprecise to tell → **inconclusive**
+
+A non-significant result is not proof of no effect, so rely on the authors' own reading, not the p-value alone. This applies only to genuine null *claims*. A control condition that was expected to show nothing is not a claim and gets no row (see "What counts as a separate replication entry").
+
 ### Step 3: Tiebreaker rules (for a single experiment)
 - Doubt between failure/inconclusive → **inconclusive** (if there is genuine ambiguity, reflect it)
 - Doubt between success/inconclusive → use authors' explicit statement for THIS experiment
 - Authors explicitly claim "we replicated [this experiment]" + significant effect in same direction → **success** (even if effect is weaker than original)
 - Significant effect but authors express substantial validity concerns about THIS experiment → **inconclusive**
-- Registered Report with clear null result → **failure**
+- Registered Report with clear null result, where the original claimed an effect → **failure** (if the original claimed no effect, see "When the original claimed NO effect")
 
 ### Common pitfalls
 1. **Don't over-rely on p-values.** A single p < .05 does not automatically mean "success" — consider the full pattern of evidence and authors' discussion.
@@ -321,7 +336,7 @@ Rate your confidence that the specific extraction is correct overall — that yo
 - **Self-replications**: Include — authors replicating their own prior work counts.
 - **Conceptual replications**: Include — tag as `"conceptual"` in the `replication_type` field.
 - **Multiple originals**: One row per effect per original study.
-- **Multi-effect replications from the same original**: If a paper replicates multiple distinct effects from the same original study (e.g., effects on compassion, empathy, and Theory of Mind), create one row per effect with the same `original_url` but different `description` and potentially different `result`.
+- **Multi-effect replications from the same original**: If a paper replicates several distinct claims of the same original study (e.g., its reported effects on compassion, empathy, and Theory of Mind), create one row per claim with the same `original_url` but different `description` and potentially different `result`. See "What counts as a separate replication entry" for what makes a claim distinct.
 - **Within-paper replications**: Exclude. If Study 2 replicates Study 1 within the same paper (even with separate participants), this does not count as a qualifying replication. The original study must be a separately published work.
 - **Missing DOI**: Leave `""`. Title + journal + year will be used to resolve it downstream. But **always extract the title**.
 <!-- mode:full -->

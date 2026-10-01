@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/xps.2017.22",
+  "paper_folder": "10.1017--xps.2017.22",
+  "discipline": "political science",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--xps.2017.22/body.md",
+      "sha256": "70a312fc9d8f512e027899524c508ed7afdbcefda64ef19a43f8d5e0455c6220"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--xps.2017.22#ling26:321f1e047cbb86e3:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The Political Relevance of Irrelevant Events",
+      "description": "The outcome of a college football game affects presidential approval, university satisfaction, and mood.",
+      "citation_sentence": "We seek to replicate one of these studies (i.e., Busby et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "Replication used different teams (Alabama and Clemson) and a different championship game (2016 vs. 2015), making it a close extension rather than a direct replication. The replication found effects for the losing team (Clemson) on presidential approval, university satisfaction, and mood, but not for the winning team (Alabama) and not for other outcome variables; authors explicitly call it a partial replication.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--xps.2017.22#luna56:d11a70bd69d3c2ff:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The Political Relevance of Irrelevant Events",
+      "description": "The outcome of a college football game affects students' negative mood, reducing negative mood among students at the winning school and increasing it among students at the losing school.",
+      "citation_sentence": "We seek to replicate one of these studies (i.e., Busby et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the predicted negative-mood effect for Clemson, the losing school, but not for Alabama, the winning school; the authors describe the overall result as a partial replication.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--xps.2017.22#luna56:a59e9b489c13e92c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The Political Relevance of Irrelevant Events",
+      "description": "The outcome of a college football game affects presidential approval, with students at the winning school becoming more approving and students at the losing school becoming less approving.",
+      "citation_sentence": "We seek to replicate one of these studies (i.e., Busby et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the predicted presidential-approval effect for Clemson, the losing school, but not for Alabama, the winning school; the authors describe the overall result as a partial replication. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--xps.2017.22#luna56:2caf81a12f8c48b6:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The Political Relevance of Irrelevant Events",
+      "description": "The outcome of a college football game affects students' satisfaction with their university, increasing satisfaction among students at the winning school and decreasing it among students at the losing school.",
+      "citation_sentence": "We seek to replicate one of these studies (i.e., Busby et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the predicted university-satisfaction effect for Clemson, the losing school, but not for Alabama, the winning school; the authors describe the overall result as a partial replication. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--xps.2017.22#luna56:3a2e85e12ca5597f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The Political Relevance of Irrelevant Events",
+      "description": "The outcome of a college football game affects students' positive mood, improving mood among students at the winning school and worsening mood among students at the losing school.",
+      "citation_sentence": "We seek to replicate one of these studies (i.e., Busby et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the predicted positive-mood effect for Clemson, the losing school, but not for Alabama, the winning school; the authors describe the overall result as a partial replication. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,42 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.cognition.2017.02.010",
+      "original_title": "Sequential congruency effects reveal differences in disengagement of attention for monolingual and bilingual young adults",
+      "original_authors": "Grundy, J; Chung-Fat-Yim, A; Friesen, D; Mak, L; Bialystok, E",
+      "original_year": "2017",
+      "original_journal": "Cognition",
+      "description": "Grundy et al. claimed that monolingual and bilingual adults did not differ in their conventional flanker congruency effects.",
+      "citation_sentence": "Following this line of reasoning, Grundy et al. (2017) administered an Eriksen flanker task to groups of monolingual and bilingual adults.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The original reported this null conventional-effect finding, and the replication also found no group difference. This entry is secondary to the paper's main replication of the sequential congruency effect."
+    },
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.cognition.2017.02.010",
+      "original_title": "Sequential congruency effects reveal differences in disengagement of attention for monolingual and bilingual young adults",
+      "original_authors": "Grundy, J; Chung-Fat-Yim, A; Friesen, D; Mak, L; Bialystok, E",
+      "original_year": "2017",
+      "original_journal": "Cognition",
+      "description": "Grundy et al. claimed that bilingual adults showed smaller sequential congruency effects than monolingual adults.",
+      "citation_sentence": "One recent study, for example, reported smaller sequential congruency effects for bilingual compared to monolingual adults (Grundy et al., 2017).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no difference between monolingual and bilingual adults in sequential congruency effects and explicitly described its findings as inconsistent with the prior claim."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.3389--fpsyg.2018.02476_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 26061,
+    "truncated": false,
+    "input_sha256": "4acf7c1e78f0b2fa6dafceb1303609aea3e261977589dcf86f36b1276f3083a8",
+    "refs_withheld": false,
+    "output_tokens": 1550,
+    "cost_usd": 0.00346246
+  }
+}

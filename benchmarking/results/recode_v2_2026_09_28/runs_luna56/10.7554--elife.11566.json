@@ -1,0 +1,55 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature09208",
+      "original_title": "Diverse somatic mutation patterns and pathway alterations in human cancers",
+      "original_authors": "Kan, Z; Jaiswal, B; Stinson, J; Janakiraman, V; Bhatt, D; Stern, H; Yue, P; Haverty, P; Bourgon, R; Zheng, J; Moorhead, M; Chaudhuri, S; Tomsho, L; Peters, B; Pujara, K; Cordes, S; Davis, D; Carlton, V; Yuan, W; Li, L; Wang, W; Eigenbrot, C; Kaminker, J; Schuster, W; Modrusan, S; Zhang, Z; Stokoe, Z; De Sauvage, F; Faham, F; Seshagiri, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "The GNAO1 R243H mutation promotes increased anchorage-independent colony formation in human mammary epithelial cells compared with wild-type GNAO1.",
+      "citation_sentence": "Using this technique, Kan and colleagues identified an uncharacterized somatic mutation in GNAO1 from breast carcinoma tissue (Kan et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "The paper is a registered replication report and does not report replication outcomes; Protocol 3 tests the original GNAO1 anchorage-independent growth claim. Protocols 1 and 2 are preparatory or expression-confirmation procedures and are not separate replication entries."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature09208",
+      "original_title": "Diverse somatic mutation patterns and pathway alterations in human cancers",
+      "original_authors": "Kan, Z; Jaiswal, B; Stinson, J; Janakiraman, V; Bhatt, D; Stern, H; Yue, P; Haverty, P; Bourgon, R; Zheng, J; Moorhead, M; Chaudhuri, S; Tomsho, L; Peters, B; Pujara, K; Cordes, S; Davis, D; Carlton, V; Yuan, W; Li, L; Wang, W; Eigenbrot, C; Kaminker, J; Schuster, W; Modrusan, S; Zhang, Z; Stokoe, Z; De Sauvage, F; Faham, F; Seshagiri, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "MAP2K4 mutations, including the R228K and A279T variants, enhance anchorage-independent colony formation in NIH3T3 fibroblasts compared with wild-type MAP2K4.",
+      "citation_sentence": "In Figure 4C\u2013E, the functional relevance of six select MAP2K4 mutants (5 located in the kinase domain, 1 outside the kinase domain) were tested in vitro (Kan et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Protocol 5 replicates the anchorage-independent colony-formation claim for two of the six original MAP2K4 mutants. Replication outcomes are not reported in this registered report."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature09208",
+      "original_title": "Diverse somatic mutation patterns and pathway alterations in human cancers",
+      "original_authors": "Kan, Z; Jaiswal, B; Stinson, J; Janakiraman, V; Bhatt, D; Stern, H; Yue, P; Haverty, P; Bourgon, R; Zheng, J; Moorhead, M; Chaudhuri, S; Tomsho, L; Peters, B; Pujara, K; Cordes, S; Davis, D; Carlton, V; Yuan, W; Li, L; Wang, W; Eigenbrot, C; Kaminker, J; Schuster, W; Modrusan, S; Zhang, Z; Stokoe, Z; De Sauvage, F; Faham, F; Seshagiri, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "MAP2K4 mutations, including the R228K and A279T variants, reduce MAP2K4 kinase activity toward JNK and myelin basic protein compared with wild-type MAP2K4.",
+      "citation_sentence": "In Figure 4C\u2013E, the functional relevance of six select MAP2K4 mutants (5 located in the kinase domain, 1 outside the kinase domain) were tested in vitro (Kan et al., 2010).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Protocol 6 replicates the original MAP2K4 in vitro kinase-assay claim using R228K and A279T and two substrates. Figure 4F is not explicitly named in the citation sentence, but the surrounding text identifies the Kan et al. (2010) experiment as the source. Replication outcomes are not reported in this registered report."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.11566_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 75756,
+    "truncated": false,
+    "input_sha256": "bdad5d626035483493c6cc5bf29517d54249d8009979f1bc9f41338cc82b6634",
+    "refs_withheld": false,
+    "output_tokens": 2243,
+    "cost_usd": 0.00866006
+  }
+}

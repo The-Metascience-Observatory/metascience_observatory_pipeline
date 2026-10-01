@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1038/ng.3434",
+  "paper_folder": "10.1038--ng.3434",
+  "discipline": "medical fields",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1038--ng.3434/body.md",
+      "sha256": "e235195aae707c434c5688adcf65ee1fc14e1bef3bd9b8acfcba9c9396777fbd"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1038--ng.3434#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This is primarily a GWAS study with an embedded replication component; the replication study validates the paper's own meta-analysis findings rather than replicating a specific separately published original study in a standalone manner."
+    },
+    {
+      "candidate_id": "luna56:10.1038--ng.3434#luna56:92946627cc0c133c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Association of systemic lupus erythematosus with C8orf13-BLK and ITGAM-ITGAX",
+      "description": "Genetic variants at the C8orf13-BLK and ITGAM-ITGAX loci are associated with susceptibility to systemic lupus erythematosus.",
+      "citation_sentence": "To validate these findings, and to search for additional susceptibility loci, we carried out a meta-analysis of our GWAS results and those from an independent European SLE GWAS comprising 1,165 cases and 2,107 controls (the Hom et al.4 study).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports a single independent replication cohort testing 33 SNPs, including loci identified in the Hom et al. GWAS and other prior studies; replication results are mixed rather than uniformly supportive. The cited sentence identifies Hom et al. but does not state a publication year.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/pits.22364",
+  "paper_folder": "10.1002--pits.22364",
+  "discipline": "education",
+  "subdiscipline": "special education",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--pits.22364/body.md",
+      "sha256": "7a6e65792584ed9fce2800862c50397c7ec52ba970d252d8ccaefc1ced427f4f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--pits.22364#ling26:ca6b89948e789109:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Treatment fidelity of interventions with children in the school psychology literature from 1995-2008",
+      "description": "The prevalence of operational definitions of interventions and treatment fidelity assessment in school psychology intervention outcome studies from 1995 to 2008",
+      "citation_sentence": "The purpose of this study was to replicate and extend the previous review of the prevalence of treatment fidelity data in the intervention outcome literature in school psychology [28].",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--pits.22364#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

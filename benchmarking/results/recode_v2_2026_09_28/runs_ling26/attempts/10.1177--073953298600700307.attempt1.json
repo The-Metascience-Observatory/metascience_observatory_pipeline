@@ -1,0 +1,24 @@
+{
+  "text": "```json\n{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"failure\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Weekday and Sunday Readership Seen Through Uses and Gratifications\",\n      \"original_authors\": \"Towers, Wayne M.\",\n      \"original_year\": \"1985\",\n      \"original_journal\": \"Newspaper Research Journal\",\n      \"description\": \"The original study's three-factor solution (surveillance, diversion, interaction) from 14 uses-and-gratifications statements applied to newspaper readership\",\n      \"citation_sentence\": \"Note that if all seven hypotheses are accepted, the Towers study would have been replicated exactly.\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"H1 tested whether the tripartite factor distinction could be replicated; Sample II produced only two factors (Information and Entertainment), not three, so Hypothesis 1 could not be accepted.\"\n    },\n    {\n      \"result\": \"inconclusive\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Weekday and Sunday Readership Seen Through Uses and Gratifications\",\n      \"original_authors\": \"Towers, Wayne M.\",\n      \"original_year\": \"1985\",\n      \"original_journal\": \"Newspaper Research Journal\",\n      \"description\": \"The original study's findings that uses-and-gratifications dimensions predict newspaper readership patterns for weekday and Sunday subscribers, single-copy readers, and non-readers\",\n      \"citation_sentence\": \"Note that if all seven hypotheses are accepted, the Towers study would have been replicated exactly.\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"H2-H7 tested specific readership predictions; the discriminant analyses provided limited support for some but not all hypotheses (H2 strongly supported, H3 and H4 disappeared, H5 not supported, H6 supported, H7 partially supported), making the overall result inconclusive.\"\n    }\n  ]\n}\n```",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 15522,
+    "output_tokens": 10364,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.0008745996,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "10.1177--073953298600700307.pdf (tail pages)",
+    "chars": 40572,
+    "truncated": false,
+    "input_sha256": "30e2aadd27978d71343bebdc49f026e4eb5098cef24be4317040a76a78bf533a",
+    "refs_withheld": false
+  }
+}

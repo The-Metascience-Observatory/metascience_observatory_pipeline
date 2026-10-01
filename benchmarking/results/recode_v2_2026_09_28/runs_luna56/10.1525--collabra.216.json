@@ -1,0 +1,42 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "original_authors": "Giessner, Steffen R.; Schubert, Thomas W.",
+      "original_year": "2007",
+      "original_journal": "Organizational Behavior and Human Decision Processes",
+      "description": "Original Study 3a claimed that describing a leader as powerful rather than powerless causes participants to place the leader's box higher in an organization chart; this was tested in the current paper's Study 1.",
+      "citation_sentence": "In Study 3a of the same original paper (Giessner & Schubert, 2007), we had tested the reverse effect -namely whether describing a leader as powerful versus powerless would result in placing a box of this leader on a higher versus lower vertical position within an organization chart.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state that the preregistered Study 1 successfully replicated the main findings of the original study."
+    },
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "original_authors": "Giessner, Steffen R.; Schubert, Thomas W.",
+      "original_year": "2007",
+      "original_journal": "Organizational Behavior and Human Decision Processes",
+      "description": "Original Study 1a claimed that increasing the magnitude of the vertical distance between a leader and subordinates in an organization chart increases perceived power; this magnitude claim was tested in the current paper's Study 2.",
+      "citation_sentence": "Study 2: Following up on ManyLabs' replication failure with an adjusted paradigm of Study 1a, Giessner and Schubert (2007)",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 found no effect of magnitude of vertical distance while rank order was held constant, and the authors describe the original positive finding as a false positive. The novel rank-order hypothesis is not coded as a separate replication entry."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 39285,
+    "truncated": false,
+    "input_sha256": "8a948193e91243b63657488846b754c6b56f81a44639e36c0de372e25b90bece",
+    "refs_withheld": false,
+    "output_tokens": 1397,
+    "cost_usd": 0.00401936
+  }
+}

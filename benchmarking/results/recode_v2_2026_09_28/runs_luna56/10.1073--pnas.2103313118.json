@@ -1,0 +1,68 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Economic insecurity increases physical pain",
+      "original_authors": "Chou, E.; Parmar, B.; Galinsky, A.",
+      "original_year": "2016",
+      "original_journal": "Psychological Science",
+      "description": "The original study claimed that economic insecurity increases physical pain.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this study as replication 4 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Stuck in time: Negative income shock constricts the temporal window of valuation spanning the future and the past",
+      "original_authors": "Bickel, W.; Wilson, A.; Chen, C.; Koffarnus, M.; Franck, C.",
+      "original_year": "2016",
+      "original_journal": "PLoS One",
+      "description": "The original study claimed that a negative income shock constricts the temporal window of valuation spanning the future and the past.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this study as replication 16 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Effects of perceived scarcity on financial decision making",
+      "original_authors": "Cook, L.; Sadeghein, R.",
+      "original_year": "2018",
+      "original_journal": "Journal of Public Policy & Marketing",
+      "description": "The original study claimed that perceived scarcity affects financial decision making.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this study as replication 17 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Seeking lasting enjoyment with limited money: Financial constraints increase preference for material goods over experiences",
+      "original_authors": "Tully, S.; Hershfield, H.; Meyvis, T.",
+      "original_year": "2015",
+      "original_journal": "Journal of Consumer Research",
+      "description": "The original study claimed that financial constraints increase preference for material goods over experiences.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this study as replication 18 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list. The paper reports 19 replication results overall, but the supplied rendition does not identify the remaining original studies or their individual outcomes."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 14973,
+    "truncated": false,
+    "input_sha256": "73f4f11b24de4b5ae2162d0329452f019e184d5b39740fa6815d3d9e623ac2b1",
+    "refs_withheld": false,
+    "output_tokens": 2315,
+    "cost_usd": 0.00501935
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/edu0000146",
+  "paper_folder": "10.1037--edu0000146",
+  "discipline": "psychology",
+  "subdiscipline": "educational psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--edu0000146/body.md",
+      "sha256": "810a94d37a72438362726bb07f4e45ddf0483feb07e2a47c1ca73f0f42947a36"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--edu0000146#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--edu0000146#luna56:2e6c1f1fd1f3df11:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1126/science.1177003",
+      "original_title": "Promoting Interest and Performance in High School Science Classes",
+      "description": "A utility-value writing intervention improves students\u2019 course performance and motivation by prompting them to connect course material to their lives.",
+      "citation_sentence": "",
+      "gt_ambiguity": "ambiguous",
+      "notes": "This is Study 2, which extends the intervention with enhanced utility-value prompts; the supplied text does not include the main-text citation sentence or discussion.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--edu0000146#luna56:363b64cc1f4a3a4b:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1126/science.1177003",
+      "original_title": "Promoting Interest and Performance in High School Science Classes",
+      "description": "Writing about the personal usefulness of course material increases students\u2019 interest and academic performance, particularly among initially lower-performing students.",
+      "citation_sentence": "",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The supplied text is supplemental material and does not contain the main-text sentence identifying the original study; the original citation and classification are inferred from the paper's intervention and study description. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

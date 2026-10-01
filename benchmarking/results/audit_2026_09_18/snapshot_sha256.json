@@ -1,0 +1,15 @@
+{
+  "snapshot/adjudication_queue_gold_v1.csv": "c2a9f7f0e8c06be0f3055c6343b656f13af1ba8431f65c4e782125f00c37721f",
+  "snapshot/ai_coder.py": "8c472edf8454ea7f03ce3d47b1eb1c616b6615724a7324f1604190c67f18b312",
+  "snapshot/code_ling26.log": "eb3cf4294fb26c6593323ea06375be8178e138881e944761ff56c15f90fc4b0f",
+  "snapshot/code_ling26_retry.log": "07df2938a860000c81fa605568ab4c3ee6857d320ba5b583ad1a27ab17c84494",
+  "snapshot/code_luna56.log": "aa815f6f8528b4e82ed577106a3a4356e43616340f6ecfbd22c0a5a1f3ce30b3",
+  "snapshot/codebook.md": "748a449dd455c571ff7dd1b24cefc860390d70b27ce3ca6fff9d77a42e9f4732",
+  "snapshot/frame_gold_v1_UNBLINDED.csv": "2435ea2443f1e50b6824566ff4acc0deaa46c06096b4703af2015a7012b2d5fb",
+  "snapshot/frame_gold_v1_UNBLINDED.superseded-20260903.csv": "c2d86be131b0b618df2bf13ed6f82b81aff1d203f3861df0d5260919d723dbb2",
+  "snapshot/harness.py": "c0a51ca4c59bb643abca36d516174350cdaaf593ca0ab32d506d82df54d360db",
+  "snapshot/run_base_88_gold1_gold_v1.log": "d4770bb075787f10a306c178c04a6819806d33b38173bf66e6947ab08c79691a",
+  "snapshot/sheet_gold_v1_dan_elton.csv": "b64ba4c2b1d77577fa4d84b33d6e4df45de04f18098b90ab8a351938e5909b06",
+  "snapshot/sheet_gold_v1_ling26.csv": "660ccedadf4eaecadada91fd8e205fc0ad31f50c79435b45e18b115fb19ff91c",
+  "snapshot/sheet_gold_v1_luna56.csv": "0f26587329b780113ee021cdd76444bec42053d80aecf2a5fa9a57661967e85c"
+}

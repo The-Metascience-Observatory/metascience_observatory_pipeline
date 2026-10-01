@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.09976",
+  "paper_folder": "10.7554--elife.09976",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.09976/10.7554--elife.09976_from_xml.md",
+      "sha256": "56849a32c8dfac020afb93624311b36a1f6262cc6a9541c86298229d04f2147d"
+    }
+  ],
+  "flags": [
+    "protocol: exclude from outcome scoring pending human confirmation",
+    "targeted source review: eligibility"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.09976#ling26:5cd8645a18f0c680:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "RAF inhibitors produce differential IC50 values in BRAF[V600E] mutant versus BRAF[WT]/RAS-WT and KRAS-mutant cancer cell lines, with mutant lines being susceptible and WT lines being resistant",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report from the Reproducibility Project: Cancer Biology; results and discussion sections are not present in the provided text, so result cannot be determined",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.09976#ling26:604dced3034ade74:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "Silencing CRAF reverses MEK activation upon treatment with RAF inhibitors GDC-0879 and PLX4720 in KRAS-mutant HCT116 cells",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report from the Reproducibility Project: Cancer Biology; results and discussion sections are not present in the provided text, so result cannot be determined",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.09976#ling26:c7f89c097af319c6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "RAF inhibitors PLX4720 and GDC-0879 have opposite effects on CRAF-BRAF heterodimer kinase domain interactions, with PLX4720 destabilizing and GDC-0879 stabilizing the interaction",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report from the Reproducibility Project: Cancer Biology; results and discussion sections are not present in the provided text, so result cannot be determined",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.09976#luna56:0aca16f9d4b77066:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "RAF inhibitors selectively inhibit the growth of BRAF[V600E] mutant cancer cell lines while having little effect on BRAF wild-type or RAS-mutant cell lines.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while RAF inhibitors were effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "This is a registered report describing a planned replication of Figure 1A; replication results are not reported. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.09976#luna56:be3e8347964d8856:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "Silencing CRAF reverses RAF-inhibitor-induced activation of MEK1/2 in KRAS-mutant HCT116 cells.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while RAF inhibitors were effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "This is a registered report describing a planned replication of Figure 2B; replication results are not reported. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.09976#luna56:8a0149ffe41c2b0f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "description": "RAF inhibitors differentially affect the interaction between the BRAF and CRAF kinase domains, with PLX4720 destabilizing and GDC-0879 stabilizing the BRAF-CRAF heterodimer.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while RAF inhibitors were effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "This is a registered report describing a planned replication of Figure 4A; replication results are not reported. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.09976",
+    "category": "eligibility",
+    "action": "exclude_outcome",
+    "pair_hint": "",
+    "finding": "Registered protocol: the RAF findings in the introduction belong to the original study, not to completed replication experiments.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.09976/10.7554--elife.09976_from_xml.md",
+    "source_line": 22,
+    "source_sha256": "56849a32c8dfac020afb93624311b36a1f6262cc6a9541c86298229d04f2147d",
+    "evidence": " mutation were susceptible to the RAF inhibitors, BRAF[WT] cell lines were not. This experiment will be replicated in Protocol 1.\n\nTo elucidate whether CRAF or BRAF contributed to MEK signaling in RAF-treated KRAS-mutant cells, the authors used inducible shRNA cell lines to test whether BRAF or CRAF were necessary for the activation of MEK1/2 in ",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

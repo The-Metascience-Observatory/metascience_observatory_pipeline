@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3389/fnhum.2020.00265",
+  "paper_folder": "10.3389--fnhum.2020.00265",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3389--fnhum.2020.00265/10.3389--fnhum.2020.00265_from_xml.md",
+      "sha256": "3a35d515fcd2b7ec07090538e76429ad842b1422e9386da1033e17b7a41412ef"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3389--fnhum.2020.00265#ling26:b5a47eeb829fb93a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.biopsycho.2016.10.006",
+      "original_title": "Wheelchair control by elderly participants in a virtual environment with a brain-computer interface (BCI) and tactile stimulation",
+      "description": "Training effects on BCI performance (ITR and online accuracy) and P300 physiological measures during virtual wheelchair navigation using tactile stimulation",
+      "citation_sentence": "We present a slightly adapted and extended replication of the study by Herweg et al. (2016).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports both confirmed training effects (H2: ITR increased significantly) and non-confirmed hypotheses (H3: not all participants reached 70% efficiency; H4: age was a limiting factor). Overall performance was lower than the original study (Herweg et al., 2016). The replication is described as 'slightly adapted and extended' with individualized sequence numbers and a non-elderly sample. The paper confirms H2 (training increases ITR and accuracy significantly) but rejects H3 (70% accuracy threshold not met by all participants) and H4 (age did affect performance, with middle-aged group underperforming). The original Herweg et al. (2016) reported very high performance in elderly participants; this replication found high discrepancies and many inefficient participants. Mixed pattern of confirming and disconfirming findings relative to the original.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3389--fnhum.2020.00265#luna56:9643d00ee6c55947:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.biopsycho.2016.10.006",
+      "original_title": "Wheelchair control by elderly participants in a virtual environment with a brain-computer interface (BCI) and tactile stimulation",
+      "description": "Training across five sessions improves tactile P300-based BCI performance and enables wheelchair navigation in a virtual environment.",
+      "citation_sentence": "We present a slightly adapted and extended replication of the study by Herweg et al. (2016).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found significant training-related increases in online and offline accuracy and ITR, but did not support training effects on physiological P300 measures and many participants did not achieve BCI efficiency; the authors therefore report mixed support.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

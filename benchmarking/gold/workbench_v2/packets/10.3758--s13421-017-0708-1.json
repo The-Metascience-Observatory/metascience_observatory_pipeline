@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.3758/s13421-017-0708-1",
+  "paper_folder": "10.3758--s13421-017-0708-1",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.3758--s13421-017-0708-1/10.3758--s13421-017-0708-1_from_xml.md",
+      "sha256": "87d75b7d584f4fc94de61f6ad3c542e53df26ba43258bf9356b0eca0d9676392"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.3758--s13421-017-0708-1#ling26:4b35aa1c55a3fb92:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1016/j.cognition.2006.02.009",
+      "original_title": "Representing object colour in language comprehension",
+      "description": "Sentence-picture verification task produces a mismatch advantage for color (faster responses when the picture color mismatches the implied color in the sentence)",
+      "citation_sentence": "The first experiment was conducted as a conceptual replication of Connell's (2007) and Zwaan and Pecher's (2012) experiments on color, to resolve which of the contradicting findings has more empirical support.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication found a match advantage (opposite direction from Connell's mismatch advantage), but the authors do not explicitly call this a reversal of Connell (2007); they frame it as supporting Zwaan & Pecher (2012) instead. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.3758--s13421-017-0708-1#ling26:0e52cb31265dda0e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1371/journal.pone.0051382",
+      "original_title": "Revisiting mental simulation in language comprehension: Six replication attempts",
+      "description": "Sentence-picture verification task produces a match advantage for color (faster responses when the picture color matches the implied color in the sentence)",
+      "citation_sentence": "The first experiment was conducted as a conceptual replication of Connell's (2007) and Zwaan and Pecher's (2012) experiments on color, to resolve which of the contradicting findings has more empirical support.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states 'These findings support the results of Zwaan and Pecher (2012)' and found a significant match advantage (p = .003, d = 0.26). [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.3758--s13421-017-0708-1#ling26:448accb2797b1115:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1371/journal.pone.0051382",
+      "original_title": "Revisiting mental simulation in language comprehension: Six replication attempts",
+      "description": "Sentence-picture verification task produces a match advantage for color",
+      "citation_sentence": "Our current study explored how much sensory information is included in mental simulations by conducting four experiments, using the same experimental paradigm as Connell (2007) and Zwaan and Pecher (2012) where sentences are used to imply a certain color, followed by an object-verification task.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2a found no significant match advantage for accuracy (p = .331) or RTs (p = .801) when saturation was reduced to the lowest level at which hue was still recognizable. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.3758--s13421-017-0708-1#ling26:448accb2797b1115:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1371/journal.pone.0051382",
+      "original_title": "Revisiting mental simulation in language comprehension: Six replication attempts",
+      "description": "Sentence-picture verification task produces a match advantage for color",
+      "citation_sentence": "Our current study explored how much sensory information is included in mental simulations by conducting four experiments, using the same experimental paradigm as Connell (2007) and Zwaan and Pecher (2012) where sentences are used to imply a certain color, followed by an object-verification task.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 3 found no significant match advantage when pictures were shown in grayscale (accuracy p = .06, RT p = .834). [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3758--s13421-017-0708-1#luna56:dd0f1634f52ac8d4:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1016/j.cognition.2006.02.009",
+      "original_title": "Representing object colour in language comprehension",
+      "description": "Color implied by a sentence produces a mismatch advantage, with responses to mismatching object colors faster than responses to matching colors.",
+      "citation_sentence": "The first experiment was conducted as a conceptual replication of Connell\u2019s (2007) and Zwaan and Pecher\u2019s (2012) experiments on color, to resolve which of the contradicting findings has more empirical support.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 1 found a significant match advantage, opposite to Connell's reported mismatch advantage, but the authors did not explicitly characterize the result as a reversal. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.3758--s13421-017-0708-1#luna56:aef759ac37f1e4b4:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1371/journal.pone.0051382",
+      "original_title": "Revisiting mental simulation in language comprehension: Six replication attempts",
+      "description": "Color implied by a sentence produces a match advantage, with faster responses to object pictures whose colors match the implied color.",
+      "citation_sentence": "The first experiment was conducted as a conceptual replication of Connell\u2019s (2007) and Zwaan and Pecher\u2019s (2012) experiments on color, to resolve which of the contradicting findings has more empirical support.",
+      "gt_ambiguity": "clear",
+      "notes": " [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,28 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Association of systemic lupus erythematosus with C8orf13-BLK and ITGAM-ITGAX",
+      "original_authors": "Hom, G.",
+      "original_year": "2008",
+      "original_journal": "New England Journal of Medicine",
+      "description": "Genetic variants at the C8orf13-BLK and ITGAM-ITGAX loci are associated with susceptibility to systemic lupus erythematosus.",
+      "citation_sentence": "To validate these findings, and to search for additional susceptibility loci, we carried out a meta-analysis of our GWAS results and those from an independent European SLE GWAS comprising 1,165 cases and 2,107 controls (the Hom et al.4 study).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports a single independent replication cohort testing 33 SNPs, including loci identified in the Hom et al. GWAS and other prior studies; replication results are mixed rather than uniformly supportive. The cited sentence identifies Hom et al. but does not state a publication year."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 97412,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 1753,
+    "cost_usd": 0.00978607
+  }
+}

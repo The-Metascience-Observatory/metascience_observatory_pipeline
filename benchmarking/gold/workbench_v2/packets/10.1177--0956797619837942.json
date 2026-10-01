@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/0956797619837942",
+  "paper_folder": "10.1177--0956797619837942",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--0956797619837942/body.md",
+      "sha256": "810eb6f2834620074fa9ff35102226b990cdced40eb8a12b57e1c6695958a38e"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--0956797619837942#ling26:b6f98497c2e61c0d:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "reversal",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1177/0956797611431465",
+      "original_title": "The persistence of thought: Evidence for a role of working memory in the maintenance of task-unrelated thinking",
+      "description": "The association between working memory capacity and probe-caught mind wandering during a breath-awareness task",
+      "citation_sentence": "A Preregistered Replication of a Study by Levinson, Smallwood, and Davidson (2012)",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--0956797619837942#luna56:6fe99d37c7598ab1:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1177/0956797611431465",
+      "original_title": "The persistence of thought: Evidence for a role of working memory in the maintenance of task-unrelated thinking",
+      "description": "Higher working memory capacity is positively associated with probe-caught mind wandering during a low-demand breath-awareness task.",
+      "citation_sentence": "Is There a Positive Association Between Working Memory Capacity and Mind Wandering in a Low-Demand Breathing Task? A Preregistered Replication of a Study by Levinson, Smallwood, and Davidson (2012)",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a significant negative association in the awareness section and concluded that there was no evidence for the original positive association. The paper does not contain an in-text sentence with both the original authors' names and publication year; the exact title is provided instead. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--0956797619837942#luna56:f0b1ef47dadcb83c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1177/0956797611431465",
+      "original_title": "The persistence of thought: Evidence for a role of working memory in the maintenance of task-unrelated thinking",
+      "description": "Self-caught mind-wandering episodes are not associated with working memory capacity during the breath-awareness task.",
+      "citation_sentence": "Is There a Positive Association Between Working Memory Capacity and Mind Wandering in a Low-Demand Breathing Task? A Preregistered Replication of a Study by Levinson, Smallwood, and Davidson (2012)",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state that the replication corroborated Levinson et al.'s finding that the sum of self-caught probes was not correlated with working memory capacity. The ratio-based self-caught analysis is an additional measure, not a separate original effect. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

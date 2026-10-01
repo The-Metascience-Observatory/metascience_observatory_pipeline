@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/13803390701550110",
+  "paper_folder": "10.1080--13803390701550110",
+  "discipline": "neuroscience",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--13803390701550110/body.md",
+      "sha256": "3449738d2e6ea8e1946b84182c102b4c3929e5ea61dfe6243f8b7acfd5daa7b3"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--13803390701550110#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This paper presents original empirical data testing the valence hypothesis using attachment words; it does not replicate any prior study."
+    },
+    {
+      "candidate_id": "luna56:10.1080--13803390701550110#luna56:c79921ac840fe2ad:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A transfer appropriate processing approach to investigating implicit memory for emotional words in the cerebral hemispheres",
+      "description": "Positive emotional words show an advantage over negative emotional words when presented to the left visual field, with no corresponding word-category difference for right-visual-field presentations.",
+      "citation_sentence": "In line with the present findings, Collins and Cooke (2005, Exp. 2) observed an advantage for positive over negative words with LVF presentation and no difference between positive and negative words after RVF presentations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper presents this as being in line with Collins and Cooke (2005, Experiment 2), rather than explicitly calling it a replication. The present study uses attachment-related words and a bilateral simultaneous lexical-decision paradigm.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

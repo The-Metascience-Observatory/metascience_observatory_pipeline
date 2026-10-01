@@ -1,0 +1,15 @@
+{
+  "is_replication_paper": "no",
+  "why_negative": "This is an original observational analysis of seasonal suicide patterns in Britain, not a replication study of a specific prior experiment or study.",
+  "entries": [],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 11993,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 200,
+    "cost_usd": 0.00230735
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/npr2.70078",
+  "paper_folder": "10.1002--npr2.70078",
+  "discipline": "medical fields",
+  "subdiscipline": "psychiatry",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--npr2.70078/10.1002--npr2.70078_from_xml.md",
+      "sha256": "48965dc594237df343313f6f4c228fd2f6533b399c74e216a5fb895f695b3e8c"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--npr2.70078#ling26:916a84ca36bcc0f7:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Proposal for a Novel Classification of Patients With Enlarged Ventricles and Cognitive Impairment Based on Data-Driven Analysis of Neuroimaging Results in Patients With Psychiatric Disorders",
+      "description": "Data-driven classification identifies a novel subtype of psychiatric disorders characterized by pronounced enlarged ventricles and cognitive impairment (EVCI), predominantly associated with schizophrenia.",
+      "citation_sentence": "These findings are consistent with the trends observed in our previous study (see Table S1, which is a modified version of table 5 in the previous paper [6]).",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--npr2.70078#luna56:c0a51daff92e1a4d:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Proposal for a Novel Classification of Patients With Enlarged Ventricles and Cognitive Impairment Based on Data-Driven Analysis of Neuroimaging Results in Patients With Psychiatric Disorders",
+      "description": "Patients with enlarged ventricles and cognitive impairment constitute a distinct psychiatric subgroup characterized by a high prevalence of schizophrenia.",
+      "citation_sentence": "Yasuda et al. [6] performed a large-scale data-driven analysis and found that patients with EVCI constitute a distinct subgroup characterized by a high prevalence of schizophrenia.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly describes the present study as validating the previous EVCI findings in independent cohorts and concludes that it validated the existence of the EVCI subgroup. The citation is numbered rather than giving the original authors and year in the sentence.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,55 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, George; Song, Kwang; Yen, I; Brandhuber, Bruce J.; Anderson, David J.; Alvarado, Rafael; Ludlam, Michael J. C.; Stokoe, David; Gloor, Sheryl L.; Vigers, Greg; Morales, Teresa; Aliagas, Isabel; Liu, Bing; Sideris, Sotirios; Hoeflich, Klaus P.; Jaiswal, B. S.; Seshagiri, Sreenath; Koeppen, Hartmut; Belvin, Malcolm; Friedman, Lawrence S.; Malek, Shiva",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "The original study claimed that BRAF[V600E]-mutant cancer cell lines are sensitive to RAF inhibitors, whereas BRAF[WT] cell lines, including RAS-mutant and RAS/RAF-wild-type lines, are not; this claim was tested in Protocol 1.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while drugs targeting CRAF were able to inhibit CRAF activity in vitro, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "This is a registered replication report describing a planned experiment; no replication outcome is reported, so the result is inconclusive."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, George; Song, Kwang; Yen, I; Brandhuber, Bruce J.; Anderson, David J.; Alvarado, Rafael; Ludlam, Michael J. C.; Stokoe, David; Gloor, Sheryl L.; Vigers, Greg; Morales, Teresa; Aliagas, Isabel; Liu, Bing; Sideris, Sotirios; Hoeflich, Klaus P.; Jaiswal, B. S.; Seshagiri, Sreenath; Koeppen, Hartmut; Belvin, Malcolm; Friedman, Lawrence S.; Malek, Shiva",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "The original study claimed that silencing CRAF reverses RAF-inhibitor-induced MEK activation in KRAS-mutant HCT116 cells; this claim was tested in Protocol 2.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while drugs targeting CRAF were able to inhibit CRAF activity in vitro, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010). As reported in Figure 2B, silencing CRAF reversed MEK activation upon treatment with the RAF inhibitors GDC-0879 and PLX4720.",
+      "gt_ambiguity": "clear",
+      "notes": "This is a registered replication report describing a planned experiment; no replication outcome is reported, so the result is inconclusive."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, George; Song, Kwang; Yen, I; Brandhuber, Bruce J.; Anderson, David J.; Alvarado, Rafael; Ludlam, Michael J. C.; Stokoe, David; Gloor, Sheryl L.; Vigers, Greg; Morales, Teresa; Aliagas, Isabel; Liu, Bing; Sideris, Sotirios; Hoeflich, Klaus P.; Jaiswal, B. S.; Seshagiri, Sreenath; Koeppen, Hartmut; Belvin, Malcolm; Friedman, Lawrence S.; Malek, Shiva",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "The original study claimed that the CRAF-BRAF kinase-domain heterodimer is destabilized by PLX4720 and stabilized by GDC-0879; this claim was tested in Protocol 3.",
+      "citation_sentence": "Hatzivassiliou and colleagues found that, while drugs targeting CRAF were able to inhibit CRAF activity in vitro, they paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010). In Figure 4A, Hatzivassiliou and colleagues reported that the CRAF kinase domain forms a stable complex with the BRAF kinase domain when inhibitors are not present.",
+      "gt_ambiguity": "clear",
+      "notes": "This entry covers the single heterodimerization claim tested with multiple inhibitor conditions. This is a registered replication report describing a planned experiment; no replication outcome is reported, so the result is inconclusive."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.09976_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 57618,
+    "truncated": false,
+    "input_sha256": "43c4107b007eb87ed9c47473d3b614a4ebc4ccf14efbd0e318862a186cd2a66f",
+    "refs_withheld": false,
+    "output_tokens": 2771,
+    "cost_usd": 0.00803516
+  }
+}

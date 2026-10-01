@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/13561820.2016.1233096",
+  "paper_folder": "10.1080--13561820.2016.1233096",
+  "discipline": "education",
+  "subdiscipline": "higher education",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--13561820.2016.1233096/body.md",
+      "sha256": "2594e53e8847383cdce581ebe15cddf15c6f8c98ed7072311ad8719ebe0f628b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--13561820.2016.1233096#ling26:c1132452d47cf5c1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.3109/13561820.2014.917407",
+      "original_title": "Validation of the interprofessional collaborative competency attainment survey (ICCAS)",
+      "description": "Validation of the ICCAS instrument for assessing interprofessional collaborative competency attainment, demonstrating its internal factor structure and pre-post effect sizes.",
+      "citation_sentence": "In their psychometric study of the ICCAS instrument, the authors obtained data from 584 participants from 15 different IPECP programmes in Canada and New Zealand (Archibald, Trumpower, & MacDonald, 2014).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication made two deliberate methodological changes from the original: (1) changed the rating scale from 7-point Likert to 5-point qualitative, and (2) added a transition item. These changes keep the same general paradigm but prevent classification as 'direct.' The authors explicitly state they followed the Ottawa methodology, and the results are framed as confirming/validating the original instrument.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--13561820.2016.1233096#luna56:b1f97f91d89fbbbf:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.3109/13561820.2014.917407",
+      "original_title": "Validation of the interprofessional collaborative competency attainment survey (ICCAS)",
+      "description": "The ICCAS is a valid measure of interprofessional collaborative competencies, with evidence of pre-post sensitivity, concurrent validity, internal consistency, and a unifying single-factor structure.",
+      "citation_sentence": "In their psychometric study of the ICCAS instrument, the authors obtained data from 584 participants from 15 different IPECP programmes in Canada and New Zealand (Archibald, Trumpower, & MacDonald, 2014).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication used the same general retrospective pre-post ICCAS validation methodology but changed the response scale and added a transition item.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

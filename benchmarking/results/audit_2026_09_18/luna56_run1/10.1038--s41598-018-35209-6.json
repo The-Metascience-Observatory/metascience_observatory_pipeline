@@ -1,0 +1,28 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1073/pnas.0905267106",
+      "original_title": "Correspondence of the brain's functional architecture during activation and rest",
+      "original_authors": "",
+      "original_year": "2009",
+      "original_journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "description": "Resting-state brain networks correspond to the functional networks engaged during task performance.",
+      "citation_sentence": "In 2009, Smith et al. published a paper in the Proceedings of the National Academy of Sciences 30 that showed that the collection of brain networks that are 'active' while a person is resting and engaged in idle thought (e.g., resting state networks or RSNs) correspond to the same functional networks used by the brain to perform tasks.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states that the Smith et al. findings were highly reproducible and that this study provided a true replication, while also noting differences in subjects, stimuli, data inputs, and analysis methods."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 78698,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 1249,
+    "cost_usd": 0.00581952
+  }
+}

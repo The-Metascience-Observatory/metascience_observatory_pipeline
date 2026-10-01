@@ -85,8 +85,9 @@ def get_descriptions(case: dict, papers_dir: Path, tag: str) -> tuple[str, str]:
         if gt_csv.exists():
             with open(gt_csv, encoding="utf-8") as f:
                 for row in csv.DictReader(f):
+                    from mo_pipeline.corpus.models import doi_to_folder
                     repl_url = row.get("replication_url", "")
-                    folder = repl_url.replace("http://doi.org/", "").replace("https://doi.org/", "").replace("/", "--")
+                    folder = doi_to_folder(repl_url.replace("http://doi.org/", "").replace("https://doi.org/", ""))
                     if folder == paper:
                         candidate = row.get("description", "").strip()
                         if candidate and row.get("result", "") == case.get("gt_result", ""):

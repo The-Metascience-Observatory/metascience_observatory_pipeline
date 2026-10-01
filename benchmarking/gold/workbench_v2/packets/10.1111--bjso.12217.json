@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/bjso.12217",
+  "paper_folder": "10.1111--bjso.12217",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1111--bjso.12217/body.md",
+      "sha256": "c7da04a4fdf6a27000146bb78922a2d2a349c6769f000d8f5a243057d79bee8c"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--bjso.12217#ling26:649bc0fbd9b272ed:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.89.3.277",
+      "original_title": "An inkblot for attitudes: Affect misattribution as implicit measurement",
+      "description": "Affectively charged prime images influence subsequent judgments of neutral target images, producing an AMP effect that measures implicit attitudes.",
+      "citation_sentence": "Our results first replicate key findings of [19]",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state they replicate key findings of Payne et al. (2005) and the AMP effect is significant in the same direction across all conditions, but the effect is substantially reduced under incentives (from 35pp to 22pp) and highly heterogeneous, with some individuals showing no effect. This mixed pattern makes the result classification ambiguous between success and inconclusive.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1111--bjso.12217#luna56:2432fb8332060239:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.89.3.277",
+      "original_title": "An inkblot for attitudes: Affect misattribution as implicit measurement",
+      "description": "The affect misattribution procedure produces a positive priming effect, and warning participants about the potential influence of the prime does not significantly diminish that effect.",
+      "citation_sentence": "Our design differs in our direct replication of [19], adding only incentives to follow the existing instructions.",
+      "gt_ambiguity": "clear",
+      "notes": "The supplied full text uses numeric citations rather than author-year citations; reference [19] identifies Payne et al. (2005). The incentive manipulation is a novel extension, while the Basic and Warning conditions directly replicate the original AMP findings.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

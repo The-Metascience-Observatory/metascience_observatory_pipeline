@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/2515245920903079",
+  "paper_folder": "10.1177--2515245920903079",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--2515245920903079/body.md",
+      "sha256": "d5d6cd3f223a6981a65062f6e6408db0fc3fed66f8720367a917c10df39d1d5a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--2515245920903079#ling26:3114e86e90a47fe6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nn1066",
+      "original_title": "Perceiving numbers causes spatial shifts of attention",
+      "description": "Participants are quicker to detect left-side targets when preceded by small numbers and quicker to detect right-side targets when preceded by large numbers (the Att-SNARC effect).",
+      "citation_sentence": "We attempted to replicate Experiment 2 of Fischer et al. by collecting data from 1,105 participants at 17 labs.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--2515245920903079#luna56:1a37133da437b03c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nn1066",
+      "original_title": "Perceiving numbers causes spatial shifts of attention",
+      "description": "Experiment 2 tested whether small numbers cue spatial attention toward left-side targets and large numbers cue spatial attention toward right-side targets.",
+      "citation_sentence": "We attempted to replicate Experiment 2 of Fischer et al. by collecting data from 1,105 participants at 17 labs.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper directly replicated Experiment 2 across 17 laboratories and explicitly concluded that it failed to replicate the Att-SNARC effect. The citation sentence in the supplied text identifies Fischer et al. but does not display the publication year.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

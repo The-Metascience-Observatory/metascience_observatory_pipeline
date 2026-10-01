@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1371/journal.pone.0053234",
+  "paper_folder": "10.1371--journal.pone.0053234",
+  "discipline": "biology",
+  "subdiscipline": "genetics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1371--journal.pone.0053234/body.md",
+      "sha256": "c4ddf1825bf54a8c0564a18e3c944f0263fddf561715cabc20835e554247f7fe"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0053234#ling26:e8c7dd0d8804be15:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "A genome-wide association study identifies common variants near LBX1 associated with adolescent idiopathic scoliosis",
+      "description": "Association between common variants near LBX1 (rs11190870, rs625039, rs11598564) and adolescent idiopathic scoliosis susceptibility",
+      "citation_sentence": "Recently, a genome-wide association study (GWAS) was performed in a Japanese population, and three SNPs (rs11190870, rs625039 and rs11598564), all of which were located near the gene LBX1 on chromosome 10q24.31, were reported to be associated with AIS susceptibility [1].",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0053234#luna56:92b9481da5aac567:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "A genome-wide association study identifies common variants near LBX1 associated with adolescent idiopathic scoliosis",
+      "description": "The original study claimed that the single nucleotide polymorphism rs11598564 near the LBX1 gene was associated with susceptibility to adolescent idiopathic scoliosis.",
+      "citation_sentence": "Recently, a genome-wide association study (GWAS) was performed in a Japanese population, and three SNPs (rs11190870, rs625039 and rs11598564), all of which were located near the gene LBX1 on chromosome 10q24.31, were reported to be associated with AIS susceptibility [1].",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a significant association for rs11598564 in a Chinese Han population. The separate case-only severity analysis was not coded as a replication entry because the original study's replicated claim concerned AIS susceptibility.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0053234#luna56:91a7302fac0caaf7:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "A genome-wide association study identifies common variants near LBX1 associated with adolescent idiopathic scoliosis",
+      "description": "The original study claimed that the single nucleotide polymorphism rs11190870 near the LBX1 gene was associated with susceptibility to adolescent idiopathic scoliosis.",
+      "citation_sentence": "Recently, a genome-wide association study (GWAS) was performed in a Japanese population, and three SNPs (rs11190870, rs625039 and rs11598564), all of which were located near the gene LBX1 on chromosome 10q24.31, were reported to be associated with AIS susceptibility [1].",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a significant association for rs11190870 in a Chinese Han population. The separate case-only severity analysis was not coded as a replication entry because the original study's replicated claim concerned AIS susceptibility. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0053234#luna56:1acda67f05df75e7:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "A genome-wide association study identifies common variants near LBX1 associated with adolescent idiopathic scoliosis",
+      "description": "The original study claimed that the single nucleotide polymorphism rs625039 near the LBX1 gene was associated with susceptibility to adolescent idiopathic scoliosis.",
+      "citation_sentence": "Recently, a genome-wide association study (GWAS) was performed in a Japanese population, and three SNPs (rs11190870, rs625039 and rs11598564), all of which were located near the gene LBX1 on chromosome 10q24.31, were reported to be associated with AIS susceptibility [1].",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a significant association for rs625039 in a Chinese Han population. The separate case-only severity analysis was not coded as a replication entry because the original study's replicated claim concerned AIS susceptibility. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

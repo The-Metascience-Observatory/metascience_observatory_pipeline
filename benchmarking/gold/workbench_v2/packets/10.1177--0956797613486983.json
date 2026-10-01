@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/0956797613486983",
+  "paper_folder": "10.1177--0956797613486983",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--0956797613486983/body.md",
+      "sha256": "df02f19fea9fafe84de5ff9ed73d8e5c6482a97b7e99be8838e10e5e4f0d0b29"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--0956797613486983#ling26:b3e97df9ca21c5c9:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Warm thoughts: Attachment anxiety and sensitivity to temperature cues",
+      "description": "Individuals with high anxious attachment report heightened preferences for warm foods when attachment concerns are activated by reflecting on a romantic breakup",
+      "citation_sentence": "In his recent article, Vess (2012) was the first to integrate research on attachment anxiety with research linking physical temperature to perceptions of intimacy (i.e., intimacy is associated with physical warmth, whereas social isolation is associated with coldness; IJzerman & Semin, 2009; Zhong & Leonardelli, 2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Sample 1 (N=219) of LeBel & Campbell (2013); direct replication of Vess (2012) Study 1; authors explicitly state they did not replicate the finding. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--0956797613486983#ling26:b3e97df9ca21c5c9:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Warm thoughts: Attachment anxiety and sensitivity to temperature cues",
+      "description": "Individuals with high anxious attachment report heightened preferences for warm foods when attachment concerns are activated by reflecting on a romantic breakup",
+      "citation_sentence": "In his recent article, Vess (2012) was the first to integrate research on attachment anxiety with research linking physical temperature to perceptions of intimacy (i.e., intimacy is associated with physical warmth, whereas social isolation is associated with coldness; IJzerman & Semin, 2009; Zhong & Leonardelli, 2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Sample 2 (N=233) of LeBel & Campbell (2013); direct replication of Vess (2012) Study 1; authors explicitly state they did not replicate the finding. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--0956797613486983#luna56:c72011e12c68006e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Warm thoughts: Attachment anxiety and sensitivity to temperature cues",
+      "description": "Activating attachment concerns by having participants reflect on a romantic breakup increases preferences for warm foods among individuals with high, but not low, anxious attachment.",
+      "citation_sentence": "In his recent article, Vess (2012) was the first to integrate research on attachment anxiety with research linking physical temperature to perceptions of intimacy (i.e., intimacy is associated with physical warmth, whereas social isolation is associated with coldness; IJzerman & Semin, 2009; Zhong & Leonardelli, 2008). In his first study, Vess found that individuals with high (but not low) levels of anxious attachment reported heightened preferences for warm foods when attachment concerns were activated (i.e., by reflecting on a romantic breakup). Given that only one study (i.e., Vess\u2019s Study 1; N = 56) found an association between activation of the attachment concerns of anxious individuals and heightened sensitivity to temperature cues, it is unknown whether this phenomenon is reproducible. We therefore attempted to replicate this finding before seeking to explain it.",
+      "gt_ambiguity": "clear",
+      "notes": "First replication attempt, reported as Sample 1. The authors state that they did not replicate Vess's finding. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--0956797613486983#luna56:c72011e12c68006e:2",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Warm thoughts: Attachment anxiety and sensitivity to temperature cues",
+      "description": "Activating attachment concerns by having participants reflect on a romantic breakup increases preferences for warm foods among individuals with high, but not low, anxious attachment.",
+      "citation_sentence": "In his recent article, Vess (2012) was the first to integrate research on attachment anxiety with research linking physical temperature to perceptions of intimacy (i.e., intimacy is associated with physical warmth, whereas social isolation is associated with coldness; IJzerman & Semin, 2009; Zhong & Leonardelli, 2008). In his first study, Vess found that individuals with high (but not low) levels of anxious attachment reported heightened preferences for warm foods when attachment concerns were activated (i.e., by reflecting on a romantic breakup). Given that only one study (i.e., Vess\u2019s Study 1; N = 56) found an association between activation of the attachment concerns of anxious individuals and heightened sensitivity to temperature cues, it is unknown whether this phenomenon is reproducible. We therefore attempted to replicate this finding before seeking to explain it.",
+      "gt_ambiguity": "clear",
+      "notes": "Second replication attempt, reported as Sample 2. The authors incorporated minor procedural differences identified after the first attempt and state that they did not replicate Vess's finding. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

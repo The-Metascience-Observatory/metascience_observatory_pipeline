@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1097/psy.0b013e3181fdd074",
+  "paper_folder": "10.1097--psy.0b013e3181fdd074",
+  "discipline": "medical fields",
+  "subdiscipline": "psychiatry",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1097--psy.0b013e3181fdd074/body.md",
+      "sha256": "cded16238cd698f83e988b6185665d2463aeb665c717f4e694fd10e4f1c8538a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1097--psy.0b013e3181fdd074#ling26:84699ab79d66c8a6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Methylation at SLC6A4 is linked to family history of child abuse: an examination of the Iowa Adoptee sample",
+      "description": "Childhood sex abuse is associated with methylation at the 5HTT promoter region, and methylation mediates the impact of child sex abuse on symptoms of antisocial personality disorder in women",
+      "citation_sentence": "Replicating prior research (8), we found that the degree of methylation of the CpG island upstream from SLC6A4 was associated with reported sex abuse during childhood among women.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper replicates Beach et al. (2010) using a new nonoverlapping sample of 155 women from the Iowa Adoptee Study. All hypothesized main effects were significant and in the predicted direction; mediation was supported. No DOI is provided for the original study in the text, so original_url is left blank.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1097--psy.0b013e3181fdd074#luna56:91555cf5df55ec13:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Methylation at SLC6A4 is linked to family history of child abuse: an examination of the Iowa Aadoptee sample",
+      "description": "Child sex abuse is associated with overall hypermethylation of the 5HTT promoter region among women.",
+      "citation_sentence": "In earlier work, we found that child abuse, including physical abuse, harsh parenting, and sex abuse, was associated with overall hypermethylation of the 5HTT promoter region [8].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original numerically as reference [8] rather than using an author-year citation. The mediation of ASPD symptoms and genotype-methylation interaction are extensions, not separate replications of the prior study's effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

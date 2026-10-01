@@ -1,0 +1,54 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature10860",
+      "original_title": "IDH mutation impairs histone demethylation and results in a block to cell differentiation",
+      "original_authors": "Lu, C; Ward, PS; Kapoor, GS; Rohle, D; Turcan, S; Abdel-Wahab, O; Edwards, CR; Khanin, R; Figueroa, ME; Melnick, A; Wellen, KE; O\u2019Rourke, DM; Berger, SL; Chan, TA; Levine, RL; Mellinghoff, IK; Thompson, CB",
+      "original_year": "2012",
+      "original_journal": "Nature",
+      "description": "Expression of mutant IDH1 or IDH2 increases global histone methylation levels and produces the oncometabolite 2-hydroxyglutarate in transfected 293T cells.",
+      "citation_sentence": "Examination of glioma samples showed a correlation between IDH mutation status and level of overall methylation (Lu et al., 2012).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "This is a registered report describing a planned replication protocol; no replication outcome is reported, so the result is coded inconclusive."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature10860",
+      "original_title": "IDH mutation impairs histone demethylation and results in a block to cell differentiation",
+      "original_authors": "Lu, C; Ward, PS; Kapoor, GS; Rohle, D; Turcan, S; Abdel-Wahab, O; Edwards, CR; Khanin, R; Figueroa, ME; Melnick, A; Wellen, KE; O\u2019Rourke, DM; Berger, SL; Chan, TA; Levine, RL; Mellinghoff, IK; Thompson, CB",
+      "original_year": "2012",
+      "original_journal": "Nature",
+      "description": "Expression of mutant IDH2 blocks the differentiation of 3T3-L1 progenitor cells into adipocytes and reduces expression of adipocyte markers.",
+      "citation_sentence": "Examination of glioma samples showed a correlation between IDH mutation status and level of overall methylation (Lu et al., 2012).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "This is a registered report describing a planned replication protocol; no replication outcome is reported, so the result is coded inconclusive."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1038/nature10860",
+      "original_title": "IDH mutation impairs histone demethylation and results in a block to cell differentiation",
+      "original_authors": "Lu, C; Ward, PS; Kapoor, GS; Rohle, D; Turcan, S; Abdel-Wahab, O; Edwards, CR; Khanin, R; Figueroa, ME; Melnick, A; Wellen, KE; O\u2019Rourke, DM; Berger, SL; Chan, TA; Levine, RL; Mellinghoff, IK; Thompson, CB",
+      "original_year": "2012",
+      "original_journal": "Nature",
+      "description": "Knockdown of the histone demethylase KDM4C increases global methylation and inhibits differentiation of 3T3-L1 cells into adipocytes.",
+      "citation_sentence": "Examination of glioma samples showed a correlation between IDH mutation status and level of overall methylation (Lu et al., 2012).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "This is a registered report describing a planned replication protocol; no replication outcome is reported, so the result is coded inconclusive."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.10860_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 87015,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 1968,
+    "cost_usd": 0.00962007
+  }
+}

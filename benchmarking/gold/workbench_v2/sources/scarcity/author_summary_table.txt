@@ -1,0 +1,103 @@
+Table A.
+
+        Study                                                                 Scarcity IV Description
+ Abeyta, Routledge,
+ Kersten, & Cox          Participants viewed a slideshow that summarized a news article about either an economic recession or architecture.
+ (2017), Study 2
+ Bickel et al., 2016     Participants read an economic narrative in which they experienced a negative income shock (lost 100% of their income), a positive
+ Replication             income shock (increased their income by 100%) or a neutral income shock (increased their income by 2%).
+
+                         Participants assigned to the “poor” condition were limited to 84 guesses total (6 per round) in a Wheel of Fortune game. Participants
+ Camerer et al. (2018)
+                         assigned to the “rich condition were given 280 guesses total (20 per round).
+
+                         Participants in the high economic insecurity condition were assigned to remember and write about a time when their financial
+ Chou et al. (2016),
+                         prospects were uncertain (i.e., when they were financially insecure). Participants in the low economic insecurity wrote about a time
+ Study 3
+                         when their financial prospects were certain (i.e., when they were financially secure.)
+
+                         Tests a triple scarcity effect. First in the liquidity conditions, liquidity options were either present (participants imagined they were
+                         recently paid) or absent (participants imagined they were broke). Next, in the frame conditions, participants in the loss frame imagined
+ Cook & Sadeghein
+                         they risked repossession of their automobile while participants in the gain frame imagined an upgrade. Finally, participants in the
+ (2018), Study 3
+                         lending options present condition were told they had other options to pay their bill besides a payday loan, while those in the lending
+                         options absent condition were told a payday loan was their only option.
+ Durante,
+ Griskevicius,
+                         Participants viewed a slideshow about the economy that either depicted an economic recession and or an economic upswing.
+ Redden, & White
+ (2015), Study 4
+                         All participants first completed a self-rating task in which they indicated how much 10 neutral attributes described them. Participants
+ Emery, Walsh, &         in the self-concept clarity (SCC) threat condition were then assigned to either generate two inconsistent self-aspects and write about
+ Slotter (2015), Study   how they sometimes conflict with each other in the participants’ day-to-day life. Participants in the SCC confirmation condition were
+ 3                       assigned to generate two consistent self-aspects and write about how they complement each other in the P’s day-to-day life.
+                         Participants in the control condition were assigned to write about their trip to get to the study.
+ Fernbach, Kan, &
+                       Participants were randomly assigned to one of three conditions in which they were told they received an unexpected bill in the mail
+ Lynch (2015), Study
+                       for either $100, $500, or $1,000.
+ 2
+ Kristofferson,
+                         All participants saw an advertisement for an iPhone 5 that was offered at a reduced price and were told there were only 3 (scarcity)
+ McFerran, Morales, &
+                         or 3,000+ (control) available at their local electronics store.
+ Dahl, (2017), Study 5
+Layous, Kurtz,         Participants who were assigned to the live this month (LTM) condition were told to live the next month like it was their last in their
+Chancellor, &          college town for a while (manipulating time scarcity), and that they should try to appreciate and savor the activities they do while they
+Lyubomirsky (2018)     do them. Participants who were assigned to the control condition were told to keep track of what they do over the course of the week
+                       Participants were assigned to read a news article about college students’ consumption of luxury fashion items. Participants in the
+Lee, Baumgartner, &
+                       earned resources condition read that the students worked part time and saved money to make their purchases. Participants in the
+Winterich (2018),
+                       unearned resources condition read that the students receive money from their parents without working. Participants in the control
+Study 4
+                       condition did not read any mention of the source of resources.
+Mani, Mullainathan,
+                       Income was measured by dividing the participants’ self-reported household income by the square root of the size of their household,
+Shafir, & Zhao
+                       and then taking a median split of this value to yield a categorical variable.
+(2013), Study 4
+
+                       Participants assigned to the “scarcity” condition completed a writing task in which they wrote an essay about growing up with scarce
+Mehta & Zhu (2016),
+                       resources. Participants assigned to the “abundance” condition completed a writing task in which they wrote an essay about growing up
+Study 2
+                       with abundant resources. Participants assigned to the control condition did not complete any writing task.
+
+                       Participants were assigned to either a near future or distant future condition. Participants assigned to the near future condition were
+Monga, May, &          told that the upcoming study would start at 8:00am on a Saturday in 3 days (the study took place on a Wednesday). Participants
+Bagchi (2017), Study   assigned to the distant future condition were told that the upcoming survey would start at 8:00am on a Saturday in 24 days.
+4                      Participants were also assigned to either a money elicitation condition or time elicitation condition to determine their desired wage
+                       rate.
+Plantinga, Krijnen,
+Zeelenberg, &
+                       Participants self-reported their effective income, which measured in increments of $10,000 and centered for each increment.
+Breugelmans (2019),
+Study 3
+                       Participants who were assigned to the scarcity condition were sequentially shown five resources (gasoline, sugar, water, wheat, and
+Roux, Goldsmith, &
+                       electricity) and asked to list three things three wouldn’t be able to do if those resources were unavailable. Participants who were
+Bonezzi (2015),
+                       assigned to the control condition were sequentially shown the same five resources and asked to list three things they could do with
+Study 4
+                       each resource.
+Shah, Zhao,            Income was measured using a scale with $10k increments, ranging from below $10k to $150k and above. Values were coded as the
+Mullainathan, Shafir   midpoint of the scale (except $150k). This value was divided by the square root of the household size. This new value was then split at
+(2018), Study 3        the median and used as a measured categorical independent variable.
+Shah, Shafir, &
+                       Participants who were assigned to the poor scarcity condition were given 15 seconds per round to guess answers to a prompt in a
+Mullainathan (2015),
+                       Family Feud game, while those in the rich scarcity condition were given 50 seconds per round to guess.
+Study 6
+                       Participants assigned to the scarcity condition were asked to write about financial constraints in their lives. Participants assigned to the
+                       control condition were asked to list 10 facts they knew to be true.
+Tully, Hershfield &
+Meyvis (2015),
+Study 5
+                      Participants were assigned to an abundant or scarce supply-level condition. All participants were told the researchers were studying
+Zhu & Ratner          vegetable preferences and saw eight pieces of four types of vegetables: baby carrots, cherry tomatoes, broccoli florets, and cauliflower
+(2015), Study 2       florets. Participants assigned to the scarce condition, saw the vegetables presented in large 32 oz. food containers. Participants
+                      assigned to the abundance condition saw the vegetables presented in small 8 oz. food containers.
+

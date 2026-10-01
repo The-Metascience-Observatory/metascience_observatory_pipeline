@@ -1,0 +1,28 @@
+{
+  "succeeded": [
+    "10.1001--archneurol.2011.155",
+    "10.1016--j.cognition.2019.104157",
+    "10.1016--j.jsat.2013.07.013",
+    "10.1016--j.ynirp.2022.100147",
+    "10.1177--073953298600700307",
+    "10.1525--collabra.216",
+    "10.1525--mp.2012.30.2.161",
+    "10.31234--osf.io--esu9z",
+    "10.3389--fpsyg.2018.02476",
+    "10.7554--elife.09976",
+    "10.7554--elife.10860",
+    "10.7554--elife.11414",
+    "10.7554--elife.11566",
+    "10.7554--elife.17044",
+    "10.7554--elife.18173",
+    "10.7554--elife.43511",
+    "10.7554--elife.45120"
+  ],
+  "errors": [
+    "10.1073--pnas.2103313118: RuntimeError: openrouter returned an empty reply for 10.1073--pnas.2103313118 (output token budget 40000 \u2014 raise --max-output-tokens if the model spent it all reasoning)",
+    "10.7554--elife.11999: RuntimeError: openrouter returned an empty reply for 10.7554--elife.11999 (output token budget 40000 \u2014 raise --max-output-tokens if the model spent it all reasoning)",
+    "10.1007--s40279-025-02201-w: ValueError: entry needs an effect description"
+  ],
+  "output_sheet": "benchmarking/results/recode_v2_2026_09_28/sheet_ling26_v2.csv",
+  "warning": "Failed/unattempted papers retain source-sheet rows; use successful reply checkpoints to distinguish them."
+}

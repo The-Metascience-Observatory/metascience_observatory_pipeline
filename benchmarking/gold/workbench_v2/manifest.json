@@ -1,0 +1,30 @@
+{
+  "papers": 206,
+  "candidates": 1052,
+  "source_proposals": 25,
+  "protocol_flags": 6,
+  "discipline_counts": {
+    "education": 11,
+    "environmental science": 2,
+    "medical fields": 17,
+    "business & management": 3,
+    "linguistics": 5,
+    "biology": 29,
+    "psychology": 98,
+    "neuroscience": 17,
+    "human-computer interaction": 1,
+    "political science": 3,
+    "economics": 18,
+    "sports and exercise science": 1,
+    "sociology": 1
+  },
+  "missing_subdiscipline": 23,
+  "split": "development: previously inspected; not a fresh holdout",
+  "inputs": {
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/frame_reconciled.csv": "1e6ffa4db98f5ff3e01637cf0945bfc2be7d6377df824d0fa014af558bae5b13",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/clean_ling26.csv": "ad97a763b1e5f613c1f937a4e82dc271bce676d23a6e8b2119d9900005fbd0af",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/clean_luna56.csv": "b1583b2f85500b411ef81628335fd9d626d763868f3cf99116bdc99bc86343c6",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/results/audit_2026_09_18/source_review_20.json": "e1ea841e8514c3456842a736bf05aacac63bb7b0c56da20ed3d18d9c3cf4ede2",
+    "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/sports/source_effects.json": "1df42e46d114603fb8f3052db977684d29bd65cc2d40476d4d490acf07123776"
+  }
+}

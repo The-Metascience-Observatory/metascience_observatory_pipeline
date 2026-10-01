@@ -1,0 +1,29 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Correspondence of the brain's functional architecture during activation and rest",
+      "original_authors": "Smith, S. M.",
+      "original_year": "2009",
+      "original_journal": "Proceedings of the National Academy of Sciences",
+      "description": "Correspondence between resting state and task brain networks",
+      "citation_sentence": "In the present study, these Smith et al. main findings were highly reproducible using the HCP task and resting state data.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state the Smith et al. findings were 'replicable' and call it a 'true replication.' The replication uses different data (HCP COPE maps and resting-state ICA maps) and different analysis inputs (real task activation maps vs. BrainMap pseudo-activation maps), but preserves the core paradigm (group ICA + spatial cross-correlation of rest and task networks), warranting 'close experiment.'"
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 78698,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 2330,
+    "cost_usd": 0.0005513634
+  }
+}

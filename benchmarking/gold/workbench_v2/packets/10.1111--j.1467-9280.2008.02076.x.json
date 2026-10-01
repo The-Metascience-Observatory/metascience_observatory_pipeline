@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1111/j.1467-9280.2008.02076.x",
+  "paper_folder": "10.1111--j.1467-9280.2008.02076.x",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "ai_source_review:2026-09-18",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1111--j.1467-9280.2008.02076.x/body.md",
+      "sha256": "cd4b14184ff14201075069b197b36cdc5a3a38ef9093061ceb358fd49670cb16"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1111--j.1467-9280.2008.02076.x#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper presents original experimental research on implicit and explicit attitude generalization rather than replicating prior studies; its experiments are novel contributions using new paradigms and measures."
+    },
+    {
+      "candidate_id": "luna56:10.1111--j.1467-9280.2008.02076.x#luna56:a0f73dddb123e85e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Perceived entitativity, stereotype formation, and the interchangeability of group members",
+      "description": "When a group is perceived as large and diverse, people recognize that one individual's behavior is not representative of all group members and resist generalizing evaluations to another group member.",
+      "citation_sentence": "We predicted that people would explicitly refrain from using the information about the original group members in making immediate judgments of the new group members; this finding would replicate demonstrations that people can recognize that one individual's behavior is not representative of all group members if their group is large and diverse [5][17].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original using numbered references rather than author-year citations. The replication found that explicit generalization was substantially reduced for new group members, although not entirely absent.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1111--j.1467-9280.2008.02076.x#luna56:60e208c449e284e4:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Target entitativity: Implications for information processing about individual and group targets",
+      "description": "People can recognize that one individual's behavior is not representative of all members of a large and diverse group and therefore resist transferring evaluations from one group member to another.",
+      "citation_sentence": "We predicted that people would explicitly refrain from using the information about the original group members in making immediate judgments of the new group members; this finding would replicate demonstrations that people can recognize that one individual's behavior is not representative of all group members if their group is large and diverse [5][17].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper cites the original using numbered references rather than author-year citations. The replication found that explicit generalization was substantially reduced for new group members, although not entirely absent.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s11251-018-9451-7",
+  "paper_folder": "10.1007--s11251-018-9451-7",
+  "discipline": "psychology",
+  "subdiscipline": "educational psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s11251-018-9451-7/body.md",
+      "sha256": "8f8230abdaef7ac6b0f9b36ad2eff65135cb273c75f362bc89cde6b2240cab9d"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s11251-018-9451-7#ling26:49d5eff6b7089b61:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.learninstruc.2015.12.002",
+      "original_title": "Improving problem solving with subgoal labels in procedural instructions and worked examples",
+      "description": "Subgoal labeled expository text interacts with subgoal labeled worked examples to improve problem solving performance in chemistry",
+      "citation_sentence": "The present study used methods similar to those described in Margulieux and Catrambone (2016).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 replicated the original programming study in the chemistry domain; the key interaction effect was not found (F(1,116)=0.79, p=0.38) and the pattern of results differed from the original programming study, with subgoal labeled expository text showing a marginal main effect rather than the original interaction pattern. Experiment 2 tested the replication in chemistry (reaction stoichiometry). Subgoal labeled expository text improved performance on its own, contrary to the original finding that text alone did not help. The key interaction pattern from the original programming study was not replicated. Authors state 'the results were not the hypothesized results.'",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1007--s11251-018-9451-7#ling26:6ecccbbc17540847:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.learninstruc.2015.12.002",
+      "original_title": "Improving problem solving with subgoal labels in procedural instructions and worked examples",
+      "description": "Subgoal labeled expository text interacts with subgoal labeled worked examples to improve problem solving performance in statistics",
+      "citation_sentence": "The present study used methods similar to those described in Margulieux and Catrambone (2016).",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 tested the replication in statistics (Poisson distribution). Subgoal labeled expository text had no effect and no interaction with worked examples was found; only subgoal labeled worked examples improved performance. The hypothesized interaction pattern from the original programming study was not replicated. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s11251-018-9451-7#luna56:6faf1093bffb086e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.learninstruc.2015.12.002",
+      "original_title": "Improving problem solving with subgoal labels in procedural instructions and worked examples",
+      "description": "Placing subgoal labels in both expository text and worked examples improves novel problem-solving performance more than placing labels in only one or neither type of instructional material.",
+      "citation_sentence": "In line with these predictions, Margulieux and Catrambone (2016) found that subgoal labels improved learning for a programming task most if they were placed in the expository text and worked examples.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2 tested the intervention in chemistry. Subgoal-labeled worked examples consistently improved performance, and subgoal-labeled expository text had an additive effect rather than the interaction found in the original programming study. The authors state that the results did not match the hypothesized replication pattern.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s11251-018-9451-7#luna56:4b037548515ffe26:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.learninstruc.2015.12.002",
+      "original_title": "Improving problem solving with subgoal labels in procedural instructions and worked examples",
+      "description": "Placing subgoal labels in both expository text and worked examples improves novel problem-solving performance more than placing labels in only one or neither type of instructional material.",
+      "citation_sentence": "In line with these predictions, Margulieux and Catrambone (2016) found that subgoal labels improved learning for a programming task most if they were placed in the expository text and worked examples.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 tested the intervention in statistics and found no effect of subgoal-labeled expository text and no interaction with subgoal-labeled worked examples, although labeled worked examples improved performance. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

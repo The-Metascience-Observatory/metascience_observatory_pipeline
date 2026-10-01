@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.18718/81781.23",
+  "paper_folder": "10.18718--81781.23",
+  "discipline": "economics",
+  "subdiscipline": "macroeconomics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.18718--81781.23/body.md",
+      "sha256": "8b25727774b3f4b1b5573e521cdb91cc132746b4bdabb43ed3a22a12f68f5510"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.18718--81781.23#ling26:9ba58358e5e22afe:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Merit goods and private consumption are complements (\u03b1\u2082 > 0)",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication confirmed that merit goods and private consumption are complements, consistent with F&K's original finding. The extension analysis (1996-2015) also confirmed this finding.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.18718--81781.23#ling26:a1badbe74913689a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Public goods and private consumption are substitutes (\u03b1\u2081 < 0)",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication did not find support for the substitution relationship between public goods and private consumption. The estimated coefficients for public goods were small and statistically insignificant, indicating independence rather than substitution. The extension analysis (1996-2015) also confirmed this null finding.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.18718--81781.23#luna56:26835ad26177e447:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Using the same countries and period as the original study, the replication tests the original claim that merit goods and private consumption are complements.",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication finds positive and generally statistically significant coefficients for merit goods and explicitly interprets these as confirming the original complementary relationship.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.18718--81781.23#luna56:d92766198435d178:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Using the same countries and period as the original study, the replication tests the original claim that public goods and private consumption are substitutes.",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication reports statistically insignificant estimates and states that it did not find support for the original conclusion that public goods and private consumption are substitutes.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.18718--81781.23#luna56:c03464f568d4f9d9:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Using data from 1996 to 2015, the extension tests whether the original claim that merit goods and private consumption are complements generalizes to a more recent period.",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors describe the newer-period analysis as an extension and report strong evidence confirming the complementary relationship between merit goods and private consumption.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.18718--81781.23#luna56:ee998cf2d0ec307f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.euroecorev.2004.01.004",
+      "original_title": "Public goods, merit goods, and the relation between private and government consumption",
+      "description": "Using data from 1996 to 2015, the extension tests whether the original claim that public goods and private consumption are substitutes generalizes to a more recent period.",
+      "citation_sentence": "Fiorito & Kollintzas' (F&K) paper \"Public goods, merit goods, and the relationship between private and government consumption\" (European Economic Review, 2004) investigated whether different branches of government consumption affect private consumption differently, and provided important theoretical and empirical evidence of the crowding out effect between government consumption and private consumption.",
+      "gt_ambiguity": "clear",
+      "notes": "The estimates are statistically insignificant, and the authors state that they found no evidence that public goods and private consumption are substitutes.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

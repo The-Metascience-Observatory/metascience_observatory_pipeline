@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s10664-025-10739-6",
+  "paper_folder": "10.1007--s10664-025-10739-6",
+  "discipline": "human-computer interaction",
+  "subdiscipline": "",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s10664-025-10739-6/body.md",
+      "sha256": "c878f707e82b0c22eb8bf74a32eeeebeee720b38a376cef1f2f9b4077fcceac7"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s10664-025-10739-6#ling26:e590f197a07d1f19:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "The original lab study claimed that biometric sensors can predict the interruptibility of software developers with high accuracy (91.5%) in a controlled lab environment.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states it is an external close replication of the original lab study. The replication failed to replicate the original's high-accuracy classification results; models did not significantly outperform the majority classifier baseline. AQ5 was not replicated due to an incorrect post-interview questionnaire (noted in Section 6.4). The authors explicitly state they cannot replicate models that significantly improve over the majority classifier baseline. Severe threats to validity were identified: small sample size (10 participants), highly imbalanced dataset, and ad hoc transformation of the interruptibility scale. EDA features were dropped after sessions due to a measurement error (electrode saturation), which may have affected model performance.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s10664-025-10739-6#luna56:c9801722436cf973:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "Shorter time windows, particularly a 10-second window, produce better interruptibility-classification performance than longer time windows.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no consistent advantage for shorter or longer time windows, unlike the original study.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s10664-025-10739-6#luna56:ce95171d83032ebf:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "Biometric sensor data can predict software developers' perceived interruptibility with high accuracy, significantly outperforming a majority-classifier baseline in a controlled laboratory setting.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state that they could not replicate models that significantly improve over the majority-classifier baseline and conclude that the original results did not generalize. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s10664-025-10739-6#luna56:d84708d40092db24:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "Perceived mental workload is strongly negatively associated with software developers' perceived interruptibility.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication found a statistically significant association in the expected direction, but it was substantially weaker than in the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s10664-025-10739-6#luna56:50eea6045613e7d4:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "Interruptions are more disruptive to software developers during periods of high mental workload.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication did not observe a statistically significant association between perceived interruptibility and disruptiveness. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s10664-025-10739-6#luna56:bee98616acd14f79:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1145/2702123.2702593",
+      "original_title": "Interruptibility of software developers and its prediction using psycho-physiological sensors",
+      "description": "Interruption lag is weakly associated with software developers' perceived interruptibility.",
+      "citation_sentence": "In this paper, we report on what is, to the best of our knowledge, the first external and close replication of the original lab study (Z\u00fcger and Fritz 2015).",
+      "gt_ambiguity": "clear",
+      "notes": "Both the original and replication reported a weak, statistically significant association between interruption lag and perceived interruptibility. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

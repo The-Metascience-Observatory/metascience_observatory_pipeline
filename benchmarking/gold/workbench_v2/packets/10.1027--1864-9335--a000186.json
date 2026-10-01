@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1027/1864-9335/a000186",
+  "paper_folder": "10.1027--1864-9335--a000186",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1027--1864-9335--a000186/body.md",
+      "sha256": "6194befe21c12ca8ca5218a522aa94763037843a034749402f4fba3cec04c9bb"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1027--1864-9335--a000186#ling26:fd20dc90c6ad1c32:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "With a clean conscience cleanliness reduces the severity of moral judgments.",
+      "description": "Washing hands after experiencing disgust reduces the severity of moral judgments.",
+      "citation_sentence": "These reasons motivated our replication studies of the two experiments reported in Schnall, Benton, and colleagues (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Direct replication of SBH Experiment 2; preregistered; materials supplied by original authors. Direct replication of SBH Exp 2; preregistered; original DOI not found in paper.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1027--1864-9335--a000186#ling26:ee9df26bf0ff41ea:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "With a clean conscience cleanliness reduces the severity of moral judgments.",
+      "description": "Exposure to cleanliness-related words reduces the severity of moral judgments.",
+      "citation_sentence": "These reasons motivated our replication studies of the two experiments reported in Schnall, Benton, and colleagues (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Direct replication of SBH Exp 1; preregistered; original DOI not found in paper. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1027--1864-9335--a000186#luna56:e2f7496fd5486d00:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "With a clean conscience cleanliness reduces the severity of moral judgments",
+      "description": "Experiment 1 tested whether priming participants with cleanliness would reduce the severity of their moral judgments.",
+      "citation_sentence": "These reasons motivated our replication studies of the two experiments reported in Schnall, Benton, and colleagues (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly characterize this replication as an informative failure to replicate.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1027--1864-9335--a000186#luna56:80d75b3a45394aaf:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "With a clean conscience cleanliness reduces the severity of moral judgments",
+      "description": "Experiment 2 tested whether washing one's hands after experiencing disgust would reduce the severity of moral judgments.",
+      "citation_sentence": "These reasons motivated our replication studies of the two experiments reported in Schnall, Benton, and colleagues (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly characterize this replication as an informative failure to replicate.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

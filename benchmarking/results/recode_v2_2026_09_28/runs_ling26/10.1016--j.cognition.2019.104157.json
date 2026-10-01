@@ -1,0 +1,16 @@
+{
+  "is_replication_paper": "no",
+  "why_negative": "The paper develops a novel theory of teleological generics and reports four original experiments testing its own predictions; it does not replicate any prior published study.",
+  "entries": [],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 73732,
+    "truncated": false,
+    "input_sha256": "7a36bae6a9245ed48e85aff52d10530f303c787e98518b6fa8704148dfcb0931",
+    "refs_withheld": false,
+    "output_tokens": 4113,
+    "cost_usd": 0.0006729996
+  }
+}

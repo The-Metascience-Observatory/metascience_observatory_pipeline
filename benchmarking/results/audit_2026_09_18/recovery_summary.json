@@ -1,0 +1,26 @@
+{
+  "ling26": {
+    "papers": 204,
+    "entries": 367,
+    "unscored_entries": 11,
+    "statuses": {
+      "reconstructed": 193,
+      "fresh_checkpointed_reply": 11,
+      "requires_fresh_reply": 2
+    },
+    "unresolved": [
+      "10.7554--elife.11566",
+      "10.1007--s40279-025-02201-w"
+    ]
+  },
+  "luna56": {
+    "papers": 206,
+    "entries": 598,
+    "unscored_entries": 0,
+    "statuses": {
+      "reconstructed": 197,
+      "fresh_checkpointed_reply": 9
+    },
+    "unresolved": []
+  }
+}

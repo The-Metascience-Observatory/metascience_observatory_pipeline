@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/cpp.686",
+  "paper_folder": "10.1002--cpp.686",
+  "discipline": "psychology",
+  "subdiscipline": "clinical psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--cpp.686/body.md",
+      "sha256": "87f04094b1178256de4bfe81b2e54bb3d259f2ed05a41155a5b5c1bb25d76260"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--cpp.686#ling26:059a9b40611117a6:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Attachment insecurity predicts improvement on treatment outcome following short-term group therapy for complicated grief",
+      "citation_sentence": "The stage 3 analyses followed by Ogrodniczuk et al. (2002) were implemented to evaluate the three interpersonal variables (QOR, social functioning and attachment) as predictors of outcome.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1002--cpp.686#ling26:e3dfdd4950ade40a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Quality of object relations predicts improvement on treatment outcome following short-term group therapy for complicated grief",
+      "citation_sentence": "The stage 3 analyses followed by Ogrodniczuk et al. (2002) were implemented to evaluate the three interpersonal variables (QOR, social functioning and attachment) as predictors of outcome.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1002--cpp.686#ling26:5702a80d2d959388:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Current social functioning predicts improvement on treatment outcome following short-term group therapy for complicated grief",
+      "citation_sentence": "The stage 3 analyses followed by Ogrodniczuk et al. (2002) were implemented to evaluate the three interpersonal variables (QOR, social functioning and attachment) as predictors of outcome.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--cpp.686#luna56:56f6ed283b33ce73:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Attachment insecurity predicts outcome following short-term group therapy for patients presenting with complicated grief, emerging as the strongest interpersonal predictor.",
+      "citation_sentence": "In an analysis of data from a comparative trial of two forms (interpretive, supportive) of STG therapy (n = 107), Ogrodniczuk, Piper, McCallum, Joyce and Rosie reported that three distinct indices of interpersonal relatedness-quality of object relations, current social functioning and attachment insecurity-each had signifi cant relationships with measures of treatment outcome, with attachment insecurity emerging as the strongest predictor.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state that attachment insecurity emerged as a significant predictor of all three outcome factors when represented by the RSQ measures, providing a replication of the key finding. The RAQ overall score did not replicate the original result, but the broader attachment-security finding was supported.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--cpp.686#luna56:05ac7c01a9d38a5e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Quality of object relations predicts outcome following short-term group therapy for patients presenting with complicated grief.",
+      "citation_sentence": "In an analysis of data from a comparative trial of two forms (interpretive, supportive) of STG therapy (n = 107), Ogrodniczuk, Piper, McCallum, Joyce and Rosie reported that three distinct indices of interpersonal relatedness-quality of object relations, current social functioning and attachment insecurity-each had signifi cant relationships with measures of treatment outcome, with attachment insecurity emerging as the strongest predictor.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no significant relationship between quality of object relations and any of the three outcome factors. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--cpp.686#luna56:40ad2736ef661e1e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Interpersonal predictors of group therapy outcome for complicated grief",
+      "description": "Current social functioning predicts outcome following short-term group therapy for patients presenting with complicated grief.",
+      "citation_sentence": "In an analysis of data from a comparative trial of two forms (interpretive, supportive) of STG therapy (n = 107), Ogrodniczuk, Piper, McCallum, Joyce and Rosie reported that three distinct indices of interpersonal relatedness-quality of object relations, current social functioning and attachment insecurity-each had signifi cant relationships with measures of treatment outcome, with attachment insecurity emerging as the strongest predictor.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found nonsignificant relationships between pre-therapy global social functioning and all three outcome factors. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

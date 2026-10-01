@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Economic insecurity increases physical pain\",\n      \"original_authors\": \"Chou, E.; Parmar, B.; Galinsky, A.\",\n      \"original_year\": \"2016\",\n      \"original_journal\": \"Psychological Science\",\n      \"description\": \"The original study claimed that economic insecurity increases physical pain.\",\n      \"citation_sentence\": \"\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The paper identifies this study as replication 4 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Stuck in time: Negative income shock constricts the temporal window of valuation spanning the future and the past\",\n      \"original_authors\": \"Bickel, W.; Wilson, A.; Chen, C.; Koffarnus, M.; Franck, C.\",\n      \"original_year\": \"2016\",\n      \"original_journal\": \"PLoS One\",\n      \"description\": \"The original study claimed that a negative income shock constricts the temporal window of valuation spanning the future and the past.\",\n      \"citation_sentence\": \"\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The paper identifies this study as replication 16 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Effects of perceived scarcity on financial decision making\",\n      \"original_authors\": \"Cook, L.; Sadeghein, R.\",\n      \"original_year\": \"2018\",\n      \"original_journal\": \"Journal of Public Policy & Marketing\",\n      \"description\": \"The original study claimed that perceived scarcity affects financial decision making.\",\n      \"citation_sentence\": \"\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The paper identifies this study as replication 17 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"Seeking lasting enjoyment with limited money: Financial constraints increase preference for material goods over experiences\",\n      \"original_authors\": \"Tully, S.; Hershfield, H.; Meyvis, T.\",\n      \"original_year\": \"2015\",\n      \"original_journal\": \"Journal of Consumer Research\",\n      \"description\": \"The original study claimed that financial constraints increase preference for material goods over experiences.\",\n      \"citation_sentence\": \"\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The paper identifies this study as replication 18 and describes it as one of the four successful replications. The supplied full-text rendition does not contain the sentence identifying the original study by author and year; the citation appears only in the reference list. The paper reports 19 replication results overall, but the supplied rendition does not identify the remaining original studies or their individual outcomes.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 8966,
+    "output_tokens": 2315,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00501935,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 14973,
+    "truncated": false,
+    "input_sha256": "73f4f11b24de4b5ae2162d0329452f019e184d5b39740fa6815d3d9e623ac2b1",
+    "refs_withheld": false
+  }
+}

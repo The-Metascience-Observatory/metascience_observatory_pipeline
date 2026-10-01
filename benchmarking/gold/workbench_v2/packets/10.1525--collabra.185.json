@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1525/collabra.185",
+  "paper_folder": "10.1525--collabra.185",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.185/body.md",
+      "sha256": "fc20bbd58717ced959e5d078919cdfaacb3c75359f68f06643c1d78a8ba0ee88"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1525--collabra.185#ling26:1517887c9e6ab239:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.3389/fpsyg.2018.00757",
+      "original_title": "Contents of hopes and duties: A linguistic analysis",
+      "description": "Descriptions of pursuing hopes are more emotionally positive than descriptions of pursuing duties, and descriptions of duties show more attention to social relationships than descriptions of hopes",
+      "citation_sentence": "I expected the results from Vaughn's (2018) LIWC analyses to replicate in Study 2.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 is a direct replication of Vaughn (2018) using new MTurk participants and the same LIWC methodology to compare hopes vs. duties descriptions. The authors explicitly state they expected Vaughn (2018)'s findings to replicate, and the results show significant effects in the expected direction (emotional tone more positive for hopes, social processes more prominent for duties).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--collabra.185#luna56:1f6e60fa8f6a6817:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1177/0146167216684132",
+      "original_title": "Foundational tests of the need-support model: A framework for bridging regulatory focus theory and self-determination theory",
+      "description": "Activities described as high in support of autonomy, competence, and relatedness produce higher reported need support than activities described as low in support of these needs.",
+      "citation_sentence": "Vaughn (2017b) reported the results on this scale for what is called Study 1a in the current research. The following results for the current Study 1b replicated these earlier findings.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 1b used a new sample and a modified activity-writing prompt; the paper explicitly states that its need-support findings replicated earlier findings from Vaughn (2017b).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--collabra.185#luna56:163858c8c253dbe3:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.3389/fpsyg.2018.00757",
+      "original_title": "Contents of hopes and duties: A linguistic analysis",
+      "description": "Descriptions of pursuing hopes are more positive in emotional tone, whereas descriptions of pursuing duties show more attention to social relationships.",
+      "citation_sentence": "I expected the results from Vaughn's (2018) LIWC analyses to replicate in Study 2.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 was a new experiment using the same hope-versus-duty writing paradigm as Vaughn (2018). [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

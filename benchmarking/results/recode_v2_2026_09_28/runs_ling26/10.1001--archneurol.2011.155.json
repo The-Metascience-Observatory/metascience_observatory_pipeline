@@ -1,0 +1,42 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "original_authors": "Roses, A; Lutz, M; Amrine-Madsen, H",
+      "original_year": "2010",
+      "original_journal": "Pharmacogenomics J",
+      "description": "The polyT repeat (rs10524523) is associated with age at onset of late-onset Alzheimer's disease in APOE 33 and 34 individuals",
+      "citation_sentence": "In this study we attempted to replicate the recent report by Roses et al.12 that reported an association of APOE 3-TOMM40 polyT polymorphism (rs10524523) haplotypes are associated with age at onset and risk of AD.",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    },
+    {
+      "result": "reversal",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A TOMM40 variable-length polymorphism predicts the age of late-onset Alzheimer's disease",
+      "original_authors": "Roses, A; Lutz, M; Amrine-Madsen, H",
+      "original_year": "2010",
+      "original_journal": "Pharmacogenomics J",
+      "description": "The very-long allele of rs10524523 is associated with increased risk for late-onset Alzheimer's disease",
+      "citation_sentence": "In this study we attempted to replicate the recent report by Roses et al.12 that reported an association of APOE 3-TOMM40 polyT polymorphism (rs10524523) haplotypes are associated with age at onset and risk of AD.",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.1001--archneurol.2011.155_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 24373,
+    "truncated": false,
+    "input_sha256": "f9d6b3694d228214c006591148ac4a7ad08d0bc6cb4589136ebd134bdc1207d8",
+    "refs_withheld": false,
+    "output_tokens": 7125,
+    "cost_usd": 0.0006152916
+  }
+}

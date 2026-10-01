@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1525/collabra.216",
+  "paper_folder": "10.1525--collabra.216",
+  "discipline": "psychology",
+  "subdiscipline": "organizational psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.216/body.md",
+      "sha256": "455e71fa9b4003518f8d3d7ec7e21593c2736a7b12c29e7a416d02c61e54d9a4"
+    }
+  ],
+  "flags": [
+    "targeted source review: type"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1525--collabra.216#ling26:cc4aa0ccf2d02e4a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "Larger magnitude of vertical spatial difference in an organization chart causes stronger power judgments of a leader",
+      "citation_sentence": "Study 2 took a new approach to the question of Study 1a in [7]",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--collabra.216#ling26:e11886d0c452ac1e:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "Describing a leader as powerful causes participants to place the leader's box higher in an organization chart",
+      "citation_sentence": "In Study 3a of the same original paper (Giessner & Schubert, 2007), we had tested the reverse effect",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--collabra.216#luna56:a3d7121e2663716e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "A leader positioned vertically above another leader is judged as more powerful than a leader positioned at the same vertical level.",
+      "citation_sentence": "As a part of this approach, we (Giessner & Schubert, 2007) conducted a series of experiments examining whether the vertical spatial dimension relates to power perceptions of leaders.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 introduced a modified paradigm to separate vertical rank order from magnitude of elevation. The rank-order effect was significant and the authors explicitly conclude that rank order matters; this effect was not isolated in the original Study 1a paradigm.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--collabra.216#luna56:a2c385dad86e441f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "Describing a leader as powerful rather than powerless causes participants to place the leader's box higher in an organization chart.",
+      "citation_sentence": "In Study 3a of the same original paper (Giessner & Schubert, 2007), we had tested the reverse effect -namely whether describing a leader as powerful versus powerless would result in placing a box of this leader on a higher versus lower vertical position within an organization chart.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 1 of the current paper replicates original Study 3a. The authors explicitly state that the study successfully replicated the main findings. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--collabra.216#luna56:b9a2acc05cb6e397:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "description": "A greater magnitude of vertical elevation between a leader and subordinates causes the leader to be judged as more powerful, even when hierarchical rank remains unchanged.",
+      "citation_sentence": "As a part of this approach, we (Giessner & Schubert, 2007) conducted a series of experiments examining whether the vertical spatial dimension relates to power perceptions of leaders.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 directly follows up on original Study 1a's magnitude-of-elevation claim. The current study found no magnitude effect, and the authors describe the original positive finding as a false positive. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1525--collabra.216",
+    "category": "type",
+    "action": "accept_pair",
+    "pair_hint": "leader",
+    "finding": "The matched descriptions target Study 1 (power to placement). Study 2 reverses the causal direction and is not interchangeable even though the original DOI is shared. A genuine type disagreement remains for Study 1.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--collabra.216/body.md",
+    "source_line": 71,
+    "source_sha256": "455e71fa9b4003518f8d3d7ec7e21593c2736a7b12c29e7a416d02c61e54d9a4",
+    "evidence": "gistered study successfully replicated the main findings of the original study. Participants placed the box of a leader in a more elevated position when this leader was described as powerful, compared to the condition where the leader was described as having less power. The effect was stronger in this study than in the original study.\n\nThe scatterplot of the relati",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

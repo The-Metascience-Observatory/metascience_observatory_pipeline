@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/smj.2905",
+  "paper_folder": "10.1002--smj.2905",
+  "discipline": "business & management",
+  "subdiscipline": "management",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--smj.2905/body.md",
+      "sha256": "812b01eac875e2b9e80e6be68fdfd64c276e287dc9d54d87f5818cd2b13f9630"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--smj.2905#ling26:a635f3a229a11a02:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1002/smj.2274",
+      "original_title": "Do female and ethnically diverse executives endure inequity in the CEO position or do they benefit from their minority status? An empirical examination",
+      "description": "Women CEOs receive higher compensation than male CEOs",
+      "citation_sentence": "Our replication study, both with the original sample and the expanded sample, provides a contrast to HUB's findings, suggesting that claims about gender gap in CEO compensation favoring women over men may be premature.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--smj.2905#luna56:a45161c31317a358:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1002/smj.2274",
+      "original_title": "Do female and ethnically diverse executives endure inequity in the CEO position or do they benefit from their minority status? An empirical examination",
+      "description": "Female CEOs receive higher compensation than male CEOs because their minority status makes them a rare and valuable resource for their firms.",
+      "citation_sentence": "Revisiting the gender gap in CEO compensation: Replication and extension of Hill, Upadhyay, and Beekun's (2015) work on CEO gender pay gap",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reexamines the original 1996\u20132005 sample and extends the analysis to post-2005 and combined 1996\u20132014 samples, but all analyses concern the same female-CEO compensation effect. The authors explicitly state that the replication fails to find reliable evidence supporting the original female compensation premium.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

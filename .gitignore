@@ -41,3 +41,7 @@ dashboard/home/
 dashboard/next-env.d.ts
 # extraction/download run logs under benchmarking/results (large, regenerable)
 benchmarking/results/*.log
+
+# Workbench source evidence (paper PDFs and page images): kept on disk, hashed in packets
+benchmarking/gold/workbench_v2/sources/**/*.pdf
+benchmarking/gold/workbench_v2/sources/**/*.png

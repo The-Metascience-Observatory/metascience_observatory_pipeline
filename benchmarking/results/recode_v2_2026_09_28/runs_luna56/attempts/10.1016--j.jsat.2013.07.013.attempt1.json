@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"inconclusive\",\n      \"replication_type\": \"close experiment\",\n      \"original_url\": \"\",\n      \"original_title\": \"Computer-based brief intervention: A randomized trial with postpartum women\",\n      \"original_authors\": \"Ondersma, S.; Svikis, D.; Schuster, C.\",\n      \"original_year\": \"2007\",\n      \"original_journal\": \"American Journal of Preventive Medicine\",\n      \"description\": \"The original study claimed that a single 20-minute computer-delivered e-SBI intervention plus two non-tailored mailings reduced postpartum women's illicit drug use compared with a control condition.\",\n      \"citation_sentence\": \"For example, in a randomized trial with 107 postpartum women, Ondersma, Svikis, and Schuster (2007) showed that a single 20-minute e-SBI intervention plus two non-tailored mailings was associated with reductions in self-reported drug use at a 4-month follow-up.\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The replication found significant short-term support for biologically confirmed abstinence at 3 months, but no significant effect at 6 months and no significant effects on days of drug use; the authors describe the findings as supporting short-term efficacy.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 16312,
+    "output_tokens": 710,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00357446,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.1016--j.jsat.2013.07.013_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 45505,
+    "truncated": false,
+    "input_sha256": "e8df089f938151c72a1e697d48cffef22f67b2f392c1fa5471541194f0b9c30a",
+    "refs_withheld": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "Replicates the original claim that RAF inhibitors paradoxically activate MEK/ERK signaling in BRAF[WT] cancer cell lines, as measured by IC50 values across a panel of cancer cell lines (Figure 1A)",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text."
+    },
+    {
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "Replicates the original claim that silencing CRAF reverses MEK activation upon RAF inhibitor treatment in KRAS-mutant HCT116 cells (Figure 2B)",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text."
+    },
+    {
+      "result": "",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1038/nature08833",
+      "original_title": "RAF inhibitors prime wild-type RAF to activate the MAPK pathway and enhance growth",
+      "original_authors": "Hatzivassiliou, G; Song, K; Yen, I; Brandhuber, BJ; Anderson, DJ; Alvarado, R; Ludlam, MJ; Stokoe, D; Gloor, SL; Vigers, G; Morales, T; Aliagas, I; Liu, B; Sideris, S; Hoeflich, KP; Jaiswal, BS; Seshagiri, S; Koeppen, H; Belvin, M; Friedman, LS; Malek, S",
+      "original_year": "2010",
+      "original_journal": "Nature",
+      "description": "Replicates the original claim about CRAF-BRAF heterodimerization dynamics in the presence of RAF inhibitors, specifically that PLX4720 destabilizes and GDC-0879 stabilizes the CRAF-BRAF interaction (Figure 4A)",
+      "citation_sentence": "Hatzivassiliou and colleagues found that RAF inhibitors, while effective in blocking signaling in BRAF[V600E] mutant (MT) cancer cell lines, paradoxically increased cell proliferation in BRAF[WT] cancer cell lines (Hatzivassiliou et al., 2010).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper is a registered report protocol paper from the Reproducibility Project: Cancer Biology; results are not reported in the provided text."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.09976_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 57618,
+    "truncated": false,
+    "input_sha256": "43c4107b007eb87ed9c47473d3b614a4ebc4ccf14efbd0e318862a186cd2a66f",
+    "refs_withheld": false,
+    "output_tokens": 13996,
+    "cost_usd": 0.001440096
+  }
+}

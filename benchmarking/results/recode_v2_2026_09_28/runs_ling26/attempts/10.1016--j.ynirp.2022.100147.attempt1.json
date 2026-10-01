@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"inconclusive\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1097/j.pain.0000000000001232\",\n      \"original_title\": \"Altered prefrontal correlates of monetary anticipation and outcome in chronic pain\",\n      \"original_authors\": \"Martucci, K; Borg, N; Macniven, K; Knutson, B; Mackey, S\",\n      \"original_year\": \"2018\",\n      \"original_journal\": \"Pain\",\n      \"description\": \"Reduced medial prefrontal cortex (MPFC) response during gain anticipation in fibromyalgia patients compared to healthy controls\",\n      \"citation_sentence\": \"Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The replication found a trend in the same direction but did not reach the corrected significance threshold (p < 0.0125); authors describe results as 'similar trends' and 'consistent with prior results' without claiming clear replication success.\"\n    },\n    {\n      \"result\": \"inconclusive\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1097/j.pain.0000000000001232\",\n      \"original_title\": \"Altered prefrontal correlates of monetary anticipation and outcome in chronic pain\",\n      \"original_authors\": \"Martucci, K; Borg, N; Macniven, K; Knutson, B; Mackey, S\",\n      \"original_year\": \"2018\",\n      \"original_journal\": \"Pain\",\n      \"description\": \"Enhanced MPFC response during non-punishment outcome (no-loss vs loss) in fibromyalgia patients compared to healthy controls\",\n      \"citation_sentence\": \"Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The replication found a trend in the same direction but did not reach the corrected significance threshold (p < 0.0125); authors describe results as 'similar trends' and 'consistent with prior results' without claiming clear replication success.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1097/j.pain.0000000000001232\",\n      \"original_title\": \"Altered prefrontal correlates of monetary anticipation and outcome in chronic pain\",\n      \"original_authors\": \"Martucci, K; Borg, N; Macniven, K; Knutson, B; Mackey, S\",\n      \"original_year\": \"2018\",\n      \"original_journal\": \"Pain\",\n      \"description\": \"No difference in nucleus accumbens (NAcc) response during gain anticipation between fibromyalgia patients and healthy controls\",\n      \"citation_sentence\": \"Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes. NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The original reported a null NAcc finding; the replication also found no group difference, and the authors explicitly state the result is 'consistent with previous findings.' Per the null-claim rule, agreement with the original null claim is classified as success.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 27339,
+    "output_tokens": 9473,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.001170918,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 80237,
+    "truncated": false,
+    "input_sha256": "0efb8d913930fb0ce3e453918060cbaeb91db820b546df1c1ddcc52448824cb0",
+    "refs_withheld": false
+  }
+}

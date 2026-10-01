@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1371/journal.pone.0284404",
+  "paper_folder": "10.1371--journal.pone.0284404",
+  "discipline": "medical fields",
+  "subdiscipline": "immunology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1371--journal.pone.0284404/10.1371--journal.pone.0284404_from_xml.md",
+      "sha256": "8ec1124470e403579b2b9584c84fd8dca4fa0f7dac7d884ceed4d0eb0aa32950"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0284404#ling26:cf4c6b667446e8cb:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cellimm.2012.07.009",
+      "original_title": "VSTM1-v2, a novel soluble glycoprotein, promotes the differentiation and activation of Th17 cells",
+      "description": "VSTM1-v2 promotes the differentiation and activation of Th17 cells",
+      "citation_sentence": "Finally, we repeated the same set-up as Guo et al. used to show that VSTM1-v2 induced Th17 cell differentiation, by activating total CD4+ T cells with anti-CD3, anti-CD28, and a Th17 polarizing cytokine mix [6].",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1371--journal.pone.0284404#ling26:df6990c81973c946:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Human TH17 cell development requires processing of dendritic cell-derived CXCL8 by neutrophil elastase",
+      "description": "Neutrophils are required for DC-driven differentiation of naive CD4+ T cells into Th17 cells",
+      "citation_sentence": "We confirmed our previous observations that neutrophils are required for DC-driven differentiation of naive CD4+ T cells into Th17 cells [8].",
+      "gt_ambiguity": "clear",
+      "notes": "Self-replication of the authors' own prior work (Souwer et al. 2018); the original DOI is not listed in the reference list so original_url is left blank. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1371--journal.pone.0284404#luna56:3b57498326d7aca6:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.cellimm.2012.07.009",
+      "original_title": "VSTM1-v2, a novel soluble glycoprotein, promotes the differentiation and activation of Th17 cells",
+      "description": "VSTM1-v2 promotes the differentiation of human CD4+ T cells into Th17 cells under anti-CD3, anti-CD28, and Th17-polarizing cytokine stimulation.",
+      "citation_sentence": "Finally, we repeated the same set-up as Guo et al. used to show that VSTM1-v2 induced Th17 cell differentiation, by activating total CD4[+] T cells with anti-CD3, anti-CD28, and a Th17 polarizing cytokine mix [6].",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reports no effect of VSTM1-v2 on cytokine-driven Th17 cell differentiation and concludes that its data do not support the prior finding. The paper uses numbered citations rather than author-year citations.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

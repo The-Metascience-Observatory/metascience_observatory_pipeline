@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/09658211.2011.590505",
+  "paper_folder": "10.1080--09658211.2011.590505",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--09658211.2011.590505/body.md",
+      "sha256": "46399a42a0ce49062909206601533e3cb6716a06ce846d0391c7cf2e2762894b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--09658211.2011.590505#ling26:44b62e39b41adc4b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Memory processes and the course of anxiety and depression in cancer patients",
+      "description": "Intrusion and avoidance of intrusive memories do not predict depression at 6-month follow-up after controlling for baseline depression",
+      "citation_sentence": "These results partially replicated Brewin et al.'s (1999) finding that both intrusion and avoidance predicted later depression, yet are inconsistent with [6]'s finding that intrusion and avoidance were not predictive.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "[ling26: no entry matched this anchor] Total sample null result is consistent with the original null finding, but the untreated sub-sample showed intrusion significantly predicting depression, which is inconsistent with the original.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--09658211.2011.590505#ling26:972652efcfe94b0b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Memory processes and the course of anxiety and depression in cancer patients",
+      "description": "Intrusion and avoidance of intrusive memories predict anxiety at 6-month follow-up",
+      "citation_sentence": "Again these findings differed from those of [6] who found that intrusion and avoidance predicted follow-up anxiety, even after controlling for baseline anxiety and stage of cancer illness.",
+      "gt_ambiguity": "clear",
+      "notes": "Neither intrusion nor avoidance predicted anxiety at follow-up in the total sample or the untreated sub-sample, directly contradicting the original finding.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--09658211.2011.590505#ling26:ff10c2604badd6f1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Autobiographical memory processes and the course of depression",
+      "description": "Intrusion and avoidance of intrusive memories predict depression at 6-month follow-up",
+      "citation_sentence": "These results partially replicated Brewin et al.'s (1999) finding that both intrusion and avoidance predicted later depression, yet are inconsistent with [6]'s finding that intrusion and avoidance were not predictive.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Mixed results: intrusion predicted depression in the untreated sub-sample but not the total sample; avoidance predicted lower depression in the total sample (opposite direction) but not in the untreated sub-sample.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--09658211.2011.590505#luna56:dd3f6b4ba99045b1:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Memory processes and the course of anxiety and depression in cancer patients",
+      "description": "Intrusion and avoidance of intrusive memories predict depression and anxiety symptoms six months later, controlling for baseline symptoms.",
+      "citation_sentence": "These results partially replicated Brewin et al.'s (1999) finding that both intrusion and avoidance predicted later depression, yet are inconsistent with [6]'s finding that intrusion and avoidance were not predictive.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports no predictive effect of intrusion or avoidance on follow-up anxiety, contrary to the original anxiety finding, while intrusion predicted depression in untreated participants. The citation to this original appears as reference [6] rather than with author and year in the supplied text.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--09658211.2011.590505#luna56:808d3f94d3e0a493:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Autobiographical memory processes and the course of depression",
+      "description": "Intrusion and avoidance of intrusive memories of stressful life events predict depression symptoms six months later, controlling for baseline depression.",
+      "citation_sentence": "These results partially replicated Brewin et al.'s (1999) finding that both intrusion and avoidance predicted later depression, yet are inconsistent with [6]'s finding that intrusion and avoidance were not predictive.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly describe the result as a partial replication: intrusion predicted later depression among untreated participants, whereas avoidance did not.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

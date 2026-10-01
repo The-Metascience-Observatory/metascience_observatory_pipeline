@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/02699931.2015.1136270",
+  "paper_folder": "10.1080--02699931.2015.1136270",
+  "discipline": "psychology",
+  "subdiscipline": "clinical psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--02699931.2015.1136270/body.md",
+      "sha256": "143a33a3bfb1228c70ccd90679299671ceced1df5a7b80a26ddb78ab98772c9b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--02699931.2015.1136270#ling26:967a831d6f3d821f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/02699930802652388",
+      "original_title": "Biased attention and dysphoria: Manipulating selective attention reduces subsequent depressive symptoms",
+      "description": "Attentional retraining reduces depressive symptoms through changes in attentional bias in dysphoric individuals",
+      "citation_sentence": "The current study replicated Wells and Beevers' (2010) findings on re-training the negative attentional bias in dysphoric individuals.",
+      "gt_ambiguity": "clear",
+      "notes": "Single replication study; authors explicitly state failure in Discussion: 'The replication was not successful' and 'attention was not found to be related to a change in mood.'",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--02699931.2015.1136270#luna56:a1da9d91c55985a2:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/02699930802652388",
+      "original_title": "Biased attention and dysphoria: Manipulating selective attention reduces subsequent depressive symptoms",
+      "description": "Attentional retraining toward neutral stimuli reduces depressive symptoms in dysphoric individuals, relative to a no-training condition.",
+      "citation_sentence": "The current study replicated Wells and Beevers' (2010) findings on re-training the negative attentional bias in dysphoric individuals.",
+      "gt_ambiguity": "clear",
+      "notes": "Both training and no-training groups showed reductions in depressive symptoms, with no significant group difference or time-by-group interaction; the paper explicitly describes this as a failure to replicate.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--02699931.2015.1136270#luna56:a33945b04af78e9a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1080/02699930802652388",
+      "original_title": "Biased attention and dysphoria: Manipulating selective attention reduces subsequent depressive symptoms",
+      "description": "Attentional retraining toward neutral stimuli reduces negative attentional bias in dysphoric individuals.",
+      "citation_sentence": "The current study replicated Wells and Beevers' (2010) findings on re-training the negative attentional bias in dysphoric individuals.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no significant time-by-training-condition interaction for attentional bias and explicitly stated that the expected change was not observed. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

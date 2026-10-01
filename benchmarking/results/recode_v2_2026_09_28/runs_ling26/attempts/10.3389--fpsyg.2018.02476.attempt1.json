@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"failure\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1016/j.cognition.2017.02.010\",\n      \"original_title\": \"Sequential congruency effects reveal differences in disengagement of attention for monolingual and bilingual young adults\",\n      \"original_authors\": \"Grundy, J; Chung-Fat-Yim, A; Friesen, D; Mak, L; Bialystok, E\",\n      \"original_year\": \"2017\",\n      \"original_journal\": \"Cognition\",\n      \"description\": \"Bilinguals show a smaller sequential congruency effect than monolinguals, suggesting more efficient disengagement of attention from previous stimuli\",\n      \"citation_sentence\": \"One recent study, for example, reported smaller sequential congruency effects for bilingual compared to monolingual adults (Grundy et al., 2017).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The replication adds neutral baseline trials not present in the original and compares interference effects to that neutral baseline, but the core flanker paradigm and the claim being tested are the same.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 12662,
+    "output_tokens": 2937,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.000450933,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.3389--fpsyg.2018.02476_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 26061,
+    "truncated": false,
+    "input_sha256": "4acf7c1e78f0b2fa6dafceb1303609aea3e261977589dcf86f36b1276f3083a8",
+    "refs_withheld": false
+  }
+}

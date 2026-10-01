@@ -1,0 +1,8 @@
+gt_result,judge_reason,judge_relation,n_ext_rows_in_paper,original_title,reason,replication_doi,row_id
+inconclusive,"Both rows cite identical original study (Schnall et al., 2008). GT describes broad paper-level effect without specifying manipulation method; Row [1] (hand washing) represents the most direct instantiation of the cleanliness effect, being a finer-grained experiment within the GT's broader effect description.",subanalysis_of_gt,2,With a Clean Conscience,no matching extracted row,10.1027/1864-9335/a000186,mainf_fc2d5dc9fe
+success,,,1,The Aging of the Social Mind - Differential Effects on Components of Social Unde,no matching extracted row,10.1098/rsos.210641,mainf_f69e708375
+success,,,1,The Aging of the Social Mind - Differential Effects on Components of Social Unde,no matching extracted row,10.1098/rsos.210641,mainf_d05d14818f
+failure,"Same original study (Williams & Bargh 2008, Psychological Science) confirmed by matching authors, year, journal, and title variants. Row [0] describes a different experiment (family/friend emotional closeness) from the same paper rather than the media embarrassment/violence effect. The DOI discrepancy (10.21074/kjlcap.2016.17.1.143 vs. GT's 10.1111/j.1467-9280.2008.02084.x) indicates a likely pipe…",same_original_other_effect,2,Keeping One's Distance,no matching extracted row,10.1371/journal.pone.0042510,mainf_ded11be2a9
+success,,,,Foundational Tests of the Need-Support Model,pipeline says no replications,10.1525/collabra.185,mainf_01059a4ba3
+success,,,,Foundational Tests of the Need-Support Model,pipeline says no replications,10.1525/collabra.185,mainf_ed873efa07
+success,,,,Foundational Tests of the Need-Support Model,pipeline says no replications,10.1525/collabra.185,mainf_2a8e6fa66b

@@ -1,0 +1,15 @@
+{
+  "is_replication_paper": "no",
+  "why_negative": "The paper presents original experiments (MOT and RSVP paradigms) designed to test a theoretical claim about natural-scene perception and attention; it does not replicate any specific prior study's experiment.",
+  "entries": [],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 33473,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 5569,
+    "cost_usd": 0.000632247
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "is_replication_paper": "no",
+  "why_negative": "The paper is a correction notice about a bug in the analysis code, not a replication study.",
+  "entries": [],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "10.31234--osf.io--esu9z.pdf (tail pages)",
+    "chars": 1010,
+    "truncated": false,
+    "input_sha256": "a4dd827dab281f832d4bdd5e002d5a14c3f8f50c299ae11e1dbc1e3cfba1034f",
+    "refs_withheld": false,
+    "output_tokens": 151,
+    "cost_usd": 0.000145866
+  }
+}

@@ -1,0 +1,26 @@
+coding 20 papers with openrouter/openai/gpt-5.6-luna as coder 'luna56'
+[1/20] 10.1525--mp.2012.30.2.161: 3 entry(ies)
+[2/20] 10.1073--pnas.2103313118: 4 entry(ies)
+[3/20] 10.3389--fpsyg.2018.02476: 2 entry(ies)
+[4/20] 10.1016--j.ynirp.2022.100147: 4 entry(ies)
+[5/20] 10.1525--collabra.216: 2 entry(ies)
+[6/20] 10.31234--osf.io--esu9z: 0 entry(ies)
+[7/20] 10.7554--elife.11566: 3 entry(ies)
+[8/20] 10.7554--elife.11999: 5 entry(ies)
+[9/20] 10.7554--elife.09976: 3 entry(ies)
+[10/20] 10.7554--elife.11414: 8 entry(ies)
+[11/20] 10.7554--elife.45120: 5 entry(ies)
+[12/20] 10.7554--elife.17044: 2 entry(ies)
+[13/20] 10.7554--elife.43511: 6 entry(ies)
+[14/20] 10.7554--elife.18173: 1 entry(ies)
+[15/20] 10.7554--elife.10860: 3 entry(ies)
+[16/20] 10.1007--s40279-025-02201-w: 25 entry(ies)
+[17/20] 10.1177--073953298600700307: 7 entry(ies)
+[18/20] 10.1016--j.jsat.2013.07.013: 1 entry(ies)
+[19/20] 10.1001--archneurol.2011.155: 2 entry(ies)
+[20/20] 10.1016--j.cognition.2019.104157: 0 entry(ies)
+output tokens: max 5,075 of a 40,000 cap (13% of budget), median 2,243
+cost: $0.1334 for 20 paper(s) ($0.0067/paper)
+
+20 papers coded, 0 failed; sheet now has 687 rows (565 with a result, -13 net row change) -> benchmarking/results/recode_v2_2026_09_28/sheet_luna56_v2.csv
+runtime 104s

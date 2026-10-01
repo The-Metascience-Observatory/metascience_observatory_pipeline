@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1038/s41598-018-35209-6",
+  "paper_folder": "10.1038--s41598-018-35209-6",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1038--s41598-018-35209-6/body.md",
+      "sha256": "7d2599143bb2f0f7f859472f679f4246e28fb43ac7c3a65581902c50a408b31d"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1038--s41598-018-35209-6#ling26:a20913337a29913f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Correspondence of the brain's functional architecture during activation and rest",
+      "description": "Correspondence between resting state and task brain networks",
+      "citation_sentence": "In the present study, these Smith et al. main findings were highly reproducible using the HCP task and resting state data.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state the Smith et al. findings were 'replicable' and call it a 'true replication.' The replication uses different data (HCP COPE maps and resting-state ICA maps) and different analysis inputs (real task activation maps vs. BrainMap pseudo-activation maps), but preserves the core paradigm (group ICA + spatial cross-correlation of rest and task networks), warranting 'close experiment.'",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1038--s41598-018-35209-6#luna56:3ac0dbd7ac9f0650:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1073/pnas.0905267106",
+      "original_title": "Correspondence of the brain's functional architecture during activation and rest",
+      "description": "Resting-state brain networks correspond to the functional networks engaged during task performance.",
+      "citation_sentence": "In 2009, Smith et al. published a paper in the Proceedings of the National Academy of Sciences 30 that showed that the collection of brain networks that are 'active' while a person is resting and engaged in idle thought (e.g., resting state networks or RSNs) correspond to the same functional networks used by the brain to perform tasks.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly states that the Smith et al. findings were highly reproducible and that this study provided a true replication, while also noting differences in subjects, stimuli, data inputs, and analysis methods.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

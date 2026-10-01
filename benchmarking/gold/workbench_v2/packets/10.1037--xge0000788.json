@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/xge0000788",
+  "paper_folder": "10.1037--xge0000788",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--xge0000788/body.md",
+      "sha256": "be400049f99475adaeccfc776046b61389a81dd88255cfd1c78ea7d9419ab9cc"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--xge0000788#ling26:cd9f94ab9b5309ac:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "Clark et al. (2014) Study 1 found that exposure to morally blameworthy scenarios increases belief in free will compared to morally neutral scenarios",
+      "citation_sentence": "Study 1 Vignettes (copied from Clark et al., 2014)",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Study 1 results not explicitly reported in the provided text; coded as failure based on paper's overall conclusion that replication attempts failed to support the original effect [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--xge0000788#ling26:47bf7dfc0b3636f8:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "description": "Clark et al. (2014) Study 2 found that exposure to immoral behavior increases belief in free will compared to morally neutral behavior",
+      "citation_sentence": "Study 2 Vignettes (copied from Clark et al., 2014)",
+      "gt_ambiguity": "clear",
+      "notes": "Both Studies 2a and 2b show no significant effect of morality manipulation on free will beliefs (nonmoralized subscale); p values .80 and .926 [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--xge0000788#ling26:711639dcbb5266ae:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "",
+      "description": "Clark et al. (2014) found that exposure to morally blameworthy behavior increases belief in free will compared to morally neutral behavior",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "Study 3 found a small significant effect on the moralized free will scale (p = .041, partial eta-squared = .010) but not on the nonmoralized scale (p = .059); blameworthy condition did not differ from praiseworthy or strange conditions on free will beliefs; citation sentence for Clark et al., 2014 not found in provided text for Study 3 [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--xge0000788#luna56:41cae558a3dc5595:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/a0035480",
+      "original_title": "Free to punish: A motivated account of free will belief",
+      "description": "Blameworthy behavior increases general and agent-specific free-will judgments compared with morally neutral behavior.",
+      "citation_sentence": "",
+      "gt_ambiguity": "ambiguous",
+      "notes": "This is the Study 3 replication attempt. The omnibus effect on the moralized free-will measure was significant, but the expected blameworthy condition did not differ from praiseworthy or strange conditions, creating mixed evidence for the original moral-motivation account.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--xge0000788#luna56:35b317cebdee00ab:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/a0035480",
+      "original_title": "Free to punish: A motivated account of free will belief",
+      "description": "Exposure to an immoral or blameworthy situation increases participants' belief in free will compared with exposure to a morally neutral situation.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "This is the Study 1 replication attempt; the supplied text identifies the vignettes as copied from Clark et al. (2014), but does not include the paper's introduction or discussion sentence identifying the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--xge0000788#luna56:5693e83e8ec962db:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/a0035480",
+      "original_title": "Free to punish: A motivated account of free will belief",
+      "description": "Immoral behavior increases belief in free will, partly because it increases the desire to punish the wrongdoer.",
+      "citation_sentence": "",
+      "gt_ambiguity": "clear",
+      "notes": "This is the Study 2 replication attempt. The supplementary analyses report no significant effect of the morality manipulation on free will belief in either replication sample. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

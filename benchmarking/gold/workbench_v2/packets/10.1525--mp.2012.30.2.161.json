@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1525/mp.2012.30.2.161",
+  "paper_folder": "10.1525--mp.2012.30.2.161",
+  "discipline": "psychology",
+  "subdiscipline": "personality psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--mp.2012.30.2.161/body.md",
+      "sha256": "188a91d5bf9a487c2846afd211661fa9b802e3b0e55d524904235ec26aeb906c"
+    }
+  ],
+  "flags": [
+    "targeted source review: type"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1525--mp.2012.30.2.161#ling26:a53d01a7c1cfb9c8:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "The original study claimed that musical preferences are structured by five orthogonal dimensions (Mellow, Unpretentious, Sophisticated, Intense, Contemporary); Study 3 tested whether this structure emerges using rock music excerpts only.",
+      "citation_sentence": "Rentfrow, Goldberg, and Levitin (2011) examined preferences for audio excerpts taken from a variety of musical genres, so it is difficult to know for sure the extent to which attributes were the main force underlying musical preferences.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--mp.2012.30.2.161#ling26:69a1f15aae9d3bcb:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "The original study claimed that musical preferences are structured by five orthogonal dimensions (Mellow, Unpretentious, Sophisticated, Intense, Contemporary) derived from preferences for musical excerpts across genres; Study 1 replicated this using 50 excerpts from 21 genres.",
+      "citation_sentence": "Study 1 was designed to replicate the five-factor music-preference model reported in Rentfrow, Goldberg, and Levitin (2011).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1525--mp.2012.30.2.161#ling26:e8da122eb955c6b8:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "The original study claimed that musical preferences are structured by five orthogonal dimensions (Mellow, Unpretentious, Sophisticated, Intense, Contemporary); Study 2 tested whether this structure emerges using jazz music excerpts only.",
+      "citation_sentence": "Rentfrow, Goldberg, and Levitin (2011) examined preferences for audio excerpts taken from a variety of musical genres, so it is difficult to know for sure the extent to which attributes were the main force underlying musical preferences.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--mp.2012.30.2.161#luna56:bf4350247c47dc4a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1037/a0022406",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "Musical preferences are structured by five dimensions resembling Mellow, Unpretentious, Sophisticated, Intense, and Contemporary even when the excerpts are drawn solely from the rock genre.",
+      "citation_sentence": "Previous research suggests that the MUSIC factors are defined and differentiated by certain musical attributes that account for significant proportions of variance in preferences over and above genre classification (Rentfrow, Goldberg, & Levitin, 2011).",
+      "gt_ambiguity": "clear",
+      "notes": "Study 3 recovered five interpretable factors in both Internet and undergraduate samples and found substantial convergence with the mixed-genre model.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--mp.2012.30.2.161#luna56:8dd5845a724f3e36:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/a0022406",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "Preferences for musical excerpts from diverse genres are structured by five orthogonal dimensions\u2014Mellow, Unpretentious, Sophisticated, Intense, and Contemporary\u2014and are defined by musical attributes beyond genre.",
+      "citation_sentence": "Study 1 was designed to replicate the five-factor music-preference model reported in Rentfrow, Goldberg, and Levitin (2011) and to extend that work by investigating a larger set of auditory and psychological attributes.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 1 used a subset of the original study's musical excerpts, a large Internet sample, and expanded auditory and psychological attribute ratings. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1525--mp.2012.30.2.161#luna56:3b43781c40611c4c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1037/a0022406",
+      "original_title": "The structure of musical preferences: A five-factor model",
+      "description": "Musical preferences are structured by five dimensions resembling Mellow, Unpretentious, Sophisticated, Intense, and Contemporary even when the excerpts are drawn solely from the jazz genre.",
+      "citation_sentence": "Previous research suggests that the MUSIC factors are defined and differentiated by certain musical attributes that account for significant proportions of variance in preferences over and above genre classification (Rentfrow, Goldberg, & Levitin, 2011).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Study 2 recovered five factors in both Internet and undergraduate samples, but convergence was weaker for the Sophisticated factor; the authors nevertheless describe the results as supporting the hypothesis. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1525--mp.2012.30.2.161",
+    "category": "type",
+    "action": "accept_pair",
+    "pair_hint": "five orthogonal",
+    "finding": "The broad-genre MUSIC comparison is recognizable, distinct from the jazz-only and rock-only studies. Sampling/generalization and added attribute measures explain why direct versus close experiment is not simply clerical; close extension also needs human consideration.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1525--mp.2012.30.2.161/body.md",
+    "source_line": 41,
+    "source_sha256": "188a91d5bf9a487c2846afd211661fa9b802e3b0e55d524904235ec26aeb906c",
+    "evidence": "igned to test whether the MUSIC preference model would replicate in a large and representative sample of Internet users, as opposed to music fans. Evidence of replication would provide further support for the multidimensional MUSIC preference model. Furthermore, to obtain a broader and more complete assessment of the properties characterizing the MUSIC factors, S",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

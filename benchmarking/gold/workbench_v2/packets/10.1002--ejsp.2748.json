@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/ejsp.2748",
+  "paper_folder": "10.1002--ejsp.2748",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/ground_truth_data_filtered_PDFs/10.1002--ejsp.2748/body.md",
+      "sha256": "3fe0263b1c5bdf233812524ce64520be0ee4b90b820dc50813a0fcc8ad2228a3"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--ejsp.2748#ling26:9ea9577f61a17d67:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1037/mot0000097",
+      "original_title": "Beyond motivated reasoning: Hostile reactions to critical comments from the outgroup",
+      "description": "Outgroup criticism elicits stronger defensive reactions than ingroup criticism, measured through costly behavioral responses (bonus withholding)",
+      "citation_sentence": "we followed the procedures by Th\u00fcrmer and McCrea (2018, Experiment 3) very closely",
+      "gt_ambiguity": "clear",
+      "notes": "The paper found a clear behavioral classic ISE (bonus decision) and self-report effects, all in the expected direction. Authors explicitly state 'Registered analyses revealed strong evidence for the classic ISE.' The paper also tests the bystander ISE (adapted from Sutton et al., 2006 and Adelman & Verkuyten, 2020) in the same experiment with the same participants; the behavioral bystander ISE was found contrary to the authors' social identity prediction, but the ISE was replicated overall.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--ejsp.2748#luna56:ac8edfe2f58fe99f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/mot0000097",
+      "original_title": "Beyond motivated reasoning: Hostile reactions to critical comments from the outgroup",
+      "description": "Participants respond more defensively to criticism of their ingroup when it comes from an outgroup member than when it comes from an ingroup member.",
+      "citation_sentence": "To ensure a stringent test of the expected effects, we followed the procedures by Th\u00fcrmer and McCrea (2018, Experiment 3) very closely.",
+      "gt_ambiguity": "clear",
+      "notes": "This entry covers the replicated classic intergroup sensitivity effect from Th\u00fcrmer and McCrea (2018, Experiment 3); the pure bystander ISE was a newly added extension rather than a separately replicated original effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

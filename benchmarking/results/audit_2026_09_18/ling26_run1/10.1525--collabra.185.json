@@ -1,0 +1,28 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.3389/fpsyg.2018.00757",
+      "original_title": "Contents of hopes and duties: A linguistic analysis",
+      "original_authors": "Vaughn, L. A.",
+      "original_year": "2018",
+      "original_journal": "Frontiers in Psychology",
+      "description": "Descriptions of pursuing hopes are more emotionally positive than descriptions of pursuing duties, and descriptions of duties show more attention to social relationships than descriptions of hopes",
+      "citation_sentence": "I expected the results from Vaughn's (2018) LIWC analyses to replicate in Study 2.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 2 is a direct replication of Vaughn (2018) using new MTurk participants and the same LIWC methodology to compare hopes vs. duties descriptions. The authors explicitly state they expected Vaughn (2018)'s findings to replicate, and the results show significant effects in the expected direction (emotional tone more positive for hopes, social processes more prominent for duties)."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 119768,
+    "truncated": true,
+    "refs_withheld": false,
+    "output_tokens": 6247,
+    "cost_usd": 0.00123564
+  }
+}

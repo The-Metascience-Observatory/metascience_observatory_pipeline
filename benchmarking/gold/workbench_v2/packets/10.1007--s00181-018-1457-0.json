@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s00181-018-1457-0",
+  "paper_folder": "10.1007--s00181-018-1457-0",
+  "discipline": "economics",
+  "subdiscipline": "labor economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s00181-018-1457-0/body.md",
+      "sha256": "509cc286234ee83ef1a11a0acbd22130d31323b692d46b9e1e6b4916bd8c3dee"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s00181-018-1457-0#ling26:1b9514d27bcc498b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1007/s00181-013-0773-7",
+      "original_title": "Entry regulation and entrepreneurship: a natural experiment in German craftsmanship",
+      "description": "The effect of deregulation of the German Trade and Crafts Code of 2004 on market entry, self-employment, and exit probabilities in crafts trades",
+      "citation_sentence": "Rostam-Afschar (2014, RA hereafter) examines the effects of the deregulation of occupational licensing in the German crafts sector.",
+      "gt_ambiguity": "clear",
+      "notes": "RA found no change in exit probabilities; replication found significant increase of 2.0-2.5pp in B1-trades",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-018-1457-0#luna56:4dccf3e649e270e3:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1007/s00181-013-0773-7",
+      "original_title": "Entry regulation and entrepreneurship: a natural experiment in German craftsmanship",
+      "description": "The 2004 deregulation of German crafts trades does not change exit probabilities in fully deregulated or partially deregulated trades.",
+      "citation_sentence": "Using microcensus data, RA (2014) finds a uniformly positive effect of the reform on market entry and self-employment in the fully deregulated and partly deregulated groups. The author also finds no change in exit probabilities. Against this background, our study replicates RA's paper.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication reports a positive and statistically significant increase in exit probabilities for fully deregulated B1-trades, contrary to the original null finding.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-018-1457-0#luna56:93319b922a6b5e48:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1007/s00181-013-0773-7",
+      "original_title": "Entry regulation and entrepreneurship: a natural experiment in German craftsmanship",
+      "description": "The 2004 deregulation of German crafts trades increases the probability of being self-employed in both fully deregulated B1-trades and partially deregulated A-trades.",
+      "citation_sentence": "Using microcensus data, RA (2014) finds a uniformly positive effect of the reform on market entry and self-employment in the fully deregulated and partly deregulated groups. The author also finds no change in exit probabilities. Against this background, our study replicates RA's paper.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication reports positive and significant effects on self-employment for both B1- and A-trades, although the B1 effect is more pronounced. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-018-1457-0#luna56:eb453adc6a848312:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1007/s00181-013-0773-7",
+      "original_title": "Entry regulation and entrepreneurship: a natural experiment in German craftsmanship",
+      "description": "The 2004 deregulation of German crafts trades increases market entry in both fully deregulated B1-trades and partially deregulated A-trades.",
+      "citation_sentence": "Using microcensus data, RA (2014) finds a uniformly positive effect of the reform on market entry and self-employment in the fully deregulated and partly deregulated groups. The author also finds no change in exit probabilities. Against this background, our study replicates RA's paper.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication finds a significant increase in entry for B1-trades but no statistically significant increase for A-trades, so support is partial. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,16 @@
+gt_result,judge_reason,judge_relation,n_ext_rows_in_paper,original_title,reason,replication_doi,row_id
+inconclusive,,,,Treatment Integrity of Interventions With Children in the School Psychology Lite,not_converted,10.1002/pits.22364,flora_222
+success,,,,Good and bad shopping vibes: Spending and patronage satisfaction,not_extracted,10.1007/s11002-025-09794-2,flora_19
+success,,,,Neonatal recognition of the mother's face,not_converted,10.1016/0163-6383(95)90009-8,flora_511
+inconclusive,,,,COVCOG 2: Cognitive and Memory Deficits in Long COVID: A Second Publication From,not_converted,10.1016/j.cortex.2025.05.019,flora_531
+success,,,,A risk reduction strategy to prevent maternal deaths associated with unsafe abor,pipeline says no replications,10.1016/j.ijgo.2016.06.008,flora_484
+failure,,,,Experiencing Physical Warmth Promotes Interpersonal Warmth,not_converted,10.1027/1864-9335/a000187,flora_34
+success,,,,The Symptoms of Resource Scarcity,not_converted,10.1027/1864-9335/a000210,flora_530
+failure,,,,Experiencing Physical Warmth Promotes Interpersonal Warmth,not_converted,10.1027/1864-9335/a000361,flora_523
+success,,,,Incrimination through innuendo: Can media questions become public answers?,not_converted,10.1027/1864-9335/a000540,flora_519
+success,,,,"Personality traits below facets: The consensual validity, longitudinal stability",not_converted,10.1037/pspp0000202,flora_293
+inconclusive,,,,Fighting COVID-19 Misinformation on Social Media: Experimental Evidence for a Sc,not_converted,10.1037/tmb0000086,flora_296
+inconclusive,,,,"Relationships between reading, tracing and writing skills in introductory progra",not_converted,10.1080/08993408.2022.2079866,flora_313
+success,,,,Unconscious Bias in Citizens’ Evaluations of Public Sector Performance,not_converted,10.1111/padm.13031,flora_70
+failure,"Different original studies: GT entry describes replication of the 2007 'Temporal Influences on Cheating Behavior: The What the Hell Effect' paper (10.1037/e722852011-095) by Mazar & Ariely, while pipeline row [0] describes replication of the 2008 'The dishonesty of honest people' paper (10.1509/jmkr.45.6.633) by Mazar, Amir & Ariely—distinct works with different DOIs, titles, and authors despite b…",different_original,1,"Temporal Influences on Cheating Behavior: The ""What the Hell"" Effect",no matching extracted row,10.1177/2515245918781032,flora_106
+inconclusive,,,,High in the hierarchy: How vertical location and judgments of leaders’ power are,not_converted,10.1525/collabra.216,flora_92

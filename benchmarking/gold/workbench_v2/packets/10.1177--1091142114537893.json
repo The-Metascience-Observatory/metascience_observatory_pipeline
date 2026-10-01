@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/1091142114537893",
+  "paper_folder": "10.1177--1091142114537893",
+  "discipline": "economics",
+  "subdiscipline": "political economy",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/ground_truth_data_filtered_PDFs/10.1177--1091142114537893/body.md",
+      "sha256": "424d99ec9c305118b4f1087fceb9c0c4e58dcbf0b13b3ec4e5c0fbd9b29cdeb2"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--1091142114537893#ling26:07567cdb91b6cbf5:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Millionaire Migration and State Taxation of Top Incomes: Evidence from a Natural Experiment",
+      "description": "The effect of New Jersey's 2004 income tax increase on net out-migration of millionaires among taxpayers earning all income in New Jersey",
+      "citation_sentence": "This comment revisits an article by Cristobal Young and Charles Varner (2011; henceforth, YV) in the National Tax Journal that examined the extent to which a tax increase spurred net out-migration of high-income taxpayers from New Jersey.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper reestimates YV's models with multiple specifications; the key finding is that excluding in-migrants reveals a statistically significant increase in millionaire out-migration that YV's net migration specification missed due to methodological issues (including in-migrants in the sample). Replication of YV's model 5 (table 3), limiting the sample to affluent taxpayers who reported earning all of their income in New Jersey in a given year; confirms YV's finding of a statistically significant coefficient (2.47) at the 10 percent level.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--1091142114537893#ling26:89d02acb36e17bbf:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Millionaire Migration and State Taxation of Top Incomes: Evidence from a Natural Experiment",
+      "description": "The effect of New Jersey's 2004 income tax increase on net out-migration of millionaires relative to other affluent taxpayers",
+      "citation_sentence": "This comment revisits an article by Cristobal Young and Charles Varner (2011; henceforth, YV) in the National Tax Journal that examined the extent to which a tax increase spurred net out-migration of high-income taxpayers from New Jersey.",
+      "gt_ambiguity": "clear",
+      "notes": "Reestimation of YV's models 1-3 (table 1, net migration specification) using the same methodology; authors report coefficients very similar to YV's, reproducing the null finding. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1177--1091142114537893#ling26:9b5e59d397faa762:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Millionaire Migration and State Taxation of Top Incomes: Evidence from a Natural Experiment",
+      "description": "The effect of New Jersey's 2004 income tax increase on net out-migration of millionaires relative to other affluent taxpayers",
+      "citation_sentence": "This comment revisits an article by Cristobal Young and Charles Varner (2011; henceforth, YV) in the National Tax Journal that examined the extent to which a tax increase spurred net out-migration of high-income taxpayers from New Jersey.",
+      "gt_ambiguity": "clear",
+      "notes": "Reestimation of YV's model excluding New Jersey in-migrants (out-migration specification, table 2 sections C-D); finds statistically significant increase in annual millionaire out-migration after 2003, with coefficient roughly five times larger than YV's highlighted net migration estimates. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--1091142114537893#luna56:a9099fd9dd1d38bd:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Millionaire Migration and State Taxation of Top Incomes: Evidence from a Natural Experiment",
+      "description": "The 2004 New Jersey income tax increase had little or no effect on the relative net out-migration of taxpayers earning more than $500,000 compared with other affluent taxpayers.",
+      "citation_sentence": "This comment revisits an article by Cristobal Young and Charles Varner (2011; henceforth, YV) in the National Tax Journal that examined the extent to which a tax increase spurred net out-migration of high-income taxpayers from New Jersey.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication reproduces the original net-migration results, which show no statistically significant effect, but reports a statistically significant increase in millionaire out-migration when in-migrants are excluded. The mixed findings support an inconclusive classification.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

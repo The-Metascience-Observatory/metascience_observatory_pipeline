@@ -1,0 +1,80 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "original_authors": "Prasada, S.; Khemlani, S.; Leslie, S.; Glucksberg, S.",
+      "original_year": "2013",
+      "original_journal": "Cognition",
+      "description": "Principled connections between kinds and properties license self-referential generalizations, whereas non-principled connections do not.",
+      "citation_sentence": "[47] introduced several linguistic tests to distinguish principled from non-principled connections.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 1 adapted the self-referential generalization test from the original study to teleological generics."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "original_authors": "Prasada, S.; Khemlani, S.; Leslie, S.; Glucksberg, S.",
+      "original_year": "2013",
+      "original_journal": "Cognition",
+      "description": "Principled connections establish norms of normality and normativity for the properties of a kind, whereas non-principled connections do not.",
+      "citation_sentence": "As [47] point out, there are two ways of examining norm-based expectations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2a tested normality and normativity formulations as an extension of the original norm test."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "original_authors": "Prasada, S.; Khemlani, S.; Leslie, S.; Glucksberg, S.",
+      "original_year": "2013",
+      "original_journal": "Cognition",
+      "description": "Principled connections establish normative expectations that a kind should possess the corresponding property.",
+      "citation_sentence": "As [47] point out, there are two ways of examining norm-based expectations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2b used an alternative should formulation to extend the original normativity test."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "original_authors": "Prasada, S.; Khemlani, S.; Leslie, S.; Glucksberg, S.",
+      "original_year": "2013",
+      "original_journal": "Cognition",
+      "description": "Properties linked to a kind by a principled connection are construed as an aspect of that kind, whereas properties linked non-principally are not.",
+      "citation_sentence": "When a principled connection is present between a kind and a property, people construe the property as an aspect of the kind.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paragraph identifies the aspect test as originating in the prior principled-connections work, cited as [47]."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Conceptual distinctions amongst generics",
+      "original_authors": "Prasada, S.; Khemlani, S.; Leslie, S.; Glucksberg, S.",
+      "original_year": "2013",
+      "original_journal": "Cognition",
+      "description": "Principled connections license natural formal explanations that explain a property by reference to the kind, whereas non-principled connections do not.",
+      "citation_sentence": "Principled connections should license formal explanations, i.e., explanations that explain properties by referring to the kind in question [44].",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 4 adapted the formal-explanations test to teleological phenomena; the sentence cites [44] directly, while the broader four-test framework is attributed to [47]."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 73732,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 2445,
+    "cost_usd": 0.00728122
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/s0261444815000087",
+  "paper_folder": "10.1017--s0261444815000087",
+  "discipline": "linguistics",
+  "subdiscipline": "second language acquisition",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--s0261444815000087/body.md",
+      "sha256": "2601d7dd759595db3176cbe0a782b44b8f4c68154ee578ffa9f549a8ceb2ca4f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--s0261444815000087#ling26:61cbbec4d3da18dc:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The effect of planning sub-processes on L2 writing fluency, grammatical complexity, and lexical complexity",
+      "description": "Pre-task planning sub-processes (idea generation, organization, and goal setting) affect the fluency, grammatical complexity, and lexical complexity of L2 writers' written language production",
+      "citation_sentence": "Unlike the study conducted by [23], which found no impact of pre-task planning on grammatical and lexical complexity and a minimal impact of organization pre-task planning on L2 writing fluency (d = 0.26), this study found no impact of pre-task planning on the participants' written language production, suggesting no support for the hypothesized threshold of target language proficiency.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper does not name the original authors in running text; only [23] is used as a citation. The replication used L1 writers instead of L2 writers and eliminated the goal-setting-plus-organization condition, making it a close extension rather than a direct replication. The original study found a minimal fluency effect (d=0.26) and no complexity effects; the replication found no significant effects on any variable.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0261444815000087#luna56:1a136930abfa7ac0:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "The effect of planning sub-processes on L2 writing fluency, grammatical complexity, and lexical complexity",
+      "description": "Pre-task planning sub-processes, including idea generation, organization, and goal setting, affect the fluency, grammatical complexity, and lexical complexity of written language production, with organization planning reducing sentence length and minimally increasing total words produced.",
+      "citation_sentence": "This paper investigates the third explanation-a hypothesized threshold-by replicating the study conducted by [23] among a group of L1 writers.",
+      "gt_ambiguity": "clear",
+      "notes": "Approximate replication conducted with L1 English-speaking middle-school students rather than the original study's L2 learners; the goal-setting-plus-organization condition was omitted.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

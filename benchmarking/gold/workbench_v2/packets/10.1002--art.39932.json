@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1002/art.39932",
+  "paper_folder": "10.1002--art.39932",
+  "discipline": "medical fields",
+  "subdiscipline": "medical genetics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1002--art.39932/10.1002--art.39932_from_xml.md",
+      "sha256": "875aac4ba9721a03b9a5b82be962ddc63df5f9d19543e39197220fdee764581f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1002--art.39932#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--art.39932#luna56:ed9ea6411609ae41:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "A functional polymorphism in the 5' UTR of GDF5 is associated with susceptibility to osteoarthritis",
+      "description": "The GDF5 variant rs143383 is associated with susceptibility to osteoarthritis.",
+      "citation_sentence": "We also tested associations between previously reported OA SNPs that were genome-wide significant or replicated across several studies (9\u201313), which were mostly conducted in European cohorts.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a nominally significant association in the same direction as the previously reported GDF5 effect; the Discussion describes GDF5 as one of two modestly replicated loci. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--art.39932#luna56:76877108e4f6b745:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Identification of new susceptibility loci for osteoarthritis (arcOGEN): a genome-wide association study",
+      "description": "The CHST11 variant rs835487 is associated with osteoarthritis susceptibility.",
+      "citation_sentence": "We also tested associations between previously reported OA SNPs that were genome-wide significant or replicated across several studies (9\u201313), which were mostly conducted in European cohorts.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication association was nominally significant but was not directionally consistent with the previously reported effect; the authors explicitly state that CHST11 was not replicated. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1002--art.39932#luna56:86ded9fc3f832edf:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Identification of new susceptibility loci for osteoarthritis (arcOGEN): a genome-wide association study",
+      "description": "The FTO variant rs8044769 is associated with osteoarthritis susceptibility.",
+      "citation_sentence": "We also tested associations between previously reported OA SNPs that were genome-wide significant or replicated across several studies (9\u201313), which were mostly conducted in European cohorts.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports a nominally significant association in the same direction and calls FTO one of two modestly replicated loci, but the reported association was not genome-wide significant. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

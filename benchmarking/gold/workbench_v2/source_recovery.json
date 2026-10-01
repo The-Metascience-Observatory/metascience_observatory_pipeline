@@ -1,0 +1,25 @@
+{
+  "sports": {
+    "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/sports/source_effects.json",
+    "records": 25,
+    "result_counts": {
+      "failure": 16,
+      "success": 7,
+      "inconclusive": 2
+    }
+  },
+  "downloads": [
+    {
+      "url": "https://osf.io/download/hgres/",
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/scarcity/author_summary_table.pdf",
+      "sha256": "7fcc17223ccc91a44231feab20c748037270af158551832cb2a07d02c421ad0e",
+      "text_path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/scarcity/author_summary_table.txt"
+    },
+    {
+      "url": "https://d-nb.info/1383888531/34",
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/sports/correction.pdf",
+      "sha256": "dd38af0b26ab131bc81a78a9b7e2dcca816e34d1727ec5342415cf2018c9ec24",
+      "text_path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/gold/workbench_v2/sources/sports/correction.txt"
+    }
+  ]
+}

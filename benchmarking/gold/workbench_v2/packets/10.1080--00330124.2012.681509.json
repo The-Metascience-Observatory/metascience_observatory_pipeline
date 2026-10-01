@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/00330124.2012.681509",
+  "paper_folder": "10.1080--00330124.2012.681509",
+  "discipline": "environmental science",
+  "subdiscipline": "management, monitoring, policy and law",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--00330124.2012.681509/body.md",
+      "sha256": "5f03abfa7cf1a2df8f96108b941c380ea2c8555a57fec5b411121eb4cd8705f8"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--00330124.2012.681509#ling26:8a97bb2426dd2942:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Social vulnerability to environmental hazards",
+      "description": "Adaptation of the SoVI index of social vulnerability for Norwegian municipalities, modifying variables and conceptualizations for the Norwegian context",
+      "citation_sentence": "In this article, we first replicate and then adapt an existing index of social vulnerability to hazard developed for the United States to a non-U.S. context.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The adapted index produces valid results with Moran's autocorrelation of 0.374 (p=0.001) and is marginally better correlated with the Index for Living Conditions (r=0.49) than the replica (r=0.44). Authors present the adaptation as a successful contextualization. Paper uses numbered references [16] rather than author-date citations in body text; no DOI provided for the original Cutter et al. (2003) study in the paper; the adapted index is presented as marginally better but not explicitly validated as a clear success; the correlation between replica and adapted indexes is moderate (r=0.44) and the replica explains only 19% of variation in the adapted index.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--00330124.2012.681509#ling26:0b3a341ab15f0297:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Social vulnerability to environmental hazards",
+      "description": "Replication of the SoVI index of social vulnerability for Norwegian municipalities following the original US county-level methodology as closely as possible",
+      "citation_sentence": "Our SoVI Replica analysis follows the original SoVI [16] as closely as possible regarding conceptualization of factors and the indicators included in the model.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Paper uses numbered references [16] rather than author-date citations in body text; no DOI provided for the original Cutter et al. (2003) study in the paper; the moderate correlation (r=0.44) and low R-squared (0.19) leave the replication outcome genuinely ambiguous, with authors concluding adaptation is needed rather than explicitly calling the replication a failure or success. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--00330124.2012.681509#luna56:3b29dbef45318b8e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Social vulnerability to environmental hazards",
+      "description": "The original SoVI combines demographic and socioeconomic indicators to quantify and differentiate counties' relative social vulnerability to environmental hazards.",
+      "citation_sentence": "Our SoVI Replica analysis follows the original SoVI [16] as closely as possible regarding conceptualization of factors and the indicators included in the model.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper explicitly constructs a SoVI Replica in Norway and then an adapted index using the same context and data. It does not explicitly label the replication a success or failure; the authors emphasize only moderate correspondence between the replicated and adapted indexes and argue that contextual adaptation is necessary. The original reference is Cutter, Boruff, and Shirley (2003), but no DOI is stated in the paper.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

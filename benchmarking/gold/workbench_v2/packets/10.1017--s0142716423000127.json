@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1017/s0142716423000127",
+  "paper_folder": "10.1017--s0142716423000127",
+  "discipline": "linguistics",
+  "subdiscipline": "second language acquisition",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1017--s0142716423000127/body.md",
+      "sha256": "3597ce92d9533320227d31bd14685ed9fd3ad9d6d7d57d17dcd5cd1c56f76ef7"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1017--s0142716423000127#ling26:ad78f125dc78d612:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Social bias orientations (positive or negative) influence native listeners' ratings of non-native English speech across five linguistic dimensions (accentedness, comprehensibility, segmental errors, intonation, and flow)",
+      "citation_sentence": "Reid et al. (2019) showed that 'native' listeners could be easily biased toward 'non-native' speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0142716423000127#luna56:188f5e50d07ff907:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Positive and negative social-bias orientations cause native English-speaking listeners to rate non-native English speech differently in terms of accentedness relative to a control condition.",
+      "citation_sentence": "Reid et al. (2019) showed that \"native\" listeners could be easily biased toward \"non-native\" speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "One of five distinct speech-rating dimensions tested in the same replication experiment; the replication found no significant effect of bias manipulation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0142716423000127#luna56:73daf75dcac4f10f:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Positive and negative social-bias orientations cause native English-speaking listeners to rate non-native English speech differently in terms of comprehensibility relative to a control condition.",
+      "citation_sentence": "Reid et al. (2019) showed that \"native\" listeners could be easily biased toward \"non-native\" speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "One of five distinct speech-rating dimensions tested in the same replication experiment; the replication found no significant effect of bias manipulation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0142716423000127#luna56:be5be86b88755af5:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Positive and negative social-bias orientations cause native English-speaking listeners to rate non-native English speech differently in terms of segmental errors relative to a control condition.",
+      "citation_sentence": "Reid et al. (2019) showed that \"native\" listeners could be easily biased toward \"non-native\" speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "One of five distinct speech-rating dimensions tested in the same replication experiment; the replication found no significant effect of bias manipulation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0142716423000127#luna56:665d2b0ce7089396:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Positive and negative social-bias orientations cause native English-speaking listeners to rate non-native English speech differently in terms of intonation relative to a control condition.",
+      "citation_sentence": "Reid et al. (2019) showed that \"native\" listeners could be easily biased toward \"non-native\" speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "One of five distinct speech-rating dimensions tested in the same replication experiment; the replication found no significant effect of bias manipulation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1017--s0142716423000127#luna56:02b44f46743ecad9:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1017/S0272263118000244",
+      "original_title": "Social attitudes and speech ratings: Effects of positive and negative bias on multiage listeners' judgments of second language speech",
+      "description": "Positive and negative social-bias orientations cause native English-speaking listeners to rate non-native English speech differently in terms of flow relative to a control condition.",
+      "citation_sentence": "Reid et al. (2019) showed that \"native\" listeners could be easily biased toward \"non-native\" speech across five linguistic dimensions.",
+      "gt_ambiguity": "clear",
+      "notes": "One of five distinct speech-rating dimensions tested in the same replication experiment; the replication found no significant effect of bias manipulation. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

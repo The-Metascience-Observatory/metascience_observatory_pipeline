@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"close experiment\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, Peter J.; Goldberg, Lewis R.; Levitin, Daniel J.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"Study 1 replicated the original claim that individual musical preferences are organized into five robust, orthogonal dimensions\u2014Mellow, Unpretentious, Sophisticated, Intense, and Contemporary\u2014across musical excerpts from diverse genres.\",\n      \"citation_sentence\": \"Study 1 was designed to replicate the five-factor music-preference model reported in Rentfrow, Goldberg, and Levitin (2011) and to extend that work by investigating a larger set of auditory and psychological attributes.\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The original DOI is not clearly identified in the paper and is left blank. Study 1 used a modified but recognizably similar procedure and was explicitly described as a replication and extension.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"close extension\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, Peter J.; Goldberg, Lewis R.; Levitin, Daniel J.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"Study 2 tested the original claim that the five MUSIC preference dimensions reflect reactions to musical attributes rather than merely genre or social-connotation preferences, by examining whether the five-factor structure would emerge among jazz excerpts.\",\n      \"citation_sentence\": \"Previous research suggests that the MUSIC factors are defined and differentiated by certain musical attributes that account for significant proportions of variance in preferences over and above genre classification (Rentfrow, Goldberg, & Levitin, 2011).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Study 2 included Internet and undergraduate samples but was treated as one replication study because it used the same jazz design and claim.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"close extension\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, Peter J.; Goldberg, Lewis R.; Levitin, Daniel J.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"Study 3 tested the original claim that musical preferences are organized into five dimensions reflecting combinations of musical characteristics rather than only genre classification, by examining whether the MUSIC-like structure would emerge among rock excerpts.\",\n      \"citation_sentence\": \"Previous research suggests that the MUSIC factors are defined and differentiated by certain musical attributes that account for significant proportions of variance in preferences over and above genre classification (Rentfrow, Goldberg, & Levitin, 2011).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"Study 3 included Internet and undergraduate samples but was treated as one replication study because it used the same rock design and claim.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 23547,
+    "output_tokens": 1767,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00665161,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 87387,
+    "truncated": false,
+    "input_sha256": "c43c3b8f1dfadc4e781e44529e91e7604fccdbe941ead5fbb6424dc4bc5e25a2",
+    "refs_withheld": false
+  }
+}

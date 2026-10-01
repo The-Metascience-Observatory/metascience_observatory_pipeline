@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": []\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 23629,
+    "output_tokens": 8724,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.0006490722,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.1007--s40279-025-02201-w_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 67448,
+    "truncated": false,
+    "input_sha256": "4e722d51c6dc3231f6e3f98255a815e3ad9b7cd09edf942eba313c39bfa50724",
+    "refs_withheld": false
+  }
+}

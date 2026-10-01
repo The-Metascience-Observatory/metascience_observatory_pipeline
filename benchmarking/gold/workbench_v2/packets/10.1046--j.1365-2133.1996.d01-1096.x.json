@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1046/j.1365-2133.1996.d01-1096.x",
+  "paper_folder": "10.1046--j.1365-2133.1996.d01-1096.x",
+  "discipline": "medical fields",
+  "subdiscipline": "dermatology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1046--j.1365-2133.1996.d01-1096.x/body.md",
+      "sha256": "e6bae65ca9fdd16695160e2fa164926341bb4704824b9bf92e6c459dbf4879f0"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1046--j.1365-2133.1996.d01-1096.x#ling26:2ba81dd71805a92f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "The angry back syndrome",
+      "description": "A strong positive patch test reaction creates an 'angry back' which becomes hyper-reactive to other patch test challenges",
+      "citation_sentence": "The term 'jingry back syndrome' (ABS) was coined by Mitchell in 197S.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly concludes ABS is a non-reproducible phenomenon; all experiments failed to demonstrate the angry back effect. The paper explicitly states it failed to reproduce ABS in any group tested (nickel-sensitive subjects, normal controls, and subjects with prior ABS history). The original Mitchell (1975) study reportedly contained no supporting data; this replication attempted to test the phenomenon using patch-testing methodology with dose-response thresholds. No DOI for Mitchell (1975) is provided in the paper, so original_url is left blank.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1046--j.1365-2133.1996.d01-1096.x#luna56:19dc27ee3148e5df:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "The angry back syndrome: eczema creates angry eczema",
+      "description": "A strong positive patch-test reaction creates an 'angry back' state in which the skin becomes generally or locally hyperreactive to other patch-test challenges and produces multiple concomitant positive reactions.",
+      "citation_sentence": "The term  'jingry  back  syndrome' (ABS) was coined by Mitchell  in  197S.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper tested generalized hyperreactivity, localized hyperreactivity, individual-specificity, and reproducibility of the angry back syndrome and concluded that the phenomenon could not be reproduced.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

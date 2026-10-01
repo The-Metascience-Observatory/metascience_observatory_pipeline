@@ -1,0 +1,522 @@
+{
+  "provenance": {
+    "harness_version": "1.1",
+    "pipeline_version": "0.2.0",
+    "code_fingerprint": "8203df495c768cb3",
+    "timestamp_utc": "2026-09-02T23:39:31Z",
+    "gt": {
+      "spec": "silver:main_gt_human",
+      "files": {
+        "silver/main_gt_human.csv": "6a0ba628cab995a897072309328b9f92a3d1e261283bcba6fce94359eb03a4ea"
+      }
+    },
+    "split": "all",
+    "run": "main_gt_human",
+    "tags": [
+      "sonnet_base_v2_02_2026"
+    ],
+    "papers_dir": "benchmarking/ground_truth_data_filtered_PDFs",
+    "model_ids": {
+      "claude-sonnet-4-5-20250929": 27
+    },
+    "ai_versions_in_results": {
+      "unknown": 27
+    },
+    "prompt_levels": {
+      "unknown": 27
+    },
+    "tier_counts": {
+      "unknown": 27
+    },
+    "prompt_version_now": "8.8",
+    "prompt_sha256": {
+      "prompt_shared_core.md": "bac318f8a72baa3dda077f74f5770d4026bb6717277dd49f574557f42124245d",
+      "prompt_full.md": "c8e41ffa773e71e84a9b1e78c389a7f88fa39d865c78407caefde95693e151ea",
+      "prompt_core.md": "2d706b482c3d32c3d2dcf991c605aff56278f126bdfa125e92eff3e1b226542b",
+      "prompt_full_pdf_only.md": "af6414299e2b4bb458598f871a63f31ef11156c3217022f092f2b05991758db9",
+      "prompt_full_html.md": "16f3d1c13006d856b418caafb9be388261931a94f6ca32177f18493144db9968",
+      "prompt_full_xml.md": "6b3253f6281e17fb1a6f74bd073b9f586d2e68a7ef1f05d0ace0dc73f6f7051c"
+    },
+    "codebook_sha256": "748a449dd455c571ff7dd1b24cefc860390d70b27ce3ca6fff9d77a42e9f4732",
+    "git_commit": "27712050433e9a877d2da207d2698f0c6063a772",
+    "git_dirty_prompts": false,
+    "git_dirty_pipeline": true,
+    "claude_cli_version": "2.1.259 (Claude Code)",
+    "matcher": {
+      "mode": "llm",
+      "provider": "claude_cli",
+      "model": "haiku",
+      "prompt_version": "1.1",
+      "calls": 14,
+      "cache_hits": 0,
+      "failures": 0,
+      "offline": false
+    },
+    "bootstrap": {
+      "n": 500,
+      "seed": 0
+    }
+  },
+  "metrics": {
+    "n_matched_rows": 24,
+    "entry": {
+      "tp": 24,
+      "fn": 9,
+      "granularity_misses": 1,
+      "wrong_original": 3,
+      "fp": 12,
+      "fn_different_original": 3,
+      "fn_no_candidate": 3,
+      "fn_no_replications": 3,
+      "precision": 0.6666666666666666,
+      "recall": 0.7272727272727273,
+      "f1": 0.6956521739130435
+    },
+    "paper_level": {
+      "tp": 26,
+      "fn": 1,
+      "precision": 1.0,
+      "fpr": null
+    },
+    "funnel": {
+      "papers_total": 27,
+      "scored": 26,
+      "no_replications": 1
+    },
+    "result_3class": {
+      "n": 24,
+      "accuracy": 0.7083333333333334,
+      "cohen_kappa": 0.46153846153846156,
+      "macro_f1": 0.6043290043290043,
+      "per_class": {
+        "success": {
+          "support": 6,
+          "predicted": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "recall": 0.6666666666666666,
+          "f1": 0.7272727272727272
+        },
+        "failure": {
+          "support": 16,
+          "predicted": 14,
+          "tp": 12,
+          "precision": 0.8571428571428571,
+          "recall": 0.75,
+          "f1": 0.7999999999999999
+        },
+        "inconclusive": {
+          "support": 2,
+          "predicted": 5,
+          "tp": 1,
+          "precision": 0.2,
+          "recall": 0.5,
+          "f1": 0.28571428571428575
+        }
+      },
+      "confusion": {
+        "success": {
+          "success": 4,
+          "failure": 1,
+          "inconclusive": 1
+        },
+        "failure": {
+          "success": 1,
+          "failure": 12,
+          "inconclusive": 3
+        },
+        "inconclusive": {
+          "success": 0,
+          "failure": 1,
+          "inconclusive": 1
+        }
+      }
+    },
+    "result_3class_paper": {
+      "n": 0
+    },
+    "result_3class_clear": {
+      "n": 24,
+      "accuracy": 0.7083333333333334,
+      "cohen_kappa": 0.46153846153846156,
+      "macro_f1": 0.6043290043290043,
+      "per_class": {
+        "success": {
+          "support": 6,
+          "predicted": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "recall": 0.6666666666666666,
+          "f1": 0.7272727272727272
+        },
+        "failure": {
+          "support": 16,
+          "predicted": 14,
+          "tp": 12,
+          "precision": 0.8571428571428571,
+          "recall": 0.75,
+          "f1": 0.7999999999999999
+        },
+        "inconclusive": {
+          "support": 2,
+          "predicted": 5,
+          "tp": 1,
+          "precision": 0.2,
+          "recall": 0.5,
+          "f1": 0.28571428571428575
+        }
+      },
+      "confusion": {
+        "success": {
+          "success": 4,
+          "failure": 1,
+          "inconclusive": 1
+        },
+        "failure": {
+          "success": 1,
+          "failure": 12,
+          "inconclusive": 3
+        },
+        "inconclusive": {
+          "success": 0,
+          "failure": 1,
+          "inconclusive": 1
+        }
+      }
+    },
+    "boundary_rows_excluded": 0,
+    "result_4class": {
+      "n": 0
+    },
+    "result_all_rows_raw": {
+      "n": 24,
+      "accuracy": 0.6666666666666666,
+      "cohen_kappa": 0.41463414634146345,
+      "macro_f1": 0.5905359008807284,
+      "per_class": {
+        "success": {
+          "support": 6,
+          "predicted": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "recall": 0.6666666666666666,
+          "f1": 0.7272727272727272
+        },
+        "failure": {
+          "support": 16,
+          "predicted": 13,
+          "tp": 11,
+          "precision": 0.8461538461538461,
+          "recall": 0.6875,
+          "f1": 0.7586206896551724
+        },
+        "inconclusive": {
+          "support": 2,
+          "predicted": 5,
+          "tp": 1,
+          "precision": 0.2,
+          "recall": 0.5,
+          "f1": 0.28571428571428575
+        },
+        "reversal": {
+          "support": 0,
+          "predicted": 1,
+          "tp": 0,
+          "precision": 0.0,
+          "recall": null,
+          "f1": 0.0
+        }
+      },
+      "confusion": {
+        "success": {
+          "success": 4,
+          "failure": 1,
+          "inconclusive": 1,
+          "reversal": 0
+        },
+        "failure": {
+          "success": 1,
+          "failure": 11,
+          "inconclusive": 3,
+          "reversal": 1
+        },
+        "inconclusive": {
+          "success": 0,
+          "failure": 1,
+          "inconclusive": 1,
+          "reversal": 0
+        },
+        "reversal": {
+          "success": 0,
+          "failure": 0,
+          "inconclusive": 0,
+          "reversal": 0
+        }
+      }
+    },
+    "collapse_applied_n": 1,
+    "replication_type": {
+      "n": 0,
+      "accuracy_4class": null,
+      "n_4class": 0,
+      "adjacent_accuracy": null,
+      "kappa_4class": null,
+      "accuracy_2class_direct_or_close": null,
+      "n_2class": 0
+    },
+    "original_doi": {
+      "n": 24,
+      "accuracy": 0.6666666666666666,
+      "ext_missing_rate": 0.125
+    },
+    "bibliographic": {
+      "n": 24,
+      "title_ok": 0.875,
+      "authors_ok": 0.7916666666666666,
+      "year_ok": 0.875,
+      "journal_ok": 0.7916666666666666
+    },
+    "citation_sentence": {
+      "n": 24,
+      "present_rate": 0.0,
+      "author_year_ok_rate": null
+    },
+    "statistics": {
+      "original_n": {
+        "gt_has": 19,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 19,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      },
+      "original_es": {
+        "gt_has": 4,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 4,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      },
+      "original_p_value": {
+        "gt_has": 0,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 0,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      },
+      "replication_n": {
+        "gt_has": 19,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 19,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      },
+      "replication_es": {
+        "gt_has": 5,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 5,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      },
+      "replication_p_value": {
+        "gt_has": 0,
+        "ext_has": 0,
+        "both_present": 0,
+        "gt_has_ext_missing": 0,
+        "ext_has_gt_missing": 0,
+        "type_mismatch_unscored": 0,
+        "tier1": null,
+        "tier2": null,
+        "tier3": null
+      }
+    }
+  },
+  "ci95": {
+    "result_3class.accuracy": {
+      "lo": 0.5217391304347826,
+      "hi": 0.88,
+      "n_boot": 500
+    },
+    "result_3class.cohen_kappa": {
+      "lo": 0.16363636363636358,
+      "hi": 0.7551020408163265,
+      "n_boot": 500
+    },
+    "result_3class.macro_f1": {
+      "lo": 0.40740740740740744,
+      "hi": 0.8541666666666667,
+      "n_boot": 500
+    },
+    "result_3class.inconclusive_recall": {
+      "lo": 0.0,
+      "hi": 1.0,
+      "n_boot": 426
+    },
+    "original_doi.accuracy": {
+      "lo": 0.4782608695652174,
+      "hi": 0.8461538461538461,
+      "n_boot": 500
+    }
+  },
+  "breakdowns": {
+    "source": {
+      "external:main_gt_human": {
+        "n": 24,
+        "papers": 23,
+        "accuracy": 0.7083333333333334,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "provenance": {
+      "human:dan_elton": {
+        "n": 10,
+        "papers": 10,
+        "accuracy": 0.6,
+        "doi_accuracy": 0.5
+      },
+      "human:forrt_cd": {
+        "n": 4,
+        "papers": 4,
+        "accuracy": 0.75,
+        "doi_accuracy": 0.5
+      },
+      "human:forrt_lk": {
+        "n": 10,
+        "papers": 9,
+        "accuracy": 0.8,
+        "doi_accuracy": 0.9
+      }
+    },
+    "discipline_group": {
+      "biomed": {
+        "n": 2,
+        "papers": 2,
+        "accuracy": 0.5,
+        "doi_accuracy": 0.5
+      },
+      "other": {
+        "n": 16,
+        "papers": 15,
+        "accuracy": 0.6875,
+        "doi_accuracy": 0.75
+      },
+      "psych": {
+        "n": 2,
+        "papers": 2,
+        "accuracy": 1.0,
+        "doi_accuracy": 1.0
+      },
+      "unknown": {
+        "n": 4,
+        "papers": 4,
+        "accuracy": 0.75,
+        "doi_accuracy": 0.25
+      }
+    },
+    "gt_type": {
+      "(blank)": {
+        "n": 24,
+        "papers": 23,
+        "accuracy": 0.7083333333333334,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "tier": {
+      "unknown": {
+        "n": 24,
+        "papers": 23,
+        "accuracy": 0.7083333333333334,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "year_bucket": {
+      "2019-2022": {
+        "n": 10,
+        "papers": 10,
+        "accuracy": 0.8,
+        "doi_accuracy": 0.8
+      },
+      "2023+": {
+        "n": 2,
+        "papers": 1,
+        "accuracy": 1.0,
+        "doi_accuracy": 1.0
+      },
+      "<=2018": {
+        "n": 12,
+        "papers": 12,
+        "accuracy": 0.5833333333333334,
+        "doi_accuracy": 0.5
+      }
+    },
+    "split": {
+      "all": {
+        "n": 24,
+        "papers": 23,
+        "accuracy": 0.7083333333333334,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "gt_ambiguity": {
+      "(blank)": {
+        "n": 24,
+        "papers": 23,
+        "accuracy": 0.7083333333333334,
+        "doi_accuracy": 0.6666666666666666
+      }
+    },
+    "match_method": {
+      "doi": {
+        "n": 15,
+        "papers": 15,
+        "accuracy": 0.8,
+        "doi_accuracy": 1.0
+      },
+      "doi+judge": {
+        "n": 1,
+        "papers": 1,
+        "accuracy": 1.0,
+        "doi_accuracy": 1.0
+      },
+      "llm": {
+        "n": 8,
+        "papers": 8,
+        "accuracy": 0.5,
+        "doi_accuracy": 0.0
+      }
+    }
+  },
+  "matcher": {
+    "methods": {
+      "doi": 15,
+      "llm": 8,
+      "doi+judge": 1
+    },
+    "relations": {
+      "same_effect": 23,
+      "subanalysis_of_gt": 1
+    },
+    "judge_calls": 14,
+    "cache_hits": 0,
+    "judge_failures": 0
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.chb.2012.07.031",
+  "paper_folder": "10.1016--j.chb.2012.07.031",
+  "discipline": "psychology",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.chb.2012.07.031/body.md",
+      "sha256": "0cd4ebb0dbde29e85da373e673b6f1eff2d00ad2700e9d497da4cf53e10cc617"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.chb.2012.07.031#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This is a methodological validation paper evaluating GraphClick's reliability and validity; it does not replicate any prior study's experiment or effect."
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.chb.2012.07.031#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "This is a software reliability and validity evaluation methods paper, not a replication of a prior published empirical finding."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

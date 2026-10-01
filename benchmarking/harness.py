@@ -71,9 +71,26 @@ csv.field_size_limit(sys.maxsize)
 
 # 1.1 (2026-09-02): ground-truth corrections sidecar, canonical DOI aliases,
 # paper-level result aggregation, the wrong-document-on-disk bucket, parallel
-# matching. Bump when scoring semantics change: the value is recorded in every
+# matching.
+# 1.3 (2026-09-03): gold may be built by two AI coders with human adjudication, so
+# `build-gold` stamps `human:adjudicated` only on rows a human actually ruled on and
+# `ai_consensus:<a>+<b>` on the rest; the manifest records the coder ids and whether
+# statistics were coded at all. Coding sheets can omit the statistical columns, and
+# a report whose GT carries no statistics says so instead of printing zeros.
+# 1.2 (2026-09-03): effect-level ground truth declares whether it covers every
+# effect in a paper. None of the external sets do -- a coder writes down the
+# replication the paper is about, not each of its sub-analyses -- so their entry
+# precision is a lower bound, and the per-paper aggregate that paper-level GT
+# already got is now reported for them too. Strict numbers are unchanged.
+# Bump when scoring semantics change: the value is recorded in every
 # metrics.json, so two runs are only comparable at the same harness version.
-HARNESS_VERSION = "1.1"
+# 1.4: agreement uses conservative effect descriptions, never original DOI or
+# worksheet anchors as effect identity. Generated IDs are coder-namespaced.
+# 1.5 (2026-09-28): effect_similarity strips claim framing ("the original study
+# claimed that", "<author> et al. (year) reported that") before comparing, so a
+# coder that writes the frame and one that writes the bare finding can pair.
+# Thresholds and margin unchanged. Agreement numbers differ from 1.4.
+HARNESS_VERSION = "1.5"
 GOLD_DIR = config.BENCH_GOLD_DIR
 SILVER_DIR = config.BENCH_SILVER_DIR
 RESULTS_DIR = config.BENCH_RESULTS_DIR
@@ -132,6 +149,28 @@ def write_csv(p: Path, rows: list[dict], fields: list[str] | None = None) -> Non
         w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
+
+
+LEGACY_GT_PAPERS = BENCH_DIR / "ground_truth_data_filtered_PDFs"
+
+
+def _has_fulltext(d: Path) -> bool:
+    return d.is_dir() and (any(d.glob("*_from_xml.md")) or any(d.glob("*_from_html.md"))
+                           or (d / "body.md").exists() or any(d.glob("*.pdf"))
+                           or any(d.glob("*.xml")))
+
+
+def paper_dir_for(folder: str) -> Path | None:
+    """Where a paper is readable, or None. The corpus first, then the frozen
+    legacy ground-truth corpus: the 27 main_gt_human papers were never migrated
+    into `papers/`, so looking only at PAPERS_DIR silently drops the one stratum
+    with human coding already attached to it.
+    """
+    for root in (config.PAPERS_DIR, LEGACY_GT_PAPERS):
+        d = root / folder
+        if _has_fulltext(d):
+            return d
+    return None
 
 
 def sha256_file(p: Path) -> str:
@@ -194,7 +233,7 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
 
 # ── ground-truth loading ─────────────────────────────────────────────────────
 def _gt_row(raw: dict, *, source: str, granularity: str, has_reversal_class: bool,
-            split: str = "all") -> dict:
+            effects_complete: bool = False, split: str = "all") -> dict:
     rep = normalize_doi(raw.get("replication_doi_norm") or raw.get("replication_doi")
                         or raw.get("replication_url") or "") or ""
     orig = normalize_doi(raw.get("original_doi_norm") or raw.get("original_doi")
@@ -211,6 +250,7 @@ def _gt_row(raw: dict, *, source: str, granularity: str, has_reversal_class: boo
         "split": raw.get("split") or split,
         "granularity": raw.get("granularity") or granularity,
         "has_reversal_class": has_reversal_class,
+        "effects_complete": effects_complete,
         "discipline_group": raw.get("discipline_group") or discipline_group(
             raw.get("discipline") or raw.get("openalex_field") or ""),
         "year_bucket": raw.get("year_bucket") or year_bucket(raw.get("replication_year")),
@@ -233,11 +273,21 @@ def _gt_row(raw: dict, *, source: str, granularity: str, has_reversal_class: boo
     return row
 
 
+# `effects_complete` says the set records EVERY replicated effect in each paper.
+# No external set does: FLoRa labels the paper, and the FReD and human coders wrote
+# down the replication a paper is about, not each sub-analysis of it. Where it is
+# False an extra extracted row may be a real effect nobody coded, so entry
+# precision is reported as a lower bound and the per-paper aggregate is shown
+# beside the strict score. Only gold, built to the codebook, claims completeness.
 SILVER_SPECS = {
-    "flora": dict(file="flora.csv", granularity="paper", has_reversal_class=False),
-    "fred_v242": dict(file="fred_v2_4_2.csv", granularity="effect", has_reversal_class=False),
-    "main_gt_fred_api": dict(file="main_gt_fred_api.csv", granularity="effect", has_reversal_class=False),
-    "main_gt_human": dict(file="main_gt_human.csv", granularity="effect", has_reversal_class=False),
+    "flora": dict(file="flora.csv", granularity="paper", has_reversal_class=False,
+                  effects_complete=False),
+    "fred_v242": dict(file="fred_v2_4_2.csv", granularity="effect", has_reversal_class=False,
+                      effects_complete=False),
+    "main_gt_fred_api": dict(file="main_gt_fred_api.csv", granularity="effect", has_reversal_class=False,
+                             effects_complete=False),
+    "main_gt_human": dict(file="main_gt_human.csv", granularity="effect", has_reversal_class=False,
+                          effects_complete=False),
 }
 
 
@@ -297,17 +347,42 @@ def apply_gt_corrections(raws: list[dict], path: Path) -> tuple[list[dict], int]
 
 
 def load_ground_truth(spec: str, split: str = "all", allow_dirty: bool = False,
-                      gt_path: Path | None = None) -> tuple[list[dict], list[dict], dict]:
+                      gt_path: Path | None = None,
+                      allow_paper_level: bool = False,
+                      gold_dir: Path | None = None) -> tuple[list[dict], list[dict], dict]:
     """Returns (positive rows, negative papers, info). `spec` is gold | silver:<name> | a csv path."""
     negatives: list[dict] = []
     info = {"spec": spec, "files": {}}
-    if spec == "gold":
+    if spec == "gold" and gold_dir:
+        # A workbench export (ground_truth_workbench.py export): its manifest hashes
+        # its own files by name, and its rows already carry human:* or
+        # ai_adjudicated:* provenance.
+        gd = Path(gold_dir)
+        p, np_ = gd / "gold_rows.csv", gd / "gold_negatives.csv"
+        if not p.exists():
+            sys.exit(f"ERROR: {p} not found — run ground_truth_workbench.py export first.")
+        rows = [_gt_row(r, source=r.get("source") or "gold", granularity="effect",
+                        has_reversal_class=True, effects_complete=True) for r in read_csv(p)]
+        if np_.exists():
+            negatives = [r for r in read_csv(np_) if norm_label(r.get("label")) in ("negative", "no")]
+        info["files"] = {str(f): sha256_file(f) for f in (p, np_) if f.exists()}
+        man = gd / "manifest.json"
+        if man.exists():
+            manifest = json.loads(man.read_text())
+            info["manifest_sha256"] = sha256_file(man)
+            info["gold_kind"] = manifest.get("kind", "")
+            for name, h in manifest.get("files_local", {}).items():
+                if sha256_file(gd / name) != h:
+                    if not allow_dirty:
+                        sys.exit(f"ERROR: {gd / name} does not match its export manifest; re-export.")
+                    info["gt_dirty"] = True
+    elif spec == "gold":
         p = GOLD_DIR / "gold_rows.csv"
         if not p.exists():
             sys.exit(f"ERROR: {p} not found — build the gold set first (harness.py build-gold).")
         raws = read_csv(p)
         rows = [_gt_row(r, source=r.get("source") or "gold", granularity="effect",
-                        has_reversal_class=True) for r in raws]
+                        has_reversal_class=True, effects_complete=True) for r in raws]
         np_ = GOLD_DIR / "gold_negatives.csv"
         if np_.exists():
             negatives = [r for r in read_csv(np_) if norm_label(r.get("label")) in ("negative", "no")]
@@ -337,7 +412,8 @@ def load_ground_truth(spec: str, split: str = "all", allow_dirty: bool = False,
             info["files"][str(corr.relative_to(BENCH_DIR))] = sha256_file(corr)
             info["corrections_applied"] = n_corr
         rows = [_gt_row(r, source=f"external:{name}", granularity=s["granularity"],
-                        has_reversal_class=s["has_reversal_class"]) for r in raws]
+                        has_reversal_class=s["has_reversal_class"],
+                        effects_complete=s.get("effects_complete", False)) for r in raws]
     else:
         p = Path(gt_path or spec)
         raws = read_csv(p)
@@ -349,6 +425,26 @@ def load_ground_truth(spec: str, split: str = "all", allow_dirty: bool = False,
     for r in rows:
         if not r["provenance"]:
             sys.exit(f"ERROR: GT row {r['row_id']} has no `provenance` column/value; refusing to score.")
+    # Paper-level ground truth cannot score an effect-level extractor. FLoRa records
+    # one verdict per paper (518 of its 524 papers have exactly one row) and no count
+    # of how many replications a paper contains, so where a paper reports several it
+    # cannot say whether the row the matcher picked is the one that verdict describes.
+    # Measured on base_87_r1: 83.3% accuracy where the extractor found one effect,
+    # 50.0% at two, 60.0% at three or more. Restricting to single-effect papers was
+    # considered and rejected -- the only available filter is the extractor's own
+    # output, which would select the benchmark set using the system under test.
+    # FLoRa keeps two honest jobs: the discovery-recall answer key (recall_harness.py,
+    # where "did search find this paper" is paper-level by nature) and a pool of
+    # diverse papers for gold coding.
+    paper_level = [r for r in rows if r.get("granularity") == "paper"]
+    if paper_level and not allow_paper_level:
+        sys.exit(f"ERROR: {spec} is paper-level ground truth ({len(paper_level)} rows): one verdict per "
+                 f"paper, no per-effect labels, so it cannot score which effect the extractor got right. "
+                 f"Retired as an extraction-scoring source 2026-09-04 (see benchmarking/README.md). "
+                 f"Use --gt gold or --gt silver:fred_v242. (--allow-paper-level-gt to override for "
+                 f"forensic re-scoring; the report will say the number is not effect-level.)")
+    if paper_level:
+        info["paper_level_gt"] = len(paper_level)
     dirty = [r for r in rows if r["provenance"].startswith("pipeline:")]
     if dirty and not allow_dirty:
         sys.exit(f"ERROR: {len(dirty)} GT rows carry pipeline provenance (e.g. {dirty[0]['provenance']}); "
@@ -565,6 +661,8 @@ def score_pair(gt: dict, ext: dict, m: matching.Match, paper: dict) -> dict:
         "row_id": gt["row_id"], "replication_doi": gt["replication_doi"], "source": gt["source"],
         "split": gt["split"], "discipline_group": gt["discipline_group"], "year_bucket": gt["year_bucket"],
         "granularity": gt["granularity"], "gt_ambiguity": gt["gt_ambiguity"], "tier": paper.get("tier", "unknown"),
+        "effects_complete": gt.get("effects_complete", False),
+        "has_reversal_class": gt["has_reversal_class"],
         "provenance": gt["provenance"],
         "model": paper.get("model", ""), "match_method": m.method, "match_relation": m.relation,
         "match_confidence": m.confidence, "match_cost": m.cost,
@@ -647,8 +745,13 @@ def _rate(recs, key, cond=lambda r: True):
 
 def summarize(records: list[dict], funnel: Counter, entry: dict, paper_level: dict) -> dict:
     """Headline metrics from scored records. Pure function so it can be bootstrapped."""
-    out: dict = {"n_matched_rows": len(records), "entry": entry, "paper_level": paper_level, "funnel": dict(funnel)}
     scored = [r for r in records if r["gt_result"]]
+    # An extra extracted row is only a false positive if the GT covers every effect
+    # in the paper. No external set does, so say so rather than printing a precision
+    # that reads as over-extraction.
+    partial = any(r.get("granularity") != "paper" and not r.get("effects_complete") for r in records)
+    out: dict = {"n_matched_rows": len(records), "entry": {**entry, "precision_is_lower_bound": partial},
+                 "paper_level": paper_level, "funnel": dict(funnel)}
     out["result_3class"] = result_metrics([(r["gt_result"], r["ext_result"]) for r in scored],
                                           ("success", "failure", "inconclusive"))
     # Paper-level GT (FLoRa) labels the whole paper, so also score the pipeline's
@@ -661,7 +764,11 @@ def summarize(records: list[dict], funnel: Counter, entry: dict, paper_level: di
                                                 ("success", "failure", "inconclusive")) if clear else {"n": 0}
     out["boundary_rows_excluded"] = len(scored) - len(clear)
     strict = [r for r in scored if not r.get("collapse_applied") and r["source"] and r.get("granularity") != "paper"]
-    gold_like = [r for r in strict if r["source"].startswith("gold") or r["source"].startswith("human")]
+    # Four-class needs a reference that can say "reversal". That is a property of the
+    # GT source (has_reversal_class), not of its `source` name: the gold builder
+    # writes sampling names such as `flora` or `prod_slice`, which the old
+    # gold/human prefix test silently dropped.
+    gold_like = [r for r in strict if r.get("has_reversal_class")]
     out["result_4class"] = result_metrics([(r["gt_result"], r["ext_result_raw"]) for r in (gold_like or [])])
     out["result_all_rows_raw"] = result_metrics([(r["gt_result"], r["ext_result_raw"]) for r in scored])
     out["collapse_applied_n"] = sum(1 for r in scored if r.get("collapse_applied"))
@@ -793,7 +900,9 @@ def render_report(m: dict, cis: dict, prov: dict, breakdowns: dict, matcher_stat
           f"- claude CLI: {prov['claude_cli_version'] or 'n/a'} | harness {prov['harness_version']} | {prov['timestamp_utc']}",
           f"- ground truth: {prov['gt']['spec']} files {list(prov['gt']['files'])}"
           + (f"; {prov['gt']['corrections_applied']} corrections applied" if prov['gt'].get('corrections_applied') else "")
-          + ("  **CONTAMINATED (pipeline-authored rows allowed by --allow-dirty-gt)**" if prov['gt'].get('gt_dirty') else ""),
+          + ("  **CONTAMINATED (pipeline-authored rows allowed by --allow-dirty-gt)**" if prov['gt'].get('gt_dirty') else "")
+          + (f"  **PAPER-LEVEL GT ({prov['gt']['paper_level_gt']} rows): one verdict per paper, so the "
+             f"per-row numbers below are not effect-level accuracy**" if prov['gt'].get('paper_level_gt') else ""),
           f"- matcher: {prov['matcher']}", f"- input tiers: {prov['tier_counts']}", ""]
     f = m["funnel"]
     L += ["## Coverage funnel", "",
@@ -811,6 +920,15 @@ def render_report(m: dict, cis: dict, prov: dict, breakdowns: dict, matcher_stat
           f"granularity misses (same original, other effect): {e.get('granularity_misses',0)}; "
           f"wrong-original errors flagged by judge: {e.get('wrong_original',0)}; "
           f"paper-level GT extra rows (unpenalized): {e.get('extra_rows_paper_level',0)}", ""]
+    if e.get("precision_is_lower_bound"):
+        same, other = e.get("fp_same_original", 0), e.get("fp_other_original", 0)
+        L += ["Precision here is a **lower bound**: this ground truth codes the replication each "
+              "paper is about, not every sub-analysis of it, so an extra extracted row may be a real "
+              "effect nobody coded. Recall and the FN breakdown are unaffected.",
+              f"Of the {e.get('fp',0)} penalized extras, {same} cite an original a matched row already "
+              f"names (per-effect splits of a recorded replication, which the prompt asks for) and "
+              f"{other} name an original the GT does not record at all — only the second group can "
+              f"contain a wrong-original error. See `same_original_as_a_matched_row` in extra_rows.csv.", ""]
     pl = m["paper_level"]
     if pl:
         L += ["## Paper-level (contains_replications)", "",
@@ -832,10 +950,11 @@ def render_report(m: dict, cis: dict, prov: dict, breakdowns: dict, matcher_stat
         L.append("")
     rp = m.get("result_3class_paper") or {}
     if rp.get("n"):
-        L += ["### Same rows, aggregated per paper (paper-level GT only)", "",
-              "FLoRa labels the whole paper, so this compares its verdict with the aggregate of every "
-              "pipeline row about the same original, rather than the single row the assignment picked. "
-              "The strict number above stays the headline.",
+        L += ["### Same rows, aggregated per original study", "",
+              "Where the ground truth carries one verdict for a paper (FLoRa) or codes one effect of an "
+              "original the pipeline split into several rows, this compares that verdict with the "
+              "aggregate of every pipeline row about the same original, rather than the single row the "
+              "assignment picked. The strict number above stays the headline.",
               f"n={rp['n']}  accuracy {_pct(rp['accuracy'])}  κ {rp['cohen_kappa']:.3f}  macro-F1 {_pct(rp['macro_f1'])}", ""]
     rc = m.get("result_3class_clear") or {}
     if rc.get("n") and m.get("boundary_rows_excluded"):
@@ -857,17 +976,51 @@ def render_report(m: dict, cis: dict, prov: dict, breakdowns: dict, matcher_stat
           f"4-class n={t['n_4class']}: accuracy {_pct(t['accuracy_4class'])}{_ci(cis,'replication_type.accuracy_4class')}, "
           f"adjacent-or-exact {_pct(t['adjacent_accuracy'])}, κ {t['kappa_4class'] if t['kappa_4class'] is None else round(t['kappa_4class'],3)}; "
           f"2-class (FReD 'direct or close' vs conceptual) n={t['n_2class']}: {_pct(t['accuracy_2class_direct_or_close'])}", ""]
+    if not t["n_4class"] and t["n_2class"]:
+        L += ["Only the 2-class number exists here: this ground truth labels every row "
+              "\"direct or close\", so it can say whether the pipeline called a replication conceptual "
+              "but never distinguishes direct from close experiment from close extension. Not comparable "
+              "with a 4-class figure from a gold-based arm.", ""]
     d, b, c = m["original_doi"], m["bibliographic"], m["citation_sentence"]
     L += ["## Original study identification", "",
           f"original DOI exact (n={d['n']}): {_pct(d['accuracy'])}{_ci(cis,'original_doi.accuracy')}; pipeline left DOI empty on {_pct(d['ext_missing_rate'])}",
           f"bibliographic (n={b['n']}): title {_pct(b['title_ok'])}, authors {_pct(b['authors_ok'])}, year {_pct(b['year_ok'])}, journal {_pct(b['journal_ok'])}",
           f"citation_sentence: present {_pct(c['present_rate'])}; author+year of GT original found in it {_pct(c['author_year_ok_rate'])}", ""]
-    L += ["## Statistics (denominator = both present; tiers: N exact/±5%/±20%, ES |Δ|≤.01/.05/.10 same type, p ≤1e-4 same type / ≤1e-4 / same side of .05)", "",
-          "| field | GT has | ext has | both | GT-only (miss) | ext-only | type mismatch | tier1 | tier2 | tier3 |", "|---|---|---|---|---|---|---|---|---|---|"]
-    for f_, s in m["statistics"].items():
-        L.append(f"| {f_} | {s['gt_has']} | {s['ext_has']} | {s['both_present']} | {s['gt_has_ext_missing']} | {s['ext_has_gt_missing']} | "
-                 f"{s['type_mismatch_unscored']} | {_pct(s['tier1'])} | {_pct(s['tier2'])} | {_pct(s['tier3'])} |")
-    L.append("")
+    # A stat-free arm (--level base / extract_core) emits no statistics at all, so
+    # the tier table would be a grid of n/a against however many values the GT
+    # holds. That is the mode working as designed, and it is the one measurement
+    # that really separates base from full -- so say it in words, with the GT
+    # coverage it was measured against, instead of printing zeros a reader will
+    # read as a regression.
+    levels = set((prov.get("prompt_levels") or {}))
+    stat_free = bool(levels) and levels <= {"base", "core"}
+    ext_empty = all(s["ext_has"] == 0 for s in m["statistics"].values())
+    gt_empty = all(s["gt_has"] == 0 for s in m["statistics"].values())
+    if (stat_free and ext_empty) or gt_empty:
+        gt_cov = ", ".join(f"{f_} {s['gt_has']}" for f_, s in m["statistics"].items() if s["gt_has"])
+        ext_n = sum(s["ext_has"] for s in m["statistics"].values())
+        if ext_empty and gt_empty:
+            why = ("Not scored: neither side carries statistics. This arm ran stat-free"
+                   f" ({'/'.join(sorted(levels)) or 'no level recorded'}) and the ground truth was coded "
+                   "without them, so there is nothing to compare. Blank here means never measured, "
+                   "not measured as zero.")
+        elif ext_empty:
+            why = (f"Not scored: this arm ran stat-free ({'/'.join(sorted(levels))}), which emits none of "
+                   "the 14 statistical fields by construction, so there is nothing to compare and no tier "
+                   "table is printed. This is the mode working as designed, not an extraction failure. "
+                   f"For reference, the ground truth carries: {gt_cov}. Scoring those requires a full-mode arm.")
+        else:
+            why = ("Not scored: this ground truth was coded without statistics (a stat-free gold set), so "
+                   f"the {ext_n} value(s) the extractor did emit have nothing to be checked against. "
+                   "Score statistics against a set that codes them, such as silver:fred_v242.")
+        L += ["## Statistics", "", why, ""]
+    else:
+        L += ["## Statistics (denominator = both present; tiers: N exact/±5%/±20%, ES |Δ|≤.01/.05/.10 same type, p ≤1e-4 same type / ≤1e-4 / same side of .05)", "",
+              "| field | GT has | ext has | both | GT-only (miss) | ext-only | type mismatch | tier1 | tier2 | tier3 |", "|---|---|---|---|---|---|---|---|---|---|"]
+        for f_, s in m["statistics"].items():
+            L.append(f"| {f_} | {s['gt_has']} | {s['ext_has']} | {s['both_present']} | {s['gt_has_ext_missing']} | {s['ext_has_gt_missing']} | "
+                     f"{s['type_mismatch_unscored']} | {_pct(s['tier1'])} | {_pct(s['tier2'])} | {_pct(s['tier3'])} |")
+        L.append("")
     if matcher_stats:
         L += ["## Matcher", "", f"{matcher_stats}", ""]
     L += ["## Breakdowns (3-value result accuracy)", ""]
@@ -900,11 +1053,17 @@ def cmd_evaluate(args) -> None:
     tags = [t for t in args.tags.split(",") if t]
     papers_dir = Path(args.papers_dir) if args.papers_dir else config.PAPERS_DIR
     args.papers_dir = papers_dir
-    rows, negatives, gt_info = load_ground_truth(args.gt, args.split, args.allow_dirty_gt)
+    rows, negatives, gt_info = load_ground_truth(args.gt, args.split, args.allow_dirty_gt,
+                                                 allow_paper_level=args.allow_paper_level_gt,
+                                                 gold_dir=getattr(args, "gold_dir", None))
     if args.run:
         run_dois = set(load_dois(args.run))
         rows = [r for r in rows if r["replication_doi"] in run_dois]
         negatives = [n for n in negatives if normalize_doi(n.get("replication_doi") or n.get("replication_url") or "") in run_dois]
+    if args.split == "all" and (any(r["split"] == "test" for r in rows)
+                                or any((n.get("split") or "") == "test" for n in negatives)):
+        sys.exit("ERROR: this ground truth has test-split rows; --split all would score them outside "
+                 "the release gate. Use --split dev, or --split test --release.")
     if args.split == "test":
         _release_gate(args, tags)
 
@@ -924,7 +1083,13 @@ def cmd_evaluate(args) -> None:
     funnel = Counter(papers_total=len(by_paper))
     papers: dict[str, dict] = {}
     records, unmatched, extra_rows, per_paper = [], [], [], []
-    entry = Counter()
+    # Seeded so every count is present in metrics.json even at zero: a Counter
+    # only materialises keys it increments, and a missing key reads as a stale
+    # run rather than as "none of these occurred".
+    entry = Counter({k: 0 for k in ("tp", "fn", "fp", "granularity_misses", "wrong_original",
+                                    "extra_rows_paper_level", "fn_no_candidate",
+                                    "fn_different_original", "fn_no_replications",
+                                    "fp_same_original", "fp_other_original")})
     # The judge is the slow part (one CLI call per GT row the DOI did not
     # settle), so papers are loaded and matched concurrently; the tally below
     # then walks them in sorted order, so the outputs are deterministic.
@@ -962,18 +1127,27 @@ def cmd_evaluate(args) -> None:
         funnel["scored"] += 1
         gran = gt_rows[0]["granularity"]
         for m in outcome.matches:
-            rec = score_pair(gt_rows[m.gt_index], px["rows"][m.ext_index], m, px)
-            if gran == "paper":
-                # FLoRa labels the paper, not the effect: compare its verdict with
-                # the aggregate of every pipeline row about the same original,
-                # instead of the one row the assignment happened to pick.
-                gt_doi = matching.canonical_doi(gt_rows[m.gt_index]["original_doi"])
-                same = [r for r in px["rows"]
-                        if gt_doi and matching.canonical_doi(doi_of(r, "original_url")) == gt_doi]
-                rec["ext_result_paper"] = paper_aggregate(
-                    [norm_label(r.get("result")) for r in (same or px["rows"])])
+            g = gt_rows[m.gt_index]
+            rec = score_pair(g, px["rows"][m.ext_index], m, px)
+            # FLoRa labels the paper, not the effect: compare its verdict with the
+            # aggregate of every pipeline row about the same original, instead of
+            # the one row the assignment happened to pick. Effect-level GT that
+            # codes only some of a paper's effects has the same mismatch, so it
+            # gets the same treatment -- but only where the aggregate is
+            # unambiguous: one GT row for this original, and extracted rows that
+            # actually name it (no falling back to the whole paper, which would
+            # mix in other originals).
+            gt_doi = matching.canonical_doi(g["original_doi"])
+            same = [r for r in px["rows"]
+                    if gt_doi and matching.canonical_doi(doi_of(r, "original_url")) == gt_doi]
+            sole = gt_doi and sum(1 for o in gt_rows
+                                  if matching.canonical_doi(o["original_doi"]) == gt_doi) == 1
+            pool = (same or px["rows"]) if gran == "paper" else (
+                same if (same and sole and not g.get("effects_complete")) else [])
+            if pool:
+                rec["ext_result_paper"] = paper_aggregate([norm_label(r.get("result")) for r in pool])
                 rec["result_paper_ok"] = bool(rec["gt_result"]) and rec["gt_result"] == rec["ext_result_paper"]
-                rec["n_rows_aggregated"] = len(same or px["rows"])
+                rec["n_rows_aggregated"] = len(pool)
             records.append(rec)
         entry["tp"] += len(outcome.matches)
         entry["fn"] += len(outcome.gt_unmatched)
@@ -993,9 +1167,20 @@ def cmd_evaluate(args) -> None:
                               "original_title": g["original_title"][:80], "gt_result": g["result"],
                               "n_ext_rows_in_paper": len(px["rows"])})
         orphaned = {j for _, j in outcome.wrong_original}
+        # Not all extra rows are alike. One that cites an original a matched GT row
+        # already names is a per-effect split of a replication the coder recorded
+        # once -- the prompt asks for exactly that. One naming an original nowhere
+        # in the GT is a different claim: possibly a replication the coder skipped,
+        # possibly a wrong original. Counting them together hides which.
+        matched_originals = {matching.canonical_doi(gt_rows[m.gt_index]["original_doi"])
+                             for m in outcome.matches} - {""}
         for j in outcome.ext_unmatched:
             e = px["rows"][j]
+            same_orig = matching.canonical_doi(doi_of(e, "original_url")) in matched_originals
+            if gran != "paper":
+                entry["fp_same_original" if same_orig else "fp_other_original"] += 1
             extra_rows.append({"replication_doi": doi, "penalized": gran != "paper", "ext_index": j,
+                               "same_original_as_a_matched_row": same_orig,
                                "orphaned_by": "wrong_original" if j in orphaned else "",
                                "original_url": e.get("original_url", ""), "original_title": (e.get("original_title") or "")[:80],
                                "description": (e.get("description") or "")[:160], "result": e.get("result", "")})
@@ -1031,7 +1216,8 @@ def cmd_evaluate(args) -> None:
     prov = provenance_block(papers, gt_info, judge, args)
     if args.split == "test":
         fam = prov["prompt_version_now"]
-        bad = {v for v in prov["ai_versions_in_results"] if not str(v).startswith(fam)}
+        # Exact version or "<version>-<level>"; a bare prefix test let "8.10" pass for "8.1".
+        bad = {v for v in prov["ai_versions_in_results"] if not (str(v) == fam or str(v).startswith(fam + "-"))}
         if bad:
             sys.exit(f"ERROR: results carry ai_version {sorted(bad)} but prompts/version.txt is {fam}; "
                      f"a release evaluation must score extractions made with the released prompt.")
@@ -1268,6 +1454,8 @@ def cmd_run(args) -> None:
         cmd += ["--limit", str(args.limit)]
     if args.force_tier:
         cmd += ["--force-tier", args.force_tier]
+    if args.usecodex:
+        cmd += ["--usecodex"]
     dirty = git("status", "--porcelain", "prompts/")
     if dirty:
         print("WARNING: prompts/ has uncommitted changes — this run's ai_version will not correspond to a commit.")
@@ -1366,8 +1554,55 @@ def cmd_sample(args) -> None:
     def converted(doi: str) -> bool:
         c = cat.get(doi)
         return bool(c) and c.get("status") in ("converted", "screened", "extracted", "ingested")
+
+    def on_disk(doi: str) -> bool:
+        """Is the paper actually readable right now? The catalog is an index, not
+        truth, so this asks the filesystem. The v1 frame sampled 45 FLoRa papers
+        of which 38 never downloaded (that pull landed 24%), sending coders at
+        folders that do not exist while 73 other FLoRa papers sat on the drive.
+        """
+        d = config.PAPERS_DIR / doi_to_folder(doi)
+        return d.is_dir() and (any(d.glob("*_from_xml.md")) or any(d.glob("*_from_html.md"))
+                               or (d / "body.md").exists() or any(d.glob("*.pdf"))
+                               or any(d.glob("*.xml")))
     frame: list[dict] = []
     taken: set[str] = set()
+
+    # Loaded before the first stratum, not just for the DB-derived ones: it is also
+    # the discipline of last resort. The main_gt_human stratum reads its group from
+    # `openalex_field` in the silver CSV, which is empty for 11 of its 27 papers,
+    # while the production DB records a discipline for every row it has.
+    try:
+        db = _latest_db_rows()
+    except Exception as exc:
+        print(f"WARNING: production DB unavailable ({exc}); skipping DB-derived strata")
+        db = []
+    dbp = defaultdict(list)
+    for r in db:
+        if r["_rep"]:
+            dbp[r["_rep"]].append(r)
+
+    def _discipline(doi: str, expected: dict | None) -> str:
+        # "unknown" counts as missing: discipline_group() returns that string, not
+        # "", when its input is empty, so testing truthiness alone never falls back.
+        g = (expected or {}).get("discipline_group", "")
+        if g in ("", "unknown") and dbp.get(doi):
+            g = discipline_group(_paper_mode(dbp[doi], "discipline")) or g
+        return g
+
+    def _fine_discipline(doi: str) -> tuple[str, str]:
+        """The production DB's own `discipline` / `subdiscipline` for this paper.
+
+        The five-way `discipline_group` is for stratifying results; the frame should
+        also carry the vocabulary the database and the website actually use, so a
+        breakdown can be read at the resolution the ontology defines. Negative papers
+        are not in a replications database at all, so they come back blank here and
+        are filled by `enrich_frame_disciplines`.
+        """
+        hits = dbp.get(doi)
+        if not hits:
+            return "", ""
+        return _paper_mode(hits, "discipline"), _paper_mode(hits, "subdiscipline")
 
     def add(doi: str, source: str, stratum: str, expected: dict | None = None, note: str = ""):
         if not doi or doi in taken:
@@ -1375,12 +1610,18 @@ def cmd_sample(args) -> None:
         taken.add(doi)
         frame.append({"replication_doi": doi, "paper_folder": doi_to_folder(doi), "source": source, "stratum": stratum,
                       "in_catalog": doi in cat, "converted": converted(doi),
-                      "discipline_group": (expected or {}).get("discipline_group", ""),
+                      "discipline_group": _discipline(doi, expected),
+                      "discipline": _fine_discipline(doi)[0], "subdiscipline": _fine_discipline(doi)[1],
                       "expected_result": (expected or {}).get("result", ""), "expected_type": (expected or {}).get("replication_type", ""),
                       "external_row_ids": (expected or {}).get("external_row_ids", ""), "note": note})
         return True
 
     def pick(pool: list, n: int, key=lambda x: x) -> list:
+        # Every caller passes a list of DOIs, so --require-on-disk filters here and
+        # applies to every stratum at once: a quota is then filled from papers a
+        # coder can actually open, instead of being spent on absent ones.
+        if args.require_on_disk:
+            pool = [d for d in pool if on_disk(d)]
         pool = sorted(pool, key=key)
         return rng.sample(pool, min(n, len(pool)))
 
@@ -1420,15 +1661,6 @@ def cmd_sample(args) -> None:
                                                    "result": _paper_mode(rs, "result"), "external_row_ids": ";".join(r["row_id"] for r in rs)},
             note="prior_exposure=yes (Dan has seen pipeline output for these papers)")
     # production DB derived strata
-    try:
-        db = _latest_db_rows()
-    except Exception as exc:
-        print(f"WARNING: production DB unavailable ({exc}); skipping DB-derived strata")
-        db = []
-    dbp = defaultdict(list)
-    for r in db:
-        if r["_rep"]:
-            dbp[r["_rep"]].append(r)
     def db_paper(d):
         rs = dbp[d]
         return {"discipline_group": discipline_group(_paper_mode(rs, "discipline")), "result": _paper_mode(rs, "result"),
@@ -1502,8 +1734,15 @@ def cmd_sample(args) -> None:
     write_csv(frame_path, frame)
     print(f"sampling frame: {len(frame)} papers -> {frame_path}")
     print("by source:", dict(Counter(f['source'] for f in frame)))
-    print("by discipline group:", dict(Counter(f['discipline_group'] for f in frame)))
+    print("by discipline group:", dict(Counter(f['discipline_group'] or '(none)' for f in frame)))
+    nodisc = [f for f in frame if not f["discipline_group"]]
+    print(f"no discipline: {len(nodisc)}"
+          + (f" ({sum(1 for f in nodisc if f['source'].startswith('negative'))} of them negatives, "
+             f"which no replications database can cover)" if nodisc else ""))
     print("converted already:", sum(1 for f in frame if f['converted']))
+    absent = [f for f in frame if not on_disk(f["replication_doi"])]
+    print(f"not readable on disk: {len(absent)}"
+          + (" (--require-on-disk was set; these came from strata that add without pick)" if args.require_on_disk and absent else ""))
     slug = f"gold_v{args.gold_version}"
     if (config.DOI_RUNS_DIR / slug).exists():
         if args.force:
@@ -1535,6 +1774,15 @@ def _external_rows(row_ids: set[str]) -> dict[str, dict]:
 
 def cmd_coding_sheet(args) -> None:
     frame = _frame(args.gold_version)
+    # A paper that is not on the drive cannot be coded, and listing it only earns
+    # blank rows an adjudicator has to explain later. Some strata add without
+    # going through `pick`, so --require-on-disk at sample time does not catch all.
+    absent = [f for f in frame if paper_dir_for(f["paper_folder"]) is None]
+    frame = [f for f in frame if paper_dir_for(f["paper_folder"]) is not None]
+    if absent:
+        print(f"skipping {len(absent)} paper(s) not readable on disk: "
+              + ", ".join(f["paper_folder"] for f in absent[:5])
+              + (" ..." if len(absent) > 5 else ""))
     ext_ids = {i for f in frame for i in (f.get("external_row_ids") or "").split(";") if i}
     ext = _external_rows(ext_ids)
     sheet = []
@@ -1554,8 +1802,15 @@ def cmd_coding_sheet(args) -> None:
         else:
             sheet.append({"row_id": f"{f['paper_folder']}#1", "replication_doi": f["replication_doi"], "paper_folder": f["paper_folder"],
                           "external_row_id": "", "original_hint": "", "is_replication_paper": "yes"})
+    # The statistical columns are optional by codebook ("lower priority than the
+    # identification and classification fields") and worthless against a stat-free
+    # extractor, which emits none of them. Dropping them takes the sheet from 23
+    # coded columns to 9 -- the difference between a tractable coding job and an
+    # untractable one -- and `build-gold` records that they were never coded so a
+    # later reader cannot mistake blank for measured.
+    coded = [f for f in CODED_FIELDS if f not in set(STAT_FIELDS)] if args.no_stats else CODED_FIELDS
     cols = ["row_id", "replication_doi", "paper_folder", "external_row_id", "original_hint", "is_replication_paper",
-            "why_negative", *CODED_FIELDS, "gt_ambiguity", "notes"]
+            "why_negative", *coded, "gt_ambiguity", "notes"]
     for r in sheet:
         for c in cols:
             r.setdefault(c, "")
@@ -1565,7 +1820,8 @@ def cmd_coding_sheet(args) -> None:
     if out.exists() and not args.force:
         sys.exit(f"{out} exists (coding in progress?) — use --force to overwrite")
     write_csv(out, sheet, cols)
-    print(f"blinded coding sheet: {len(sheet)} rows -> {out}")
+    print(f"blinded coding sheet: {len(sheet)} rows, {len(coded)} coded fields"
+          + (" (statistics omitted)" if args.no_stats else "") + f" -> {out}")
     print("Coders: add rows for extra entries with a blank row_id; never open <tag>/ subfolders (see codebook.md).")
 
 
@@ -1574,9 +1830,16 @@ def _read_sheet(gv: int, coder: str) -> list[dict]:
     if not p.exists():
         sys.exit(f"ERROR: {p} not found")
     rows = read_csv(p)
-    for k, r in enumerate(rows):
-        if not r.get("row_id"):
-            r["row_id"] = f"{r.get('paper_folder','')}#new{k}"
+    if any(r.get('result') and re.search(r'\[[^\]]+: no entry matched this anchor\]\s*$', r.get('notes', '')) for r in rows):
+        sys.exit(f"ERROR: {p} contains retained stale coding rows. Reconstruct against run logs "
+                 "with audit_coding.py or rerun the coder before computing agreement.")
+    seen = Counter()
+    for r in rows:
+        if not r.get("row_id", "").endswith("#neg"):
+            payload = {k: v for k, v in r.items() if k not in ("row_id", "notes")}
+            digest = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:16]
+            seen[digest] += 1
+            r["row_id"] = f"{r.get('paper_folder','')}#{coder}:{digest}:{seen[digest]}"
     return rows
 
 
@@ -1587,34 +1850,104 @@ def _within(a, b, tol: float) -> bool | None:
     return abs(x - y) <= tol * max(abs(x), 1e-9)
 
 
+def effect_similarity(a: dict, b: dict) -> float:
+    """Label/DOI-blind descriptive similarity; conservative, not a truth judge."""
+    x, y = (norm_label(r.get("description")) for r in (a, b))
+    if not x or not y:
+        return 0.0
+    # Do not confuse otherwise nearly identical descriptions of different studies.
+    studies = lambda s: set(re.findall(r"\b(?:study|experiment|exp\.?)\s*(\d+[a-z]?)\b", s))
+    sx, sy = studies(x), studies(y)
+    if sx and sy and sx != sy:
+        return 0.0
+    # Strip framing that says nothing about WHICH claim, only that it is one:
+    # "the original study claimed that ...", "martucci et al. (2018) reported that
+    # ...", "study 3 tested the original claim that ...". One coder writing that
+    # frame and the other writing the bare finding made identical claims score
+    # 0.36-0.56 and go unpaired (2026-09-28 re-code). Applied after the study-number
+    # guard above, which needs the frame's "study 3".
+    frame = re.compile(r"^.{0,80}?\b(?:claimed|claims|reported|found|showed|demonstrated|"
+                       r"proposed|argued|suggested)\s+that\s+")
+    x, y = frame.sub("", x, count=1), frame.sub("", y, count=1)
+    stop = set("the a an of in to and with for on is was were that this replication replicating effect study "
+               "experiment original claim claimed reported found showed tested replicated authors et al".split())
+    tx, ty = (set(re.findall(r"[a-z0-9]+", s)) - stop for s in (x, y))
+    overlap = 2 * len(tx & ty) / (len(tx) + len(ty)) if tx and ty else 0.0
+    return max(string_ratio(x, y), overlap)
+
+
+def pair_extra_entries(A: dict, B: dict, threshold: float = 0.65,
+                       margin: float = 0.08) -> list[tuple[str, str]]:
+    """Unique mutual best description matches; ambiguous cases remain UNMATCHED.
+
+    Apply to ALL entries, not just extras. Same original DOI or worksheet anchor
+    does not establish the same study/effect. No result, type or DOI contributes
+    to selection. Unmatched means unresolved identity, not a proven omission.
+    Threshold/margin are audit heuristics, not calibrated accuracy guarantees.
+    """
+
+    by_paper: dict[str, list] = defaultdict(lambda: [[], []])
+    for i, r in A.items():
+        by_paper[r.get("paper_folder", "")][0].append(i)
+    for i, r in B.items():
+        by_paper[r.get("paper_folder", "")][1].append(i)
+
+    pairs: list[tuple[str, str]] = []
+    for folder, (ia, ib) in by_paper.items():
+        if not folder or not ia or not ib:
+            continue
+        scores = {(i, j): effect_similarity(A[i], B[j]) for i in ia for j in ib}
+        for i in ia:
+            ranked = sorted(((scores[i, j], j) for j in ib), reverse=True)
+            score, j = ranked[0]
+            reverse = sorted(((scores[k, j], k) for k in ia), reverse=True)
+            if score < threshold or reverse[0][1] != i:
+                continue
+            if len(ranked) > 1 and score - ranked[1][0] < margin:
+                continue
+            if len(reverse) > 1 and score - reverse[1][0] < margin:
+                continue
+            pairs.append((i, j))
+    return pairs
+
+
 def cmd_agreement(args) -> None:
     A = {r["row_id"]: r for r in _read_sheet(args.gold_version, args.coder_a)}
     B = {r["row_id"]: r for r in _read_sheet(args.gold_version, args.coder_b)}
-    shared = [i for i in A if i in B and norm_label(A[i].get("result")) and norm_label(B[i].get("result"))]
-    res = [(norm_label(A[i]["result"]), norm_label(B[i]["result"])) for i in shared]
-    typ = [(norm_label(A[i]["replication_type"]), norm_label(B[i]["replication_type"])) for i in shared
-           if norm_label(A[i].get("replication_type")) and norm_label(B[i].get("replication_type"))]
-    doi = [(doi_of(A[i], "original_url") == doi_of(B[i], "original_url")) for i in shared if doi_of(A[i], "original_url") or doi_of(B[i], "original_url")]
-    n5 = [v for i in shared for v in (_within(A[i].get("replication_n"), B[i].get("replication_n"), 0.05),) if v is not None]
+    coded = lambda d, i: bool(norm_label(d[i].get("result")))
+    anchored = []  # External worksheet anchors identify originals, not effects.
+    unanchored_a = {i: r for i, r in A.items() if coded(A, i)}
+    unanchored_b = {i: r for i, r in B.items() if coded(B, i)}
+    extra_pairs = pair_extra_entries(unanchored_a, unanchored_b)
+    shared = [(i, j) for i, j in anchored + extra_pairs if coded(A, i) and coded(B, j)]
+    matched_a = {i for i, _ in extra_pairs}
+    matched_b = {j for _, j in extra_pairs}
+    res = [(norm_label(A[i]["result"]), norm_label(B[j]["result"])) for i, j in shared]
+    typ = [(norm_label(A[i]["replication_type"]), norm_label(B[j]["replication_type"])) for i, j in shared
+           if norm_label(A[i].get("replication_type")) and norm_label(B[j].get("replication_type"))]
+    doi = [(doi_of(A[i], "original_url") == doi_of(B[j], "original_url")) for i, j in shared
+           if doi_of(A[i], "original_url") or doi_of(B[j], "original_url")]
+    n5 = [v for i, j in shared for v in (_within(A[i].get("replication_n"), B[j].get("replication_n"), 0.05),) if v is not None]
     negs = [i for i in A if i in B and i.endswith("#neg") and norm_label(A[i].get("is_replication_paper")) and norm_label(B[i].get("is_replication_paper"))]
     neg_pairs = [(norm_label(A[i]["is_replication_paper"]), norm_label(B[i]["is_replication_paper"])) for i in negs]
     k_res = cohen_kappa(res) if res else float("nan")
     k_typ = cohen_kappa(typ) if typ else float("nan")
-    print(f"rows coded by both: {len(shared)}")
+    print(f"rows paired by effect description: {len(shared)} (conditional agreement, not whole-set accuracy)")
     print(f"result:            agreement {sum(a==b for a,b in res)/len(res) if res else float('nan'):.1%}  kappa {k_res:.3f}")
     print(f"replication_type:  agreement {sum(a==b for a,b in typ)/len(typ) if typ else float('nan'):.1%}  kappa {k_typ:.3f} (n={len(typ)})")
     print(f"original DOI exact: {sum(doi)/len(doi) if doi else float('nan'):.1%} (n={len(doi)})")
     print(f"replication_n within 5%: {sum(n5)/len(n5) if n5 else float('nan'):.1%} (n={len(n5)})")
     if neg_pairs:
         print(f"negative papers: agreement {sum(a==b for a,b in neg_pairs)/len(neg_pairs):.1%} (n={len(neg_pairs)})")
-    verdict = ("PROCEED" if k_res >= 0.70 else "REFINE codebook and re-code 20 papers" if k_res >= 0.55 else "STOP: not reliable as specified")
-    print(f"pre-registered ladder (result kappa): {verdict}; replication_type target >=0.60 -> "
-          f"{'ok' if k_typ >= 0.60 else 'below target'}; DOI target >=0.95 -> {'ok' if doi and sum(doi)/len(doi) >= 0.95 else 'below target'}")
+    print(f"pair coverage: {len(shared)}/{len(unanchored_a)} coder A entries; "
+          f"{len(shared)}/{len(unanchored_b)} coder B entries")
+    print("DIAGNOSTIC ONLY: do not apply the publication ladder to a selected automatic-match subset. "
+          "Resolve effect identities, eligibility and enumeration before adjudicating gold.")
     # adjudication queue: every disagreement on result/type/DOI + seeded 20% of agreements
     rng = random.Random(args.seed)
     queue = []
-    for i in shared:
-        a, b = A[i], B[i]
+    for i, j in shared:
+        a, b = A[i], B[j]
         fields = []
         if norm_label(a["result"]) != norm_label(b["result"]):
             fields.append("result")
@@ -1626,7 +1959,8 @@ def cmd_agreement(args) -> None:
         if not reason:
             continue
         for f_ in (fields or ["result"]):
-            queue.append({"row_id": i, "paper_folder": a.get("paper_folder", ""), "field": f_, "reason": reason,
+            queue.append({"row_id": i if i == j else f"{i}~{j}",
+                          "paper_folder": a.get("paper_folder", ""), "field": f_, "reason": reason,
                           "a_value": a.get(f_, ""), "b_value": b.get(f_, ""), "a_description": a.get("description", "")[:200],
                           "b_description": b.get("description", "")[:200], "adjudicated_value": "", "adjudicator_id": "",
                           "adjudication_note": "", "gt_ambiguity": ""})
@@ -1635,11 +1969,11 @@ def cmd_agreement(args) -> None:
             queue.append({"row_id": i, "paper_folder": A[i].get("paper_folder", ""), "field": "is_replication_paper", "reason": "disagreement",
                           "a_value": A[i]["is_replication_paper"], "b_value": B[i]["is_replication_paper"], "a_description": "", "b_description": "",
                           "adjudicated_value": "", "adjudicator_id": "", "adjudication_note": "", "gt_ambiguity": ""})
-    only_a = [i for i in A if i not in B and not i.endswith("#neg")]
-    only_b = [i for i in B if i not in A and not i.endswith("#neg")]
+    only_a = [i for i in unanchored_a if i not in matched_a]
+    only_b = [i for i in unanchored_b if i not in matched_b]
     for i, who in [(i, "a") for i in only_a] + [(i, "b") for i in only_b]:
         src = A if who == "a" else B
-        queue.append({"row_id": i, "paper_folder": src[i].get("paper_folder", ""), "field": "row_exists", "reason": f"only coder {who} listed this entry",
+        queue.append({"row_id": i, "paper_folder": src[i].get("paper_folder", ""), "field": "row_exists", "reason": f"unmatched coder {who} entry; identity unresolved",
                       "a_value": "present" if who == "a" else "", "b_value": "present" if who == "b" else "",
                       "a_description": src[i].get("description", "")[:200], "b_description": "", "adjudicated_value": "",
                       "adjudicator_id": "", "adjudication_note": "", "gt_ambiguity": ""})
@@ -1648,7 +1982,8 @@ def cmd_agreement(args) -> None:
         old = {(r["row_id"], r["field"]): r for r in read_csv(qp)}
         for q in queue:
             o = old.get((q["row_id"], q["field"]))
-            if o:
+            if o and all(o.get(k, '') == q.get(k, '') for k in
+                         ('a_value', 'b_value', 'a_description', 'b_description')):
                 for k in ("adjudicated_value", "adjudicator_id", "adjudication_note", "gt_ambiguity"):
                     q[k] = o.get(k, "")
     write_csv(qp, queue)
@@ -1694,11 +2029,39 @@ def cmd_adjudicate(args) -> None:
     print(f"saved -> {qp}")
 
 
+def row_provenance(row_id: str, adj: dict, coder_a: str, coder_b: str | None) -> str:
+    """`human:adjudicated` only where a human actually ruled on this row.
+
+    Coders may be models (a different family from the one under test; see
+    benchmarking/README.md). Where two of them agreed and no human ever read the
+    row, the row is evidence, not adjudicated truth, and stamping it
+    `human:adjudicated` would overstate it in exactly the way that made the
+    February 2026 ground truth unusable. Such rows stay scoreable -- they are not
+    `pipeline:`-authored, so the provenance guard passes them -- but they say what
+    they are, and `evaluate` breaks results down by provenance so the mix is
+    visible in every report.
+    """
+    ruled = any(r_ == row_id and q.get("adjudicated_value") and q.get("adjudicator_id")
+                for (r_, _), q in adj.items())
+    if ruled:
+        return "human:adjudicated"
+    return f"ai_consensus:{coder_a}+{coder_b}" if coder_b else f"single_coder:{coder_a}"
+
+
 def cmd_build_gold(args) -> None:
     gv = args.gold_version
     frame = {f["paper_folder"]: f for f in _frame(gv)}
     A = _read_sheet(gv, args.coder_a)
     B = {r["row_id"]: r for r in _read_sheet(gv, args.coder_b)} if args.coder_b else {}
+    if args.coder_b:
+        # (Tested on the flag, not on B: an empty coder-B sheet made B falsy and
+        # let a two-coder build through as if single-coder.)
+        # The old builder joined worksheet IDs, ignored B-only effects and could
+        # stamp a partly adjudicated row as human truth. Fail closed until a
+        # human reconciles enumeration into a single stable effect-ID sheet.
+        sys.exit("ERROR: two-coder gold export requires human-reconciled effect identities. "
+                 "The legacy row-ID join is unsafe for multi-effect papers; agreement outputs "
+                 "are proposals, not publishable gold. No gold files were written.")
     qp = CODING_DIR / f"adjudication_queue_gold_v{gv}.csv"
     queue = read_csv(qp) if qp.exists() else []
     adj = {(q["row_id"], q["field"]): q for q in queue}
@@ -1721,12 +2084,13 @@ def cmd_build_gold(args) -> None:
                          "label": "negative" if norm_label(lab) in ("no", "negative", "n") else "positive_reclassified",
                          "why_negative": a.get("why_negative", ""), "coder_a_id": args.coder_a, "coder_b_id": args.coder_b or "",
                          "a_label": a.get("is_replication_paper", ""), "b_label": b.get("is_replication_paper", ""),
-                         "split": split_of(doi, salt), "provenance": "human:adjudicated"})
+                         "split": split_of(doi, salt),
+                         "provenance": row_provenance(rid, adj, args.coder_a, args.coder_b)})
             continue
         if not norm_label(a.get("result")):
             continue
         row = {"row_id": rid, "replication_doi": doi, "paper_folder": a.get("paper_folder", ""), "source": f.get("source", "gold"),
-               "provenance": "human:adjudicated", "split": split_of(doi, salt),
+               "provenance": row_provenance(rid, adj, args.coder_a, args.coder_b), "split": split_of(doi, salt),
                "discipline_group": f.get("discipline_group", ""), "year_bucket": "", "tier_available": "",
                "external_label": f.get("expected_result", ""), "external_row_id": a.get("external_row_id", ""),
                "prior_exposure": "yes" if "prior_exposure" in (f.get("note") or "") else "no",
@@ -1758,9 +2122,16 @@ def cmd_build_gold(args) -> None:
                 "splits": {s: sorted({r["replication_doi"] for r in gold if r["split"] == s}) for s in ("dev", "test")},
                 "n_by_source": dict(Counter(r["source"] for r in gold)),
                 "n_by_split": dict(Counter(r["split"] for r in gold)),
-                "n_result": dict(Counter(norm_label(r["result"]) for r in gold))}
+                "n_result": dict(Counter(norm_label(r["result"]) for r in gold)),
+                "coder_a_id": args.coder_a, "coder_b_id": args.coder_b or "",
+                # Blank statistics mean "never coded", not "the paper reports none".
+                "stats_coded": any((r.get(f) or "").strip() for r in gold for f in STAT_FIELDS),
+                "n_by_provenance": dict(Counter(r["provenance"] for r in gold))}
     (GOLD_DIR / "manifest.json").write_text(json.dumps(manifest, indent=2))
     print(f"gold_v{gv}: {len(gold)} rows, {len(negs)} negatives; splits {manifest['n_by_split']}; results {manifest['n_result']}")
+    print(f"provenance: {manifest['n_by_provenance']}; statistics coded: {manifest['stats_coded']}")
+    if not manifest["stats_coded"]:
+        print("  (stat-free gold: `evaluate` will say so instead of scoring statistics)")
     print(f"-> {GOLD_DIR}/gold_rows.csv, gold_negatives.csv, manifest.json")
 
 
@@ -1812,10 +2183,17 @@ def main() -> None:
     s.add_argument("--per-cell", type=int, default=3); s.add_argument("--n-repwiki", type=int, default=40)
     s.add_argument("--n-curate", type=int, default=20); s.add_argument("--n-reversal", type=int, default=20)
     s.add_argument("--n-negative", type=int, default=60); s.add_argument("--force", action="store_true")
+    s.add_argument("--require-on-disk", action="store_true",
+                   help="draw every stratum only from papers whose folder is readable now "
+                        "(the v1 frame spent 38 of 45 FLoRa slots on papers that never downloaded)")
     s.set_defaults(func=cmd_sample)
 
     s = sub.add_parser("coding-sheet"); s.add_argument("--gold-version", type=int, required=True)
-    s.add_argument("--coder", required=True); s.add_argument("--force", action="store_true"); s.set_defaults(func=cmd_coding_sheet)
+    s.add_argument("--coder", required=True); s.add_argument("--force", action="store_true")
+    s.add_argument("--no-stats", action="store_true",
+                   help="omit the 14 statistical columns: the codebook calls them lower priority "
+                        "and a stat-free extractor emits none, so coding them buys nothing")
+    s.set_defaults(func=cmd_coding_sheet)
 
     s = sub.add_parser("agreement"); s.add_argument("--gold-version", type=int, required=True)
     s.add_argument("--coder-a", required=True); s.add_argument("--coder-b", required=True)
@@ -1827,7 +2205,7 @@ def main() -> None:
 
     s = sub.add_parser("build-gold"); s.add_argument("--gold-version", type=int, required=True)
     s.add_argument("--coder-a", required=True); s.add_argument("--coder-b", default=None)
-    s.add_argument("--codebook-version", default="codebook_v1"); s.add_argument("--salt", default=None)
+    s.add_argument("--codebook-version", default="codebook_v2"); s.add_argument("--salt", default=None)
     s.add_argument("--allow-unadjudicated", action="store_true"); s.set_defaults(func=cmd_build_gold)
 
     s = sub.add_parser("status"); s.add_argument("--run", required=True); s.add_argument("--tags", default=None)
@@ -1840,6 +2218,8 @@ def main() -> None:
     s.add_argument("--level", choices=["full", "base"], default="full",
                    help="extract.py --level: full (normal) or base (same agent, statistics stripped from the prompt)")
     s.add_argument("--remaining", action="store_true", help="use include_list_remaining.txt from `status`")
+    s.add_argument("--usecodex", action="store_true",
+                   help="extract with the Codex CLI (pass the OpenAI model id via --model, e.g. gpt-5.6-luna)")
     s.add_argument("--papers-dir", default=None); s.add_argument("--dry-run", action="store_true"); s.set_defaults(func=cmd_run)
 
     s = sub.add_parser("evaluate", help="score extractions against ground truth")
@@ -1848,6 +2228,11 @@ def main() -> None:
     s.add_argument("--tags", required=True, help="comma-separated extraction tags (first match wins per paper)")
     s.add_argument("--split", choices=["dev", "test", "all"], default="all")
     s.add_argument("--release", action="store_true"); s.add_argument("--allow-dirty-gt", action="store_true")
+    s.add_argument("--gold-dir", default=None,
+                   help="with --gt gold: read a ground_truth_workbench.py export directory instead of gold/")
+    s.add_argument("--allow-paper-level-gt", action="store_true",
+                   help="score against paper-level GT (FLoRa) anyway; retired 2026-09-04 because one "
+                        "verdict per paper cannot say which effect the extractor got right")
     s.add_argument("--matcher", choices=["llm", "deterministic"], default="llm")
     s.add_argument("--provider", default="claude_cli"); s.add_argument("--match-model", default="haiku")
     s.add_argument("--offline", action="store_true", help="LLM matcher answers only from cache")

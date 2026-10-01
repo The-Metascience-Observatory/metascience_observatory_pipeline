@@ -15,6 +15,40 @@ Hashes are sha256 of the file as stored, not of the rendered prompt: rendering
 also substitutes the discipline ontology, which lives in the website repo and
 changes on its own schedule.
 
+## Prompt 8.9 (2026-09-28)
+
+Two holes in the taxonomy, found by the 2026-09-18 gold-coding audit
+(`benchmarking/results/audit_2026_09_18/`). Both change definitions, so rows coded
+under 8.8 are not comparable with 8.9 on these two points; the benchmark codebook
+moved to `codebook_v2` in step. Only `prompt_shared_core.md` changed.
+
+- **Unit of coding is now "one row per claim of the original".** The old text said
+  an entry is NOT each dependent variable within a study, and then, in Edge Cases,
+  one row per effect (compassion, empathy, Theory of Mind) — which are three
+  dependent variables. Two independent AI coders split the same 206 papers into 367
+  and 598 entries, and the line between "a DV" and "an effect" is where they parted.
+  A *claim* is now a distinct finding the ORIGINAL authors reported. Several
+  measures, tests or mediator paths of one claim are one entry; several
+  timepoints/endpoints of one claim are one entry, classified by the original's
+  stated primary timepoint, else `inconclusive` if they differ. Controls get no row.
+- **Replication of an original null claim.** `success` was defined as a significant
+  effect in the same direction, so a faithful replication of an original *null*
+  finding read as `failure`. New subsection: where the original claimed no effect,
+  a replication that also finds none (and the authors read as consistent) is
+  `success`, a significant effect is `failure`, and an under-powered replication is
+  `inconclusive`. Negative/positive controls are not claims and get no row. The
+  Registered-Report tiebreaker is qualified to apply only when the original claimed
+  an effect.
+
+| prompt file | sha256 |
+|---|---|
+| prompt_core.md | 2d706b482c3d32c3d2dcf991c605aff56278f126bdfa125e92eff3e1b226542b |
+| prompt_full.md | c8e41ffa773e71e84a9b1e78c389a7f88fa39d865c78407caefde95693e151ea |
+| prompt_full_html.md | 16f3d1c13006d856b418caafb9be388261931a94f6ca32177f18493144db9968 |
+| prompt_full_pdf_only.md | af6414299e2b4bb458598f871a63f31ef11156c3217022f092f2b05991758db9 |
+| prompt_full_xml.md | 6b3253f6281e17fb1a6f74bd073b9f586d2e68a7ef1f05d0ace0dc73f6f7051c |
+| prompt_shared_core.md | bea2fba2524789eef7359ebe2e451081f12ab1028c8427586eeb5f69e2290248 |
+
 ## Prompt 8.8 (2026-09-02)
 
 Fixes from the audit of the `base_87_r1` FLoRa pilot (30 papers).

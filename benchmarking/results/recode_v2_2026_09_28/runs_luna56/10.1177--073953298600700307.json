@@ -1,0 +1,107 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that newspaper uses-and-gratifications statements formed three distinct dimensions: surveillance, diversion, and interaction; the replication tested this factor structure in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found two groupings, information and entertainment, rather than the original three-factor solution; the authors state that Hypothesis 1 could not be accepted."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that weekday newspaper subscribers were strongly oriented toward using newspapers to obtain immediate knowledge of big news events; the replication tested this relationship in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors state that Hypothesis 2 was so strongly supported that the predicted relationships for weekday single-copy readers and non-readers disappeared."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that weekday single-copy readers were strongly oriented toward finding interesting or unusual stories to tell others; the replication tested this relationship in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "The predicted single-copy-reader relationship did not emerge in the replication."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that weekday newspaper non-readers were strongly oriented toward using a newspaper simply to pass the time; the replication tested this relationship in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors state that the weekday non-reader relationship disappeared."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that Sunday newspaper subscribers were strongly oriented toward obtaining immediate knowledge of big news events, being happy, and getting more information about things they had seen; the replication tested these relationships in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "Only the immediate-knowledge relationship was supported; the predicted happiness and additional-information relationships disappeared, so the combined claim received partial support."
+    },
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that Sunday single-copy readers were strongly oriented toward understanding what was going on and toward using the newspaper simply to pass the time; the replication tested these relationships in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper's summary contains apparent hypothesis-numbering errors, but its results state that Sunday single-copy readers were not distinctively predicted and instead resembled subscribers in their orientation toward immediate knowledge."
+    },
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Weekday and Sunday Readership Seen Through Uses and Gratifications",
+      "original_authors": "Towers, Wayne M.",
+      "original_year": "1985",
+      "original_journal": "Newspaper Research Journal",
+      "description": "The original study claimed that Sunday newspaper non-readers were strongly oriented toward using the newspaper to pass the time and to obtain more information about things they had seen; the replication tested these relationships in Sample II.",
+      "citation_sentence": "Wayne M. Towers, \"Weekday and Sunday Readership Seen Through Uses and Gratifications,\" Newspaper Research Journal 6:20-32 (1985).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the predicted time-filler and event-information orientations, and the authors describe this result as clearly supporting the relevant hypothesis."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "10.1177--073953298600700307.pdf (tail pages)",
+    "chars": 40572,
+    "truncated": false,
+    "input_sha256": "30e2aadd27978d71343bebdc49f026e4eb5098cef24be4317040a76a78bf533a",
+    "refs_withheld": false,
+    "output_tokens": 2752,
+    "cost_usd": 0.00559911
+  }
+}

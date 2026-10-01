@@ -1,0 +1,21 @@
+{
+  "coder": "luna56",
+  "model": "openai/gpt-5.6-luna",
+  "provider": "openrouter",
+  "max_output_tokens": 32000,
+  "max_input_chars": 120000,
+  "system_prompt_sha256": "86eb1bfafb63b623ec12981701347dadcad60f0baf8f59cd83bbbc50cc115a4b",
+  "source_sheet_sha256": "0f26587329b780113ee021cdd76444bec42053d80aecf2a5fa9a57661967e85c",
+  "code_sha256": "b24bac07143264670bea23562d3528baaeb7c4b9a87f11a50351855a8b50f7a2",
+  "folders": [
+    "10.7554--elife.10860",
+    "10.1037--0096-3445.123.2.161",
+    "10.1177--0956797611419168",
+    "10.1192--bjp.138.4.321",
+    "10.1016--j.cognition.2019.104157",
+    "10.1111--j.1467-9280.2008.02076.x",
+    "10.1080--13803390701550110",
+    "10.1038--ng.3434",
+    "10.1038--s41598-018-35209-6"
+  ]
+}

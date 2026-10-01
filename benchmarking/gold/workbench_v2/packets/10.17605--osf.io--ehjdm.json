@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/ehjdm",
+  "paper_folder": "10.17605--osf.io--ehjdm",
+  "discipline": "psychology",
+  "subdiscipline": "judgment and decision making",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--ehjdm/body.md",
+      "sha256": "81eac582d9c88b33fdeafc8eabb9d4371c8760f179536e8ac602c4a8344d8b8f"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--ehjdm#ling26:460cd4dc128531a2:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Anchor precision influences the amount of adjustment",
+      "description": "Anchor precision influences the degree of adjustment in numerical estimates",
+      "citation_sentence": "These findings represent a partial replication of Janiszewski and Uy (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "Paper title says 'Replication of Study 4b' but the text clarifies that Study 4a was selected for replication instead of 4b. The authors explicitly call it a 'partial replication' and report all effects weaker than the original, with no interaction. Authors explicitly characterize the replication as 'partial replication' due to failure to replicate the interaction and weaker effect sizes, though the central main effect of precision was significant in the expected direction.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.17605--osf.io--ehjdm#luna56:4a490145d99046e2:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Anchor precision influences the amount of adjustment",
+      "description": "Greater precision in a numerical anchor causes less objective adjustment than a round anchor, with anchor precision influencing the degree of adjustment.",
+      "citation_sentence": "These findings represent a partial replication of Janiszewski and Uy (2008).",
+      "gt_ambiguity": "clear",
+      "notes": "The abstract title refers to Study 4b, but the paper states that Study 4a was selected for replication. The central anchor-precision effect and the motivation main effect were supported, but the reported interaction was not; the authors explicitly characterize the findings as a partial replication.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

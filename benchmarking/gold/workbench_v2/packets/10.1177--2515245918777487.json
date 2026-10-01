@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1177/2515245918777487",
+  "paper_folder": "10.1177--2515245918777487",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1177--2515245918777487/body.md",
+      "sha256": "959d977e41303094a2f0bcfca6d36133c8f52c7ab2288fc9097c6ea2e46ca544"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1177--2515245918777487#ling26:326c85af6bb85621:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.37.10.1660",
+      "original_title": "The role of category accessibility in the interpretation of information about persons: Some determinants and implications",
+      "description": "Exposure to hostility-related sentence primes (80% hostile vs. 20% hostile) causes participants to rate a vignette protagonist and ambiguously hostile behaviors as more hostile",
+      "citation_sentence": "In the current RRR project, we sought to estimate the magnitude and reliability of the hostility-priming effects reported by Srull and Wyer through a series of independently conducted direct replications.",
+      "gt_ambiguity": "clear",
+      "notes": "Two outcome variables (protagonist ratings and behavior ratings) with different results: protagonist ratings show a small significant effect in the predicted direction (0.08, 95% CI [0.004, 0.16]), while behavior ratings show a non-significant effect in the opposite direction (-0.08, 95% CI [-0.18, 0.01]). The authors conclude the methods do not produce a practically detectable priming effect. Protagonist result coded inconclusive per the 'significant but questionable' and 'substantial validity concerns' criteria; behavior result coded failure per 'no significant effect found and authors frame it as a failure.'",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--2515245918777487#luna56:4580bf54e02ecce7:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.37.10.1660",
+      "original_title": "The role of category accessibility in the interpretation of information about persons: Some determinants and implications",
+      "description": "Exposure to a higher proportion of hostility-related sentences causes participants to rate ambiguously hostile behaviors as more hostile.",
+      "citation_sentence": "In Srull and Wyer's Experiment 1 (the focus of this RRR), participants first completed a sentence-descrambling task in which they underlined three of four words that could then be used to create a grammatically correct three-word sentence (e.g., \"hand break his nose\" can form the sentence \"break his nose\" or \"break his hand\").",
+      "gt_ambiguity": "clear",
+      "notes": "The replication effect was small, nonsignificant, and numerically opposite to the original finding; the authors described the result as failing to reproduce the assimilative priming effect.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1177--2515245918777487#luna56:4b2d77094ab380dd:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1037/0022-3514.37.10.1660",
+      "original_title": "The role of category accessibility in the interpretation of information about persons: Some determinants and implications",
+      "description": "Exposure to a higher proportion of hostility-related sentences causes participants to judge an ambiguously hostile protagonist as more hostile.",
+      "citation_sentence": "In Srull and Wyer's Experiment 1 (the focus of this RRR), participants first completed a sentence-descrambling task in which they underlined three of four words that could then be used to create a grammatically correct three-word sentence (e.g., \"hand break his nose\" can form the sentence \"break his nose\" or \"break his hand\").",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found a statistically significant effect in the predicted direction for ratings of the vignette protagonist, but the effect was much smaller than the original and the authors concluded that the procedures were unlikely to produce a practically and routinely detectable effect. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

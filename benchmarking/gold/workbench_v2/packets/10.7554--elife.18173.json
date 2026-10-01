@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.7554/elife.18173",
+  "paper_folder": "10.7554--elife.18173",
+  "discipline": "biology",
+  "subdiscipline": "cancer biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.18173/10.7554--elife.18173_from_xml.md",
+      "sha256": "ee7d11cdd98f70dfac1ff0b172992ec9494d1c4bc63cf86c4fdd8b9fe5500a09"
+    }
+  ],
+  "flags": [
+    "targeted source review: outcome"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.7554--elife.18173#ling26:55a1a8dddd27f88f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Blocking the SIRPa/CD47 interaction with anti-CD47 antibody reduces tumor weight in syngeneic breast cancer models",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 6A\u2013C of Willingham et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.18173#ling26:3362979229ac4898:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Anti-CD47 antibody treatment causes short-term anemia (reduced red blood cells, hemoglobin, and hematocrit)",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 6A\u2013C of Willingham et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.7554--elife.18173#ling26:188cb0b0a3818042:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Anti-CD47 antibody treatment increases lymphocytic infiltration in tumors",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 6A\u2013C of Willingham et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.18173#luna56:1b9392025b5f257e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1073/pnas.1121623109",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Anti-CD47 antibody treatment causes short-term anemia without unacceptable toxicity in mice.",
+      "citation_sentence": "In 2012, Willingham et al. reported that blocking the signal regulatory protein alpha (SIRPa)/CD47 interaction with an anti-CD47 blocking antibody promoted phagocytosis of solid tumor cells in vitro and reduced growth of solid tumors in vivo indicating that anti-CD47 antibody therapy may be an effective treatment for a variety of solid tumors.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication observed short-term anemia after anti-CD47 treatment, consistent with the toxicity findings reported in the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.18173#luna56:65cbe706b4d62d90:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1073/pnas.1121623109",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Anti-CD47 antibody treatment reduces the final weight of syngeneic breast tumors compared with IgG control treatment.",
+      "citation_sentence": "In 2012, Willingham et al. reported that blocking the signal regulatory protein alpha (SIRPa)/CD47 interaction with an anti-CD47 blocking antibody promoted phagocytosis of solid tumor cells in vitro and reduced growth of solid tumors in vivo indicating that anti-CD47 antibody therapy may be an effective treatment for a variety of solid tumors.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found numerically heavier tumors after anti-CD47 treatment and no statistically significant reduction in tumor weight. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.7554--elife.18173#luna56:bd9394b1ca450b46:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1073/pnas.1121623109",
+      "original_title": "The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors",
+      "description": "Anti-CD47 antibody treatment increases lymphocytic infiltration into syngeneic breast tumors.",
+      "citation_sentence": "In 2012, Willingham et al. reported that blocking the signal regulatory protein alpha (SIRPa)/CD47 interaction with an anti-CD47 blocking antibody promoted phagocytosis of solid tumor cells in vitro and reduced growth of solid tumors in vivo indicating that anti-CD47 antibody therapy may be an effective treatment for a variety of solid tumors.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication reported minimal to moderate lymphocytic infiltration in both IgG and anti-CD47 tumors, without a clear demonstrated treatment-related increase. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.7554--elife.18173",
+    "category": "outcome",
+    "action": "accept_pair",
+    "pair_hint": "lymphocytic",
+    "finding": "Both target the same infiltration comparison. The ordinal infiltration assessment must be distinguished from tumor growth, blood lymphocytes and exploratory neutrophil effects. Source supports uncertainty about how strongly to classify this contrast.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.7554--elife.18173/10.7554--elife.18173_from_xml.md",
+    "source_line": 36,
+    "source_sha256": "ee7d11cdd98f70dfac1ff0b172992ec9494d1c4bc63cf86c4fdd8b9fe5500a09",
+    "evidence": "g system to assess the degree of lymphocytic infiltrate (Demaria et al., 2001). Both IgG and anti-CD47 treated tumors resulted in minimal to moderate lymphocytic infiltrate (Table 1). Although not planned, the tumors were also analyzed for the extent of neutrophilic infiltration. The neutrophilic infiltrate in IgG treated tumors was minimal in 4 and moderate in 3 tumors. The neutrophilic i",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

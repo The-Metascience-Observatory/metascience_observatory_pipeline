@@ -1,0 +1,30 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Computer-based brief intervention a randomized trial with postpartum women",
+      "original_authors": "Ondersma, S; Svikis, D; Schuster, C",
+      "original_year": "2007",
+      "original_journal": "American Journal of Preventive Medicine",
+      "description": "A single 20-minute computer-delivered brief intervention reduced self-reported drug use among postpartum women at 4-month follow-up",
+      "citation_sentence": "The present study was designed to replicate the results of Ondersma et al. (2007) with respect to postpartum drug use.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Results differ across timepoints: 7-day point-prevalence abstinence significant at 3 months (p = .01) but not at 6 months (p = .456); days of drug use non-significant at both timepoints; authors report mixed support, stating both 'support the short-term efficacy' and that findings 'provide support for the previous trial' while noting decline by 6 months."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.1016--j.jsat.2013.07.013_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 45505,
+    "truncated": false,
+    "input_sha256": "e8df089f938151c72a1e697d48cffef22f67b2f392c1fa5471541194f0b9c30a",
+    "refs_withheld": false,
+    "output_tokens": 4808,
+    "cost_usd": 0.0005666346
+  }
+}

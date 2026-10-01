@@ -1,0 +1,32 @@
+{
+  "coder": "ling26",
+  "model": "inclusionai/ling-3.0-flash",
+  "provider": "openrouter",
+  "max_output_tokens": 40000,
+  "max_input_chars": 120000,
+  "system_prompt_sha256": "6248857125f7ce67ecdcbded7e5b8864e20d6109782ccbe6e500d2cc26eff14a",
+  "source_sheet_sha256": "660ccedadf4eaecadada91fd8e205fc0ad31f50c79435b45e18b115fb19ff91c",
+  "code_sha256": "750fda2a954f385de27fa6c4147bdb9139f29349e646e365ce494de94bf99025",
+  "folders": [
+    "10.1525--mp.2012.30.2.161",
+    "10.1073--pnas.2103313118",
+    "10.3389--fpsyg.2018.02476",
+    "10.1016--j.ynirp.2022.100147",
+    "10.1525--collabra.216",
+    "10.31234--osf.io--esu9z",
+    "10.7554--elife.11566",
+    "10.7554--elife.11999",
+    "10.7554--elife.09976",
+    "10.7554--elife.11414",
+    "10.7554--elife.45120",
+    "10.7554--elife.17044",
+    "10.7554--elife.43511",
+    "10.7554--elife.18173",
+    "10.7554--elife.10860",
+    "10.1007--s40279-025-02201-w",
+    "10.1177--073953298600700307",
+    "10.1016--j.jsat.2013.07.013",
+    "10.1001--archneurol.2011.155",
+    "10.1016--j.cognition.2019.104157"
+  ]
+}

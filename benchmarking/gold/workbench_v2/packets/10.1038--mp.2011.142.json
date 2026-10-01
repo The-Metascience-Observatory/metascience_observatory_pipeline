@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1038/mp.2011.142",
+  "paper_folder": "10.1038--mp.2011.142",
+  "discipline": "neuroscience",
+  "subdiscipline": "",
+  "discipline_source": "openalex",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1038--mp.2011.142/body.md",
+      "sha256": "78ecfbc57f18e6fdf2579ced64173b89b08b152146dad13984ba320e123d8306"
+    }
+  ],
+  "flags": [
+    "subdiscipline missing"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1038--mp.2011.142#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper is an original GWAS discovery study that includes internal replication cohorts (EGCUT de novo and in silico) within the same publication; the original finding (ABCC9/sleep duration) and its replication are reported in one paper, so no qualifying replication entry exists per the within-pape"
+    },
+    {
+      "candidate_id": "luna56:10.1038--mp.2011.142#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "no",
+      "why_negative": "The paper reports a new discovery GWAS with an internal replication sample and a functional Drosophila follow-up, but does not replicate a separately published original study."
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

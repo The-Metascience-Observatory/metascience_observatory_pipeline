@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"failure\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"The CD47-signal regulatory protein alpha (SIRPa) interaction is a therapeutic target for human solid tumors\",\n      \"original_authors\": \"Willingham, Stephen B.; Volkmer, Joerg P.; Gentles, Andrew J.; Sahoo, D.; Dalerba, P.; Mitra, S. S.; Wang, J.; Contreras-Trujillo, H.; Martin, R.; Cohen, J. D.; Lovelace, P.; Scheeren, F. A.; Chao, M. P.; Weissman, Irving L.\",\n      \"original_year\": \"2012\",\n      \"original_journal\": \"Cancer Research\",\n      \"description\": \"Anti-CD47 antibody treatment reduces the final tumor weight of syngeneic mouse breast tumors compared with an IgG isotype control.\",\n      \"citation_sentence\": \"This experiment is similar to what was reported in Figure 6A\u2013C of Willingham et al. (2012).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The authors explicitly describe this as a direct replication. Anti-CD47-treated tumors were heavier than controls, but the difference was not statistically significant, so this is a failure rather than a reversal.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 14507,
+    "output_tokens": 2112,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00480561,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.18173_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 33019,
+    "truncated": false,
+    "input_sha256": "5de819b6b1af6f2b72bbfeec72b6a927382125dc684297df35c5d883ca579fe5",
+    "refs_withheld": false
+  }
+}

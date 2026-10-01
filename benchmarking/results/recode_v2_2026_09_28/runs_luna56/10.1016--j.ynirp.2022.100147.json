@@ -1,0 +1,68 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "original_authors": "Martucci, Katherine; Borg, Nick; Macniven, Kim; Knutson, Brian; Mackey, Sean",
+      "original_year": "2018",
+      "original_journal": "Pain",
+      "description": "Martucci et al. (2018) reported that patients with fibromyalgia showed reduced medial prefrontal cortex responses during anticipation of monetary gains compared with healthy controls.",
+      "citation_sentence": "A previous study by Martucci et al. (2018) combining fMRI with the MID task found that brain responses to monetary reward are altered in patients with fibromyalgia.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the same-direction reduction as a non-significant trend, and the authors described the result as generally consistent but not fully replicated."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "original_authors": "Martucci, Katherine; Borg, Nick; Macniven, Kim; Knutson, Brian; Mackey, Sean",
+      "original_year": "2018",
+      "original_journal": "Pain",
+      "description": "Martucci et al. (2018) reported that patients with fibromyalgia showed enhanced medial prefrontal cortex responses to non-punishment monetary outcomes compared with healthy controls.",
+      "citation_sentence": "Compared to healthy controls, patients demonstrated reduced MPFC responses during the anticipation of reward gains, but enhanced MPFC responses in response to non-punishment outcomes.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found the same-direction increase as a non-significant trend, which the authors treated as a generally similar but incomplete replication."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "original_authors": "Martucci, Katherine; Borg, Nick; Macniven, Kim; Knutson, Brian; Mackey, Sean",
+      "original_year": "2018",
+      "original_journal": "Pain",
+      "description": "Martucci et al. (2018) reported no difference between patients with fibromyalgia and healthy controls in nucleus accumbens response during anticipation of monetary gains.",
+      "citation_sentence": "NAcc responses during the anticipation of reward gains, however, did not significantly differ between patients vs. controls (Martucci et al., 2018).",
+      "gt_ambiguity": "clear",
+      "notes": "This was an original null claim, and the replication also found no patient-control difference; the authors explicitly described the result as consistent."
+    },
+    {
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "https://doi.org/10.1097/j.pain.0000000000001232",
+      "original_title": "Altered prefrontal correlates of monetary anticipation and outcome in chronic pain",
+      "original_authors": "Martucci, Katherine; Borg, Nick; Macniven, Kim; Knutson, Brian; Mackey, Sean",
+      "original_year": "2018",
+      "original_journal": "Pain",
+      "description": "Martucci et al. (2018) reported that greater medial prefrontal cortex response to non-punishment outcomes was associated with greater mood disturbance.",
+      "citation_sentence": "These analyses suggested that across both studies, MPFC response to non-punishment outcome was positively correlated with individual differences in mood disturbance (i.e., greater MPFC response was related to higher mood disturbance as indicated by higher self-reported POMS scores).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication reproduced the positive association, although the within-group association was primarily driven by the fibromyalgia group."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 80237,
+    "truncated": false,
+    "input_sha256": "0efb8d913930fb0ce3e453918060cbaeb91db820b546df1c1ddcc52448824cb0",
+    "refs_withheld": false,
+    "output_tokens": 1513,
+    "cost_usd": 0.00680431
+  }
+}

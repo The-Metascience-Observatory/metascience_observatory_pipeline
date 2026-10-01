@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1073/pnas.2103313118",
+  "paper_folder": "10.1073--pnas.2103313118",
+  "discipline": "psychology",
+  "subdiscipline": "consumer psychology / marketing",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1073--pnas.2103313118/body.md",
+      "sha256": "b2ab579ab575b7f43b6cf2faa74e9719c710b403a8b429802fdcbe816b69f47d"
+    }
+  ],
+  "flags": [
+    "supplement required: recovered study list does not establish outcomes",
+    "targeted source review: input_coverage"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1073--pnas.2103313118#ling26:ce27a955b88b941f:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "",
+      "description": "Replications of studies evaluating the role of scarcity priming across multiple domains (pain sensitivity, resource allocation, materialism, and others); aggregate results reported for 19 studies without individual study details available in the provided text.",
+      "citation_sentence": "",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports 19 replication results aggregated in Fig. 1 and summary text; individual study details (original titles, authors, years, journals, per-study results, and citation sentences) are not available in the provided full text, which is an aggregate summary. The SI Appendix and Fig. 1 would be needed to code each of the 19 entries individually. Four replications (studies 4, 16\u201318) were reported as significant; the remaining 15 were not. The paper states 'replication effect sizes were smaller than the original effect sizes for 80% of the studies, and directionally opposite for 30% of these 20 studies.' Without individual study breakdowns, each entry is coded as inconclusive with blank fields where the paper does not provide the information.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1073--pnas.2103313118#luna56:64630df786041761:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Stuck in time: Negative income shock constricts the temporal window of valuation spanning the future and the past",
+      "description": "A negative income shock constricts the temporal window of valuation spanning the future and the past.",
+      "citation_sentence": "Although most of our replications did not approach statistical significance, those that did (4, 16-18) shared some common features.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this as one of the four successful replications, but the supplied text cites it only by reference number rather than author and year.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1073--pnas.2103313118#luna56:cd24e31ff8106c52:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Economic insecurity increases physical pain",
+      "description": "Economic insecurity increases physical pain.",
+      "citation_sentence": "Although most of our replications did not approach statistical significance, those that did (4, 16-18) shared some common features.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this as one of the four successful replications, but the supplied text cites it only by reference number rather than author and year. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1073--pnas.2103313118#luna56:56d13adce585806c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Effects of perceived scarcity on financial decision making",
+      "description": "Perceived scarcity affects financial decision making.",
+      "citation_sentence": "Although most of our replications did not approach statistical significance, those that did (4, 16-18) shared some common features.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this as one of the four successful replications, but the supplied text cites it only by reference number rather than author and year. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1073--pnas.2103313118#luna56:6f7430dd4750cf45:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Seeking lasting enjoyment with limited money: Financial constraints increase preference for material goods over experiences",
+      "description": "Financial constraints increase preference for material goods over experiences.",
+      "citation_sentence": "Although most of our replications did not approach statistical significance, those that did (4, 16-18) shared some common features.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper identifies this as one of the four successful replications, but the supplied text cites it only by reference number rather than author and year. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.1073--pnas.2103313118",
+    "category": "input_coverage",
+    "action": "exclude_outcome",
+    "pair_hint": "",
+    "finding": "Paper reports 19 study results, while many original identities/details are in the SI and figure. The coding input has only main text/references and no local SI. The fresh one-entry summary is not exhaustive ground truth.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1073--pnas.2103313118/body.md",
+    "source_line": 17,
+    "source_sha256": "b2ab579ab575b7f43b6cf2faa74e9719c710b403a8b429802fdcbe816b69f47d",
+    "evidence": "e studies that are referenced directly in the text are cited in the main paper. The remaining studies are cited in SI Appendix as 1 through 13.) All included a conceptualization of scarcity as a factor in the study design, whether by asking people to consider a time they lacked resources, by restricting the supply of resources in the context of",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.neuroimage.2008.04.023",
+  "paper_folder": "10.1016--j.neuroimage.2008.04.023",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.neuroimage.2008.04.023/10.1016--j.neuroimage.2008.04.023_from_xml.md",
+      "sha256": "0b5ed6c3af3178c6f503d21d9de74ae76e5fec97b828109ec43bd40db3560e2d"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.neuroimage.2008.04.023#ling26:70236e4d84de5919:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Cortical and subcortical contributions to Stop signal response inhibition: role of the subthalamic nucleus",
+      "description": "Greater subthalamic nucleus (STN) activity during stop trials compared to go trials during a stop signal task",
+      "citation_sentence": "We sought to replicate the finding of greater subthalamic activity during stop compared to go trials, as reported in Aron and Poldrack, 2006.",
+      "gt_ambiguity": "clear",
+      "notes": "",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.neuroimage.2008.04.023#luna56:50e3c6f09cc088fb:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Cortical and subcortical contributions to Stop signal response inhibition: role of the subthalamic nucleus",
+      "description": "Stop trials produce greater activity in the subthalamic nucleus than go trials.",
+      "citation_sentence": "We sought to replicate the finding of greater subthalamic activity during stop compared to go trials, as reported in Aron and Poldrack, 2006.",
+      "gt_ambiguity": "clear",
+      "notes": "The authors explicitly state in the Discussion that they replicated this finding. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.neuroimage.2008.04.023#luna56:89e319e934dd1127:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "reversal",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Cortical and subcortical contributions to Stop signal response inhibition: role of the subthalamic nucleus",
+      "description": "Individuals with short SSRT show greater subthalamic nucleus activity than individuals with long SSRT.",
+      "citation_sentence": "Specifically, greater STN activity in the short, as compared to the long, SSRT group would replicate the findings of Aron and Poldrack, 2006.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The replication found the opposite pattern, with greater bilateral STN activity in the long-SSRT group, and states that the STN results contrasted with Aron and Poldrack (2006). [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.17605/osf.io/82bwv",
+  "paper_folder": "10.17605--osf.io--82bwv",
+  "discipline": "neuroscience",
+  "subdiscipline": "cognitive neuroscience",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.17605--osf.io--82bwv/body.md",
+      "sha256": "99a132492af0fc7e23f620598d4e7b29ab386ed0a115b59f7577f6d06e3d2eb4"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.17605--osf.io--82bwv#ling26:86a292e0f94af52a:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Errors Are Aversive",
+      "description": "The magnitude of the error-potentiated startle response is correlated with the amplitude of the error-related negativity.",
+      "citation_sentence": "Hajcak & Foti, 2008 \"The task was an arrow version of the flankers task (cf. Hajcak et al., 2005).\"",
+      "gt_ambiguity": "clear",
+      "notes": "Authors explicitly state 'we consider this to be a failure to replicate' despite the correlation trending in the same direction (r = -.25, p = .11, one-tailed) and the overall pattern being remarkably similar to the original. Authors explicitly state 'we consider this to be a failure to replicate but with extremely similar results.' The correlation trended in the same direction (r = -.25) but did not reach significance (p = .11, one-tailed).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.17605--osf.io--82bwv#luna56:946cf2b59acf48b9:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2008.02053.x",
+      "original_title": "Errors are aversive: Defensive motivation and the error-related negativity",
+      "description": "Commission errors in a flanker task elicit a robust error-related negativity in event-related potentials relative to correct responses.",
+      "citation_sentence": "Hajcak & Foti, 2008 \"The task was an arrow version of the flankers task (cf. Hajcak et al., 2005).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors explicitly state that they clearly replicated the basic ERN result. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.17605--osf.io--82bwv#luna56:bf85e8671ac8052a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2008.02053.x",
+      "original_title": "Errors are aversive: Defensive motivation and the error-related negativity",
+      "description": "Auditory startle responses are potentiated when the noise burst follows an error rather than a correct response.",
+      "citation_sentence": "Hajcak & Foti, 2008 \"The task was an arrow version of the flankers task (cf. Hajcak et al., 2005).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication authors explicitly state that they clearly replicated the basic error-potentiated startle result. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.17605--osf.io--82bwv#luna56:83102ad6d061326a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2008.02053.x",
+      "original_title": "Errors are aversive: Defensive motivation and the error-related negativity",
+      "description": "The magnitude of the error-related negativity is negatively correlated with the magnitude of error-potentiated startle.",
+      "citation_sentence": "Hajcak & Foti, 2008 \"The task was an arrow version of the flankers task (cf. Hajcak et al., 2005).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication correlation was in the same direction but nonsignificant, and the authors explicitly characterize this main finding as a failure to replicate. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

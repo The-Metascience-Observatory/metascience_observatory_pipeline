@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s11145-018-9858-1",
+  "paper_folder": "10.1007--s11145-018-9858-1",
+  "discipline": "linguistics",
+  "subdiscipline": "psycholinguistics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s11145-018-9858-1/body.md",
+      "sha256": "f8d7e2fd446ee7fb2d33078b48a839879a24feebe205398d586a892ba487f491"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s11145-018-9858-1#ling26:e14d97642227f1f1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Does darkness lead to happiness? Masked suffix priming effects",
+      "description": "Masked suffix priming facilitates processing of complex words relative to simple words in adults through overlapping suffixes between prime and target",
+      "citation_sentence": "This first experiment replicates the study by Dunabeitia, [20], but with our own stimuli and in child and adult populations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The adult results replicate the original Dunabeitia et al. (2008) finding, but fourth and fifth graders show no morphological effect while sixth graders show a marginal effect, yielding a mixed pattern across age groups within one experiment.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s11145-018-9858-1#luna56:c631c5e2aceec943:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Does darkness lead to happiness? Masked suffix priming effects",
+      "description": "Morphologically complex target words show facilitation when preceded by primes sharing a derivational suffix, whereas simple target words do not show facilitation from merely sharing an orthographic ending.",
+      "citation_sentence": "Results in adults replicate previous studies by showing that only the related condition of complex words elicits a significant facilitation (see Dun \u02dcabeitia, Perea, & Carreiras, 2008).",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reports one experiment with adults and children; the adult outcome is an explicit replication success, while fourth- and fifth-grade children show no effect and sixth graders show only marginal evidence. The entry is coded for the original adult effect, with the added child populations treated as a close extension.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

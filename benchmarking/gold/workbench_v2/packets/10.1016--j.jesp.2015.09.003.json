@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1016/j.jesp.2015.09.003",
+  "paper_folder": "10.1016--j.jesp.2015.09.003",
+  "discipline": "psychology",
+  "subdiscipline": "cognitive psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1016--j.jesp.2015.09.003/10.1016--j.jesp.2015.09.003_from_xml.md",
+      "sha256": "90702d59652f674ecb0f50cf9415eca51bcee4d6eda6d2538fec5cbb74befd90"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1016--j.jesp.2015.09.003#ling26:4592f2350e197ff1:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Approach-motivated positive affect reduces breadth of attention",
+      "description": "Positive-high affect (appetitive dessert pictures) narrows the breadth of attention compared to neutral affect (rock pictures), as measured by slower response times to global targets in a Navon letter task (replicating Experiment 2 of the original)",
+      "citation_sentence": "In the present replication study, we attempted to emulate as closely as possible the original settings of Experiment 2 by Gable and Harmon-Jones (2008), and, whenever possible, use the original materials obtained from the authors.",
+      "gt_ambiguity": "clear",
+      "notes": " [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1016--j.jesp.2015.09.003#ling26:a3a21f109b55ab97:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "inconclusive",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "Approach-motivated positive affect reduces breadth of attention",
+      "description": "Positive-high affect narrows the breadth of attention compared to neutral affect and positive-low affect, as measured by response times to global and local targets in a Navon letter task, using German-rated stimuli from Blechert et al. (2014)",
+      "citation_sentence": "In the present replication study, we attempted to emulate as closely as possible the original settings of Experiment 2 by Gable and Harmon-Jones (2008), and, whenever possible, use the original materials obtained from the authors.",
+      "gt_ambiguity": "clear",
+      "notes": "The conceptual replication found a significant narrowing effect for positive-high vs. neutral (p = .010) but no significant effect for positive-high vs. positive-low (p = .152), yielding mixed results within one experiment. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.jesp.2015.09.003#luna56:a84567f6aa29775a:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Approach-motivated positive affect reduces breadth of attention",
+      "description": "In Experiment 2, positive-high affect induced by dessert pictures was hypothesized to narrow attentional breadth compared with neutral affect induced by rock pictures, producing slower responses to global targets and relatively faster responses to local targets.",
+      "citation_sentence": "In the present replication study, we attempted to emulate as closely as possible the original settings of Experiment 2 by Gable and Harmon-Jones (2008), and, whenever possible, use the original materials obtained from the authors.",
+      "gt_ambiguity": "clear",
+      "notes": "The paper explicitly describes this experiment as a direct replication and concludes that it yielded the same pattern of results as Experiment 2 of the original study. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.jesp.2015.09.003#luna56:034fee4201035775:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "Approach-motivated positive affect reduces breadth of attention",
+      "description": "In Experiment 2, positive-high affect was hypothesized to narrow attentional breadth compared with neutral affect, such that responses to global targets would be slower after positive-high than after neutral stimuli.",
+      "citation_sentence": "The first one only compared positive-high affect to neutral affect (comparable to Experiment 2 by Gable and Harmon-Jones (2008) and our direct replication); the second one compared only positive-high affect to positive-low affect (comparable to Experiment 1 by Gable and Harmon-Jones (2008)).",
+      "gt_ambiguity": "clear",
+      "notes": "This is the positive-high versus neutral effect tested within the conceptual replication experiment using German-normed stimuli. The authors state that this comparison replicated the original effect. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1016--j.jesp.2015.09.003#luna56:f81a98ca6e5e0b4e:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "",
+      "original_title": "Approach-motivated positive affect reduces breadth of attention",
+      "description": "In Experiment 1, positive-high affect was hypothesized to narrow attentional breadth compared with positive-low affect, with relatively greater local than global processing after positive-high stimuli.",
+      "citation_sentence": "The first one only compared positive-high affect to neutral affect (comparable to Experiment 2 by Gable and Harmon-Jones (2008) and our direct replication); the second one compared only positive-high affect to positive-low affect (comparable to Experiment 1 by Gable and Harmon-Jones (2008)).",
+      "gt_ambiguity": "clear",
+      "notes": "The positive-high versus positive-low interaction was not significant (p = .152), and the authors explicitly state that this was in contrast to Experiment 1 of Gable and Harmon-Jones (2008). [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

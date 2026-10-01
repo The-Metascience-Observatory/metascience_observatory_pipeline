@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1257/mac.6.3.1",
+  "paper_folder": "10.1257--mac.6.3.1",
+  "discipline": "economics",
+  "subdiscipline": "development economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/home/dan/Dropbox/AAA_METASCIENCE_OBSERVATORY/mo_pipeline/benchmarking/ground_truth_data_filtered_PDFs/10.1257--mac.6.3.1/body.md",
+      "sha256": "c4f7af2c5797225dd2c112db9a8a8cbd5dda1c48c27c336936cd3530445cbb22"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1257--mac.6.3.1#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1257--mac.6.3.1#luna56:381ce7f332c24f38:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1086/341748",
+      "original_title": "Reversal of Fortune: Geography and Institutions in the Making of the Modern World Income Distribution",
+      "description": "Among countries colonized by European states, countries that were more developed around 1500 were claimed to have become relatively poorer by 1995, producing a reversal of fortune.",
+      "citation_sentence": "For example, Acemoglu, Johnson, and Robinson (2002) show that the reversal of fortune is robust to using alternative measures of precolonial development.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper reexamines AJR's reversal-of-fortune result using migration-weighted measures and several alternative indicators of precolonial development. The supplied machine-extracted text is corrupted, so the citation sentence is reconstructed from the inline citation context.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

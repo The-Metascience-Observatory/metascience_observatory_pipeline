@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1037/0022-3514.83.2.406",
+  "paper_folder": "10.1037--0022-3514.83.2.406",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1037--0022-3514.83.2.406/body.md",
+      "sha256": "e1b5515679d4daa4e44b3b5705482800cd8e76790c11946e6b6937a66afba87a"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1037--0022-3514.83.2.406#ling26:7b45e77265ca6ffc:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: Direct effects of trait construct and stereotype activation on action",
+      "description": "Exposure to elderly-related words causes participants to walk more slowly",
+      "citation_sentence": "Studies 1a and 1b use a paradigm developed by [4] to examine the behavioral consequences of an implicitly primed elderly stereotype.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The prime main effect in Study 1a was not significant (p = .13), but the Self-Consciousness x Prime interaction was significant (p < .05). The combined analysis across both studies explicitly replicates Bargh et al. (1996).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1037--0022-3514.83.2.406#ling26:7b45e77265ca6ffc:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: Direct effects of trait construct and stereotype activation on action",
+      "description": "Exposure to elderly-related words causes participants to walk more slowly",
+      "citation_sentence": "Studies 1a and 1b use a paradigm developed by [4] to examine the behavioral consequences of an implicitly primed elderly stereotype.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The prime main effect in Study 1b approached significance (p = .09), and the Self-Consciousness x Prime interaction was significant (p = .01). The combined analysis across both studies explicitly replicates Bargh et al. (1996).",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--0022-3514.83.2.406#luna56:d8419bc6cd8ae250:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: Direct effects of trait construct and stereotype activation on action",
+      "description": "Exposure to an elderly stereotype prime causes participants to walk more slowly than participants exposed to a neutral prime.",
+      "citation_sentence": "In a modern classic, Bargh, Chen, and Burrows (1996) demonstrated that implicit priming of stereotypes can bias an individual\u2019s behavior in a stereotype-congruent manner even though the individual remains unaware of both the stereotype activation and its association to his or her own behavior.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Study 1a used the elderly stereotype scrambled-sentence paradigm from Bargh et al. (1996) with an intervening lexical decision task. The interaction was significant, although the simple high-self-consciousness comparison was significant only with the authors' less-preferred post hoc test.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1037--0022-3514.83.2.406#luna56:4382a783d1cf7b68:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "success",
+      "replication_type": "close extension",
+      "original_url": "",
+      "original_title": "Automaticity of social behavior: Direct effects of trait construct and stereotype activation on action",
+      "description": "Exposure to an elderly stereotype prime causes participants to walk more slowly than participants exposed to a neutral prime.",
+      "citation_sentence": "In a modern classic, Bargh, Chen, and Burrows (1996) demonstrated that implicit priming of stereotypes can bias an individual\u2019s behavior in a stereotype-congruent manner even though the individual remains unaware of both the stereotype activation and its association to his or her own behavior.",
+      "gt_ambiguity": "clear",
+      "notes": "Study 1b replicated the elderly-prime walking paradigm in a public community walkway with community pedestrians and no intervening task. Studies 2\u20134 were extensions of the authors' own work rather than qualifying replications of separately published original studies.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

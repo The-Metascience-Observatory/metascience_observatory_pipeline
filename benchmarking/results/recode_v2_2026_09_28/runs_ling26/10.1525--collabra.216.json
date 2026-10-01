@@ -1,0 +1,43 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "direct",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "original_authors": "Giessner, S.; Schubert, T.",
+      "original_year": "2007",
+      "original_journal": "Organizational Behavior & Human Decision Processes",
+      "description": "Describing a leader as powerful causes participants to place the leader's box at a higher vertical position in an organization chart",
+      "citation_sentence": "We followed closely the procedure of the original study in Giessner & Schubert (2007).",
+      "gt_ambiguity": "clear",
+      "notes": ""
+    },
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1016/j.obhdp.2006.10.001",
+      "original_title": "High in the hierarchy: How vertical location and judgments of leaders' power are interrelated",
+      "original_authors": "Giessner, S.; Schubert, T.",
+      "original_year": "2007",
+      "original_journal": "Organizational Behavior & Human Decision Processes",
+      "description": "Manipulating the magnitude of vertical spatial difference in an organization chart influences power evaluations of a leader",
+      "citation_sentence": "We adapted the design of Study 1a from [7].",
+      "gt_ambiguity": "clear",
+      "notes": "Citation sentence uses reference number [7] rather than author names and year; the reference corresponds to Giessner & Schubert (2007)."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 39285,
+    "truncated": false,
+    "input_sha256": "8a948193e91243b63657488846b754c6b56f81a44639e36c0de372e25b90bece",
+    "refs_withheld": false,
+    "output_tokens": 16811,
+    "cost_usd": 0.0012883206
+  }
+}

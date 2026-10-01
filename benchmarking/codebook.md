@@ -1,8 +1,15 @@
 # Gold-set coding codebook
 
-codebook_version: codebook_v1
-date: 2026-09-02
-derived_from: prompts/prompt_shared_core.md (prompt version 8.6 at time of writing)
+codebook_version: codebook_v2
+date: 2026-09-28
+derived_from: prompts/prompt_shared_core.md (prompt version 8.9)
+
+**Changes in v2** (from the 2026-09-18 gold-coding audit; see `prompts/CHANGELOG.md`, 8.9):
+the unit of coding is one row per *claim of the original*, resolving v1's
+contradiction between "not each dependent variable" and "one row per effect";
+timepoints/endpoints of one claim are one row; controls get no row; and a
+replication of an original *null* claim has its own rule. Entries coded under v1
+must be re-coded on these points before they are compared with v2 entries.
 
 ## Purpose
 
@@ -22,14 +29,23 @@ coders.
 
 - A separate entry is each distinct replication study or experiment with its own
   participants or its own independent design.
-- An entry is NOT each individual statistical test, mediator path, dependent
-  variable, or scenario/vignette within one study. If a single study tests whether
-  A mediates X -> Y and whether B mediates X -> Y using the same participants, that
+- **The unit is a claim of the original.** A claim is a distinct finding the
+  ORIGINAL authors reported as a result -- not a statistical test, measure or
+  analysis path the replication happens to run. Decide by reading how the original
+  presented its findings. Code one row per claim, per replication study that tests
+  it.
+- Several measures, statistical tests, mediator paths or scenarios/vignettes of the
+  **same claim** within one study are ONE entry. If a single study tests whether A
+  mediates X -> Y and whether B mediates X -> Y using the same participants, that
   is one entry, not two. Example: a paper replicates a mediation study testing 3
-  mediator pathways with the same 300 participants; code 1 entry, not 3. If the
-  same effect is tested across several scenarios or vignettes within one
-  experiment, that is one entry (and if results differ across scenarios its result
-  is inconclusive; see Result classification).
+  mediator pathways with the same 300 participants; code 1 entry, not 3. If results
+  differ across scenarios, the entry is inconclusive (see Result classification).
+- Several **timepoints or endpoints of the same claim** are ONE entry. Classify it
+  by the original's stated primary timepoint/endpoint if it named one; if not, and
+  the results differ across timepoints, the entry is inconclusive. Example: an
+  intervention improved abstinence at 3 months but not at 6 months -> one row.
+- **Controls are not claims.** Negative and positive control conditions (a control
+  cell line or contrast expected to show nothing) get no row.
 - Multiple original papers replicated (Case A): one row per distinct original
   study. A paper that replicates Smith (2010), Jones (2015), and Brown (2018)
   yields 3 rows.
@@ -38,9 +54,11 @@ coders.
   from Smith (2010) yields 3 rows, all with the same `original_url`, each with a
   different `description` (what that specific study tested), its own `result`
   based on that study's outcome, and its own statistics.
-- Multiple distinct effects from the same original study (for example effects on
-  compassion, empathy, and Theory of Mind): one row per effect, same
-  `original_url`, different `description`, potentially different `result`.
+- Multiple distinct claims from the same original study (for example the
+  original's reported effects on compassion, empathy, and Theory of Mind): one row
+  per claim, same `original_url`, different `description`, potentially different
+  `result`. These are three rows because the original reported three findings, not
+  because three variables were measured.
 - A single row for a multi-study paper is correct only when the paper reports one
   aggregate result without breaking the studies down individually (rare). If
   individual results are reported, code separate rows.
@@ -174,7 +192,24 @@ use it and the three conditions above hold.
   original).
 - Significant effect but authors express substantial validity concerns about THIS
   experiment -> inconclusive.
-- Registered Report with a clear null result -> failure.
+- Registered Report with a clear null result, where the original claimed an
+  effect -> failure. (Where the original claimed no effect, see below.)
+
+### When the original claimed NO effect
+
+The definitions above assume the original found an effect. When the original
+authors reported the *absence* of an effect as a finding in its own right, judge
+agreement with that claim instead:
+
+- Replication also finds no effect, and the authors treat it as consistent with
+  the original -> success.
+- Replication finds a significant effect where the original claimed none -> failure.
+- Authors say the replication was too underpowered or imprecise to tell ->
+  inconclusive.
+
+A non-significant result is not proof of no effect, so rely on the authors' own
+reading, not the p-value alone. This applies only to genuine null *claims*; a
+control condition expected to show nothing is not a claim and gets no row.
 
 ### Common pitfalls
 

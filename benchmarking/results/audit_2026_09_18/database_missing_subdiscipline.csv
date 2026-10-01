@@ -1,0 +1,218 @@
+csv_row,replication_url,discipline
+354,https://doi.org/10.1109/iccq60895.2024.10576941,software engineering
+370,https://doi.org/10.1145/3649217.3653545,software engineering
+1887,https://doi.org/10.1016/j.biopsych.2011.12.010,biology
+1962,https://doi.org/10.1080/08993408.2022.2071543,computer science education
+2010,https://doi.org/10.1109/reser.2013.9,software engineering
+2025,https://doi.org/10.1145/3194104.3194110,software engineering
+2699,https://doi.org/10.1007/s10515-025-00539-z,software engineering
+2705,https://doi.org/10.1007/s10664-024-10562-5,software engineering
+2706,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+2707,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+2708,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+2709,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+2710,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+2711,https://doi.org/10.1007/s10664-025-10733-y,software engineering
+3140,https://doi.org/10.1136/bmjopen-2021-059000,AI and machine learning
+3141,https://doi.org/10.1136/bmjopen-2021-059000,AI and machine learning
+3142,https://doi.org/10.1136/bmjopen-2021-059000,AI and machine learning
+3531,https://doi.org/10.7717/peerj-cs.245,software engineering
+3592,https://doi.org/10.1038/s41586-025-10078-y,political science
+3608,https://doi.org/10.1038/s41586-025-10078-y,political science
+3615,https://doi.org/10.1038/s41586-025-10078-y,education
+3617,https://doi.org/10.1038/s41586-025-10078-y,political science
+3627,https://doi.org/10.1038/s41586-025-10078-y,criminology
+3632,https://doi.org/10.1038/s41586-025-10078-y,political science
+3651,https://doi.org/10.1038/s41586-025-10078-y,political science
+3679,https://doi.org/10.1007/s10515-024-00432-1,software engineering
+3680,https://doi.org/10.1007/s10515-024-00432-1,software engineering
+3905,https://doi.org/10.17705/1atrr.00079,sociology
+3906,https://doi.org/10.17705/1atrr.00079,sociology
+4210,https://doi.org/10.1002/tea.3660220207,education
+4211,https://doi.org/10.1002/tea.3660220207,education
+4315,https://doi.org/10.1007/s10664-016-9429-5,software engineering
+4316,https://doi.org/10.1007/s10664-025-10648-8,software engineering
+4333,https://doi.org/10.1007/s11219-017-9398-y,software engineering
+4683,https://doi.org/10.1016/j.jss.2021.110939,software engineering
+4684,https://doi.org/10.1016/j.jss.2021.110939,software engineering
+5248,https://doi.org/10.1080/10632913.2015.1007405,education
+5383,https://doi.org/10.1016/j.infsof.2017.08.008,software engineering
+5384,https://doi.org/10.1016/j.infsof.2017.08.008,software engineering
+5637,https://doi.org/10.1109/apsec.2015.51,software engineering
+5640,https://doi.org/10.1109/cidm.2013.6597238,software engineering
+5641,https://doi.org/10.1109/compsac.2013.82,software engineering
+5642,https://doi.org/10.1109/fie43999.2019.9097310,education
+5643,https://doi.org/10.1109/icsme58846.2023.00031,software engineering
+5645,https://doi.org/10.1109/issre.2007.14,software engineering
+5646,https://doi.org/10.1109/iwsm-mensura.2016.039,software engineering
+5647,https://doi.org/10.1109/metric.2002.1011340,software engineering
+5648,https://doi.org/10.1109/saner50967.2021.00076,software engineering
+5649,https://doi.org/10.1109/seaa.2016.57,software engineering
+5651,https://doi.org/10.1109/wcre.2013.6671286,software engineering
+5846,https://doi.org/10.1142/s0218194011005335,software engineering
+5847,https://doi.org/10.1145/1368088.1368115,software engineering
+5848,https://doi.org/10.1145/2593868.2593874,software engineering
+5849,https://doi.org/10.1145/2652524.2652556,software engineering
+5850,https://doi.org/10.1145/2652524.2652556,software engineering
+5851,https://doi.org/10.1145/2652524.2652581,software engineering
+5853,https://doi.org/10.1145/2915970.2915983,software engineering
+5856,https://doi.org/10.1145/3486011.3486428,education
+5857,https://doi.org/10.1145/3629479.3629495,software engineering
+5858,https://doi.org/10.1145/3696630.3728722,software engineering
+5859,https://doi.org/10.1145/3728983,software engineering
+6042,https://doi.org/10.1177/073953298600700307,sociology
+6497,https://doi.org/10.1515/comm.2001.26.3.267,sociology
+6557,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6558,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6559,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6560,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6561,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6562,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6563,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6564,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6565,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6566,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6567,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6568,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6569,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6570,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6571,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6572,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6573,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6574,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6575,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6576,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6577,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6578,https://doi.org/10.1609/aaai.v39i25.34818,AI and machine learning
+6606,https://doi.org/10.18653/v1/d17-1136,AI and machine learning
+6674,https://doi.org/10.2307/1142378,criminology
+6687,https://doi.org/10.23919/cisti.2019.8760648,software engineering
+6726,https://doi.org/10.2478/jagi-2018-0001,AI and machine learning
+6727,https://doi.org/10.2478/jagi-2018-0001,AI and machine learning
+6728,https://doi.org/10.2478/jagi-2018-0001,AI and machine learning
+6784,https://doi.org/10.32996/ijllt.2023.6.6.5,education
+6976,https://doi.org/10.3390/ijerph19138192,education
+7161,https://doi.org/10.5381/jot.2016.15.3.a2,software engineering
+7162,https://doi.org/10.5381/jot.2016.15.3.a2,software engineering
+7163,https://doi.org/10.5381/jot.2016.15.3.a2,software engineering
+7164,https://doi.org/10.5381/jot.2016.15.3.a2,software engineering
+7165,https://doi.org/10.5381/jot.2016.15.3.a2,software engineering
+7169,https://doi.org/10.5753/sbqs.2016.15130,software engineering
+7174,https://doi.org/10.7236/ijibc.2019.11.2.1,software engineering
+7495,https://doi.org/10.1080/15614263.2022.2102494,political science
+7688,https://doi.org/10.1002/pits.22027,education
+7689,https://doi.org/10.1002/pits.22027,education
+7690,https://doi.org/10.1002/pits.22027,education
+7691,https://doi.org/10.1002/pits.22027,education
+7692,https://doi.org/10.1002/pits.22027,education
+7693,https://doi.org/10.1002/pits.22027,education
+7694,https://doi.org/10.1002/pits.22027,education
+7695,https://doi.org/10.1002/pits.22027,education
+7750,https://doi.org/10.1002/rrq.62,education
+7787,https://osf.io/gyse6,education
+7792,https://osf.io/3u8x9,sociology
+7793,https://osf.io/4usmq,sociology
+7797,https://osf.io/7qjzp,sociology
+7802,https://osf.io/39upt,education
+7810,https://osf.io/e9j6y,sociology
+7811,https://osf.io/e9j6y,sociology
+7812,https://osf.io/e9j6y,sociology
+7820,https://osf.io/syq4e,sociology
+7821,https://osf.io/syq4e,sociology
+7822,https://osf.io/syq4e,sociology
+7823,https://osf.io/6rpxu,sociology
+7824,https://osf.io/6rpxu,sociology
+7825,https://osf.io/6rpxu,sociology
+7826,https://osf.io/u58za,political science
+7827,https://osf.io/u58za,political science
+7828,https://osf.io/u58za,political science
+7832,https://osf.io/ck8aq,political science
+7833,https://osf.io/ck8aq,political science
+7837,https://osf.io/skwev,education
+7838,https://osf.io/skwev,education
+7839,https://osf.io/skwev,education
+7842,https://osf.io/cnbt5,education
+7843,https://osf.io/cnbt5,education
+7845,https://osf.io/5869t,criminology
+7874,https://osf.io/ht4d5,political science
+7884,https://osf.io/fqdh4,political science
+7888,https://osf.io/7efsw,sociology
+7895,https://osf.io/kw5tv,political science
+7897,https://osf.io/ybzev,political science
+7898,https://osf.io/8rwkn,sociology
+7900,https://osf.io/2wfgv,education
+7904,https://osf.io/nuzh2,sociology
+7931,https://doi.org/10.1017/psrm.2018.50,political science
+7932,https://doi.org/10.1017/s0003055404001200,political science
+7933,https://doi.org/10.1017/s0003055413000063,political science
+7934,https://doi.org/10.1017/s0003055424001308,political science
+7935,https://doi.org/10.1017/s000842392200004x,political science
+7936,https://doi.org/10.1017/s0008423924000234,political science
+7938,https://doi.org/10.1017/xps.2019.1,political science
+7939,https://doi.org/10.1017/xps.2020.18,political science
+7956,https://doi.org/10.1080/10584609.2014.914612,political science
+7958,https://doi.org/10.1080/14719037.2017.1282000,political science
+7962,https://doi.org/10.1109/tse.2012.46,software engineering
+7971,https://doi.org/10.1111/padm.12743,political science
+7972,https://doi.org/10.1111/padm.12890,political science
+7974,https://doi.org/10.1111/padm.12921,political science
+7975,https://doi.org/10.1111/padm.12970,political science
+7997,https://doi.org/10.1515/zfsoz-2023-2029,sociology
+8006,https://doi.org/10.3758/s13423-021-01927-8,psychology
+8017,https://doi.org/10.1080/10510974.2018.1466718,education
+8018,https://doi.org/10.1080/10510974.2018.1466718,education
+8019,https://doi.org/10.1080/10510974.2018.1466718,education
+8030,https://doi.org/10.1007/s11409-015-9151-5,education
+8073,https://doi.org/10.1093/police/paz066,criminology
+8074,https://doi.org/10.1109/icpc52881.2021.00052,software engineering
+8093,https://doi.org/10.1350/ijps.2014.16.4.346,criminology
+8112,https://doi.org/10.3389/fpsyg.2013.00698,biology
+8134,https://doi.org/10.1007/s10664-022-10117-6,software engineering
+8135,https://doi.org/10.1007/s10664-025-10739-6,human-computer interaction
+8146,https://doi.org/10.1007/s11145-020-10060-2,education
+8148,https://doi.org/10.1007/s11165-012-9320-3,education
+8149,https://doi.org/10.1007/s11218-012-9188-0,education
+8177,https://doi.org/10.1017/s000305540505166x,political science
+8178,https://doi.org/10.1017/s0003055413000063,political science
+8179,https://doi.org/10.1017/s0003055422000946,political science
+8180,https://doi.org/10.1017/s000842390002984x,sociology
+8185,https://doi.org/10.1017/xps.2017.22,political science
+8186,https://doi.org/10.1017/xps.2021.29,political science
+8188,https://doi.org/10.1037/a0036307,education
+8189,https://doi.org/10.1037/com0000223,biology
+8191,https://doi.org/10.1037/edu0000095,education
+8192,https://doi.org/10.1037/edu0000146,education
+8194,https://doi.org/10.1037/edu0000413,education
+8195,https://doi.org/10.1037/edu0000433,education
+8196,https://doi.org/10.1037/edu0000441,education
+8219,https://doi.org/10.1080/08993408.2022.2079866,computer science education
+8225,https://doi.org/10.1080/10410236.2016.1140268,sociology
+8231,https://doi.org/10.1080/10810730.2025.2588698,sociology
+8233,https://doi.org/10.1080/13803611.2021.2022319,education
+8254,https://doi.org/10.1101/111807,psychology
+8261,https://doi.org/10.1109/esem.2011.30,software engineering
+8262,https://doi.org/10.1109/esem.2015.7321191,software engineering
+8263,https://doi.org/10.1109/iwsc55060.2022.00015,AI and machine learning
+8264,https://doi.org/10.1109/reser.2011.10,software engineering
+8265,https://doi.org/10.1109/reser.2011.12,software engineering
+8266,https://doi.org/10.1109/reser.2011.8,software engineering
+8267,https://doi.org/10.1109/saner53432.2022.00088,software engineering
+8268,https://doi.org/10.1109/vrw50115.2020.00137,human-computer interaction
+8282,https://doi.org/10.1111/jcal.12211,education
+8288,https://doi.org/10.1111/josh.12124,education
+8298,https://doi.org/10.1128/jvi.01714-18,microbiology
+8300,https://doi.org/10.1145/3618257.3624820,computer networks and communications
+8307,https://doi.org/10.1177/0022219418775114,education
+8309,https://doi.org/10.1177/00224278251394278,criminology
+8327,https://doi.org/10.1177/2053168018787119,political science
+8328,https://doi.org/10.1177/20531680231188262,political science
+8329,https://doi.org/10.1177/20531680231205157,political science
+8339,https://doi.org/10.12973/eurasia.2014.948a,education
+8357,https://doi.org/10.3102/0013189x20940304,education
+8376,https://doi.org/10.5281/zenodo.17716155,criminology
+8410,https://doi.org/10.48550/arxiv.2208.07395,computer science education
+8452,https://doi.org/10.1126/science.1219861,microbiology
+8453,https://doi.org/10.1126/science.1219861,microbiology
+8454,https://doi.org/10.1126/science.1218455,microbiology
+8455,https://doi.org/10.1126/science.1218455,microbiology
+8456,https://doi.org/10.1074/jbc.C112.394403,microbiology

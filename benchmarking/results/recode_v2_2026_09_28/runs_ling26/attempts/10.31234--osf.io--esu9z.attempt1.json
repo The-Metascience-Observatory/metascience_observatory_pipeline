@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"no\",\n  \"why_negative\": \"The paper is a correction notice about a bug in the analysis code, not a replication study.\",\n  \"entries\": []\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 6493,
+    "output_tokens": 151,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.000145866,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "10.31234--osf.io--esu9z.pdf (tail pages)",
+    "chars": 1010,
+    "truncated": false,
+    "input_sha256": "a4dd827dab281f832d4bdd5e002d5a14c3f8f50c299ae11e1dbc1e3cfba1034f",
+    "refs_withheld": false
+  }
+}

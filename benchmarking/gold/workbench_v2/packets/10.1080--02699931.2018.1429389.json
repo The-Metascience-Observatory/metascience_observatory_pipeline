@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1080/02699931.2018.1429389",
+  "paper_folder": "10.1080--02699931.2018.1429389",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1080--02699931.2018.1429389/body.md",
+      "sha256": "01c7411270c6c13161023dc9b9a3f4376d6887e08a5b827bf17f77125d90d37b"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1080--02699931.2018.1429389#ling26:51955cd35bd8ef92:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2006.01811.x",
+      "original_title": "Of two minds forming and changing valence-inconsistent implicit and explicit attitudes",
+      "description": "Briefly presented subliminal primes selectively influence implicit attitudes while explicit attitudes are influenced by supraliminal behavioral information, producing opposite implicit and explicit attitudes toward the same target.",
+      "citation_sentence": "The goal of the first Experiment was to replicate the study of Rydell et al. (2006) as closely as possible.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 used German translation of materials; prime recognition was above chance, contrary to the original; failed to replicate the implicit effect. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "ling26:10.1080--02699931.2018.1429389#ling26:51955cd35bd8ef92:2",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2006.01811.x",
+      "original_title": "Of two minds forming and changing valence-inconsistent implicit and explicit attitudes",
+      "description": "Briefly presented subliminal primes selectively influence implicit attitudes while explicit attitudes are influenced by supraliminal behavioral information, producing opposite implicit and explicit attitudes toward the same target.",
+      "citation_sentence": "The goal of the first Experiment was to replicate the study of Rydell et al. (2006) as closely as possible.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 used original English materials with US participants; prime presentation duration reduced to 17 ms; prime recognition at chance; failed to replicate the implicit effect. [ling26: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--02699931.2018.1429389#luna56:893ace0dd8367d31:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2006.01811.x",
+      "original_title": "Of two minds: Forming and changing valence-inconsistent implicit and explicit attitudes",
+      "description": "Briefly presented primes selectively influence implicit attitudes toward a target person while explicitly presented behavioral information influences explicit attitudes.",
+      "citation_sentence": "The goal of the first Experiment was to replicate the study of Rydell et al. (2006) as closely as possible.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1 used translated German materials and computerized measures; the authors explicitly concluded that they did not replicate the original implicit-attitude effect. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1080--02699931.2018.1429389#luna56:864f3eb46ce74b68:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "conceptual",
+      "original_url": "https://doi.org/10.1111/j.1467-9280.2006.01811.x",
+      "original_title": "Of two minds: Forming and changing valence-inconsistent implicit and explicit attitudes",
+      "description": "Briefly presented subliminal primes selectively influence implicit attitudes toward a target person while explicitly presented behavioral information influences explicit attitudes.",
+      "citation_sentence": "Rydell et al. (2006) conclude that their participants held opposite implicit and explicit attitudes at the same time reflecting on the two types of information received.",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 2 used the original English materials, a similar U.S. undergraduate population, and shorter prime presentation; the authors found evidence for absence of the predicted implicit-attitude effect. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

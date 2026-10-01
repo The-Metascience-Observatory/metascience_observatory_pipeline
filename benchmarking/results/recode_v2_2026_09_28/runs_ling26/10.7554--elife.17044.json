@@ -1,0 +1,30 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "https://doi.org/10.1126/scitranslmed.3001318",
+      "original_title": "Discovery and preclinical validation of drug indications using compendia of public gene expression data",
+      "original_authors": "Sirota, M; Dudley, J; Kim, J; Chiang, A; Morgan, A; Sweet-Cordero, A; Sage, J; Butte, A",
+      "original_year": "2011",
+      "original_journal": "Science Translational Medicine",
+      "description": "Cimetidine treatment reduces tumor volume in A549 lung adenocarcinoma xenografts compared to vehicle control",
+      "citation_sentence": "This experiment is similar to what was reported in Figure 4C\u2013D and Supplemental Figure 1 of Sirota et al., 2011.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication effect (d=0.93, 95% CI [0.12, 1.72]) was in the expected direction but not statistically significant at the pre-registered Bonferroni threshold (p=0.105). The authors use hedging language ('While not statistically significant'). The meta-analysis of original and replication was significant (p=0.0043), but the replication alone is inconclusive per the codebook's qualified support rule."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.17044_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 28366,
+    "truncated": false,
+    "input_sha256": "3781d2cd4423edb127b427b0373afcf3569643a9af85b67c3c7889e310f1fef9",
+    "refs_withheld": false,
+    "output_tokens": 4534,
+    "cost_usd": 0.0004830966
+  }
+}

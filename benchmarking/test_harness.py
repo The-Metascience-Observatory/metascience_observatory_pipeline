@@ -3,6 +3,7 @@
 """
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import sys
@@ -238,3 +239,263 @@ def test_score_pair_accepts_an_aliased_doi():
     m = matching.Match(0, 0, "doi", "same_effect", "high", 0.0, "")
     rec = harness.score_pair(gt, ext, m, {"tier": "grobid", "model": "m"})
     assert rec["doi_ok"] is True and rec["doi_alias_used"] is True
+
+
+def test_partial_effect_gt_marks_precision_a_lower_bound():
+    """No external set codes every effect in a paper, so its extra rows are not FPs."""
+    def one(effects_complete):
+        gt = harness._gt_row({"row_id": "g", "original_url": "https://doi.org/10.1/orig",
+                              "replication_url": "https://doi.org/10.1/rep", "result": "success",
+                              "provenance": "human:coder"},
+                             source="human:coder", granularity="effect", has_reversal_class=False,
+                             effects_complete=effects_complete)
+        m = matching.Match(0, 0, "doi", "same_effect", "high", 0.0, "")
+        return harness.score_pair(gt, {"original_url": "https://doi.org/10.1/orig", "result": "success"},
+                                  m, {"tier": "grobid", "model": "m"})
+
+    entry = {"tp": 1, "fn": 0, "fp": 3, "precision": 0.25, "recall": 1.0}
+    partial = harness.summarize([one(False)], harness.Counter(), entry, {})
+    complete = harness.summarize([one(True)], harness.Counter(), entry, {})
+    assert partial["entry"]["precision_is_lower_bound"] is True
+    assert complete["entry"]["precision_is_lower_bound"] is False
+    # the caller's entry counter is copied, never mutated (bootstrap resamples share it)
+    assert "precision_is_lower_bound" not in entry
+    # every external silver set is partial; only gold claims completeness
+    assert not any(s.get("effects_complete") for s in harness.SILVER_SPECS.values())
+
+
+def test_stat_free_arm_says_so_instead_of_printing_a_grid_of_na():
+    """A base/core arm emits no statistics by design; a table of n/a reads as a regression."""
+    stats = {f: {"gt_has": 7, "ext_has": 0, "both_present": 0, "gt_has_ext_missing": 7,
+                 "ext_has_gt_missing": 0, "type_mismatch_unscored": 0,
+                 "tier1": None, "tier2": None, "tier3": None} for f in harness.NUMERIC_STATS}
+    m = {"entry": {"tp": 1, "fn": 0, "fp": 0, "precision": 1.0, "recall": 1.0, "f1": 1.0},
+         "paper_level": {}, "funnel": {}, "result_3class": {"n": 0}, "result_3class_paper": {"n": 0},
+         "result_3class_clear": {"n": 0}, "boundary_rows_excluded": 0, "result_4class": {"n": 0},
+         "result_all_rows_raw": {"n": 0}, "collapse_applied_n": 0,
+         "replication_type": {"n": 0, "n_4class": 0, "n_2class": 3, "accuracy_4class": None,
+                              "adjacent_accuracy": None, "kappa_4class": None,
+                              "accuracy_2class_direct_or_close": 1.0},
+         "original_doi": {"n": 1, "accuracy": 1.0, "ext_missing_rate": 0.0},
+         "bibliographic": {"n": 1, "title_ok": 1.0, "authors_ok": 1.0, "year_ok": 1.0, "journal_ok": 1.0},
+         "citation_sentence": {"present_rate": 1.0, "author_year_ok_rate": 1.0},
+         "statistics": stats}
+    prov = {"run": "r", "gt": {"spec": "silver:fred_v242", "files": {}}, "tags": ["t"], "split": "all",
+            "model_ids": {}, "ai_versions_in_results": {}, "prompt_version_now": "8.8",
+            "git_dirty_prompts": False, "git_commit": "0"*10, "claude_cli_version": "x",
+            "harness_version": harness.HARNESS_VERSION, "timestamp_utc": "now", "matcher": {},
+            "tier_counts": {}, "prompt_levels": {"base": 25}}
+
+    base = harness.render_report(m, {}, prov, {}, {})
+    assert "ran stat-free" in base and "| field | GT has |" not in base
+    assert "the ground truth carries: original_n 7" in base
+    # the 2-class caveat rides along on the same report
+    assert "Only the 2-class number exists here" in base
+
+    prov["prompt_levels"] = {"full": 25}
+    full = harness.render_report(m, {}, prov, {}, {})
+    assert "| field | GT has |" in full and "ran stat-free" not in full
+
+
+def test_coding_sheet_can_omit_the_statistical_columns(tmp_path, monkeypatch):
+    """--no-stats leaves 9 coded fields, and blinding still holds."""
+    frame = [{"replication_doi": "10.1/a", "paper_folder": "10.1--a", "source": "flora", "stratum": "flora:success",
+              "in_catalog": "True", "converted": "True", "discipline_group": "psych", "expected_result": "success",
+              "expected_type": "", "external_row_ids": "", "note": ""}]
+    coding = tmp_path / "coding"
+    coding.mkdir()
+    harness.write_csv(coding / "frame_gold_v9_UNBLINDED.csv", frame)
+    monkeypatch.setattr(harness, "CODING_DIR", coding)
+    papers = tmp_path / "papers"
+    (papers / "10.1--a").mkdir(parents=True)
+    (papers / "10.1--a" / "body.md").write_text("prose")
+    monkeypatch.setattr(harness.config, "PAPERS_DIR", papers)
+
+    args = argparse.Namespace(gold_version=9, coder="ai_a", force=True, no_stats=True)
+    harness.cmd_coding_sheet(args)
+    cols = harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")[0].keys()
+    assert not (set(cols) - harness.SHEET_ALLOWED), "blinding whitelist must still hold"
+    assert not (set(cols) & set(harness.STAT_FIELDS))
+    assert "result" in cols and "citation_sentence" in cols
+
+    args.no_stats = False
+    harness.cmd_coding_sheet(args)
+    assert set(harness.STAT_FIELDS) <= set(harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")[0])
+
+
+def test_provenance_says_ai_consensus_where_no_human_ruled():
+    """A row two models agreed on is evidence; only an adjudicated row is 'human:'."""
+    adj = {("r1", "result"): {"adjudicated_value": "failure", "adjudicator_id": "dan_elton"},
+           ("r2", "result"): {"adjudicated_value": "", "adjudicator_id": ""}}
+    assert harness.row_provenance("r1", adj, "ling26", "luna56") == "human:adjudicated"
+    assert harness.row_provenance("r2", adj, "ling26", "luna56") == "ai_consensus:ling26+luna56"
+    assert harness.row_provenance("r3", adj, "ling26", "luna56") == "ai_consensus:ling26+luna56"
+    assert harness.row_provenance("r3", adj, "dan_elton", None) == "single_coder:dan_elton"
+    # and none of them trips the pipeline-authored guard
+    for rid in ("r1", "r2"):
+        assert not harness.row_provenance(rid, adj, "ling26", "luna56").startswith("pipeline:")
+
+
+def test_coding_sheet_skips_a_paper_that_is_not_on_the_drive(tmp_path, monkeypatch, capsys):
+    """Listing an absent paper only earns blank rows someone has to explain later."""
+    frame = [{"replication_doi": "10.1/a", "paper_folder": "10.1--a", "source": "flora", "stratum": "s",
+              "in_catalog": "True", "converted": "True", "discipline_group": "psych",
+              "expected_result": "success", "expected_type": "", "external_row_ids": "", "note": ""},
+             {"replication_doi": "10.1/gone", "paper_folder": "10.1--gone", "source": "flora", "stratum": "s",
+              "in_catalog": "False", "converted": "False", "discipline_group": "psych",
+              "expected_result": "success", "expected_type": "", "external_row_ids": "", "note": ""}]
+    coding = tmp_path / "coding"; coding.mkdir()
+    harness.write_csv(coding / "frame_gold_v9_UNBLINDED.csv", frame)
+    monkeypatch.setattr(harness, "CODING_DIR", coding)
+    papers = tmp_path / "papers"
+    (papers / "10.1--a").mkdir(parents=True)
+    (papers / "10.1--a" / "body.md").write_text("prose")
+    monkeypatch.setattr(harness.config, "PAPERS_DIR", papers)
+
+    harness.cmd_coding_sheet(argparse.Namespace(gold_version=9, coder="ai_a", force=True, no_stats=True))
+    rows = harness.read_csv(coding / "sheet_gold_v9_ai_a.csv")
+    assert [r["paper_folder"] for r in rows] == ["10.1--a"]
+    assert "skipping 1 paper" in capsys.readouterr().out
+
+
+def test_added_entries_pair_by_content_not_by_synthetic_id():
+    """A synthetic row_id means nothing across sheets: without content pairing the
+    comparison silently shrinks to the anchored subset (13 of 32 rows in the pilot)."""
+    A = {"p#new1": {"paper_folder": "p", "original_url": "https://doi.org/10.1/x",
+                    "original_title": "Ego depletion", "description": "the depletion effect",
+                    "result": "failure"},
+         "p#new2": {"paper_folder": "p", "original_url": "", "original_title": "Money priming",
+                    "description": "priming with money reduces helping", "result": "success"},
+         "q#new3": {"paper_folder": "q", "original_url": "https://doi.org/10.1/x",
+                    "original_title": "Ego depletion", "description": "same title, other paper",
+                    "result": "success"}}
+    # B lists them in a different order, and its ids are numbered differently
+    B = {"p#new7": {"paper_folder": "p", "original_url": "", "original_title": "Money priming effects",
+                    "description": "priming with money reduces helping behaviour", "result": "success"},
+         "p#new9": {"paper_folder": "p", "original_url": "https://doi.org/10.1/X",
+                    "original_title": "Ego Depletion", "description": "the depletion effect", "result": "failure"}}
+
+    pairs = dict(harness.pair_extra_entries(A, B))
+    assert pairs["p#new1"] == "p#new9", "the same effect description establishes the candidate"
+    assert pairs["p#new2"] == "p#new7", "otherwise title/description similarity pairs them"
+    # a same-titled entry in a DIFFERENT paper must never pair across papers
+    assert "q#new3" not in pairs
+
+    # nothing plausible to pair with -> left one-sided for the adjudicator
+    assert harness.pair_extra_entries({"z#new1": {"paper_folder": "z", "original_url": "",
+                                                  "original_title": "Something else entirely",
+                                                  "description": "unrelated"}}, B) == []
+
+
+def test_same_original_doi_does_not_pair_different_effects():
+    base = dict(paper_folder="p", original_url="https://doi.org/10.1/x", original_title="Same paper")
+    assert harness.pair_extra_entries({"a": dict(base, description="compassion toward suffering strangers")},
+                                      {"b": dict(base, description="numerical working memory accuracy")}) == []
+    assert harness.pair_extra_entries({"a": dict(base, description="")}, {"b": dict(base, description="")}) == []
+
+
+def test_matcher_abstains_on_ambiguous_or_conflicting_study_identity():
+    row = dict(paper_folder="p", description="Study 1 tests numerical working memory accuracy")
+    assert harness.pair_extra_entries({"a": row}, {"b": row, "c": row}) == []
+    assert harness.pair_extra_entries({"a": row}, {"b": dict(row, description=row['description'].replace('1', '2'))}) == []
+
+
+def test_matching_is_independent_of_labels_and_dois():
+    a = dict(paper_folder="p", description="compassion toward suffering strangers", result="success", replication_type="direct")
+    b = dict(a, result="failure", replication_type="conceptual", original_url="https://doi.org/10.1/wrong")
+    assert harness.pair_extra_entries({"a": a}, {"b": b}) == [("a", "b")]
+
+
+def test_sheet_ids_cannot_collide_across_coders(tmp_path, monkeypatch):
+    monkeypatch.setattr(harness, 'CODING_DIR', tmp_path)
+    for coder in ('a', 'b'):
+        harness.write_csv(tmp_path / f'sheet_gold_v1_{coder}.csv', [dict(row_id='same-anchor', paper_folder='p', description='x')])
+    assert harness._read_sheet(1, 'a')[0]['row_id'] != harness._read_sheet(1, 'b')[0]['row_id']
+
+
+def test_paper_level_ground_truth_is_refused_for_scoring(tmp_path, monkeypatch):
+    """FLoRa gives one verdict per paper, so it cannot say which effect was right."""
+    silver = tmp_path / "silver"
+    silver.mkdir()
+    rows = [{"replication_doi": "10.1/a", "original_url": "https://doi.org/10.1/o", "result": "success",
+             "description": "d", "provenance": "external:flora", "original_title": "T"}]
+    harness.write_csv(silver / "flora.csv", rows)
+    monkeypatch.setattr(harness, "SILVER_DIR", silver)
+    monkeypatch.setattr(harness, "BENCH_DIR", tmp_path)   # info["files"] paths are relative to it
+
+    with pytest.raises(SystemExit) as e:
+        harness.load_ground_truth("silver:flora")
+    msg = str(e.value)
+    assert "paper-level ground truth" in msg and "--allow-paper-level-gt" in msg
+
+    # the escape hatch works, and flags the run so the number cannot be misread
+    gt, _, info = harness.load_ground_truth("silver:flora", allow_paper_level=True)
+    assert len(gt) == 1 and info["paper_level_gt"] == 1
+
+    # an effect-level silver set is unaffected
+    harness.write_csv(silver / "fred_v2_4_2.csv", rows[:1])
+    monkeypatch.setitem(harness.SILVER_SPECS, "fred_v242",
+                        dict(file="fred_v2_4_2.csv", granularity="effect",
+                             has_reversal_class=False, effects_complete=False))
+    gt2, _, info2 = harness.load_ground_truth("silver:fred_v242")
+    assert len(gt2) == 1 and "paper_level_gt" not in info2
+
+
+def test_discipline_group_returns_unknown_not_empty_for_a_blank_input():
+    """The sampler's DB fallback keys on this: 'unknown' is a truthy string, so any
+    'is it missing?' test must name it explicitly or the fallback never fires."""
+    assert harness.discipline_group("") == "unknown"
+    assert harness.discipline_group(None) == "unknown"
+    assert harness.discipline_group("economics") == "socsci"
+    assert harness.discipline_group("psychology") == "psych"
+    assert harness.discipline_group("basket weaving") == "other"
+
+
+def test_claim_framing_does_not_stop_two_descriptions_of_one_claim_pairing():
+    """One coder writes 'The original study claimed that X', the other writes 'X'."""
+    bare = {"description": "Bilinguals show smaller sequential congruency effects than monolinguals"}
+    framed = {"description": "The original study claimed that bilinguals show smaller sequential "
+                             "congruency effects than monolinguals"}
+    author = {"description": "Grundy et al. (2017) reported that bilinguals show smaller sequential "
+                             "congruency effects than monolinguals"}
+    assert harness.effect_similarity(bare, framed) >= 0.9
+    assert harness.effect_similarity(bare, author) >= 0.9
+    # the study-number guard still reads the frame: different studies never pair
+    s1 = {"description": "Study 1 tested the original claim that preferences form five dimensions"}
+    s3 = {"description": "Study 3 tested the original claim that preferences form five dimensions"}
+    assert harness.effect_similarity(s1, s3) == 0.0
+    # and genuinely different claims stay apart
+    other = {"description": "The original study claimed that monolinguals and bilinguals did not "
+                            "differ in conventional flanker effects"}
+    assert harness.effect_similarity(framed, other) < 0.65
+
+
+def test_four_class_uses_reversal_capable_sources_not_source_names():
+    base = dict(collapse_applied=False, granularity="effect", gt_result="reversal", ext_result_raw="reversal",
+                gt_ambiguity="", ext_result="reversal", ext_result_paper="")
+    recs = [dict(base, row_id="a", source="prod_slice", has_reversal_class=True, result_ok=True),
+            dict(base, row_id="b", source="external:fred_v242", has_reversal_class=False, result_ok=True)]
+    gold_like = [r for r in recs if r.get("has_reversal_class")]
+    assert [r["row_id"] for r in gold_like] == ["a"]
+    import inspect
+    assert 'r["source"].startswith("gold")' not in inspect.getsource(harness)
+
+
+def test_split_all_refuses_ground_truth_with_test_rows(tmp_path, monkeypatch):
+    p = tmp_path / "gt.csv"
+    harness.write_csv(p, [dict(row_id="r1", replication_url="10.1/x", original_url="10.1/o", result="success",
+                               description="d", provenance="human:x", split="test")])
+    args = argparse.Namespace(gt=str(p), split="all", allow_dirty_gt=False, allow_paper_level_gt=False,
+                              tags="t", run=None, papers_dir=str(tmp_path), release=False, gold_dir=None)
+    with pytest.raises(SystemExit) as e:
+        harness.cmd_evaluate(args)
+    assert "test-split rows" in str(e.value)
+
+
+def test_two_coder_build_is_refused_even_with_an_empty_b_sheet(tmp_path, monkeypatch):
+    monkeypatch.setattr(harness, "_frame", lambda gv: [])
+    monkeypatch.setattr(harness, "_read_sheet", lambda gv, c: [])
+    args = argparse.Namespace(gold_version=1, coder_a="a", coder_b="b")
+    with pytest.raises(SystemExit) as e:
+        harness.cmd_build_gold(args)
+    assert "two-coder gold export" in str(e.value)

@@ -1,0 +1,30 @@
+{
+  "is_replication_paper": "yes",
+  "why_negative": "",
+  "entries": [
+    {
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "",
+      "original_authors": "",
+      "original_year": "2012",
+      "original_journal": "",
+      "description": "Anti-CD47 antibody treatment reduces tumor weight in a syngeneic breast cancer model",
+      "citation_sentence": "As described in the Registered Report (Chroscinski et al., 2015), we attempted a replication of the experiments reported in Figure 6A\u2013C and Supplemental Table S4 of Willingham et al. (2012).",
+      "gt_ambiguity": "clear",
+      "notes": "The replication found no significant difference in tumor weight between anti-CD47 and IgG groups (p=0.104), with anti-CD47 tumors actually larger than IgG tumors (0.163g vs 0.075g), opposite to the original finding. The meta-analysis of original and replication effect sizes was not significant (p=0.745) with significant heterogeneity (Cochran's Q p=0.0039)."
+    }
+  ],
+  "_info": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.18173_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 33019,
+    "truncated": false,
+    "input_sha256": "5de819b6b1af6f2b72bbfeec72b6a927382125dc684297df35c5d883ca579fe5",
+    "refs_withheld": false,
+    "output_tokens": 15443,
+    "cost_usd": 0.0011982516
+  }
+}

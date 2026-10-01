@@ -1,0 +1,31 @@
+detail,model,n_ext,n_gt,n_matched,replication_doi,status,tier
+,claude-sonnet-5,2,1,1,10.1002/aur.1474,scored,xml
+,claude-sonnet-5,4,1,1,10.1002/hbm.25386,scored,xml
+,claude-sonnet-5,3,1,1,10.1002/jocb.350,scored,grobid
+expected 'Friends or strangers? It all depends on context: A replication and ext' but the text on disk starts 'PERFORMANCE HETEROGENEITY UNDER UNCERTAINTY: SIX EMPIRICAL STUDIES EXA',,,1,,10.1002/smj.2573,wrong_document_on_disk,
+,claude-sonnet-5,5,1,1,10.1007/s10664-025-10739-6,scored,grobid
+,claude-sonnet-5,2,1,1,10.1007/s10882-014-9400-6,scored,grobid
+,claude-sonnet-5,1,1,1,10.1007/s11002-025-09794-2,scored,grobid
+,claude-sonnet-5,1,1,1,10.1007/s11187-023-00736-8,scored,grobid
+,claude-sonnet-5,1,1,0,10.1016/j.ijgo.2016.06.008,scored,xml
+,claude-sonnet-5,2,1,1,10.1016/j.learninstruc.2018.10.002,scored,xml
+,claude-sonnet-5,2,1,1,10.1016/j.rasd.2013.02.015,scored,xml
+,claude-sonnet-5,1,1,1,10.1017/epi.2015.17,scored,grobid
+,claude-sonnet-5,1,1,1,10.1080/13561820.2016.1233096,scored,grobid
+,claude-sonnet-5,2,1,1,10.1080/23251042.2021.1975350,scored,grobid
+,,,1,,10.1097/aud.0000000000000393,not_extracted,
+expected 'A Replication Study for Association of 53 Single Nucleotide Polymorphi' but the text on disk starts '# Body\n\n<!-- image -->\n\n## pine\n\n<!-- image -->\n\n## Why Publish in Spi',,,1,,10.1097/brs.0000000000000807,wrong_document_on_disk,
+,claude-sonnet-5,2,1,1,10.1111/j.1540-4781.2011.01174.x,scored,grobid
+,claude-sonnet-5,1,1,1,10.1111/j.1743-6109.2010.01970.x,scored,grobid
+,claude-sonnet-5,5,1,1,10.1177/0149206320908630,scored,grobid
+,claude-sonnet-5,1,1,1,10.1177/0956797620968526,scored,grobid
+,claude-sonnet-5,1,1,1,10.1177/1540796920949448,scored,grobid
+,claude-sonnet-5,1,1,1,10.1192/bjp.bp.114.154997,scored,grobid
+,claude-sonnet-5,2,1,1,10.1515/zfsoz-2023-2029,scored,grobid
+,claude-sonnet-5,4,1,1,10.1561/104.00000058,scored,grobid
+,claude-sonnet-5,1,1,1,10.17605/osf.io/82bwv,scored,grobid
+,claude-sonnet-5,1,1,1,10.17605/osf.io/ictp5,scored,grobid
+,,,1,,10.3389/fnins.2012.00115,not_extracted,
+,claude-sonnet-5,1,1,1,10.5281/zenodo.17716306,scored,grobid
+,claude-sonnet-5,2,1,1,10.7441/joc.2019.02.01,scored,grobid
+,claude-sonnet-5,1,1,1,10.7554/elife.25801,scored,grobid

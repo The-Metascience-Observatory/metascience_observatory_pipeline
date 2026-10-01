@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.31234/osf.io/esu9z",
+  "paper_folder": "10.31234--osf.io--esu9z",
+  "discipline": "psychology",
+  "subdiscipline": "social psychology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.31234--osf.io--esu9z/body.md",
+      "sha256": "63909c0ccf7f5ba21b7e8b9b4876a8957d130b05fca936f6b3bab814ed106356"
+    }
+  ],
+  "flags": [
+    "revision notice only: full paper needed",
+    "targeted source review: input_document"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.31234--osf.io--esu9z#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.31234--osf.io--esu9z#neg",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": {
+    "paper_folder": "10.31234--osf.io--esu9z",
+    "category": "input_document",
+    "action": "exclude_outcome",
+    "pair_hint": "",
+    "finding": "The entire available body is a 362-character revision notice, not a paper. The extraction failure is an input-document problem; do not treat it as a negative replication paper or a model accuracy failure.",
+    "source_path": "/media/dan/data/metascience_observatory_pdfs/papers/10.31234--osf.io--esu9z/body.md",
+    "source_line": 3,
+    "source_sha256": "63909c0ccf7f5ba21b7e8b9b4876a8957d130b05fca936f6b3bab814ed106356",
+    "evidence": "# Introduction\n\nDue to a bug in the analysis code, this \npaper is being revised. A corrected \nversion will be uploaded with revised \nResults and (if warranted) Discussion \nsections. The original submission (with \nerrors) will remain available as a previous \nversion.\n\n#",
+    "reviewer": "Codex AI source review; not human adjudication"
+  }
+}

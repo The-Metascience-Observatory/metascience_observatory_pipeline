@@ -1,0 +1,132 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Inattentional blindness: Perception without attention",
+      "original_authors": "Mack, Arien; Rock, Irvin",
+      "original_year": "1998",
+      "original_journal": "MIT Press",
+      "description": "Natural scenes are perceived despite attention being directed to another task and therefore do not produce inattentional blindness.",
+      "citation_sentence": "It has previously been claimed that inattentional blindness does not occur for natural scenes [17].",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1a tested this claim using a more demanding multiple-object-tracking task and found substantial inattentional blindness."
+    },
+    {
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Inattentional blindness: Perception without attention",
+      "original_authors": "Mack, Arien; Rock, Irvin",
+      "original_year": "1998",
+      "original_journal": "MIT Press",
+      "description": "Natural scenes are perceived despite attention being directed to another task and therefore do not produce inattentional blindness.",
+      "citation_sentence": "It has previously been claimed that inattentional blindness does not occur for natural scenes [17].",
+      "gt_ambiguity": "clear",
+      "notes": "Experiment 1b tested this claim using a demanding RSVP task and found substantial inattentional blindness."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Why does natural scene categorization require little attention? Exploring attentional requirements for natural and synthetic stimuli",
+      "original_authors": "Fei-Fei, Li; Vanrullen, Rufin; Koch, Christof; Perona, Pietro",
+      "original_year": "2005",
+      "original_journal": "Visual Cognition",
+      "description": "Natural-scene perception is unaffected by dual-task interference and requires little or no attention.",
+      "citation_sentence": "Previous studies have found that scene perception is unaffected by dual-task interference [8][16][29].",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2 found no interference at slow tracking speed but significant interference at fast tracking speed."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Rapid natural scene categorization in the near absence of attention",
+      "original_authors": "Li, Fei; Vanrullen, Rufin; Koch, Christof; Perona, Pietro",
+      "original_year": "2002",
+      "original_journal": "Proceedings of the National Academy of Sciences",
+      "description": "Natural-scene perception is unaffected by dual-task interference and can occur in the near absence of attention.",
+      "citation_sentence": "Previous studies have found that scene perception is unaffected by dual-task interference [8][16][29].",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2 found no interference at slow tracking speed but significant interference at fast tracking speed."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Parallel processing in high-level categorization of natural images",
+      "original_authors": "Rousselet, Guillaume; Fabre-Thorpe, Michel; Thorpe, Simon",
+      "original_year": "2002",
+      "original_journal": "Nature Neuroscience",
+      "description": "Natural-scene perception is unaffected by dual-task interference and can occur with little or no focused attention.",
+      "citation_sentence": "Previous studies have found that scene perception is unaffected by dual-task interference [8][16][29].",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 2 found no interference at slow tracking speed but significant interference at fast tracking speed."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Why does natural scene categorization require little attention? Exploring attentional requirements for natural and synthetic stimuli",
+      "original_authors": "Fei-Fei, Li; Vanrullen, Rufin; Koch, Christof; Perona, Pietro",
+      "original_year": "2005",
+      "original_journal": "Visual Cognition",
+      "description": "Natural-scene perception, including detection and categorization of scene contents, is largely unaffected by a demanding concurrent task.",
+      "citation_sentence": "Given that we followed previous studies in using a task that required the detection and classification of animals and vehicles within a scene, the difference in results between the current study and previous studies [16][29][35] cannot be attributed to a difference in the task used to assess scene perception.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 3 found dual-task costs for both five-category scene classification and animal-vehicle classification, but the replication used a demanding RSVP task and therefore provides conditional rather than unqualified evidence."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Rapid natural scene categorization in the near absence of attention",
+      "original_authors": "Li, Fei; Vanrullen, Rufin; Koch, Christof; Perona, Pietro",
+      "original_year": "2002",
+      "original_journal": "Proceedings of the National Academy of Sciences",
+      "description": "Natural-scene perception, including detection and categorization of scene contents, is largely unaffected by a demanding concurrent task.",
+      "citation_sentence": "Given that we followed previous studies in using a task that required the detection and classification of animals and vehicles within a scene, the difference in results between the current study and previous studies [16][29][35] cannot be attributed to a difference in the task used to assess scene perception.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 3 found dual-task costs for both five-category scene classification and animal-vehicle classification, but the replication used a demanding RSVP task and therefore provides conditional rather than unqualified evidence."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Parallel processing in high-level categorization of natural images",
+      "original_authors": "Rousselet, Guillaume; Fabre-Thorpe, Michel; Thorpe, Simon",
+      "original_year": "2002",
+      "original_journal": "Nature Neuroscience",
+      "description": "Natural-scene perception, including detection and categorization of scene contents, is largely unaffected by a demanding concurrent task.",
+      "citation_sentence": "Given that we followed previous studies in using a task that required the detection and classification of animals and vehicles within a scene, the difference in results between the current study and previous studies [16][29][35] cannot be attributed to a difference in the task used to assess scene perception.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 3 found dual-task costs for both five-category scene classification and animal-vehicle classification, but the replication used a demanding RSVP task and therefore provides conditional rather than unqualified evidence."
+    },
+    {
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "Speed of processing in the human visual system",
+      "original_authors": "Thorpe, Simon; Fize, Denis; Marlot, Catherine",
+      "original_year": "1996",
+      "original_journal": "Nature",
+      "description": "Animals and other semantic information in natural scenes can be detected and categorized rapidly with minimal attention.",
+      "citation_sentence": "Given that we followed previous studies in using a task that required the detection and classification of animals and vehicles within a scene, the difference in results between the current study and previous studies [16][29][35] cannot be attributed to a difference in the task used to assess scene perception.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "Experiment 3 found dual-task costs for the animal-vehicle scene task when paired with RSVP."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 33473,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 3928,
+    "cost_usd": 0.00662207
+  }
+}

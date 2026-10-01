@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1101/2025.04.02.645026",
+  "paper_folder": "10.1101--2025.04.02.645026",
+  "discipline": "biology",
+  "subdiscipline": "cell biology",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1101--2025.04.02.645026/10.1101--2025.04.02.645026_from_xml.md",
+      "sha256": "b619dadf1cb7049d2879e846b15727d140a9bea84d8183e8a56856895b5e3e41"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1101--2025.04.02.645026#neg",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "",
+      "replication_type": "",
+      "original_url": "",
+      "original_title": "",
+      "description": "",
+      "citation_sentence": "",
+      "gt_ambiguity": "",
+      "notes": "Reconstructed zero-entry result from latest successful run log; no raw reply retained. Paper label unknown unless explicitly saved on a negative anchor.",
+      "is_replication_paper": "",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1101--2025.04.02.645026#luna56:7ad1a7c85aed7be1:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "Multiple original experiments from Brazilian biomedical science",
+      "description": "The paper reports aggregate results from replications of 45 distinct experiments originally published by Brazilian biomedical researchers, without identifying the individual original studies in the provided text.",
+      "citation_sentence": "",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper is a multicenter replication project, but the individual original studies and experiment-level outcomes are provided only in supplementary materials linked externally and are not identified in the supplied full text. The aggregate findings are mixed across replication criteria.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

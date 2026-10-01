@@ -1,0 +1,28 @@
+{
+  "is_replication_paper": "yes",
+  "entries": [
+    {
+      "result": "success",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "A transfer appropriate processing approach to investigating implicit memory for emotional words in the cerebral hemispheres",
+      "original_authors": "Collins, Mark; Cooke, Alison",
+      "original_year": "2005",
+      "original_journal": "Neuropsychologia",
+      "description": "Positive emotional words show an advantage over negative emotional words when presented to the left visual field, with no corresponding word-category difference for right-visual-field presentations.",
+      "citation_sentence": "In line with the present findings, Collins and Cooke (2005, Exp. 2) observed an advantage for positive over negative words with LVF presentation and no difference between positive and negative words after RVF presentations.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper presents this as being in line with Collins and Cooke (2005, Experiment 2), rather than explicitly calling it a replication. The present study uses attachment-related words and a bilateral simultaneous lexical-decision paradigm."
+    }
+  ],
+  "_info": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 42407,
+    "truncated": false,
+    "refs_withheld": false,
+    "output_tokens": 1815,
+    "cost_usd": 0.00453272
+  }
+}

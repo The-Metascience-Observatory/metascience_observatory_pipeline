@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"entries\": [\n    {\n      \"result\": \"inconclusive\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1126/scitranslmed.3001318\",\n      \"original_title\": \"Discovery and preclinical validation of drug indications using compendia of public gene expression data\",\n      \"original_authors\": \"Sirota, Matthew; Dudley, Joel; Kim, Jae; Chiang, Arnold; Morgan, Alex; Sweet-Cordero, Arnaldo; Sage, Julian; Butte, Atul\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Science Translational Medicine\",\n      \"description\": \"The original study claimed that cimetidine treatment reduced tumor volume in A549 human lung adenocarcinoma xenografts compared with vehicle control; this replication tested the claim in the A549 xenograft experiment.\",\n      \"citation_sentence\": \"This experiment is similar to what was reported in Figure 4C\u2013D and Supplemental Figure 1 of Sirota et al., 2011.\",\n      \"gt_ambiguity\": \"ambiguous\",\n      \"notes\": \"The replication effect was in the expected direction but did not reach the preregistered Bonferroni-adjusted significance threshold; the authors describe it as consistent in direction and the meta-analysis was significant.\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"https://doi.org/10.1126/scitranslmed.3001318\",\n      \"original_title\": \"Discovery and preclinical validation of drug indications using compendia of public gene expression data\",\n      \"original_authors\": \"Sirota, Matthew; Dudley, Joel; Kim, Jae; Chiang, Arnold; Morgan, Alex; Sweet-Cordero, Arnaldo; Sage, Julian; Butte, Atul\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Science Translational Medicine\",\n      \"description\": \"The original study claimed that cimetidine treatment did not change tumor volume in ACHN renal cell carcinoma xenografts compared with vehicle control, demonstrating specificity for lung adenocarcinoma; this replication tested the claim in the ACHN xenograft experiment.\",\n      \"citation_sentence\": \"This experiment is similar to what was reported in Figure 4C\u2013D and Supplemental Figure 1 of Sirota et al., 2011.\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"The original was a genuine null claim for ACHN tumors, and the replication also found no observational or statistically significant treatment difference; the authors state this was similar to the original study.\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "openai/gpt-5.6-luna",
+    "input_tokens": 13262,
+    "output_tokens": 1110,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.00329196,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "xml",
+    "primary_file": "10.7554--elife.17044_from_xml.md",
+    "refs_source": "references.json",
+    "chars": 28366,
+    "truncated": false,
+    "input_sha256": "3781d2cd4423edb127b427b0373afcf3569643a9af85b67c3c7889e310f1fef9",
+    "refs_withheld": false
+  }
+}

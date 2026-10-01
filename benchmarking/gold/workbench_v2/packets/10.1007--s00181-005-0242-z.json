@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "replication_doi": "10.1007/s00181-005-0242-z",
+  "paper_folder": "10.1007--s00181-005-0242-z",
+  "discipline": "economics",
+  "subdiscipline": "energy & environmental economics",
+  "discipline_source": "production_db:paper_mode",
+  "split": "development",
+  "status": "AI proposals; no human adjudication",
+  "sources": [
+    {
+      "path": "/media/dan/data/metascience_observatory_pdfs/papers/10.1007--s00181-005-0242-z/body.md",
+      "sha256": "3810d86c174e52a9e805bfcd46be81dd42c594f0fd7ca8e270ddd6136b4a2aa4"
+    }
+  ],
+  "flags": [],
+  "candidates": [
+    {
+      "candidate_id": "ling26:10.1007--s00181-005-0242-z#ling26:8680750506f0e24b:1",
+      "coder": "ling26",
+      "provenance": "ai_candidate:ling26",
+      "result": "failure",
+      "replication_type": "direct",
+      "original_url": "",
+      "original_title": "On using current information to value hard-rock mineral properties",
+      "description": "Cairns and Davis (1998) tested and rejected the Hotelling Valuation Principle using cross-sectional data on gold mines",
+      "citation_sentence": "A recent study by Cairns and Davis (1998) tested and rejected the Hotelling Valuation Principle (HVP) using cross-sectional data on gold mines.",
+      "gt_ambiguity": "ambiguous",
+      "notes": "The paper presents both OLS results (marginal rejection at 6%) and WLS results (no rejection); authors conclude HVP holds up with WLS, but OLS results could be read as partial support for C&D's finding.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-005-0242-z#luna56:5aa5f9a912369851:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "On using current information to value hard-rock mineral properties",
+      "description": "The alternative mineral-valuation equations, particularly those incorporating discounting and inflation, should predict gold-mine values more accurately than the Hotelling Valuation Principle.",
+      "citation_sentence": "In one such study, Cairns and Davis (1998) (henceforth, C&D) estimate several valuation models, including Hotelling's.",
+      "gt_ambiguity": "clear",
+      "notes": "Cairns and Davis reported that the HVP was the least accurate by some measures, whereas matched-pairs tests in the replication found no significant prediction-accuracy differences among the equations.",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-005-0242-z#luna56:9c481186e1d5a94c:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "On using current information to value hard-rock mineral properties",
+      "description": "The Hotelling Valuation Principle predicts that the value of a mineral deposit is determined by reserves multiplied by the current net price of the mineral, with the regression slope equal to one.",
+      "citation_sentence": "In one such study, Cairns and Davis (1998) (henceforth, C&D) estimate several valuation models, including Hotelling's.",
+      "gt_ambiguity": "clear",
+      "notes": "The original study rejected the HVP using OLS, whereas this replication's robust and weighted least squares analyses indicate that the HVP may not be rejected. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-005-0242-z#luna56:e006b20649c5eaf6:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "failure",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "On using current information to value hard-rock mineral properties",
+      "description": "A valuation equation incorporating an intertemporal discount factor should explain mineral-mine values without reference to scale effects in production, with a zero intercept and unit slope.",
+      "citation_sentence": "In one such study, Cairns and Davis (1998) (henceforth, C&D) estimate several valuation models, including Hotelling's.",
+      "gt_ambiguity": "clear",
+      "notes": "Cairns and Davis's OLS results appeared consistent with the equation, but the replication's weighted least squares results reject the joint null that the intercept is zero and the slope is one. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    },
+    {
+      "candidate_id": "luna56:10.1007--s00181-005-0242-z#luna56:43f8a5c45d88a139:1",
+      "coder": "luna56",
+      "provenance": "ai_candidate:luna56",
+      "result": "inconclusive",
+      "replication_type": "close experiment",
+      "original_url": "",
+      "original_title": "On using current information to value hard-rock mineral properties",
+      "description": "A valuation equation allowing price and cost inflation to differ should produce a zero intercept and unit slope for mineral-mine values.",
+      "citation_sentence": "In one such study, Cairns and Davis (1998) (henceforth, C&D) estimate several valuation models, including Hotelling's.",
+      "gt_ambiguity": "clear",
+      "notes": "The replication's weighted least squares results retain a slope not significantly different from one, while the intercept is marginally significant; the paper characterizes the original OLS results as nearly, but not precisely, replicated. [luna56: extra entry, not in the external record]",
+      "is_replication_paper": "yes",
+      "why_negative": ""
+    }
+  ],
+  "source_proposals": [],
+  "prior_source_review": null
+}

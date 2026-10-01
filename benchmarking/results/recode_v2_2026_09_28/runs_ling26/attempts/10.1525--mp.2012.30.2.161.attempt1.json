@@ -1,0 +1,24 @@
+{
+  "text": "{\n  \"is_replication_paper\": \"yes\",\n  \"why_negative\": \"\",\n  \"entries\": [\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"direct\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, J.; Goldberg, L.; Levitin, D.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"The five-factor MUSIC structure (Mellow, Unpretentious, Sophisticated, Intense, Contemporary) based on preferences for musical attributes rather than genre labels\",\n      \"citation_sentence\": \"One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"close extension\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, J.; Goldberg, L.; Levitin, D.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"The five-factor MUSIC structure within the jazz genre\",\n      \"citation_sentence\": \"One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"\"\n    },\n    {\n      \"result\": \"success\",\n      \"replication_type\": \"close extension\",\n      \"original_url\": \"\",\n      \"original_title\": \"The structure of musical preferences: A five-factor model\",\n      \"original_authors\": \"Rentfrow, J.; Goldberg, L.; Levitin, D.\",\n      \"original_year\": \"2011\",\n      \"original_journal\": \"Journal of Personality and Social Psychology\",\n      \"description\": \"The five-factor MUSIC structure within the rock genre\",\n      \"citation_sentence\": \"One of the objectives of this study was to test the robustness of the MUSIC model (Rentfrow, Goldberg, & Levitin, 2011).\",\n      \"gt_ambiguity\": \"clear\",\n      \"notes\": \"\"\n    }\n  ]\n}",
+  "usage": {
+    "model": "inclusionai/ling-3.0-flash",
+    "input_tokens": 25148,
+    "output_tokens": 4745,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "cost_usd": 0.000827043,
+    "duration_ms": 0,
+    "num_turns": 1
+  },
+  "error": null,
+  "truncated": false,
+  "input": {
+    "tier": "grobid",
+    "primary_file": "body.md",
+    "refs_source": "references.json",
+    "chars": 87387,
+    "truncated": false,
+    "input_sha256": "c43c3b8f1dfadc4e781e44529e91e7604fccdbe941ead5fbb6424dc4bc5e25a2",
+    "refs_withheld": false
+  }
+}
