@@ -1,12 +1,9 @@
 # Unified Metascience Observatory replication pipeline
 
-One directory for the replication pipeline: search → classify → download →
-convert → extract (+ collate), plus a corpus catalog and a web dashboard to run and
-monitor every stage. Consolidates what used to live across `pull_replication_studies/`
-and `claude_code_replications/`. 
+One directory for the replication pipeline: search → classify → download → convert → extract (+ collate), plus a corpus catalog and a web dashboard to run and monitor every stage.
 
-The final data ingestion into the website database, including metadata backfills and normalization, etc is **not** part
-of this pipeline — it is run manually from [metascience_observatory_website/data_ingestor/](https://github.com/The-Metascience-Observatory/metascience-observatory-website/tree/main/data_ingestor).
+The final data ingestion into the website's database, including metadata backfills and normalization, etc is **not** part
+of this pipeline — it is run manually using [metascience_observatory_website/data_ingestor/data_ingestor.py](https://github.com/The-Metascience-Observatory/metascience-observatory-website/blob/main/data_ingestor/data_ingestor.py). This pipeline produces a .csv file that can be imported using data_ingestor.py.
 
 ## Acknowledgment
 
