@@ -28,8 +28,10 @@ start_api() {
   if _pid_alive "$(cat "$RUN/api.pid" 2>/dev/null)"; then echo "api already up (managed)"; return; fi
   if _port_serving "$API_PORT" /health; then echo "api already up on :$API_PORT (external) — leaving it"; return; fi
   echo "starting api on :$API_PORT"
-  ( cd "$ROOT" && nohup python -m uvicorn server.app.main:app \
-      --host 127.0.0.1 --port "$API_PORT" > "$RUN/api.log" 2>&1 & echo $! > "$RUN/api.pid" )
+  ( cd "$ROOT" || exit 1
+    setsid nohup python -m uvicorn server.app.main:app \
+      --host 127.0.0.1 --port "$API_PORT" > "$RUN/api.log" 2>&1 < /dev/null &
+    echo $! > "$RUN/api.pid" )
 }
 
 start_dashboard() {
@@ -41,13 +43,21 @@ start_dashboard() {
     ( cd "$ROOT/dashboard" && "$ROOT/scripts/with-dropbox-paused.sh" npm install )
   fi
   echo "starting dashboard on :$DASH_PORT"
-  ( cd "$ROOT/dashboard" && MO_API_PORT="$API_PORT" nohup npm run dev -- --port "$DASH_PORT" \
-      > "$RUN/dashboard.log" 2>&1 & echo $! > "$RUN/dashboard.pid" )
+  ( cd "$ROOT/dashboard" || exit 1
+    MO_API_PORT="$API_PORT" setsid nohup npm run dev -- --port "$DASH_PORT" \
+      > "$RUN/dashboard.log" 2>&1 < /dev/null &
+    echo $! > "$RUN/dashboard.pid" )
 }
 
+# Each service is started as its own process-group leader (setsid), so stopping
+# the group also stops what it spawned: uvicorn's worker, npm's next-server.
+# Killing only the recorded pid used to orphan them, still serving old code.
 stop_svc() {
   local name="$1"; local pid; pid="$(cat "$RUN/$name.pid" 2>/dev/null || true)"
-  if _pid_alive "$pid"; then echo "stopping $name ($pid)"; kill "$pid" 2>/dev/null || true; fi
+  if _pid_alive "$pid"; then
+    echo "stopping $name ($pid)"
+    kill -- "-$pid" 2>/dev/null || kill "$pid" 2>/dev/null || true
+  fi
   rm -f "$RUN/$name.pid"
 }
 
