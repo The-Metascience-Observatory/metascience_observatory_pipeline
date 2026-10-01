@@ -165,7 +165,6 @@ _TAGS_FOR_LEVEL = {
     "full":     frozenset({"full", "write"}),
     "pdf_only": frozenset({"full", "write"}),
     "html":     frozenset({"full", "write"}),
-    "xml":      frozenset({"full", "write"}),
     "base":     frozenset({"core", "write"}),
     "core":     frozenset({"core", "reply"}),
 }
@@ -2012,7 +2011,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--html",
         action="store_true",
-        help="HTML mode: process papers with single HTML file. Uses prompt_full.md",
+        help="HTML mode: process papers with single HTML file. Uses prompt_full_html.md",
     )
     parser.add_argument(
         "--force-tier",

@@ -214,7 +214,6 @@ PROMPT_FILES = {
     "core": PROMPTS_DIR / "prompt_core.md",
     "pdf_only": PROMPTS_DIR / "prompt_full_pdf_only.md",
     "html": PROMPTS_DIR / "prompt_full_html.md",
-    "xml": PROMPTS_DIR / "prompt_full_xml.md",
 }
 PROMPT_SHARED_CORE = PROMPTS_DIR / "prompt_shared_core.md"
 EXTRACTOR_VERSION_FILE = PROMPTS_DIR / "version.txt"

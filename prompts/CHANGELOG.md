@@ -15,6 +15,36 @@ Hashes are sha256 of the file as stored, not of the rendered prompt: rendering
 also substitutes the discipline ontology, which lives in the website repo and
 changes on its own schedule.
 
+## Prompt 8.10 (2026-10-01)
+
+`prompt_full_xml.md` is retired to `prompts/archive/`, and its `"xml"` entries are
+gone from `config.PROMPT_FILES` and `extract._TAGS_FOR_LEVEL`. No prompt text
+changed: the five remaining files hash exactly as in 8.9, so every rendering
+(`full`, `base`, `core`, `pdf_only`, `html`) is byte-identical to 8.9, and rows from
+the two versions are comparable. The bump is needed because the file set changed:
+the recorded 8.9 hashes include `prompt_full_xml.md`, so without one the drift
+check would flag the removed file.
+
+Nothing has selected that prompt since 2026-09-02 (`6e1cf63`), when the XML
+auto-detect was replaced by the tier ladder. An XML-only folder now gets
+`prompt_full.md` and a raw-markup note in its user message. The prompt was a JATS
+guide (`<sec>`, `<table-wrap>`, `<pub-id>`), but on 2026-10-01 none of the 51
+folders that reach the raw-markup rung held JATS. 40 were Elsevier
+`<xocs:rawtext>` OCR text, 10 were metadata-plus-abstract husks, and 1 was
+structured Elsevier markup. The file was last edited 2026-07-13, so it also
+lacked everything added to `prompt_full.md` since then, including the `mode:core`
+blocks. Historical
+`_result_xml.json` files are still recognized by the skip check, collate and the
+benchmark harness.
+
+| prompt file | sha256 |
+|---|---|
+| prompt_core.md | 2d706b482c3d32c3d2dcf991c605aff56278f126bdfa125e92eff3e1b226542b |
+| prompt_full.md | c8e41ffa773e71e84a9b1e78c389a7f88fa39d865c78407caefde95693e151ea |
+| prompt_full_html.md | 16f3d1c13006d856b418caafb9be388261931a94f6ca32177f18493144db9968 |
+| prompt_full_pdf_only.md | af6414299e2b4bb458598f871a63f31ef11156c3217022f092f2b05991758db9 |
+| prompt_shared_core.md | bea2fba2524789eef7359ebe2e451081f12ab1028c8427586eeb5f69e2290248 |
+
 ## Housekeeping 2026-10-01 (no version bump)
 
 `prompt_screen.md` was deleted along with `extract.py --screen`, which stage 4
