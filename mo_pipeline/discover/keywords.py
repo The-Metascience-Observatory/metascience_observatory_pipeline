@@ -99,10 +99,10 @@ def reset(key: str | None = None) -> dict[str, list[str]]:
 
 
 # ── Per-API query fan-out ────────────────────────────────────────────────────
-# MUST mirror the derivations in search_for_replication_studies.py
-# (OPENALEX_TITLE_SEARCHES = replication_core + genetics_queries, reused by
-# openalex_broad and crossref; SOCIAL_SCI_QUERIES = replication_core, feeding
-# osf and semantic_scholar). Keep in sync if a source is added there.
+# Which keyword lists each source runs. The search module reads this to build its
+# per-source query lists, and keyword_stats to attribute yield, so it is the one
+# definition. OSF and Semantic Scholar (social-sci / CS biased) skip the
+# genetics/GWAS terms, which only generate noise there.
 API_FANOUT: list[tuple[str, str, list[str]]] = [
     ("pubmed",           "PubMed",           ["pubmed_queries"]),
     ("openalex",         "OpenAlex",         ["replication_core", "genetics_queries"]),

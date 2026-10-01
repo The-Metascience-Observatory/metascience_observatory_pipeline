@@ -231,8 +231,8 @@ EUROPEPMC_QUERIES = [
 
 # ── Runtime keyword overlay (editable from the dashboard) ────────────────────
 # The four lists above are the code DEFAULTS. `data/keywords.json` (if present)
-# overrides any of them per-list; the dashboard edits that file. Re-derive the
-# combined lists here so overrides take effect.
+# overrides any of them per-list; the dashboard edits that file. `_eff` holds
+# the effective lists, and only it is searched.
 from mo_pipeline.discover import keywords as _keywords  # noqa: E402
 _eff = _keywords.apply_overrides({
     "replication_core": REPLICATION_CORE,
@@ -240,16 +240,13 @@ _eff = _keywords.apply_overrides({
     "pubmed_queries": PUBMED_QUERIES,
     "europepmc_queries": EUROPEPMC_QUERIES,
 })
-REPLICATION_CORE = _eff["replication_core"]
-GENETICS_QUERIES = _eff["genetics_queries"]
-PUBMED_QUERIES = _eff["pubmed_queries"]
-EUROPEPMC_QUERIES = _eff["europepmc_queries"]
+_FANOUT = {api: keys for api, _label, keys in _keywords.API_FANOUT}
 
-# Per-source fan-out (mirrored by keywords.API_FANOUT): OpenAlex and Crossref
-# search everything; OSF and Semantic Scholar (social-sci / CS biased) get the
-# CORE block only, since the genetics/GWAS terms generate noise there.
-OPENALEX_TITLE_SEARCHES = REPLICATION_CORE + GENETICS_QUERIES
-SOCIAL_SCI_QUERIES = REPLICATION_CORE
+
+def _queries_for(api: str) -> list[str]:
+    """The effective queries one source runs, per keywords.API_FANOUT (the single
+    definition the dashboard's yield stats read too)."""
+    return [q for key in _FANOUT[api] for q in _eff[key]]
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -485,7 +482,7 @@ def _pubmed_fetch(query):
 
 
 def run_pubmed_searches(progress):
-    return _run_query_loop("pubmed", PUBMED_QUERIES, _pubmed_fetch, progress)
+    return _run_query_loop("pubmed", _queries_for("pubmed"), _pubmed_fetch, progress)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -556,7 +553,7 @@ def search_openalex(title_query, concept_filter=True, max_results=None):
 def run_openalex_searches(progress):
     """OpenAlex filtered to biomedical concepts."""
     return _run_query_loop(
-        "openalex", OPENALEX_TITLE_SEARCHES,
+        "openalex", _queries_for("openalex"),
         lambda q: search_openalex(q, concept_filter=True), progress,
     )
 
@@ -565,7 +562,7 @@ def run_openalex_broad_searches(progress):
     """OpenAlex unfiltered — catches psychology, economics, social sciences, etc.
     Uses a separate progress namespace so it can run independently of the biomed-filtered pass."""
     return _run_query_loop(
-        "openalex_broad", OPENALEX_TITLE_SEARCHES,
+        "openalex_broad", _queries_for("openalex_broad"),
         lambda q: search_openalex(q, concept_filter=False), progress,
     )
 
@@ -622,7 +619,7 @@ def search_europepmc(query, max_results=None):
 
 
 def run_europepmc_searches(progress):
-    return _run_query_loop("europepmc", EUROPEPMC_QUERIES, search_europepmc, progress)
+    return _run_query_loop("europepmc", _queries_for("europepmc"), search_europepmc, progress)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -688,7 +685,7 @@ def search_crossref(title_query, max_results=None):
 
 
 def run_crossref_searches(progress):
-    return _run_query_loop("crossref", OPENALEX_TITLE_SEARCHES, search_crossref, progress)
+    return _run_query_loop("crossref", _queries_for("crossref"), search_crossref, progress)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -749,7 +746,7 @@ def search_osf(query, max_results=None):
 
 
 def run_osf_searches(progress):
-    return _run_query_loop("osf", SOCIAL_SCI_QUERIES, search_osf, progress)
+    return _run_query_loop("osf", _queries_for("osf"), search_osf, progress)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -805,7 +802,7 @@ def search_semantic_scholar(query, max_results=None):
 
 
 def run_semantic_scholar_searches(progress):
-    return _run_query_loop("semantic_scholar", SOCIAL_SCI_QUERIES, search_semantic_scholar, progress)
+    return _run_query_loop("semantic_scholar", _queries_for("semantic_scholar"), search_semantic_scholar, progress)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
