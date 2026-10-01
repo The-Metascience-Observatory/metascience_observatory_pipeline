@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState, useCallback, use } from "react";
+import { useState, useCallback, use } from "react";
 import Link from "next/link";
 import { api, PROBE_COLOR, type StageStatus } from "@/lib/api";
+import { usePolling } from "@/lib/usePolling";
 
 export default function StageDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -21,11 +22,7 @@ export default function StageDetail({ params }: { params: Promise<{ id: string }
     } catch (e) { setErr((e as Error).message); }
   }, [id]);
 
-  useEffect(() => {
-    refresh();
-    const t = setInterval(refresh, 2000);
-    return () => clearInterval(t);
-  }, [refresh]);
+  usePolling(refresh, 2000);
 
   if (!s) return <div className="text-sm text-slate-500">{err ? `Error: ${err}` : "Loading…"}</div>;
   const running = s.run.state === "running";

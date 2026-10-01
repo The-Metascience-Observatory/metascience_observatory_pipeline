@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { api, type DoiRun, type StageStatus } from "@/lib/api";
+import { usePolling } from "@/lib/usePolling";
 
 // Which pipeline stage each per-run action launches, with the params it needs.
 const STEPS = (r: DoiRun) => [
@@ -103,11 +104,7 @@ export default function DoiRuns() {
     } catch (e) { setErr((e as Error).message); }
   }, []);
 
-  useEffect(() => {
-    refresh();
-    const t = setInterval(refresh, 5000);
-    return () => clearInterval(t);
-  }, [refresh]);
+  usePolling(refresh, 5000);
 
   const create = async () => {
     setCreating(true);

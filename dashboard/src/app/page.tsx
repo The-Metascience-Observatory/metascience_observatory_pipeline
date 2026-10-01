@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { api, PROBE_COLOR, type StageStatus, type System, type PipelineState, type ArtifactInfo } from "@/lib/api";
+import { usePolling } from "@/lib/usePolling";
 
 function fmtBytes(n: number | null) {
   if (n == null) return "—";
@@ -147,11 +148,7 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    refresh();
-    const t = setInterval(refresh, 5000);
-    return () => clearInterval(t);
-  }, [refresh]);
+  usePolling(refresh, 5000);
 
   const setTag = async (tag: string) => { await api.setState({ tag }); refresh(); };
 
